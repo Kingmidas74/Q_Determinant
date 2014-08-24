@@ -1,0 +1,211 @@
+﻿{
+	"type":"object",
+	"$schema": "http://json-schema.org/draft-03/schema",
+	"id": "http://jsonschema.net",
+	"required":true,
+	"additionalProperties": false,
+	"properties":{
+		"blocks": {
+			"type":"array",
+			"id": "http://jsonschema.net/blocks",
+			"required":false,
+			"items":[
+				{
+					"type":"object",
+					"name": "process",
+					"id": "http://jsonschema.net/blocks/process",
+					"required":false,
+					"additionalProperties": false,
+					"properties":{
+						"content": {
+							"type":"string",
+							"id": "http://jsonschema.net/blocks/process/content",
+							"required":true
+						},
+						"id": {
+							"type":"number",
+							"id": "http://jsonschema.net/blocks/process/id",
+							"required":true,
+							"uniqueItems": true
+						},
+						"inputLink": {
+							"type":"array",
+							"minitems": 1,
+							"id": "http://jsonschema.net/blocks/process/inputLink",
+							"required":true,
+							"items":
+								{
+									"type":"number",
+									"id": "http://jsonschema.net/blocks/process/inputLink/0",
+									"required":true
+								}
+							
+
+						},
+						"outputLink": {
+							"type":"array",
+							"minitems": 1,
+							"maxitems": 1,
+							"id": "http://jsonschema.net/blocks/process/outputLink",
+							"required":true,
+							"items":
+								{
+									"type":"number",
+									"id": "http://jsonschema.net/blocks/process/outputLink/0",
+									"required":true
+								}
+							
+
+						},
+						"type": {
+							"type":"string",
+							"id": "http://jsonschema.net/blocks/process/type",
+							"required":true
+						}
+					}
+				},
+				{
+					"type":"object",
+					"ref": "http://jsonschema.net/blocks/process",
+					"id": "http://jsonschema.net/blocks/InputOutput",
+					"required":false
+				},
+				{
+					"type":"object",
+					"id": "http://jsonschema.net/blocks/condition",
+					"required":false,
+					"additionalProperties": false,
+					"properties":{
+						"content": {
+							"type":"boolean",
+							"id": "http://jsonschema.net/blocks/condition/content",
+							"required":true
+						},
+						"falsePath": {
+							"type":"number",							
+							"id": "http://jsonschema.net/blocks/condition/falsePath",
+							"required":true							
+						},
+						"id": {
+							"type":"number",
+							"id": "http://jsonschema.net/blocks/process/id",
+							"required":true,
+							"uniqueItems": true
+						},
+						"outputLink": {
+							"type":"array",
+							"minitems": 2,
+							"maxitems": 2,
+							"id": "http://jsonschema.net/blocks/condition/outputLink",
+							"required":true,
+							"items":[
+								{
+									"type":"number",
+									"id": "http://jsonschema.net/blocks/condition/outputLink/0",
+									"required":true
+								},
+								{
+									"type":"number",
+									"id": "http://jsonschema.net/blocks/condition/outputLink/1",
+									"required":true
+								}
+							]
+						},
+						"truePath": {
+							"type":"number",							
+							"id": "http://jsonschema.net/blocks/condition/truePath",
+							"required":true
+						},
+						"inputLink": {
+							"type":"array",
+							"minitems": 1,
+							"id": "http://jsonschema.net/blocks/condition/inputLink",
+							"required":true,
+							"items":
+								{
+									"type":"number",
+									"id": "http://jsonschema.net/blocks/condition/inputLink/0",
+									"required":true
+								}
+							
+
+						},
+						"type": {
+							"type":"string",
+							"id": "http://jsonschema.net/blocks/condition/type",
+							"required":true
+						}
+					}
+				}
+			]
+		},
+		"end": {
+			"type":"object",
+			"id": "http://jsonschema.net/end",
+			"required":true,
+			"properties":{
+				"content": {
+					"type":"string",
+					"id": "http://jsonschema.net/end/content",
+					"required":false
+				},
+				"id": {
+					"type":"number",
+					"minimum": 1,
+					"maximum": 1,
+					"id": "http://jsonschema.net/end/id",
+					"required":true,
+					"uniqueItems": true
+				},
+				"inputLink": {
+					"type":"array",
+					"minitems": 1,
+					"maxitems": 1,
+					"id": "http://jsonschema.net/end/inputLink",
+					"required":true,
+					"items":
+						{
+							"type":"number",
+							"id": "http://jsonschema.net/end/inputLink/0",
+							"required":true
+						}
+					
+
+				}
+			}
+		},
+		"start": {
+			"type":"object",
+			"id": "http://jsonschema.net/start",
+			"required":true,
+			"properties":{
+				"content": {
+					"type":"string",
+					"id": "http://jsonschema.net/start/content",
+					"required":false
+				},
+				"id": {
+					"type":"number",
+					"minimum": 0,
+					"maximum": 0,
+					"id": "http://jsonschema.net/start/id",
+					"required":true,
+					"uniqueItems": true
+				},
+				"outputLink": {
+					"type":"array",
+					"minitems": 1,
+					"maxitems": 1,
+					"id": "http://jsonschema.net/start/outputLink",
+					"required":true,
+					"items":
+						{
+							"type":"number",
+							"id": "http://jsonschema.net/start/outputLink/0",
+							"required":true
+						}
+				}
+			}
+		}
+	}
+}

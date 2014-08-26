@@ -2,12 +2,12 @@
 {
     interface IFlowChart
     {
-
-        void AddBlock(string context, int[] inputLink);
+        void AddBlock(BlockTypes type, string context, int[] inputLink);
         void RemoveBlock(int id);
-        dynamic GetObject();
-        int GetBlocksCount();
-
-
+        int GetBlocksCount(bool withSystemBlocks=false);
+        void ChangeContentBlock(int id, string content);
+        void SetJsonFile(string filePath);
+        void SetJson(string json);
+        void SaveToFile(string filePath);
     }
 }

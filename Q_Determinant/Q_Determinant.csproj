@@ -93,6 +93,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ActionList\ActionList.csproj">
+      <Project>{fa704519-e0f2-497e-9b45-7e6d45e9e7ec}</Project>
+      <Name>ActionList</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowChart\FlowChart.csproj">
+      <Project>{0d004287-5730-4c1c-b227-a9c33f398788}</Project>
+      <Name>FlowChart</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphBuilder\GraphBuilder.csproj">
+      <Project>{d11fb498-ce22-47d9-a6f7-96fdd4eef4ea}</Project>
+      <Name>GraphBuilder</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

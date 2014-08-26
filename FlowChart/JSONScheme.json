@@ -43,19 +43,9 @@
 
 						},
 						"outputLink": {
-							"type":"array",
-							"minitems": 1,
-							"maxitems": 1,
+							"type":"number",
 							"id": "http://jsonschema.net/blocks/process/outputLink",
-							"required":true,
-							"items":
-								{
-									"type":"number",
-									"id": "http://jsonschema.net/blocks/process/outputLink/0",
-									"required":true
-								}
-							
-
+							"required":true,							
 						},
 						"type": {
 							"type":"string",
@@ -144,11 +134,6 @@
 			"id": "http://jsonschema.net/end",
 			"required":true,
 			"properties":{
-				"content": {
-					"type":"string",
-					"id": "http://jsonschema.net/end/content",
-					"required":false
-				},
 				"id": {
 					"type":"number",
 					"minimum": 1,
@@ -158,19 +143,9 @@
 					"uniqueItems": true
 				},
 				"inputLink": {
-					"type":"array",
-					"minitems": 1,
-					"maxitems": 1,
+					"type":"number",
 					"id": "http://jsonschema.net/end/inputLink",
-					"required":true,
-					"items":
-						{
-							"type":"number",
-							"id": "http://jsonschema.net/end/inputLink/0",
-							"required":true
-						}
-					
-
+					"required":true
 				}
 			}
 		},
@@ -178,12 +153,7 @@
 			"type":"object",
 			"id": "http://jsonschema.net/start",
 			"required":true,
-			"properties":{
-				"content": {
-					"type":"string",
-					"id": "http://jsonschema.net/start/content",
-					"required":false
-				},
+			"properties":{				
 				"id": {
 					"type":"number",
 					"minimum": 0,
@@ -193,17 +163,9 @@
 					"uniqueItems": true
 				},
 				"outputLink": {
-					"type":"array",
-					"minitems": 1,
-					"maxitems": 1,
+					"type":"number",
 					"id": "http://jsonschema.net/start/outputLink",
-					"required":true,
-					"items":
-						{
-							"type":"number",
-							"id": "http://jsonschema.net/start/outputLink/0",
-							"required":true
-						}
+					"required":true					
 				}
 			}
 		}

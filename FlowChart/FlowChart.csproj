@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockTypes.cs" />
     <Compile Include="FlowChart.cs" />
     <Compile Include="IFlowChart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,77 +1,72 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
-using System.Xml;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 
 
 namespace FlowChart
 {
-    public class FlowChart
+    public class FlowChart:IFlowChart
     {
-      /*  public enum BlockTypes
-        {
-            Process,
-            Condition,
-            InputOutput
-        }
-        private int BlocksCount=0;
-        private JObject FlowChartObject;
-        public Analyzer(JObject json)
-        {
-            this.FlowChartObject = json;
-            this.ValidateJSON();
+      
+        private JObject _flowChart;
 
-        }
-
-        public Analyzer(String jsonFilePath)
+        private void ValidJson()
         {
-            this.FlowChartObject = JObject.Parse(File.ReadAllText(@jsonFilePath));
-            this.ValidateJSON();
-            
-        }
-
-        private void ValidateJSON()
-        {
-            if (this.FlowChartObject.IsValid(JsonSchema.Parse(File.ReadAllText(@"JSONScheme.json"))))
+            if (_flowChart.IsValid(JsonSchema.Parse(File.ReadAllText(@"JSONScheme.json"))) == false)
             {
-                this.Analyze();
-            }
-            else
-            {
-                throw new Exception("JSON is not valid!");
+                throw new Exception("Invalid JSON!");
             }
         }
-
-        private void Analyze()
+        public void AddBlock(BlockTypes type, string context, int[] inputLink)
         {
-            dynamic d = this.FlowChartObject;
-            this.BlocksCount = this.FlowChartObject.Count+((JArray) d.blocks).Count-1;
-        }
-
-        public dynamic GetObject()
-        {
-            return this.FlowChartObject;
-        }
-
-        public void AddBlock(Analyzer.BlockTypes type, string context, int[] inputLink)
-        {
-            throw new NotImplementedException();
+           // (JArray)(this.flowChart.blocks).Add()
         }
 
         public void RemoveBlock(int id)
         {
+            var newBlocks = new JArray();
+
+            foreach (var block in _flowChart["blocks"].Where(block => (int)block["id"] != id))
+            {
+                newBlocks.Add(block);
+            }
+            _flowChart["blocks"].Replace(newBlocks);
+        }
+
+        public int GetBlocksCount(bool withSystemBlocks = false)
+        {
+            return withSystemBlocks
+                ? _flowChart["blocks"].Count() + 2
+                : _flowChart["blocks"].Count();
+        }
+
+        public void ChangeContentBlock(int id, string content)
+        {
+            foreach (var block in _flowChart["blocks"].Where(block => (int) block["id"] == id))
+            {
+                block["content"] = content;
+            }
+        }
+
+
+        public void SetJsonFile(string filePath)
+        {
+            _flowChart = JObject.Parse(File.ReadAllText(@filePath));
+            ValidJson();
+        }
+
+        public void SetJson(string json)
+        {
+            _flowChart = JObject.Parse(json);
+            ValidJson();
+        }
+
+
+        public void SaveToFile(string filePath)
+        {
             throw new NotImplementedException();
         }
-        
-        public int GetBlocksCount()
-        {
-            return BlocksCount;
-        }*/
     }
 }

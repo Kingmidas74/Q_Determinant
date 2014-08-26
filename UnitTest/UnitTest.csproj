@@ -53,6 +53,16 @@
     <Compile Include="UnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ActionList\ActionList.csproj">
+      <Project>{fa704519-e0f2-497e-9b45-7e6d45e9e7ec}</Project>
+      <Name>ActionList</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphBuilder\GraphBuilder.csproj">
+      <Project>{d11fb498-ce22-47d9-a6f7-96fdd4eef4ea}</Project>
+      <Name>GraphBuilder</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

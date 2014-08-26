@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ActionList;
 
 namespace UnitTest
 {
@@ -7,8 +8,9 @@ namespace UnitTest
     public class UnitTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestFlowChart()
         {
+            var Actio = new ActionList.ActionList();
         }
     }
 }

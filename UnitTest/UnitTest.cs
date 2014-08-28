@@ -71,12 +71,17 @@ namespace UnitTest
             var flowChart = new Chart();
             flowChart.SetJson(Json);
             Assert.AreEqual(7, flowChart.GetTotalBlocksCount());
+            
             Assert.AreEqual("i++",flowChart.GetContentBlock(7));
             flowChart.ChangeContentBlock(7,"i--");
             Assert.AreEqual("i--", flowChart.GetContentBlock(7));
-            Assert.AreNotEqual("[2]",flowChart.GetPreviousBlock(3));
-            Assert.AreEqual("4", flowChart.GetNextBlock(3));
+            Assert.AreNotEqual("[3]",flowChart.GetPreviousBlock(4));
+            Assert.AreEqual("3", flowChart.GetNextBlock(2));
             flowChart.RemoveBlock(3);
+            Assert.AreEqual(6, flowChart.GetTotalBlocksCount());
+            Assert.AreNotEqual("[3]", flowChart.GetPreviousBlock(4));
+            Assert.AreEqual("4", flowChart.GetNextBlock(2));
+            flowChart.SaveToFile(@"D:\test.json");
         }
     }
 }

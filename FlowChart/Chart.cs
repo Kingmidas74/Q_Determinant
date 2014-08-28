@@ -50,12 +50,12 @@ namespace FlowChart
                     newPreviousBlocks.Merge(previousBlocks);
                     block["previousBlock"] = newPreviousBlocks;
                 }
-
             }
             else
             {
                 
             }
+            targetBlock.Remove();
         }
 
         public string GetPreviousBlock(int id)
@@ -137,7 +137,7 @@ namespace FlowChart
 
         public void SaveToFile(string filePath)
         {
-            throw new NotImplementedException();
+            File.WriteAllText(filePath, _flowChart.ToString());
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphBuilder
 {
-    public class GraphBuilder
+    public class Graph
     {
     }
 }

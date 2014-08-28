@@ -98,6 +98,10 @@
       <Project>{fa704519-e0f2-497e-9b45-7e6d45e9e7ec}</Project>
       <Name>ActionList</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FlowChart\FlowChart.csproj">
+      <Project>{2056d778-7c95-4d69-8fab-935a39f16249}</Project>
+      <Name>FlowChart</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphBuilder\GraphBuilder.csproj">
       <Project>{d11fb498-ce22-47d9-a6f7-96fdd4eef4ea}</Project>
       <Name>GraphBuilder</Name>

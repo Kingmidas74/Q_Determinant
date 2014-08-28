@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ActionList
 {
-    public class ActionList
+    public class List
     {
     }
 }

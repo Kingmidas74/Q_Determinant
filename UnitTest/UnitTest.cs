@@ -60,7 +60,7 @@ namespace UnitTest
                 }
             ],
             'previousBlock': [4,7]
-        }
+        } 
     ]
 }
 ";

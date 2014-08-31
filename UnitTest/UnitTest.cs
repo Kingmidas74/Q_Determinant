@@ -14,11 +14,11 @@ namespace UnitTest
             var flowChart = new Chart();
             flowChart.SetJsonFile(Jsonpathfolder+@"test1.json");
             Assert.AreEqual(7, flowChart.GetBlocksCount());
-            
             Assert.AreEqual("i++",flowChart.GetContentBlock(7));
             flowChart.ChangeContentBlock(7,"i--");
             Assert.AreEqual("i--", flowChart.GetContentBlock(7));
-            flowChart.RemoveBlock(7);
+            //flowChart.RemoveBlock(6);
+            flowChart.AddBlock(BlockTypes.Process,2,3,"new block");
             flowChart.SaveToFile(Jsonpathfolder+@"resultTest.json");
         }
     }

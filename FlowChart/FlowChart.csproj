@@ -44,7 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockTypes.cs" />
-    <Compile Include="Chart.cs" />
+    <Compile Include="Chart.private.cs" />
+    <Compile Include="Chart.public.cs" />
     <Compile Include="IFlowChart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

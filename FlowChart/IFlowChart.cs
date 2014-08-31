@@ -4,7 +4,7 @@
     {
         void AddBlock(BlockTypes type, string context, int[] inputLink);
         void RemoveBlock(int id);
-        int GetTotalBlocksCount();
+        int GetBlocksCount();
         void ChangeContentBlock(int id, string content);
         void SetJsonFile(string filePath);
         void SetJson(string json);

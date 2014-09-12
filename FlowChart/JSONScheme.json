@@ -103,6 +103,11 @@
 							
 
 						},
+						"nextBlock": {
+							"type":"number",
+							"id": "http://jsonschema.net/blocks/process/nextBlock",
+							"required":true,							
+						},
 						"type": {
 							"type":"string",
 							"id": "http://jsonschema.net/blocks/condition/type",

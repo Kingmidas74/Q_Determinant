@@ -8,9 +8,6 @@ namespace ActionList
 {
     public class List
     {
-        public void method2()
-        {
-            Console.WriteLine("Hello world 2");
-        }
+       
     }
 }

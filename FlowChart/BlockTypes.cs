@@ -2,8 +2,8 @@
 {
     public enum BlockTypes
     {
-        Process,
-        Condition,
+        process,
+        condition,
         InputOutput
     }
 }

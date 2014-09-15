@@ -121,5 +121,21 @@ namespace FlowChart
             }
             return null;
         }
+
+        private int getMaxId(IEnumerable<JToken> array, int maxId=2)
+        {
+            foreach (var block in array)
+            {
+                if ((int) block["id"] > maxId)
+                {
+                    maxId = (int) block["id"];
+                }
+                if (!((string)block["type"]).Equals("condition")) continue;
+                maxId = getMaxId(block["truePath"], maxId);
+                maxId = getMaxId(block["falsePath"], maxId);
+            }
+            return maxId;
+
+        }
     }
 }

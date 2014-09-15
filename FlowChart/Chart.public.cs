@@ -7,18 +7,38 @@ namespace FlowChart
 {
     public partial class Chart:IFlowChart
     {
-        public void AddBlock(BlockTypes type, int previousBlock=0, int nextBlock=1, string content=null)
+        public void AddBlock(BlockTypes type, int previousBlock=0, string content=null, bool truePath=true)
         {
             var newElement = new JObject();
-            var previousBlocksIds = new JArray();
-            previousBlocksIds.Add(previousBlock);
+            var previousBlocksIds = new JArray {previousBlock};
+            var newId = getMaxId(_flowChart["blocks"]) + 1;
+            newElement["id"] = newId;
             newElement["type"] = type.ToString();
-            newElement["previousBlock"] = previousBlocksIds;
             newElement["content"] = content;
-            if (type != BlockTypes.Condition)
+            newElement["previousBlock"] = previousBlocksIds;
+            var prevBlock = recursiveFindBlock(_flowChart["blocks"], previousBlock);
+            if (type != BlockTypes.condition)
             {
-                newElement["nextBlock"] = nextBlock;
+                if (!((string) prevBlock["type"]).Equals("condition"))
+                {
+                    var temp = prevBlock["nextBlock"];
+                    prevBlock["nextBlock"] = newId;
+                    newElement["nextBlock"] = temp;
+                }
+                else
+                {
+                    var temp = prevBlock["truePath"].First["id"];
+                    prevBlock["truePath"].First["nextBlock"];
+                }
             }
+            else
+            {
+                
+            }
+
+
+
+            
             var cntBlocks = recursiveFindBlock(_flowChart["blocks"], previousBlock).Parent.Count;
             var itemIndex = 0;
             for (var i = 0; i < cntBlocks; i++)
@@ -27,7 +47,7 @@ namespace FlowChart
                 itemIndex = i;
                 break;
             }
-            ((JArray)recursiveFindBlock(_flowChart["blocks"], previousBlock).Parent).Insert(itemIndex+1, newElement);
+            ((JArray)prevBlock.Parent).Insert(itemIndex+1, newElement);
 
             /*
             int indexNextElement = 0;
@@ -44,17 +64,21 @@ namespace FlowChart
         public void RemoveBlock(int id)
         {
             var targetBlock = recursiveFindBlock(_flowChart["blocks"], id);
-            if (!((string)targetBlock["type"]).Equals("condition"))
+            if (id <= 1) return;
+            if (!((string) targetBlock["type"]).Equals("condition"))
             {
                 var previousBlocksIds = targetBlock["previousBlock"];
                 var nextBlockId = targetBlock["nextBlock"];
-                foreach (var block in previousBlocksIds.Select(element => recursiveFindBlock(_flowChart["blocks"], (int)element)).Where(block => !((string)block["type"]).Equals("condition")))
+                foreach (
+                    var block in
+                        previousBlocksIds.Select(element => recursiveFindBlock(_flowChart["blocks"], (int) element))
+                            .Where(block => !((string) block["type"]).Equals("condition")))
                 {
-                    block["nextBlock"] = (int)nextBlockId;
+                    block["nextBlock"] = (int) nextBlockId;
                 }
-                var nextBlock = recursiveFindBlock(_flowChart["blocks"], (int)nextBlockId);
+                var nextBlock = recursiveFindBlock(_flowChart["blocks"], (int) nextBlockId);
                 var newPreviousBlocksIds = new JArray();
-                foreach (var element in nextBlock["previousBlock"].Where(element => (int)element != id))
+                foreach (var element in nextBlock["previousBlock"].Where(element => (int) element != id))
                 {
                     newPreviousBlocksIds.Add(element);
                 }

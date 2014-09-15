@@ -47,6 +47,7 @@
     <Compile Include="Chart.private.cs" />
     <Compile Include="Chart.public.cs" />
     <Compile Include="IFlowChart.cs" />
+    <Compile Include="InsertPlace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

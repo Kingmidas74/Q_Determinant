@@ -28,7 +28,7 @@ namespace FlowChart
                 else
                 {
                     var temp = prevBlock["truePath"].First["id"];
-                    prevBlock["truePath"].First["nextBlock"];
+                    prevBlock["truePath"].First["nextBlock"]
                 }
             }
             else

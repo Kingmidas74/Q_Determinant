@@ -2,8 +2,11 @@
 {
     public enum BlockTypes
     {
-        process,
-        condition,
-        InputOutput
+        Process,
+        Condition,
+        Input,
+        Output,
+        Start,
+        End
     }
 }

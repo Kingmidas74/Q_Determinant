@@ -43,11 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllBlocks\AbstractBlock.cs" />
+    <Compile Include="AllBlocks\ConditionBlock.cs" />
+    <Compile Include="AllBlocks\EndBlock.cs" />
+    <Compile Include="AllBlocks\ProcessBlock.cs" />
+    <Compile Include="AllBlocks\StartBlock.cs" />
+    <Compile Include="BlocksFactory.cs" />
     <Compile Include="BlockTypes.cs" />
-    <Compile Include="Chart.private.cs" />
-    <Compile Include="Chart.public.cs" />
+    <Compile Include="Chart.cs" />
     <Compile Include="IFlowChart.cs" />
-    <Compile Include="InsertPlace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,98 @@
+﻿{
+    "type": "object",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "http://jsonschema.net",
+    "required": true,
+    "properties": {
+        "Conditions": {
+            "type": "array",
+            "id": "http://jsonschema.net/Conditions",
+            "items": {
+                "$ref": "#/definitions/ConditionBlock"
+            }
+        },
+        "Process": {
+            "type": "array",
+            "id": "http://jsonschema.net/Process",
+            "items": {
+                "$ref": "#/definitions/ProcessBlock"
+            }
+        },
+        "Input": {
+            "type": "array",
+            "id": "http://jsonschema.net/Input",
+            "items": {
+                "$ref": "#/definitions/ProcessBlock"
+            }
+        },
+        "Output": {
+            "type": "array",
+            "id": "http://jsonschema.net/Ouput",
+            "items": {
+                "$ref": "#/definitions/ProcessBlock"
+            }
+        },
+        "Start": {
+            "type": "object",
+            "required": true,
+            "id": "http://jsonschema.net/Start",
+            "properties": {
+                "Id": {
+                    "type": "Integer",
+                    "required": true
+                },
+                "NextElement": {
+                    "type": "integer",
+                    "required": true
+                }
+            }
+        },
+        "End": {
+            "type": "object",
+            "required": true,
+            "id": "http://jsonschema.net/End",
+            "properties": {
+                "Id": {
+                    "type": "Integer",
+                    "required": true
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ConditionBlock": {
+            "type": "object",
+            "Content": {
+                "type": "boolean",
+                "required": true
+            },
+            "Id": {
+                "type": "integer",
+                "required": true
+            },
+            "TruePath": {
+                "type": "integer",
+                "required": true
+            },
+            "FalsePath": {
+                "type": "integer",
+                "required": true
+            }
+        },
+        "ProcessBlock": {
+            "type": "object",
+            "Content": {
+                "type": "string",
+                "required": true
+            },
+            "Id": {
+                "type": "integer",
+                "required": true
+            },
+            "NextElement": {
+                "type": "integer",
+                "required": true
+            }
+        }
+    }
+}

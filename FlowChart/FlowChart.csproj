@@ -43,13 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AllBlocks\AbstractBlock.cs" />
-    <Compile Include="AllBlocks\ConditionBlock.cs" />
-    <Compile Include="AllBlocks\EndBlock.cs" />
-    <Compile Include="AllBlocks\ProcessBlock.cs" />
-    <Compile Include="AllBlocks\StartBlock.cs" />
+    <Compile Include="AllConverters\AbstractConverter.cs" />
+    <Compile Include="AllConverters\SOAPConverter.cs" />
+    <Compile Include="AllConverters\ConverterTypes.cs" />
+    <Compile Include="AllConverters\IConverter.cs" />
+    <Compile Include="AllConverters\BinConverter.cs" />
+    <Compile Include="AllConverters\XMLConverter.cs" />
+    <Compile Include="AllConverters\JSONConverter.cs" />
+    <Compile Include="AllConverters\MessagePackConverter.cs" />
+    <Compile Include="AllConverters\GPBConverter.cs" />
     <Compile Include="Block.cs" />
-    <Compile Include="BlocksFactory.cs" />
+    <Compile Include="AllConverters\ConvertersFactory.cs" />
     <Compile Include="BlockTypes.cs" />
     <Compile Include="Chart.cs" />
     <Compile Include="IFlowChart.cs" />
@@ -57,7 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="JSONScheme.json">
+    <None Include="SchemasOfFormats\JSONScheme.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

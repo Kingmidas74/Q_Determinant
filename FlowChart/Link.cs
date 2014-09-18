@@ -1,6 +1,6 @@
 ﻿namespace FlowChart
 {
-    class Link
+    public class Link
     {
         public ulong From;
         public ulong To;

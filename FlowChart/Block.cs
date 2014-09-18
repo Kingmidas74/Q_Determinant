@@ -1,6 +1,9 @@
-﻿namespace FlowChart
+﻿using System;
+
+namespace FlowChart
 {
-    class Block
+    [Serializable()]
+    public class Block
     {
         public BlockTypes Type;
         public string Content;

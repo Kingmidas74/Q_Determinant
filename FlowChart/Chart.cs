@@ -56,23 +56,7 @@ namespace FlowChart
         public string GetMatrixToString()
         {
             var result = new StringBuilder();
-            /*for(var i=0; i<GetCountLinks(); i++)
-            {
-                var l = new List<bool>();
-                foreach (var k in _links)
-                {
-                    l.Add(k.To == (ulong)l.Count);
-                }
-                adjacency_matrix.Add(l);
-            }
-            foreach (List<bool> l in adjacency_matrix)
-            {
-                foreach (bool k in l)
-                {
-                    result.Append(k.ToString());
-                }
-                result.AppendLine();
-            }*/
+           
             return result.ToString();
         }
 

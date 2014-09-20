@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FlowChart;
+using FlowChart.AllConverters;
 
 namespace Q_Determinant
 {
@@ -28,6 +30,9 @@ namespace Q_Determinant
 
         private void ClickBt(object sender, RoutedEventArgs e)
         {
+            var flowChart = new Chart();
+            flowChart.ChartFromFile(ConverterTypes.JSON, @"D:\tempforQ\test1.json");
+            MessageBox.Show(flowChart.GetMatrixToString());
             /*
              * JObject.Parse(@"{
     'start': {
@@ -86,7 +91,7 @@ namespace Q_Determinant
     ]
 }")
              * */
-           
+
         }
     }
 }

@@ -8,7 +8,7 @@
 			"type": "object",
 			"properties": {
 				"Content": {
-					"type": "boolean",
+					"type": "string",
 					"required": true
 				},
 				"Id": {

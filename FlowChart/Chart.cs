@@ -43,6 +43,12 @@ namespace FlowChart
             return _links.Count;
         }
 
+        public void SaveToFile(ConverterTypes format, string filePath)
+        {
+            var converter = ConvertersFactory.CreateConverter(format);
+            converter.SaveToFile(_elements,_links,filePath);
+        }
+
         public string GetMatrixToString()
         {
             var result = new StringBuilder();

@@ -15,6 +15,7 @@ namespace UnitTest
             var flowChart = new Chart();
             flowChart.ChartFromFile(ConverterTypes.JSON, Jsonpathfolder + @"test1.json");
             Assert.AreEqual(flowChart.GetCountLinks(), flowChart.GetCountBlocks());
+            flowChart.SaveToFile(ConverterTypes.JSON, Jsonpathfolder + @"output.json");
            /* flowChart.SetJsonFile(Jsonpathfolder+@"test1.json");
             Assert.AreEqual(9, flowChart.GetBlocksCount());
             Assert.AreEqual("i++",flowChart.GetContentBlock(7));

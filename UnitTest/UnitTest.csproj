@@ -62,10 +62,6 @@
       <Project>{2056d778-7c95-4d69-8fab-935a39f16249}</Project>
       <Name>FlowChart</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GraphBuilder\GraphBuilder.csproj">
-      <Project>{d11fb498-ce22-47d9-a6f7-96fdd4eef4ea}</Project>
-      <Name>GraphBuilder</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

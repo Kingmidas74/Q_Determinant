@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Core;
 
-namespace FlowChart.AllConverters
+namespace Converters.FlowchartsConverters
 {
-    public abstract class AbstractConverter:IConverter
+    public abstract class AbstractConverterFlowcharts : IFlowchartsConverter
     {
         protected List<Block> Blocks;
         protected List<Link> Links;
@@ -19,10 +20,11 @@ namespace FlowChart.AllConverters
 
         public void ParseString(string originalString)
         {
-            Parse(originalString);   
+            Parse(originalString);
         }
-        public abstract void SaveToFile(List<Block> elements, List<Link> links, string filePath);
-        public abstract string GetAsString(List<Block> elements, List<Link> links);
+
+        public abstract void SaveToFile(string filePath);
+        public abstract string GetAsString();
 
 
         public List<Block> GetBlocks()
@@ -35,13 +37,20 @@ namespace FlowChart.AllConverters
             return Links;
         }
 
-        protected AbstractConverter()
+        public void SetBlocks(List<Block> blocks)
+        {
+            Blocks = blocks;
+        }
+
+        public void SetLinks(List<Link> links)
+        {
+            Links = links;
+        }
+
+        protected AbstractConverterFlowcharts()
         {
             Blocks = new List<Block>();
             Links = new List<Link>();
         }
-
-
-        
     }
 }

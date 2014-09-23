@@ -1,5 +1,4 @@
 ﻿using FlowChart;
-using FlowChart.AllConverters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest
@@ -13,10 +12,10 @@ namespace UnitTest
         public void TestFlowChart()
         {
             var flowChart = new Chart();
-            flowChart.ChartFromFile(ConverterTypes.XML, Jsonpathfolder + @"test2.xml");
+           /* flowChart.ChartFromFile(ConverterTypes.XML, Jsonpathfolder + @"test2.xml");
             Assert.AreEqual(9, flowChart.GetCountBlocks());
             flowChart.SaveToFile(ConverterTypes.JSON, Jsonpathfolder + @"output2.json");
-           /* flowChart.SetJsonFile(Jsonpathfolder+@"test1.json");
+            flowChart.SetJsonFile(Jsonpathfolder+@"test1.json");
             Assert.AreEqual(9, flowChart.GetBlocksCount());
             Assert.AreEqual("i++",flowChart.GetContentBlock(7));
             flowChart.ChangeContentBlock(7,"i--");

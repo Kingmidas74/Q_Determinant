@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using Core;
 
-namespace FlowChart.AllConverters
+namespace Converters.FlowchartsConverters
 {
-    class XMLConverter : AbstractConverter
+    class XMLConverter : AbstractConverterFlowcharts
     {
-        public override void SaveToFile(List<Block> elements, List<Link> links, string filePath)
+        public override void SaveToFile(string filePath)
         {
             throw new NotImplementedException();
         }
@@ -38,13 +39,13 @@ namespace FlowChart.AllConverters
                     {
                         From = ulong.Parse((xmlAttributeCollection["Id"].Value)),
                         To = ulong.Parse((xmlAttributeCollection["TruePath"].Value)),
-                        Brunch = BrunchTypes.True
+                        Type = LinkTypes.True
                     });
                     Links.Add(new Link
                     {
                         From = ulong.Parse((xmlAttributeCollection["Id"].Value)),
                         To = ulong.Parse((xmlAttributeCollection["FalsePath"].Value)),
-                        Brunch = BrunchTypes.False
+                        Type = LinkTypes.False
                     });
                 }
                 xmlNodeList = doc.SelectNodes("//Process/Block");
@@ -136,7 +137,7 @@ namespace FlowChart.AllConverters
             }
         }
 
-        public override string GetAsString(List<Block> elements, List<Link> links)
+        public override string GetAsString()
         {
             return null;
         }

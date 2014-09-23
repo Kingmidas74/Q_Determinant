@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Core;
 using Newtonsoft.Json.Linq;
 
-namespace FlowChart.AllConverters
+namespace Converters.ActionListsConverters
 {
-    class JSONConverter : AbstractConverter
+    class JSONConverter : AbstractConverterActionLists
     {
-        private JObject Serialize(IEnumerable<Block> elements, List<Link> links)
+        private JObject Serialize()
         {
             var jsonObject = new JObject();
             jsonObject["Conditions"] = new JArray();
@@ -16,7 +17,7 @@ namespace FlowChart.AllConverters
             jsonObject["Output"] = new JArray();
             jsonObject["Start"] = new JObject();
             jsonObject["End"] = new JObject();
-            foreach (var block in elements)
+            foreach (var block in Blocks)
             {
                 var e = new JObject();
                 e["Id"] = block.Id;
@@ -24,27 +25,27 @@ namespace FlowChart.AllConverters
                 {
                     case BlockTypes.Condition:
                         e["Content"] = block.Content;
-                        e["TruePath"] = links.Find(x => x.Brunch == BrunchTypes.True && x.From == block.Id).To;
-                        e["FalsePath"] = links.Find(x => x.Brunch == BrunchTypes.False && x.From == block.Id).To;
+                        e["TruePath"] = Links.Find(x => x.Type == LinkTypes.True && x.From == block.Id).To;
+                        e["FalsePath"] = Links.Find(x => x.Type == LinkTypes.False && x.From == block.Id).To;
                         ((JArray)jsonObject["Conditions"]).Add(e);
                         break;
                     case BlockTypes.Process:
                         e["Content"] = block.Content;
-                        e["NextElement"] = links.Find(x => x.From == block.Id).To;
+                        e["NextElement"] = Links.Find(x => x.From == block.Id).To;
                         ((JArray)jsonObject["Process"]).Add(e);
                         break;
                     case BlockTypes.Input:
                         e["Content"] = block.Content;
-                        e["NextElement"] = links.Find(x => x.From == block.Id).To;
+                        e["NextElement"] = Links.Find(x => x.From == block.Id).To;
                         ((JArray)jsonObject["Input"]).Add(e);
                         break;
                     case BlockTypes.Output:
                         e["Content"] = block.Content;
-                        e["NextElement"] = links.Find(x => x.From == block.Id).To;
+                        e["NextElement"] = Links.Find(x => x.From == block.Id).To;
                         ((JArray)jsonObject["Output"]).Add(e);
                         break;
                     case BlockTypes.Start:
-                        e["NextElement"] = links.Find(x => x.From == block.Id).To;
+                        e["NextElement"] = Links.Find(x => x.From == block.Id).To;
                         jsonObject["Start"] = e;
                         break;
                     case BlockTypes.End:
@@ -76,13 +77,13 @@ namespace FlowChart.AllConverters
                     {
                         From = ulong.Parse((string) element["Id"]),
                         To = ulong.Parse((string) element["TruePath"]),
-                        Brunch = BrunchTypes.True
+                        Type = LinkTypes.True
                     });
                     Links.Add(new Link
                     {
                         From = ulong.Parse((string) element["Id"]),
                         To = ulong.Parse((string) element["FalsePath"]),
-                        Brunch = BrunchTypes.False
+                        Type = LinkTypes.False
                     });
                 }
                 foreach (var element in (JArray)jsonObject["Process"])
@@ -97,7 +98,7 @@ namespace FlowChart.AllConverters
                     {
                         From = ulong.Parse((string) element["Id"]),
                         To = ulong.Parse((string) element["NextElement"]),
-                        Brunch = BrunchTypes.Null
+                        Type = LinkTypes.Null
                     });
                 }
                 foreach (var element in (JArray)jsonObject["Input"])
@@ -112,7 +113,7 @@ namespace FlowChart.AllConverters
                     {
                         From = ulong.Parse((string) element["Id"]),
                         To = ulong.Parse((string) element["NextElement"]),
-                        Brunch = BrunchTypes.Null
+                        Type = LinkTypes.Null
                     });
                 }
                 foreach (var element in (JArray)jsonObject["Output"])
@@ -127,7 +128,7 @@ namespace FlowChart.AllConverters
                     {
                         From = ulong.Parse((string) element["Id"]),
                         To = ulong.Parse((string) element["NextElement"]),
-                        Brunch = BrunchTypes.Null
+                        Type = LinkTypes.Null
                     });
                 }
                 Blocks.Add(new Block
@@ -140,7 +141,7 @@ namespace FlowChart.AllConverters
                 {
                     From = ulong.Parse((string) jsonObject["Start"]["Id"]),
                     To = ulong.Parse((string) jsonObject["Start"]["NextElement"]),
-                    Brunch = BrunchTypes.Null
+                    Type = LinkTypes.Null
                 });
                 Blocks.Add(new Block
                 {
@@ -155,14 +156,14 @@ namespace FlowChart.AllConverters
             }
         }
 
-        public override void SaveToFile(List<Block> elements, List<Link> links, string filePath)
+        public override void SaveToFile(string filePath)
         {
-            File.WriteAllText(filePath, Serialize(elements,links).ToString());
+            File.WriteAllText(filePath, Serialize().ToString());
         }
 
-        public override string GetAsString(List<Block> elements, List<Link> links)
+        public override string GetAsString()
         {
-            return Serialize(elements, links).ToString();
+            return Serialize().ToString();
         }
     }
 }

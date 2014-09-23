@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Core;
 
-namespace FlowChart.AllConverters
+namespace Converters.FlowchartsConverters
 {
-    public class SOAPConverter : AbstractConverter
+    public class BinConverter : AbstractConverterFlowcharts
     {
-        public override void SaveToFile(List<Block> elements, List<Link> links, string filePath)
+        public override void SaveToFile(string filePath)
         {
             throw new System.NotImplementedException();
         }
@@ -19,7 +20,7 @@ namespace FlowChart.AllConverters
             throw new System.NotImplementedException();
         }
 
-        public override string GetAsString(List<Block> elements, List<Link> links)
+        public override string GetAsString()
         {
             return null;
         }

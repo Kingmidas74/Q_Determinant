@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Desktop\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,30 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AllConverters\AbstractConverter.cs" />
-    <Compile Include="AllConverters\SOAPConverter.cs" />
-    <Compile Include="AllConverters\ConverterTypes.cs" />
-    <Compile Include="AllConverters\IConverter.cs" />
-    <Compile Include="AllConverters\BinConverter.cs" />
-    <Compile Include="AllConverters\XMLConverter.cs" />
-    <Compile Include="AllConverters\JSONConverter.cs" />
-    <Compile Include="AllConverters\MessagePackConverter.cs" />
-    <Compile Include="AllConverters\GPBConverter.cs" />
-    <Compile Include="Block.cs" />
-    <Compile Include="AllConverters\ConvertersFactory.cs" />
-    <Compile Include="BlockTypes.cs" />
     <Compile Include="Chart.cs" />
-    <Compile Include="IFlowChart.cs" />
-    <Compile Include="Link.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SchemasOfFormats\JSONScheme.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SchemasOfFormats\XMLSchema.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{f501bef7-5a55-43bc-910f-2be759829e0e}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

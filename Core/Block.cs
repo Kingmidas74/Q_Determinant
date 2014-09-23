@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace FlowChart
+﻿namespace Core
 {
-    [Serializable()]
     public class Block
     {
         public BlockTypes Type;

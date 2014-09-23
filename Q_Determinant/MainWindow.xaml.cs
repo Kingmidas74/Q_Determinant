@@ -14,7 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FlowChart;
-using FlowChart.AllConverters;
 
 namespace Q_Determinant
 {
@@ -30,67 +29,6 @@ namespace Q_Determinant
 
         private void ClickBt(object sender, RoutedEventArgs e)
         {
-            var flowChart = new Chart();
-            flowChart.ChartFromFile(ConverterTypes.JSON, @"D:\tempforQ\test1.json");
-            MessageBox.Show(flowChart.GetMatrixToString());
-            /*
-             * JObject.Parse(@"{
-    'start': {
-        'id': 0,
-        'outputLink': [2]
-    },
-    'end': {
-        'id': 1,
-        'inputLink': [2]
-    },
-    'blocks': [
-        {
-            'id': 2,
-            'type': 'process',
-            'content': 'i: =2',
-            'inputLink': [0],
-            'outputLink': [3]
-        },
-{
-            'id': 3,
-            'type': 'process',
-            'content': 'k: =0',
-            'inputLink': [2],
-            'outputLink': [4]
-        },
-{
-            'id': 4,
-            'type': 'condition',
-            'content': true,
-            'falsePath': 7,
-            'truePath': 5,
-            'inputLink': [3],
-            'outputLink': [5,7]
-        },
-{
-            'id': 5,
-            'type': 'process',
-            'content': 'k++',
-            'inputLink': [4],
-            'outputLink': [6]
-        },
-{
-            'id': 6,
-            'type': 'process',
-            'content': 'i++',
-            'inputLink': [5],
-            'outputLink': [4]
-        },
-{
-            'id': 3,
-            'type': 'InputOutput',
-            'content': 'k',
-            'inputLink': [4],
-            'outputLink': [1]
-        },
-    ]
-}")
-             * */
 
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace FlowChart.AllConverters
+﻿namespace Converters
 {
     public enum ConverterTypes
     {

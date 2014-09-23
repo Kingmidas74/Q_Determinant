@@ -1,4 +1,4 @@
-﻿namespace FlowChart
+﻿namespace Core
 {
     public enum BlockTypes
     {

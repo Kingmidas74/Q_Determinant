@@ -1,4 +1,6 @@
-﻿using FlowChart;
+﻿using Converters;
+using Core;
+using FlowChart;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest
@@ -11,18 +13,21 @@ namespace UnitTest
         [TestMethod]
         public void TestFlowChart()
         {
-            var flowChart = new Chart();
-           /* flowChart.ChartFromFile(ConverterTypes.XML, Jsonpathfolder + @"test2.xml");
+            var converter = Manufactory.CreateFlowChartConverter(ConverterTypes.JSON);
+            converter.ParseDocument(Jsonpathfolder+@"test1.json");
+            var flowChart = new Chart(converter.GetBlocks(),converter.GetLinks());
             Assert.AreEqual(9, flowChart.GetCountBlocks());
-            flowChart.SaveToFile(ConverterTypes.JSON, Jsonpathfolder + @"output2.json");
-            flowChart.SetJsonFile(Jsonpathfolder+@"test1.json");
-            Assert.AreEqual(9, flowChart.GetBlocksCount());
-            Assert.AreEqual("i++",flowChart.GetContentBlock(7));
-            flowChart.ChangeContentBlock(7,"i--");
-            Assert.AreEqual("i--", flowChart.GetContentBlock(7));
-            flowChart.RemoveBlock(8);
-            flowChart.AddBlock(BlockTypes.process, 0, "new block");
-            flowChart.SaveToFile(Jsonpathfolder+@"resultTest.json");*/
+            flowChart.RemoveLink(2,3);
+            flowChart.RemoveBlock(3);
+            Assert.AreEqual(8, flowChart.GetCountBlocks());
+            flowChart.AddBlock(BlockTypes.Process, "c=2");
+            flowChart.ChangePropertiesLink(3,4,10,4);
+            flowChart.AddLink(2,10,LinkTypes.Null);
+            converter.SetBlocks(flowChart.GetBlocks());
+            converter.SetLinks(flowChart.GetLinks());
+            converter.SaveToFile(Jsonpathfolder+"output_new.json");
+            Assert.AreEqual(9, flowChart.GetCountBlocks());
+
 
         }
     }

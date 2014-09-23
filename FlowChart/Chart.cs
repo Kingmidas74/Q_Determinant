@@ -9,12 +9,7 @@ namespace FlowChart
         private List<Block> _elements;
         private List<Link> _links;
         private List<List<bool>> adjacency_matrix;
-
-
-        private ulong GetNewId()
-        {
-            return _elements.Max(x => x.Id)+1;
-        }
+        
         public List<Block> GetBlocks()
         {
             return _elements;

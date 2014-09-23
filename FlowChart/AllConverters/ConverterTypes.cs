@@ -7,7 +7,6 @@
         MessagePack,
         GPB,
         Bin,
-        SOAP,
-        NewType
+        SOAP
     }
 }

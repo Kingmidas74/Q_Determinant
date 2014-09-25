@@ -50,6 +50,7 @@ namespace FlowChart
         public void RemoveLink(ulong from, ulong to)
         {
             _links.RemoveAll(x => x.From == from && x.To == to);
+           
         }
 
         public void AddBlock(BlockTypes type, string content)

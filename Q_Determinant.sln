@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converters", "Converters\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{F501BEF7-5A55-43BC-910F-2BE759829E0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplementationPlan", "ImplementationPlan\ImplementationPlan.csproj", "{BDA4E566-D384-46BD-8D4A-16AF5704F6CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{F501BEF7-5A55-43BC-910F-2BE759829E0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F501BEF7-5A55-43BC-910F-2BE759829E0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F501BEF7-5A55-43BC-910F-2BE759829E0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDA4E566-D384-46BD-8D4A-16AF5704F6CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDA4E566-D384-46BD-8D4A-16AF5704F6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDA4E566-D384-46BD-8D4A-16AF5704F6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDA4E566-D384-46BD-8D4A-16AF5704F6CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

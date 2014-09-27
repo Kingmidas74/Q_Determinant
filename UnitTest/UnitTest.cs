@@ -1,4 +1,5 @@
-﻿using Converters;
+﻿using System.Collections.Generic;
+using Converters;
 using Core;
 using FlowChart;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,6 +29,17 @@ namespace UnitTest
             converter.SaveToFile(Jsonpathfolder+"output_new.json");
             Assert.AreEqual(9, flowChart.GetCountBlocks());
 
+        }
+
+        [TestMethod]
+        public void TestImplementationPlan()
+        {
+            var qDet = new QDet()
+            {
+                QDeterminant = new List<QTerm>()
+            };
+            qDet.QDeterminant.Add(new QTerm() {Definitive = "x1*x2", Logical = "x1>=x2"});
+            qDet.QDeterminant.Add(new QTerm() { Definitive = "(x1+x2)*x3", Logical = "x1<x2" });
         }
     }
 }

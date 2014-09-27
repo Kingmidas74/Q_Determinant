@@ -70,6 +70,10 @@
       <Project>{2056d778-7c95-4d69-8fab-935a39f16249}</Project>
       <Name>FlowChart</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ImplementationPlan\ImplementationPlan.csproj">
+      <Project>{bda4e566-d384-46bd-8d4a-16af5704f6ce}</Project>
+      <Name>ImplementationPlan</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

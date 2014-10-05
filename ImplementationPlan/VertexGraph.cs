@@ -1,9 +1,10 @@
 ﻿namespace ImplementationPlan
 {
-    public class VertexGraph
+    internal class VertexGraph
     {
-        public ulong Id;
-        public ulong Level;
-        public BaseOperations Operation = BaseOperations.Null;
+        internal ulong Id;
+        internal ulong Level;
+        internal string Content;
+        //public BaseOperations Operation = BaseOperations.Null;
     }
 }

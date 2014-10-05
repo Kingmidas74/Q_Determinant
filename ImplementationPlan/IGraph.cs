@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using Core;
 
 namespace ImplementationPlan
 {
-    public interface IGraph
+    internal interface IGraph
     {
-        void AddVertex(ulong level, BaseOperations operation);
-        void AddEdge(ulong from, ulong to);
+        void AddVertex(ulong level, string content/*, BaseOperations operation*/);
+        void AddEdge(ulong from, ulong to, LinkTypes type);
         ulong GetMaxLevel();
         ulong GetMaxOperationsInLevel();
-        List<EdgeGraph> GetEdgeGraphs();
+        List<Link> GetEdgeGraphs();
         List<VertexGraph> GetVertexGraphs();
     }
 }

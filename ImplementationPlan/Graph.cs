@@ -1,33 +1,40 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core;
 
 namespace ImplementationPlan
 {
-    public class Graph:IGraph
+    internal class Graph : IGraph
     {
         private readonly List<VertexGraph> _vertex;
-        private readonly List<EdgeGraph> _edge;
+        private readonly List<Link> _edge;
 
         private ulong Max(ulong first, ulong second)
         {
             return first >= second ? first : second;
         }
 
-        public Graph(List<VertexGraph> vertex, List<EdgeGraph> edge)
+        public Graph(List<VertexGraph> vertex, List<Link> edge)
         {
             _vertex = vertex;
             _edge = edge;
         }
 
-
-        public void AddVertex(ulong level, BaseOperations operation)
+        public Graph()
         {
-            _vertex.Add(new VertexGraph {Id = _vertex.Max(x=>x.Id)+1, Level = level, Operation = operation});
+            _vertex=new List<VertexGraph>();
+            _edge = new List<Link>();
         }
 
-        public void AddEdge(ulong from, ulong to)
+
+        public void AddVertex(ulong level, string content/*, BaseOperations operation*/)
         {
-            _edge.Add(new EdgeGraph {From = from, To = to});
+            _vertex.Add(new VertexGraph {Id = _vertex.Max(x=>x.Id)+1, Level = level, /*Operation = operation*/ Content = content});
+        }
+
+        public void AddEdge(ulong from, ulong to, LinkTypes type)
+        {
+            _edge.Add(new Link { From = from, To = to, Type = type});
         }
 
 
@@ -50,7 +57,7 @@ namespace ImplementationPlan
         }
 
 
-        public List<EdgeGraph> GetEdgeGraphs()
+        public List<Link> GetEdgeGraphs()
         {
             return _edge;
         }

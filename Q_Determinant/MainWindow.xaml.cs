@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FlowChart;
+using ImplementationPlan;
 
 namespace Q_Determinant
 {
@@ -29,7 +30,6 @@ namespace Q_Determinant
 
         private void ClickBt(object sender, RoutedEventArgs e)
         {
-
         }
     }
 }

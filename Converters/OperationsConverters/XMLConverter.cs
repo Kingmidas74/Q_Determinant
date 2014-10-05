@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Xml;
-using Converters.FlowchartsConverters;
 using Core;
 
 namespace Converters.OperationsConverters
 {
-    class XMLConverter : AbstractConverterFlowcharts
+    class XMLConverter : AbstractConverterOperations
     {
         public override void SaveToFile(string filePath)
         {

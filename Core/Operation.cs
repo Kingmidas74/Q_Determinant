@@ -1,6 +1,6 @@
 ﻿namespace Core
 {
-    internal class Operation
+    public class Operation
     {
         private readonly string _signature;
         private readonly int _priority;

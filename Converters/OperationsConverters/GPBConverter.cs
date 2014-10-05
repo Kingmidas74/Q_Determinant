@@ -1,8 +1,7 @@
-﻿using Converters.FlowchartsConverters;
-
+﻿
 namespace Converters.OperationsConverters
 {
-    class GPBConverter:AbstractConverterFlowcharts
+    class GPBConverter : AbstractConverterOperations
     {
         public override void SaveToFile(string filePath)
         {

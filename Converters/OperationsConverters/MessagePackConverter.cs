@@ -1,8 +1,7 @@
-﻿using Converters.FlowchartsConverters;
-
+﻿
 namespace Converters.OperationsConverters
 {
-    public class MessagePackConverter:AbstractConverterFlowcharts
+    public class MessagePackConverter : AbstractConverterOperations
     {
         public override void SaveToFile(string filePath)
         {

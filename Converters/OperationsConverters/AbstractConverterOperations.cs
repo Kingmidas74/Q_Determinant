@@ -6,7 +6,7 @@ namespace Converters.OperationsConverters
 {
     public abstract class AbstractConverterOperations : IOperationsConverter
     {
-        protected List<Block> Blocks;
+        protected List<Operation> Blocks;
         protected List<Link> Links;
 
         protected abstract bool Validation(string data);
@@ -27,7 +27,7 @@ namespace Converters.OperationsConverters
         public abstract string GetAsString();
 
 
-        public List<Block> GetBlocks()
+        public List<Operation> GetBlocks()
         {
             return Blocks;
         }
@@ -37,7 +37,7 @@ namespace Converters.OperationsConverters
             return Links;
         }
 
-        public void SetBlocks(List<Block> blocks)
+        public void SetBlocks(List<Operation> blocks)
         {
             Blocks = blocks;
         }
@@ -49,7 +49,7 @@ namespace Converters.OperationsConverters
 
         protected AbstractConverterOperations()
         {
-            Blocks = new List<Block>();
+            Blocks = new List<Operation>();
             Links = new List<Link>();
         }
     }

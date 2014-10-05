@@ -5,9 +5,9 @@ namespace Converters.OperationsConverters
 {
     public interface IOperationsConverter:IConverter
     {
-        List<Block> GetBlocks();
+        List<Operation> GetBlocks();
         List<Link> GetLinks();
-        void SetBlocks(List<Block> blocks);
+        void SetBlocks(List<Operation> blocks);
         void SetLinks(List<Link> links);
     }
 }

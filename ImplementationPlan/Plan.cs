@@ -11,9 +11,9 @@ namespace ImplementationPlan
 {
     public class Plan
     {
-        private List<Operation> _operations;
+        private readonly List<Operation> _operations;
         private readonly QDet _qDet;
-        private List<Graph> _graphs;
+        private readonly List<Graph> _graphs;
 
         public Plan(List<Operation> operations, QDet qDet)
         {

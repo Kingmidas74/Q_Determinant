@@ -10,11 +10,6 @@ namespace ImplementationPlan
         private readonly List<Block> _vertex;
         private readonly List<Link> _edge;
 
-        private ulong Max(ulong first, ulong second)
-        {
-            return first >= second ? first : second;
-        }
-
         public Graph(List<Block> vertex, List<Link> edge)
         {
             _vertex = vertex;
@@ -30,14 +25,14 @@ namespace ImplementationPlan
 
         public void AddVertex(ulong level, string content)
         {
-            ulong Id = 1;
+            ulong id = 1;
             if (_vertex.Count > 0)
             {
-                Id = _vertex.Max(x => x.Id) + 1;
+                id = _vertex.Max(x => x.Id) + 1;
             }
             if (!String.IsNullOrEmpty(content))
             {
-                _vertex.Add(new Block {Id = Id, Level = level, Content = content});
+                _vertex.Add(new Block {Id = id, Level = level, Content = content});
             }
         }
 

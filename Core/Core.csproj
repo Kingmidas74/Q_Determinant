@@ -42,12 +42,14 @@
     <Compile Include="AL.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="BlockTypes.cs" />
+    <Compile Include="GeneralPlan.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="LinkTypes.cs" />
     <Compile Include="Operation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QDet.cs" />
     <Compile Include="QTerm.cs" />
+    <Compile Include="StepOfImplementation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -48,6 +48,10 @@
     <Compile Include="VertexGraph.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Converters\Converters.csproj">
+      <Project>{FF308B02-4A97-496D-AA01-14F53AC45F91}</Project>
+      <Name>Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{f501bef7-5a55-43bc-910f-2be759829e0e}</Project>
       <Name>Core</Name>

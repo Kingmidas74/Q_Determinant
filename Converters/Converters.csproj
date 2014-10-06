@@ -61,6 +61,14 @@
     <Compile Include="FlowchartsConverters\SOAPConverter.cs" />
     <Compile Include="FlowchartsConverters\XMLConverter.cs" />
     <Compile Include="IConverter.cs" />
+    <Compile Include="ImplementationPlanConverters\AbstractConverterImplementationPlan.cs" />
+    <Compile Include="ImplementationPlanConverters\BinConverter.cs" />
+    <Compile Include="ImplementationPlanConverters\GPBConverter.cs" />
+    <Compile Include="ImplementationPlanConverters\IImplementationPlanConverter.cs" />
+    <Compile Include="ImplementationPlanConverters\JSONConverter.cs" />
+    <Compile Include="ImplementationPlanConverters\MessagePackConverter.cs" />
+    <Compile Include="ImplementationPlanConverters\SOAPConverter.cs" />
+    <Compile Include="ImplementationPlanConverters\XMLConverter.cs" />
     <Compile Include="Manufactory.cs" />
     <Compile Include="OperationsConverters\AbstractConverterOperations.cs" />
     <Compile Include="OperationsConverters\BinConverter.cs" />

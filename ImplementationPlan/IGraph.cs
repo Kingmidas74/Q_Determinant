@@ -5,11 +5,11 @@ namespace ImplementationPlan
 {
     internal interface IGraph
     {
-        void AddVertex(ulong level, string content/*, BaseOperations operation*/);
+        void AddVertex(ulong level, string content);
         void AddEdge(ulong from, ulong to, LinkTypes type);
         ulong GetMaxLevel();
         ulong GetMaxOperationsInLevel();
         List<Link> GetEdgeGraphs();
-        List<VertexGraph> GetVertexGraphs();
+        List<Block> GetVertexGraphs();
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Converters;
 using Core;
 using System;
 
@@ -18,15 +20,48 @@ namespace ImplementationPlan
             _operations = operations;
             _qDet = qDet;
             _graphs = new List<Graph>();
+            CountProcessors = 0;
+            CountTacts = 0;
             ParseQDetInGraphs();
+            CalculateProperties();
 
+        }
+
+        public ulong CountProcessors { get; private set; }
+
+        public ulong CountTacts { get; private set; }
+
+        private void CalculateProperties()
+        {
+            foreach (var graph in _graphs)
+            {
+                CountTacts = Max(graph.GetMaxLevel(), CountTacts);
+                CountProcessors = CountProcessors + graph.GetMaxOperationsInLevel();
+            }
         }
 
         private void ParseQDetInGraphs()
         {
-            foreach (var qTerm in _qDet.QDeterminant.Where(qTerm => !String.IsNullOrEmpty(qTerm.Logical)))
+            foreach (var qTerm in _qDet.QDeterminant)
             {
-                _graphs.Add(ParseQTermInGraph(qTerm.Logical));
+                if (!String.IsNullOrEmpty(qTerm.Logical))
+                {
+                    _graphs.Add(ParseQTermInGraph(qTerm.Logical));
+                }
+                _graphs.Add(ParseQTermInGraph(qTerm.Definitive));
+            }
+        }
+
+        public void SavePlans()
+        {
+            var converter = Manufactory.CreateImplementationPlanConverter(ConverterTypes.JSON);
+            int i = 0;
+            foreach (var graph in _graphs)
+            {
+                converter.SetBlocks(graph.GetVertexGraphs());
+                converter.SetLinks(graph.GetEdgeGraphs());
+                converter.SaveToFile(@"D:\tempforQ\plans\"+i.ToString()+".json");
+                i++;
             }
         }
 
@@ -59,6 +94,7 @@ namespace ImplementationPlan
                             var currentOperation = _operations.First(x => x.Signature.Equals(tempString.ToString()));
                             while (stack.Count > 0 && !((stack.Peek()).Signature.Equals("(")) && currentOperation.Priority <= (stack.Peek()).Priority)
                             {
+                                //outputString.Append(stack.Pop().Signature);
                                 var content = stack.Pop().Signature;
                                 outputString.Append(content);
                                 result.AddVertex(0, content);
@@ -78,6 +114,7 @@ namespace ImplementationPlan
                             while (stack.Count > 0 && !((stack.Peek()).Signature.Equals("(")) &&
                                    currentOperation.Priority <= (stack.Peek()).Priority)
                             {
+                                //outputString.Append(stack.Pop().Signature);
                                 var content = stack.Pop().Signature;
                                 outputString.Append(content);
                                 result.AddVertex(0, content);
@@ -92,6 +129,7 @@ namespace ImplementationPlan
                     {
 
                         outputString.Append(tempString);
+                        result.AddVertex(0, tempString.ToString());
                         tempString.Clear();
                         opFlag = true;
                         var flag = false;
@@ -100,7 +138,7 @@ namespace ImplementationPlan
                             var currentOperation = stack.Pop();
                             if (!currentOperation.Signature.Equals("("))
                             {
-                                outputString.Append(currentOperation.Signature);
+                                //outputString.Append(currentOperation.Signature);
 
                                 var content = currentOperation.Signature;
                                 outputString.Append(content);
@@ -118,20 +156,46 @@ namespace ImplementationPlan
             result.AddVertex(0, tempString.ToString());
             while (stack.Count > 0)
             {
+                //outputString.Append(stack.Pop().Signature);
                 var content = stack.Pop().Signature;
                 outputString.Append(content);
                 result.AddVertex(0, content);
             }
+            File.WriteAllText(@"D:\ou1",outputString.ToString());
             var vertexs = result.GetVertexGraphs();
-            var links = new List<EdgeGraph>();
+            var links = new List<Link>();
             for (var i=0; i<vertexs.Count; i++)
             {
                 if (IsOperand(vertexs[i].Content))
                 {
-                    vertexs[i].Level = Max(vertexs[i - 2].Level,vertexs[i - 1].Level) + 1;
+                    vertexs[i].Level = Max(vertexs[i - 1].Level,vertexs[i - 2].Level)+1;
                 }
             }
-            return result;
+            for (var i = 0; i < vertexs.Count; i++)
+            {
+                if (IsOperand(vertexs[i].Content))
+                {
+                    var priorityFlag = false;
+                    for (int k = i - 1, countLink = 0; k >= 0 && countLink<2; k--)
+                    {
+                        if (links.Count(x => x.From == vertexs[k].Id) == 0)
+                        {
+                            if (priorityFlag == false)
+                            {
+                                links.Add(new Link() {From = vertexs[k].Id, To = vertexs[i].Id, Type = LinkTypes.False});
+                                priorityFlag = true;
+                            }
+                            else
+                            {
+                                links.Add(new Link() {From = vertexs[k].Id, To = vertexs[i].Id, Type = LinkTypes.True});
+                                priorityFlag = false;
+                            }
+                            countLink++;
+                        }
+                    }
+                }
+            }
+            return new Graph(vertexs,links);
         }
 
         private bool IsOperand(string s)

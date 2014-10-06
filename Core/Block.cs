@@ -5,5 +5,6 @@
         public BlockTypes Type;
         public string Content;
         public ulong Id;
+        public ulong Level;
     }
 }

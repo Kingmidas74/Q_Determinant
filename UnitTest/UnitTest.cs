@@ -40,12 +40,12 @@ namespace UnitTest
             {
                 QDeterminant = new List<QTerm>()
             };
-            qDet.QDeterminant.Add(new QTerm() { Definitive = "(8+2*5)/(1+3*2-4)", Logical = "dX>=(5*a+2*(b-1))" });
+            qDet.QDeterminant.Add(new QTerm() { Definitive = "x1*y1+x2*y2+x3*y3+x4*y4+x5*y5+x6*y6+x7*y7", Logical = "" });
             var converter = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
             converter.ParseDocument(Jsonpathfolder+@"test3.json");
             var plan = new Plan(converter.GetBlocks(), qDet);
             plan.SavePlans();
-            Assert.AreEqual((ulong)4,plan.CountProcessors);
+            Assert.AreEqual((ulong)7,plan.CountProcessors);
             Assert.AreEqual((ulong)4,plan.CountTacts);
         }
     }

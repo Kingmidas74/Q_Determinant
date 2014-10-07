@@ -40,16 +40,27 @@ namespace UnitTest
                 QDeterminant = new List<QTerm>()
             };
             qDet.QDeterminant.Add(new QTerm() { Definitive = "(8+2*5)/(1+3*2-4)", Logical = "dX>=(5*a+2*(b-1))" });
-            qDet.QDeterminant.Add(new QTerm() { Definitive = "x1*y1+x2*y2+x3*y3", Logical = "" });
+          //  qDet.QDeterminant.Add(new QTerm() { Definitive = "x1*y1+x2*y2+x3*y3", Logical = "" });
             var converter = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
             converter.ParseDocument(Jsonpathfolder+@"test3.json");
             var plan = new Plan(converter.GetBlocks(), qDet);
+            Assert.AreEqual((ulong)4, plan.CountProcessors);
+            Assert.AreEqual((ulong)4, plan.CountTacts);
+            //plan.OptimizeForMaxEffective(3);
+            plan = new Plan(converter.GetBlocks(), qDet,3);
+            Assert.AreEqual((ulong)3, plan.CountProcessors);
+            Assert.AreEqual((ulong)5, plan.CountTacts);
+          /*  plan.OptimizeForMaxEffective(2);
+            Assert.AreEqual((ulong)2, plan.CountProcessors);
+            Assert.AreEqual((ulong)6, plan.CountTacts);
+            plan.OptimizeForMaxEffective(1);
+            Assert.AreEqual((ulong)1, plan.CountProcessors);
+            Assert.AreEqual((ulong)11, plan.CountTacts);*/
             var saver = Manufactory.CreateImplementationPlanConverter(ConverterTypes.JSON);
             saver.SetBlocks(plan.GetVertexGraph());
             saver.SetLinks(plan.GetEdgesGraph());
             saver.SaveToFile(Jsonpathfolder + @"output_plan.json");
-            Assert.AreEqual((ulong)7,plan.CountProcessors);
-            Assert.AreEqual((ulong)4,plan.CountTacts);
+            
         }
     }
 }

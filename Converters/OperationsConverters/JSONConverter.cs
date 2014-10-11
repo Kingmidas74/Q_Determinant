@@ -23,7 +23,10 @@ namespace Converters.OperationsConverters
                 var jsonObject = JArray.Parse(data);
                 foreach (var element in jsonObject)
                 {
-                    Blocks.Add(new Operation(int.Parse((string) element["Priority"]), (string) element["Signature"]));
+                    var priority = int.Parse((string)element["Priority"]);
+                    var signature = (string) element["Signature"];
+                    var isUnary = bool.Parse((string) element["isUnary"]);
+                    Blocks.Add(new Operation(priority,signature,isUnary)); 
                 }
             }
             else

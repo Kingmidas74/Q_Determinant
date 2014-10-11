@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Core;
@@ -36,8 +37,9 @@ namespace ImplementationPlan
             {
                 if (IsOperand(blocks[i].Content))
                 {
+                    var maxCountLink = IsUnary(blocks[i].Content) ? 1 : 2;
                     var priorityFlag = false;
-                    for (int k = i - 1, countLink = 0; k >= 0 && countLink < 2; k--)
+                    for (int k = i - 1, countLink = 0; k >= 0 && countLink < maxCountLink; k--)
                     {
                         if (result.Count(x => x.From == blocks[k].Id) == 0)
                         {
@@ -65,11 +67,23 @@ namespace ImplementationPlan
             {
                 if (IsOperand(blocks[i].Content))
                 {
-                    var linkTrueId = links.FirstOrDefault(x => x.To == blocks[i].Id && x.Type == LinkTypes.True).From;
-                    var linkFalseId = links.FirstOrDefault(x => x.To == blocks[i].Id && x.Type == LinkTypes.False).From;
-                    var levelTrue = blocks.FirstOrDefault(x => x.Id == linkTrueId).Level;
-                    var levelFalse = blocks.FirstOrDefault(x => x.Id == linkFalseId).Level;
-                    blocks[i].Level = Math.Max(levelFalse, levelTrue) + 1;
+                    if (IsUnary(blocks[i].Content))
+                    {
+                        var linkId =
+                            links.FirstOrDefault(x => x.To == blocks[i].Id).From;
+                        var level = blocks.FirstOrDefault(x => x.Id == linkId).Level;
+                        blocks[i].Level = level + 1;
+                    }
+                    else
+                    {
+                        var linkTrueId =
+                            links.FirstOrDefault(x => x.To == blocks[i].Id && x.Type == LinkTypes.True).From;
+                        var linkFalseId =
+                            links.FirstOrDefault(x => x.To == blocks[i].Id && x.Type == LinkTypes.False).From;
+                        var levelTrue = blocks.FirstOrDefault(x => x.Id == linkTrueId).Level;
+                        var levelFalse = blocks.FirstOrDefault(x => x.Id == linkFalseId).Level;
+                        blocks[i].Level = Math.Max(levelFalse, levelTrue) + 1;
+                    }
                 }
             }
             Graph=new Graph(blocks,links);
@@ -78,6 +92,10 @@ namespace ImplementationPlan
         private bool IsOperand(string s)
         {
             return _operations.Find(x => x.Signature.Equals(s)) != null;
+        }
+        private bool IsUnary(string s)
+        {
+            return _operations.Find(x => x.Signature.Equals(s)).IsUnary;
         }
 
         private void AddBlockToRPN(string content, ref List<Block> blocks)
@@ -172,7 +190,18 @@ namespace ImplementationPlan
                 var content = stack.Pop().Signature;
                 AddBlockToRPN(content, ref result);
             }
+            printRPN(result);
             return result;
+        }
+
+        private void printRPN(IEnumerable<Block> blocks)
+        {
+            var result = new StringBuilder("");
+            foreach (var block in blocks)
+            {
+                result.Append(block.Content);
+            }
+            File.WriteAllText(@"D:\out",result.ToString());
         }
     }
 }

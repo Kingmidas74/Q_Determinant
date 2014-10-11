@@ -26,6 +26,8 @@ namespace Q_Determinant
         public MainWindow()
         {
             InitializeComponent();
+            this.Height = (System.Windows.SystemParameters.PrimaryScreenHeight * 0.75);
+            this.Width = (System.Windows.SystemParameters.PrimaryScreenWidth * 0.75);
         }
 
         private void ClickBt(object sender, RoutedEventArgs e)

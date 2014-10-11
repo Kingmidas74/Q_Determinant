@@ -2,14 +2,85 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen" Title="Q-детерминант" Style="{DynamicResource FlatWindowStyle}">
-    <Grid>
+    <DockPanel>
         <StatusBar
-            VerticalAlignment="Bottom"
+            DockPanel.Dock="Bottom"
             Height="24">
             <TextBlock Margin="3,0,0,0">Ready</TextBlock>
             <StatusBarItem HorizontalAlignment="Right">
                 <ResizeGrip Opacity="0.75" />
             </StatusBarItem>
         </StatusBar>
-    </Grid>
+        <Menu Background="{DynamicResource BackgroundColorBrush}" 
+              DockPanel.Dock="Top" Height="20" Foreground="{DynamicResource BasicFontColorBrush}">
+            <MenuItem Header="FILE" Background="{DynamicResource BackgroundColorBrush}">
+                <MenuItem Header="New">
+                    <MenuItem Header="Solution"/>
+                    <MenuItem Header="Project"/>
+                </MenuItem>
+                <MenuItem Header="Open">
+                    <MenuItem Header="Solution"/>
+                </MenuItem>
+                <MenuItem Header="Save"/>
+                <MenuItem Header="Save All"/>
+                
+                <MenuItem Header="Import In New Project">
+                    <MenuItem Header="Flowchart..."/>
+                    <MenuItem Header="Implementation Plan..."/>
+                    <MenuItem Header="Q-Determinant..."/>
+                </MenuItem>
+                <MenuItem Header="Export In File">
+                    <MenuItem Header="Flowchart..."/>
+                    <MenuItem Header="Implementation Plan..."/>
+                    <MenuItem Header="Q-Determinant..."/>
+                </MenuItem>
+                
+                <MenuItem Header="Close"/>
+            </MenuItem>
+            <MenuItem Header="PROJECT" Background="{DynamicResource BackgroundColorBrush}">
+                <MenuItem Header="Add Flowchart"/>
+                <MenuItem Header="Add Q-Determinant"/>
+                
+                <MenuItem Header="Import">
+                    <MenuItem Header="Flowchart..."/>
+                    <MenuItem Header="Implementation Plan..."/>
+                    <MenuItem Header="Q-Determinant..."/>
+                </MenuItem>
+                <MenuItem Header="Export">
+                    <MenuItem Header="Flowchart..."/>
+                    <MenuItem Header="Implementation Plan..."/>
+                    <MenuItem Header="Q-Determinant..."/>
+                </MenuItem>
+                
+                <MenuItem Header="Properties"/>
+            </MenuItem>
+            <MenuItem Header="HELP" Background="{DynamicResource BackgroundColorBrush}">
+                <MenuItem Header="View Help"/>
+                <MenuItem Header="About Q-Determinant"/>
+                <MenuItem Header="Check Updates"/>
+            </MenuItem>
+        </Menu>
+        <ToolBarPanel Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Orientation="Horizontal" DockPanel.Dock="Top">
+            <Button>New</Button>
+            <Button>Open</Button>
+            <Button>Close</Button>
+            <Separator></Separator>
+            <Button>New</Button>
+            <Button>Open</Button>
+            <Button>Close</Button>
+        </ToolBarPanel>
+        <TextBox
+            Text="Hello, world!"
+            FontSize="13"
+            BorderThickness="0" 
+            AcceptsReturn="True" 
+            Padding="2"
+            Background="Transparent"
+            ScrollViewer.CanContentScroll="True" 
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            />
+        
+
+    </DockPanel>
 </Window>

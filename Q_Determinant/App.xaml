@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <SolidColorBrush x:Key="BackgroundColorBrush" Color="#007970" />
+        <SolidColorBrush x:Key="BackgroundColorBrush" Color="#16837B" />
         <SolidColorBrush x:Key="BorderColorBrush" Color="#6B6B6B" />
-        <SolidColorBrush x:Key="BackgroundTitleColorBrush" Color="#656565" />
+        <SolidColorBrush x:Key="BackgroundTitleColorBrush" Color="#007970" />
         <SolidColorBrush x:Key="AcсentColorBrush" Color="#1B1652" />
         <SolidColorBrush x:Key="BasicFontColorBrush" Color="#F3F3F3" />
         <SolidColorBrush x:Key="SuccesFontColorBrush" Color="#134747"/>
@@ -172,7 +172,34 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        
+        <Style TargetType="MenuItem">
+            <Setter Property="Background" Value="{DynamicResource BackgroundTitleColorBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BackgroundTitleColorBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <!--
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                        <ContentPresenter/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="BorderBrush" Value="Black"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="BorderBrush" Value="Black"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>-->
+        </Style>
+        
+        
         <Style TargetType="TabItem">
             <Setter Property="FontFamily" Value="Segoe UI Light" />
             <Setter Property="Foreground" Value="White" />

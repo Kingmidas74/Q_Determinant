@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,13 +55,49 @@ namespace ModernControls
             if (window != null) action(window);
         }
     }
-    
-    public class MWindow : Window
+
+    public class MWindow : Window, INotifyPropertyChanged
     {
+        public static DependencyProperty WithASideProperty;
+        public Visibility WithASide
+        {
+            get { return (Visibility)GetValue(WithASideProperty); }
+            set { SetValue(WithASideProperty, value); }
+        }
+
+        public static DependencyProperty StatusContentProperty;
+        public string StatusContent
+        {
+            get { return (string)GetValue(StatusContentProperty); }
+            set { SetValue(StatusContentProperty, value); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
         
         public MWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MWindow), new FrameworkPropertyMetadata(typeof(MWindow)));
+            WithASideProperty = DependencyProperty.Register("Visibility", typeof(Visibility), typeof(DependencyObject),
+                new FrameworkPropertyMetadata(Visibility.Visible, new PropertyChangedCallback(OnWithASideChanged)));
+            StatusContentProperty = DependencyProperty.Register("string", typeof(string), typeof(DependencyObject),
+                new FrameworkPropertyMetadata("Ready", new PropertyChangedCallback(OnStatucContentChanged)));
+        }
+
+        private void OnWithASideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WithASide = (Visibility) e.NewValue;
+        }
+
+        private void OnStatucContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            StatusContent = (string)e.NewValue;
         }
 
         public override void OnApplyTemplate()
@@ -139,5 +176,7 @@ namespace ModernControls
                 });
             }
         }
+
+        
     }
 }

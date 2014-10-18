@@ -48,70 +48,50 @@ namespace ModernControls
     /// </summary>
     internal static class LocalExtensions
     {
-        public static void ForWindowFromChild(this object childDependencyObject, Action<Window> action)
-        {
-            var element = childDependencyObject as DependencyObject;
-            while (element != null)
-            {
-                element = VisualTreeHelper.GetParent(element);
-                if (element is Window) { action(element as Window); break; }
-            }
-        }
-
         public static void ForWindowFromTemplate(this object templateFrameworkElement, Action<Window> action)
         {
-            Window window = ((FrameworkElement)templateFrameworkElement).TemplatedParent as Window;
+            MWindow window = ((FrameworkElement)templateFrameworkElement).TemplatedParent as MWindow;
             if (window != null) action(window);
-        }
-
-        public static IntPtr GetWindowHandle(this Window window)
-        {
-            WindowInteropHelper helper = new WindowInteropHelper(window);
-            return helper.Handle;
         }
     }
     
     public class MWindow : Window
     {
         
-        static MWindow()
+        public MWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MWindow), new FrameworkPropertyMetadata(typeof(MWindow)));
         }
 
         public override void OnApplyTemplate()
         {
-            /*var btn = GetTemplateChild("CloseButton") as Button;
-            btn.MouseLeftButtonDown += CloseButtonClick;*/
-            var b = (Button)GetTemplateChild("MinButton");
-            b.MouseLeftButtonDown += MinButtonClick;
+            (GetTemplateChild("CloseButton") as Button).Click += CloseButtonClick;
+            (GetTemplateChild("MinButton") as Button).Click += MinButtonClick;
+            (GetTemplateChild("MaxButton") as Button).Click += MaxButtonClick;
+            (GetTemplateChild("SettingsButton") as Button).Click += ShowHideAsideClick;
             var _border = (Border)GetTemplateChild("TitleBar");
             _border.MouseLeftButtonDown += TitleBarMouseLeftButtonDown;
             _border.MouseMove += TitleBarMouseMove;
-
-            ((Button)GetTemplateChild("SettingsButton")).MouseLeftButtonDown += ShowHideAsideClick;
-            ((Button)GetTemplateChild("MaxButton")).MouseLeftButtonDown += MaxButtonClick;
-            ((Button)GetTemplateChild("CloseButton")).MouseLeftButtonDown += CloseButtonClick;
-
+            base.OnApplyTemplate(); 
         }
 
-        void CloseButtonClick(object sender, MouseButtonEventArgs e)
+
+        void CloseButtonClick(object sender, RoutedEventArgs e)
         {
             sender.ForWindowFromTemplate(w => w.Close());
         }
 
-        void MinButtonClick(object sender, MouseEventArgs e)
+        void MinButtonClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("a");
             sender.ForWindowFromTemplate(w => w.WindowState = WindowState.Minimized);
         }
 
-        void MaxButtonClick(object sender, MouseButtonEventArgs e)
+        void MaxButtonClick(object sender, RoutedEventArgs e)
         {
             sender.ForWindowFromTemplate(w => w.WindowState = (w.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized);
         }
 
-        void ShowHideAsideClick(object sender, MouseButtonEventArgs e)
+        void ShowHideAsideClick(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("A");
             // (((((((sender as Button).Parent as Grid).Parent as Border).Parent as DockPanel).Children[1] as Grid).Children[1] as Frame).Content as Aside).ShowHideAsideClick(sender, e);

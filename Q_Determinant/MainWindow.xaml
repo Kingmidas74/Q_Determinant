@@ -67,13 +67,12 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="1*" MaxHeight="150"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TabItem Header="Q1.FlowChart">
-                        <StackPanel Background="Turquoise" Width="50000" Height="100000"/>
-                    </TabItem>
-                    <TabItem Header="Q1.ImplementationPlan">
-                        <StackPanel Background="Bisque" Width="50" Height="50"/>
-                    </TabItem>
+                <TabControl x:Name="WorkFlow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding}">
+                    <TabControl.Resources>
+                        <DataTemplate DataType="{x:Type local:AlgorithmFile}" Mul>
+                            <TextBlock Text="{Binding Path=Name}" MouseLeftButtonDown="ChooseAlgorithmFile" Tag="{Binding Path=Path}" />
+                        </DataTemplate>
+                    </TabControl.Resources>
                 </TabControl>
                 <GridSplitter Grid.Row="1" Background="{StaticResource BorderColorBrush}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="5"/>
             </Grid>
@@ -95,7 +94,7 @@
                                 </HierarchicalDataTemplate>
 
                                 <DataTemplate DataType="{x:Type local:AlgorithmFile}">
-                                    <TextBlock Text="{Binding Path=Name}" MouseLeftButtonDown="ChooseAlgorithmFile" />
+                                    <TextBlock Text="{Binding Path=Name}" MouseLeftButtonDown="ChooseAlgorithmFile" Tag="{Binding Path=Path}" />
                                 </DataTemplate>
                             </TreeView.Resources>
                         </TreeView>

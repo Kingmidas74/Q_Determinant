@@ -1,0 +1,10 @@
+﻿using System.Windows;
+
+namespace Q_Determinant
+{
+    public class TabContent
+    {
+        public string Name { get; set; }
+        public Visibility Visible { get; set; }
+    }
+}

@@ -28,9 +28,11 @@ namespace Q_Determinant
     /// </summary>
     public partial class MainWindow : MWindow
     {
+        public List<TabContent> Tabs;
         public MainWindow()
         {
             InitializeComponent();
+            Tabs= new List<TabContent>();
             this.Height = (System.Windows.SystemParameters.PrimaryScreenHeight * 0.75);
             this.Width = (System.Windows.SystemParameters.PrimaryScreenWidth * 0.75);
         }
@@ -43,11 +45,25 @@ namespace Q_Determinant
         {
             FlowChartElements.ItemsSource = Adapter.TransformBlock();
             SolutionExplorer.ItemsSource = Adapter.ConvertTreeFolderTo(@"D:\tempforQ\QSOL");
+            WorkFlow.ItemsSource = Tabs;
         }
 
         private void ChooseAlgorithmFile(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show((sender as TextBlock).Text);
+            if ((sender as TextBlock).Text.EndsWith(".qd"))
+            {
+                var tb = new TextBlock();
+                tb.Text = File.ReadAllText((sender as TextBlock).Tag.ToString());
+                tb.FontSize = 20;
+                tb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                tb.VerticalAlignment = VerticalAlignment.Stretch;
+                var tabContent = new TabContentWithText();
+                tabContent.Content = tb;
+                tabContent.Name = (sender as TextBlock).Text;
+                tabContent.Visible = Visibility.Visible;
+                Tabs.Add(tabContent);
+                WorkFlow.ItemsSource = Tabs;
+            }
         }
     }
 }

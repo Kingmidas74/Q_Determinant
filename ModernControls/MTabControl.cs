@@ -50,5 +50,37 @@ namespace ModernControls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MTabControl), new FrameworkPropertyMetadata(typeof(MTabControl)));
         }
+
+        public override void OnApplyTemplate()
+        {
+           // (GetTemplateChild("CloseTab") as Button).Click += CloseTab;
+            base.OnApplyTemplate();
+        }
+
+
+        void CloseTab(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show((sender as Button).TemplatedParent.ToString());
+        }
+    }
+
+    public class MTabItem : TabItem
+    {
+        static MTabItem()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(MTabItem), new FrameworkPropertyMetadata(typeof(MTabItem)));
+        }
+
+        public override void OnApplyTemplate()
+        {
+            (GetTemplateChild("CloseTab") as Button).Click += CloseTab;
+            base.OnApplyTemplate();
+        }
+
+
+        void CloseTab(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show((sender as Button).TemplatedParent.ToString());
+        }
     }
 }

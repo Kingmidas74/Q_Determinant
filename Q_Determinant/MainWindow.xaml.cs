@@ -45,6 +45,18 @@ namespace Q_Determinant
         {
             FlowChartElements.ItemsSource = Adapter.TransformBlock();
             SolutionExplorer.ItemsSource = Adapter.ConvertTreeFolderTo(@"D:\tempforQ\QSOL");
+            var tb = new TextBlock();
+            tb.Text = File.ReadAllText(@"D:\tempforQ\QSOL\Al1\QDeterminant.qd");
+            tb.FontSize = 20;
+            tb.HorizontalAlignment = HorizontalAlignment.Stretch;
+            tb.VerticalAlignment = VerticalAlignment.Stretch;
+            var tabContent = new TabContentWithText();
+            tabContent.Content = tb;
+            tabContent.Text = tb.Text;
+            tabContent.Name = "QDeterminant.qd";
+            tabContent.Visible = Visibility.Visible;
+            Tabs.Add(tabContent);
+            WorkFlow.ItemsSource = Tabs;
             WorkFlow.ItemsSource = Tabs;
         }
 
@@ -59,6 +71,7 @@ namespace Q_Determinant
                 tb.VerticalAlignment = VerticalAlignment.Stretch;
                 var tabContent = new TabContentWithText();
                 tabContent.Content = tb;
+                tabContent.Text = tb.Text;
                 tabContent.Name = (sender as TextBlock).Text;
                 tabContent.Visible = Visibility.Visible;
                 Tabs.Add(tabContent);

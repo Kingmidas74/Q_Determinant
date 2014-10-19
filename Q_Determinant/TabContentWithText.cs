@@ -8,6 +8,8 @@ namespace Q_Determinant
         
         public TextBlock Content { get; set; }
 
+        public string Text { get; set; }
+
         public TabContentWithText()
         {
             Content = new TextBlock()
@@ -15,6 +17,7 @@ namespace Q_Determinant
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
+            Type = 0;
         }
     }
 }

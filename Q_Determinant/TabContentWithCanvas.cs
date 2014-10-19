@@ -14,6 +14,7 @@ namespace Q_Determinant
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
+            Type = 1;
         }
     }
 }

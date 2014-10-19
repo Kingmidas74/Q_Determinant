@@ -67,12 +67,35 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="1*" MaxHeight="150"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TabControl x:Name="WorkFlow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding}">
+                <TabControl x:Name="WorkFlow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Tabs}">
                     <TabControl.Resources>
-                        <DataTemplate DataType="{x:Type local:AlgorithmFile}" Mul>
-                            <TextBlock Text="{Binding Path=Name}" MouseLeftButtonDown="ChooseAlgorithmFile" Tag="{Binding Path=Path}" />
+                        <DataTemplate x:Key="TabContentTextDataTemplate">
+                            <TextBlock Text="{Binding Path=Content.Text}"/>
+                        </DataTemplate>
+                        <DataTemplate x:Key="TabContentCanvasDataTemplate">
+                            <Canvas></Canvas>
                         </DataTemplate>
                     </TabControl.Resources>
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding}">
+                                <ContentControl.Style>
+                                    <Style TargetType="ContentControl">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Type}" Value="0">
+                                                <Setter Property="ContentTemplate"
+                                    Value="{StaticResource TabContentTextDataTemplate}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=Type}" Value="1">
+                                                <Setter Property="ContentTemplate"
+                                    Value="{StaticResource TabContentCanvasDataTemplate}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ContentControl.Style>
+                            </ContentControl>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
                 </TabControl>
                 <GridSplitter Grid.Row="1" Background="{StaticResource BorderColorBrush}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="5"/>
             </Grid>

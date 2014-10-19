@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Core;
 using FlowChart;
 using ImplementationPlan;
 using ModernControls;
@@ -33,6 +37,17 @@ namespace Q_Determinant
 
         private void ClickBt(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            FlowChartElements.ItemsSource = Adapter.TransformBlock();
+            SolutionExplorer.ItemsSource = Adapter.ConvertTreeFolderTo(@"D:\tempforQ\QSOL");
+        }
+
+        private void ChooseAlgorithmFile(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show((sender as TextBlock).Text);
         }
     }
 }

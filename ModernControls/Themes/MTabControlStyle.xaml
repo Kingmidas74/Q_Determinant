@@ -20,9 +20,11 @@
                         <Border BorderThickness="0" Grid.Row="1">
                             <Border BorderThickness="{TemplateBinding BorderThickness}" 
                 BorderBrush="{TemplateBinding BorderBrush}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter ContentSource="SelectedContent"/>
-                                </Border>
+                                
+                                    <ScrollViewer CanContentScroll="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                        <ContentPresenter ContentSource="SelectedContent" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    </ScrollViewer>
+                                
                             </Border>
                         </Border>
                     </Grid>
@@ -46,6 +48,8 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <ContentPresenter ContentSource="Header" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            
+                            
                             <Button Grid.Column="1" x:Name="CloseButton" Style="{StaticResource MTitleBarButtonStyle}" Margin="5,0,0,0" Height="18" Width="18">
                                 <Grid MaxHeight="9" MaxWidth="9">
                                     <Path

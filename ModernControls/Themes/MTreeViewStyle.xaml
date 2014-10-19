@@ -8,12 +8,13 @@
     <Style TargetType="{x:Type TreeViewItem}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Foreground" Value="{StaticResource BasicFontColorBrush}"/>
-        <Setter Property="Background" Value="{StaticResource BackgroundColorBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource BackgroundColorBrush}"/>
+        <Setter Property="IsExpanded" Value="True"/>
     </Style>
 
     <Style TargetType="{x:Type TreeView}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Foreground" Value="{StaticResource BasicFontColorBrush}"/>
-        <Setter Property="Background" Value="{StaticResource BackgroundColorBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource BackgroundColorBrush}"/>
     </Style>
 </ResourceDictionary>

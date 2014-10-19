@@ -43,10 +43,10 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="18"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <ContentPresenter ContentSource="Header" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <Button Grid.Column="1" x:Name="CloseButton" Style="{StaticResource MTitleBarButtonStyle}" Margin="5,0,0,0" Height="18">
+                            <Button Grid.Column="1" x:Name="CloseButton" Style="{StaticResource MTitleBarButtonStyle}" Margin="5,0,0,0" Height="18" Width="18">
                                 <Grid MaxHeight="9" MaxWidth="9">
                                     <Path
                                                 Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"

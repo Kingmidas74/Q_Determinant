@@ -52,7 +52,8 @@ namespace Q_Determinant
 
         private void ChooseAlgorithmFile(object sender, MouseButtonEventArgs e)
         {
-            if ((sender as TextBlock).Text.EndsWith(".qd"))
+
+            if (!checkExistFileInList((sender as TextBlock).Text)/*(sender as TextBlock).Text.EndsWith(".qd")*/)
             {
                 var tb = new TextBlock();
                 tb.Text = File.ReadAllText(((sender as TextBlock).Tag.ToString()));
@@ -70,6 +71,11 @@ namespace Q_Determinant
                 Tabs.Source = null;
                 Tabs.Source = TabsList;
             }
+        }
+
+        private bool checkExistFileInList(string fileName)
+        {
+            return TabsList.Count(x => x.Name.Equals(fileName)) > 0;
         }
     }
 }

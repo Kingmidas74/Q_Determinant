@@ -28,11 +28,12 @@ namespace Q_Determinant
     /// </summary>
     public partial class MainWindow : MWindow
     {
-        public List<TabContent> Tabs;
+        //public List<TabContent> Tabs;
+        private CollectionViewSource Tabs { get; set; }
+        private List<TabContent> TabsList { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            Tabs= new List<TabContent>();
             this.Height = (System.Windows.SystemParameters.PrimaryScreenHeight * 0.75);
             this.Width = (System.Windows.SystemParameters.PrimaryScreenWidth * 0.75);
         }
@@ -43,21 +44,10 @@ namespace Q_Determinant
 
         private void OnLoad(object sender, RoutedEventArgs e)
         {
+            TabsList = new List<TabContent>();
             FlowChartElements.ItemsSource = Adapter.TransformBlock();
             SolutionExplorer.ItemsSource = Adapter.ConvertTreeFolderTo(@"D:\tempforQ\QSOL");
-            var tb = new TextBlock();
-            tb.Text = File.ReadAllText(@"D:\tempforQ\QSOL\Al1\QDeterminant.qd");
-            tb.FontSize = 20;
-            tb.HorizontalAlignment = HorizontalAlignment.Stretch;
-            tb.VerticalAlignment = VerticalAlignment.Stretch;
-            var tabContent = new TabContentWithText();
-            tabContent.Content = tb;
-            tabContent.Text = tb.Text;
-            tabContent.Name = "QDeterminant.qd";
-            tabContent.Visible = Visibility.Visible;
-            Tabs.Add(tabContent);
-            WorkFlow.ItemsSource = Tabs;
-            WorkFlow.ItemsSource = Tabs;
+            
         }
 
         private void ChooseAlgorithmFile(object sender, MouseButtonEventArgs e)
@@ -65,17 +55,20 @@ namespace Q_Determinant
             if ((sender as TextBlock).Text.EndsWith(".qd"))
             {
                 var tb = new TextBlock();
-                tb.Text = File.ReadAllText((sender as TextBlock).Tag.ToString());
+                tb.Text = File.ReadAllText(((sender as TextBlock).Tag.ToString()));
                 tb.FontSize = 20;
                 tb.HorizontalAlignment = HorizontalAlignment.Stretch;
                 tb.VerticalAlignment = VerticalAlignment.Stretch;
                 var tabContent = new TabContentWithText();
                 tabContent.Content = tb;
-                tabContent.Text = tb.Text;
-                tabContent.Name = (sender as TextBlock).Text;
+                tabContent.Text = (sender as TextBlock).Text;
+                tabContent.Name = (sender as TextBlock).Text; ;
                 tabContent.Visible = Visibility.Visible;
-                Tabs.Add(tabContent);
-                WorkFlow.ItemsSource = Tabs;
+                TabsList.Add(tabContent);
+                Tabs = FindResource("Tabs") as CollectionViewSource;
+                MessageBox.Show(TabsList.Count.ToString());
+                Tabs.Source = null;
+                Tabs.Source = TabsList;
             }
         }
     }

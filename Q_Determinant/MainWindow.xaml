@@ -4,6 +4,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Q_Determinant"
         WindowStartupLocation="CenterScreen" Title="Q-детерминант" WithASide="Collapsed" StatusContent="Reeeeeady" MinHeight="768" MinWidth="1024" Loaded="OnLoad" >
+    <modernControls:MWindow.Resources>
+        <CollectionViewSource x:Key="Tabs"/>
+    </modernControls:MWindow.Resources>
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <Menu DockPanel.Dock="Top" IsMainMenu="True">
         <MenuItem Header="FILE">
@@ -67,36 +70,26 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="1*" MaxHeight="150"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TabControl x:Name="WorkFlow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Tabs}">
-                    <TabControl.Resources>
-                        <DataTemplate x:Key="TabContentTextDataTemplate">
-                            <TextBlock Text="{Binding Path=Content.Text}"/>
-                        </DataTemplate>
-                        <DataTemplate x:Key="TabContentCanvasDataTemplate">
-                            <Canvas></Canvas>
-                        </DataTemplate>
-                    </TabControl.Resources>
-                    <TabControl.ItemTemplate>
-                        <DataTemplate>
-                            <ContentControl Content="{Binding}">
-                                <ContentControl.Style>
-                                    <Style TargetType="ContentControl">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=Type}" Value="0">
-                                                <Setter Property="ContentTemplate"
-                                    Value="{StaticResource TabContentTextDataTemplate}" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=Type}" Value="1">
-                                                <Setter Property="ContentTemplate"
-                                    Value="{StaticResource TabContentCanvasDataTemplate}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ContentControl.Style>
-                            </ContentControl>
-                        </DataTemplate>
-                    </TabControl.ItemTemplate>
-                </TabControl>
+                <Grid.Resources>
+                   <!-- <DataTemplate x:Key="TabContentTextDataTemplate">
+                        <TextBlock Text="{Binding Path=Content.Text}"/>
+                    </DataTemplate>
+                    <DataTemplate x:Key="TabContentCanvasDataTemplate">
+                        <Canvas></Canvas>
+                    </DataTemplate>-->
+                    <DataTemplate x:Key="tabItemTemplate">
+                        <TextBlock Text="{Binding Path=Name}"/>
+                    </DataTemplate>
+                    <DataTemplate x:Key="contentTemplate">
+                        <ContentPresenter>
+                            <ContentPresenter.Content>
+                                <Binding Path="Content"/>
+                            </ContentPresenter.Content>
+                        </ContentPresenter>
+                    </DataTemplate>
+                </Grid.Resources>
+                <TabControl x:Name="WorkFlow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource Tabs}}" ItemTemplate="{StaticResource tabItemTemplate}"
+                  ContentTemplate="{StaticResource contentTemplate}"/>
                 <GridSplitter Grid.Row="1" Background="{StaticResource BorderColorBrush}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="5"/>
             </Grid>
             <Grid Grid.Column="4">

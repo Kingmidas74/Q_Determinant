@@ -5,7 +5,7 @@ namespace ActionList
     public class AList: IAList
     {
         public QDet AL;
-        public AList(List<Block> Blocks, List<Link> Links, List<Operation> Oper)
+        public AList(List<Block> blocks, List<Link> Links, List<Operation> Oper)
         {
             var x = new QTerm();
             var y = new QTerm();
@@ -15,7 +15,7 @@ namespace ActionList
             AL.QDeterminant.Add(x);
             y.Definitive = "3*x+1";
             AL.QDeterminant.Add(y);
-            foreach (var example in Blocks)
+            foreach (var example in blocks)
             {
                 if (example.Type == BlockTypes.Condition)
                 { 

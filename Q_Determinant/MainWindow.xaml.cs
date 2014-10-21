@@ -28,32 +28,26 @@ namespace Q_Determinant
     /// </summary>
     public partial class MainWindow : MWindow
     {
-        //public List<TabContent> Tabs;
         private CollectionViewSource Tabs { get; set; }
         private List<TabContent> TabsList { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            this.Height = (System.Windows.SystemParameters.PrimaryScreenHeight * 0.75);
-            this.Width = (System.Windows.SystemParameters.PrimaryScreenWidth * 0.75);
+            Height = (SystemParameters.PrimaryScreenHeight * 0.75);
+            Width = (SystemParameters.PrimaryScreenWidth * 0.75);
         }
-
-        private void ClickBt(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void OnLoad(object sender, RoutedEventArgs e)
         {
             TabsList = new List<TabContent>();
             FlowChartElements.ItemsSource = Adapter.TransformBlock();
-           // SolutionExplorer.ItemsSource = Adapter.ConvertTreeFolderTo(@"D:\tempforQ\QSOL");
+            SolutionExplorer.ItemsSource = Adapter.ConvertTreeFolderTo(@"D:\tempforQ\QSOL");
             
         }
 
         private void ChooseAlgorithmFile(object sender, MouseButtonEventArgs e)
         {
 
-            if (!checkExistFileInList((sender as TextBlock).Text)/*(sender as TextBlock).Text.EndsWith(".qd")*/)
+            if (!checkExistFileInList((sender as TextBlock).Tag.ToString())/*(sender as TextBlock).Text.EndsWith(".qd")*/)
             {
                 var tb = new TextBlock();
                 tb.Text = File.ReadAllText(((sender as TextBlock).Tag.ToString()));
@@ -63,11 +57,11 @@ namespace Q_Determinant
                 var tabContent = new TabContentWithText();
                 tabContent.Content = tb;
                 tabContent.Text = (sender as TextBlock).Text;
-                tabContent.Name = (sender as TextBlock).Text; ;
+                tabContent.Name = (sender as TextBlock).Text;
                 tabContent.Visible = Visibility.Visible;
+                tabContent.Path = (sender as TextBlock).Tag.ToString();
                 TabsList.Add(tabContent);
                 Tabs = FindResource("Tabs") as CollectionViewSource;
-                MessageBox.Show(TabsList.Count.ToString());
                 Tabs.Source = null;                                 
                 Tabs.Source = TabsList;
             }
@@ -75,7 +69,7 @@ namespace Q_Determinant
 
         private bool checkExistFileInList(string fileName)
         {
-            return TabsList.Count(x => x.Name.Equals(fileName)) > 0;
+            return TabsList.Count(x => x.Path.Equals(fileName)) > 0;
         }
     }
 }

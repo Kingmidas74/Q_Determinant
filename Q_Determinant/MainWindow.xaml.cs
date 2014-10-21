@@ -68,7 +68,7 @@ namespace Q_Determinant
                 TabsList.Add(tabContent);
                 Tabs = FindResource("Tabs") as CollectionViewSource;
                 MessageBox.Show(TabsList.Count.ToString());
-                Tabs.Source = null;
+                Tabs.Source = null;                                 // LOL
                 Tabs.Source = TabsList;
             }
         }

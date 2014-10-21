@@ -7,6 +7,7 @@ namespace ActionList
         public QDet AL;
         public AList(List<Block> blocks, List<Link> Links, List<Operation> Oper)
         {
+            AL = new QDet();
             var x = new QTerm();
             var y = new QTerm();
             var z = new QTerm();

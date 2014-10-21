@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ActionList;
 using Converters;
 using Core;
 using FlowChart;
@@ -10,12 +11,12 @@ namespace UnitTest
     [TestClass]
     public class UnitTest
     {
-      //  private const string Jsonpathfolder = @"D:\tempforQ\";
+        private const string Jsonpathfolder = @"D:\tempforQ\";
 
         [TestMethod]
         public void TestFlowChart()
         {
-           /* var converter = Manufactory.CreateFlowChartConverter(ConverterTypes.JSON);
+            var converter = Manufactory.CreateFlowChartConverter(ConverterTypes.JSON);
             converter.ParseDocument(Jsonpathfolder+@"test1.json");
             var flowChart = new Chart(converter.GetBlocks(),converter.GetLinks());
             Assert.AreEqual(9, flowChart.GetCountBlocks());
@@ -28,14 +29,28 @@ namespace UnitTest
             converter.SetBlocks(flowChart.GetBlocks());
             converter.SetLinks(flowChart.GetLinks());
             converter.SaveToFile(Jsonpathfolder+"output_new.json");
-            Assert.AreEqual(9, flowChart.GetCountBlocks()); */
+            Assert.AreEqual(9, flowChart.GetCountBlocks()); 
+
+        }
+
+        [TestMethod]
+        public void TestActionList()
+        {
+            var converter = Manufactory.CreateFlowChartConverter(ConverterTypes.JSON);
+            converter.ParseDocument(Jsonpathfolder + @"test1.json");
+            var flowChart = new Chart(converter.GetBlocks(), converter.GetLinks());
+            var converter2 = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
+            converter2.ParseDocument(Jsonpathfolder+@"test3.json");
+            var ActionList = new AList(flowChart.GetBlocks(), flowChart.GetLinks(), converter2.GetBlocks());
+            Assert.AreEqual("dx>=(5*a+2*(b-1))", ActionList.getqdet().QDeterminant[0].Logical);
+            Assert.AreEqual("(8+2*5)/(1+3*2-4)", ActionList.getqdet().QDeterminant[0].Definitive);
 
         }
 
         [TestMethod]
         public void TestImplementationPlan()
         {
-           /* var qDet = new QDet()
+            var qDet = new QDet()
             {
                 QDeterminant = new List<QTerm>()
             };
@@ -48,7 +63,7 @@ namespace UnitTest
             var saver = Manufactory.CreateImplementationPlanConverter(ConverterTypes.JSON);
             saver.SetBlocks(plan.GetVertexGraph());
             saver.SetLinks(plan.GetEdgesGraph());
-            saver.SaveToFile(Jsonpathfolder + @"output_plan.json"); */
+            saver.SaveToFile(Jsonpathfolder + @"output_plan.json"); 
             
         }
     }

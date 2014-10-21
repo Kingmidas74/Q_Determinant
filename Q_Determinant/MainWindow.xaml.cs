@@ -46,7 +46,7 @@ namespace Q_Determinant
         {
             TabsList = new List<TabContent>();
             FlowChartElements.ItemsSource = Adapter.TransformBlock();
-            SolutionExplorer.ItemsSource = Adapter.ConvertTreeFolderTo(@"D:\tempforQ\QSOL");
+           // SolutionExplorer.ItemsSource = Adapter.ConvertTreeFolderTo(@"D:\tempforQ\QSOL");
             
         }
 

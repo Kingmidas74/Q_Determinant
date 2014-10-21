@@ -15,11 +15,11 @@
                     <MenuItem Header="Project"/>
                 </MenuItem>
                 <MenuItem Header="Open">
-                    <MenuItem Header="Solution"/>
+                    <MenuItem Header="Solution" Click="OpenSolutionClick"/>
                 </MenuItem>
                 <MenuItem Header="Save"/>
                 <MenuItem Header="Save All"/>
-                <MenuItem Header="Close"/>
+                <MenuItem Header="Close" Click="CloseProgramClick"/>
             </MenuItem>
             <MenuItem Header="PROJECT">
                 <MenuItem Header="Add Flowchart"/>
@@ -71,16 +71,10 @@
                     <RowDefinition Height="1*" MaxHeight="150"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.Resources>
-                   <!-- <DataTemplate x:Key="TabContentTextDataTemplate">
-                        <TextBlock Text="{Binding Path=Content.Text}"/>
-                    </DataTemplate>
-                    <DataTemplate x:Key="TabContentCanvasDataTemplate">
-                        <Canvas></Canvas>
-                    </DataTemplate>-->
-                    <DataTemplate x:Key="tabItemTemplate">
+                    <DataTemplate x:Key="HeaderTemplate">
                         <TextBlock Text="{Binding Path=Name}"/>
                     </DataTemplate>
-                    <DataTemplate x:Key="contentTemplate">
+                    <DataTemplate x:Key="ContentTemplate">
                         <ContentPresenter>
                             <ContentPresenter.Content>
                                 <Binding Path="Content"/>
@@ -88,8 +82,8 @@
                         </ContentPresenter>
                     </DataTemplate>
                 </Grid.Resources>
-                <TabControl x:Name="WorkFlow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource Tabs}}" ItemTemplate="{StaticResource tabItemTemplate}"
-                  ContentTemplate="{StaticResource contentTemplate}"/>
+                <TabControl x:Name="WorkFlow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource Tabs}}" ItemTemplate="{StaticResource HeaderTemplate}"
+                  ContentTemplate="{StaticResource ContentTemplate}"/>
                 <GridSplitter Grid.Row="1" Background="{StaticResource BorderColorBrush}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="5"/>
             </Grid>
             <Grid Grid.Column="4">

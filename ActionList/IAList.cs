@@ -9,7 +9,7 @@ namespace ActionList
 {
     public interface IAList
     {
-        public QDet getqdet();
+        QDet getqdet();
 
     }
 }

@@ -12,7 +12,7 @@
         <MenuItem Header="FILE">
                 <MenuItem Header="New">
                     <MenuItem Header="Solution"/>
-                    <MenuItem Header="Project"/>
+                    <MenuItem Header="Project" Click="NewProjectClick" />
                 </MenuItem>
                 <MenuItem Header="Open">
                     <MenuItem Header="Solution" Click="OpenSolutionClick"/>
@@ -22,8 +22,8 @@
                 <MenuItem Header="Close" Click="CloseProgramClick"/>
             </MenuItem>
             <MenuItem Header="PROJECT">
-                <MenuItem Header="Add Flowchart"/>
-                <MenuItem Header="Add Q-Determinant"/>
+                <MenuItem Header="Add Flowchart" Click="AddFlowChartClick"/>
+                <!--<MenuItem Header="Add Q-Determinant"/>-->
 
                 <MenuItem Header="Import">
                     <MenuItem Header="Flowchart..."/>

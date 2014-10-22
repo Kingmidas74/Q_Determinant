@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+using Converters;
 using Core;
 using FlowChart;
 using ImplementationPlan;
@@ -32,6 +33,9 @@ namespace Q_Determinant
     {
         private CollectionViewSource Tabs { get; set; }
         private List<TabContent> TabsList { get; set; }
+
+        private string currentSolutionPath = null;
+        private string currentProjectPath = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -84,6 +88,8 @@ namespace Q_Determinant
                     Tabs.Source = null;
                     Tabs.Source = TabsList;
                 }
+                var currentProjectDirectory = System.IO.Path.GetDirectoryName((sender as TextBlock).Tag.ToString());
+                currentProjectPath = System.IO.Path.Combine(currentProjectDirectory, currentProjectDirectory.Substring(currentProjectDirectory.LastIndexOf('\\') + 1) + ".qpr");
             }
         }
         
@@ -129,6 +135,7 @@ namespace Q_Determinant
                 }
                 SolutionExplorer.Header = qSlnDocument.SelectSingleNode("//Solution").Attributes["Name"].InnerText;
                 SolutionExplorer.ItemsSource = treeViewItems;
+                currentSolutionPath = solutionFilePath;
             }
             catch (Exception e)
             {
@@ -139,6 +146,83 @@ namespace Q_Determinant
         private void CloseProgramClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void AddFlowChartClick(object sender, RoutedEventArgs e)
+        {
+            AddFlowchart("Flowchart2");
+        }
+
+        private void AddFlowchart(string flowchartName)
+        {
+            var QPrDoc = new XmlDocument();
+            QPrDoc.Load(currentProjectPath);
+            var flag = false;
+            foreach (XmlElement e in from XmlElement e in QPrDoc.SelectNodes("//File") where e.Attributes["Name"].InnerText.EndsWith(".fc") select e)
+            {
+                flag = true;
+            }
+            if (!flag)
+            {
+                var converter = Manufactory.CreateFlowChartConverter(ConverterTypes.XML);
+                converter.SaveToFile(System.IO.Path.GetDirectoryName(currentProjectPath) + "\\"+flowchartName+".fc");
+                XmlNode node = QPrDoc.CreateNode(XmlNodeType.Element, "File", null);
+                XmlAttribute attr = QPrDoc.CreateAttribute("Name");
+                attr.InnerText = flowchartName + ".fc";
+                node.Attributes.Append(attr);
+                QPrDoc.SelectSingleNode("//Files").AppendChild(node);
+                QPrDoc.Save(currentProjectPath);
+                OpenSolution(currentSolutionPath);
+
+            }
+            else
+            {
+                MessageBox.Show("Flowcht exist in project!");
+            }
+        }
+
+        private void AddProject(string projectName)
+        {
+            var QSolDoc = new XmlDocument();
+            QSolDoc.Load(currentSolutionPath);
+            var flag = false;
+            foreach (XmlElement e in from XmlElement e in QSolDoc.SelectNodes("//Project") where e.Attributes["Name"].InnerText.Equals(projectName) select e)
+            {
+                flag = true;
+            }
+            if (!flag)
+            {
+                var newProject = new XmlDocument();
+                XmlNode node = newProject.CreateNode(XmlNodeType.Element, "Project", null);
+                XmlAttribute attr = newProject.CreateAttribute("Name");
+                attr.InnerText = projectName;
+                node.Attributes.Append(attr);
+                node.AppendChild(newProject.CreateNode(XmlNodeType.Element, "Files", null));
+                newProject.AppendChild(node);
+                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(currentSolutionPath) + @"\" + projectName);
+                newProject.Save(System.IO.Path.GetDirectoryName(currentSolutionPath)+@"\"+projectName+@"\"+projectName+".qpr");
+                node = QSolDoc.CreateNode(XmlNodeType.Element, "Project", null);
+                attr = QSolDoc.CreateAttribute("Name");
+                attr.InnerText = projectName;
+                XmlAttribute attr2 = QSolDoc.CreateAttribute("Path");
+                attr2.InnerText = projectName+"\\"+projectName+".qpr";
+                node.Attributes.Append(attr);
+                node.Attributes.Append(attr2);
+                QSolDoc.SelectSingleNode("//Projects").AppendChild(node);
+                QSolDoc.Save(currentSolutionPath);
+                currentProjectPath = System.IO.Path.GetDirectoryName(currentSolutionPath) + @"\" + projectName + @"\" +
+                                     projectName + ".qpr";
+                AddFlowchart("TestFlowchart");
+            }
+            else
+            {
+                MessageBox.Show("Project exist in solution!");
+            }
+        }
+
+        private void NewProjectClick(object sender, RoutedEventArgs e)
+        {
+            AddProject("TestProject");
         }
     }
 }

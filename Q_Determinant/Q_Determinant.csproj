@@ -105,10 +105,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ActionList\ActionList.csproj">
-      <Project>{fa704519-e0f2-497e-9b45-7e6d45e9e7ec}</Project>
-      <Name>ActionList</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Converters\Converters.csproj">
       <Project>{ff308b02-4a97-496d-aa01-14f53ac45f91}</Project>
       <Name>Converters</Name>
@@ -116,14 +112,6 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{f501bef7-5a55-43bc-910f-2be759829e0e}</Project>
       <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlowChart\FlowChart.csproj">
-      <Project>{2056d778-7c95-4d69-8fab-935a39f16249}</Project>
-      <Name>FlowChart</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ImplementationPlan\ImplementationPlan.csproj">
-      <Project>{bda4e566-d384-46bd-8d4a-16af5704f6ce}</Project>
-      <Name>ImplementationPlan</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernControls\ModernControls.csproj">
       <Project>{8c00df0c-e2e4-4a64-aa5b-af21594a48b6}</Project>

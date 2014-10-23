@@ -18,9 +18,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 using Converters;
-using Core;
-using FlowChart;
-using ImplementationPlan;
 using Microsoft.Win32;
 using ModernControls;
 

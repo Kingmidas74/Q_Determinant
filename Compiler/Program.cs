@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using ActionList;
 using Converters;
 using Core;
@@ -94,17 +95,7 @@ namespace Compiler
                 {
                     if (source == Source.Project)
                     {
-                        if (targetState == TargetState.QDeterminant)
-                        {
-                            CompileFcToQd(sourcePath.ToString());
-                        }
-                        else
-                        {
-                            if (targetState == TargetState.ImplementationPlan)
-                            {
-                                CompileFcToIp(sourcePath.ToString());
-                            }
-                        }
+                        CompileProject(targetState, sourcePath.ToString());
                     }
                     else
                     {
@@ -142,7 +133,7 @@ namespace Compiler
                 result.Remove(result.Length - 1, 1).Append("}");
             }
             Console.WriteLine("Save QD");
-            File.WriteAllText(@"QDeterminant.qd",result.ToString());
+            File.WriteAllText(Path.GetDirectoryName(sourcePath)+@"\QDeterminant.qd",result.ToString());
         }
 
         static void CompileFcToIp(string sourcePath)
@@ -157,21 +148,52 @@ namespace Compiler
             IPConverter.SetBlocks(implementationPlan.GetVertexGraph());
             IPConverter.SetLinks(implementationPlan.GetEdgesGraph());
             Console.WriteLine("Save IP");
-            IPConverter.SaveToFile(@"ImplementationPlan.ip");
+            IPConverter.SaveToFile(Path.GetDirectoryName(sourcePath) + @"\ImplementationPlan.ip");
         }
+
+        static void CompileProject(TargetState toState, string sourcePath)
+        {
+            
+            var directory = Path.GetDirectoryName(sourcePath);
+            Console.WriteLine(directory);
+            if (File.Exists(directory + @"\ImplemetationPlan.ip"))
+            {
+                Console.WriteLine("RemoveIP");
+                File.Delete(directory + @"\ImplemetationPlan.ip");
+            }
+            if (File.Exists(directory + @"\QDeterminant.qd"))
+            {
+                Console.WriteLine("Remover QD");
+                File.Delete(directory + @"\QDeterminant.qd");
+            }
+            if (File.Exists(directory + @"\FlowChart.fc"))
+            {
+                Console.WriteLine("Compile fc in project");
+                if (toState == TargetState.QDeterminant)
+                {
+                    CompileFcToQd(directory + @"\FlowChart.fc");
+                }
+                else
+                {
+                    if (toState == TargetState.ImplementationPlan)
+                    {
+                        CompileFcToIp(directory + @"\FlowChart.fc");
+                    }
+                }
+            }
+        }
+
 
         static void CompileSolution(TargetState toState, string sourcePath)
         {
-            if (toState == TargetState.QDeterminant)
+            Console.WriteLine("Compile Solution");
+            var directory_path = Path.GetDirectoryName(sourcePath);
+            var doc = new XmlDocument();
+            doc.Load(sourcePath);
+            foreach (XmlNode project in doc.SelectNodes("//Project"))
             {
-                //CompileFcToQd(sourcePath.ToString()); форыч по подпапкам и вызвать компилинг от нового пути
-            }
-            else
-            {
-                /*if (targetState == TargetState.ImplementationPlan)
-                {
-                    CompileFcToIp(sourcePath.ToString()); форыч по подпапкам и вызвать компилинг от нового пути
-                }*/
+                Console.WriteLine("Compile Project");
+                CompileProject(toState,Path.Combine(directory_path,project.Attributes["Path"].InnerText));
             }
         }
     }

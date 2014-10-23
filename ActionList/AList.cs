@@ -15,7 +15,7 @@ namespace ActionList
             x.Definitive = "(8+2*5)/(1+3*2-4)";
             AL.QDeterminant.Add(x);
             y.Definitive = "3*x+1";
-            AL.QDeterminant.Add(y);
+            //AL.QDeterminant.Add(y);
             foreach (var example in blocks)
             {
                 if (example.Type == BlockTypes.Condition)

@@ -221,5 +221,20 @@ namespace Q_Determinant
         {
             AddProject("TestProject");
         }
+
+        private void TestCompileClick(object sender, RoutedEventArgs e)
+        {
+            var p = new System.Diagnostics.Process();
+            var startupstring = new StringBuilder("");
+            startupstring.Append(" -s ")
+                .Append(currentSolutionPath)
+                .Append(" -ip -o ")
+                .Append(System.IO.Path.GetDirectoryName(currentSolutionPath))
+                .Append(@"\Operations.json");
+            MessageBox.Show(startupstring.ToString());
+            p.StartInfo.FileName = "Compiler.exe";
+            p.StartInfo.Arguments = startupstring.ToString();
+            p.Start();
+        }
     }
 }

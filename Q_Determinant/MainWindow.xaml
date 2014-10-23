@@ -23,7 +23,6 @@
             </MenuItem>
             <MenuItem Header="PROJECT">
                 <MenuItem Header="Add Flowchart" Click="AddFlowChartClick"/>
-                <!--<MenuItem Header="Add Q-Determinant"/>-->
 
                 <MenuItem Header="Import">
                     <MenuItem Header="Flowchart..."/>
@@ -44,6 +43,11 @@
                 <MenuItem Header="Check Updates"/>
             </MenuItem>
         </Menu>
+        <ToolBarPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+            <ToolBar HorizontalAlignment="Stretch" Band="0" BandIndex="0">
+                <Button Content="Тестовая компиляция" VerticalAlignment="Top" Click="TestCompileClick"/>
+            </ToolBar>
+        </ToolBarPanel>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" MaxWidth="200"></ColumnDefinition>

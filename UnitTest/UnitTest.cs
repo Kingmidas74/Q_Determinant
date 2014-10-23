@@ -41,20 +41,20 @@ namespace UnitTest
             var flowChart = new Chart(converter.GetBlocks(), converter.GetLinks());
             var converter2 = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
             converter2.ParseDocument(Jsonpathfolder+@"test3.json");
-            var ActionList = new AList(flowChart.GetBlocks(), flowChart.GetLinks(), converter2.GetBlocks());
-            Assert.AreEqual("dx>=(5*a+2*(b-1))", ActionList.getqdet().QDeterminant[0].Logical);
-            Assert.AreEqual("(8+2*5)/(1+3*2-4)", ActionList.getqdet().QDeterminant[0].Definitive);
+            var actionList = new AList(flowChart.GetBlocks(), flowChart.GetLinks(), converter2.GetBlocks());
+            Assert.AreEqual("dx>=(5*a+2*(b-1))", actionList.getqdet().QDeterminant[0].Logical);
+            Assert.AreEqual("(8+2*5)/(1+3*2-4)", actionList.getqdet().QDeterminant[0].Definitive);
 
         }
 
         [TestMethod]
         public void TestImplementationPlan()
         {
-            var qDet = new QDet()
+            var qDet = new QDet
             {
                 QDeterminant = new List<QTerm>()
             };
-            qDet.QDeterminant.Add(new QTerm() { Definitive = "sin(x1+5*(x1+x2))", Logical = "x2>=x1" });
+            qDet.QDeterminant.Add(new QTerm { Definitive = "sin(x1+5*(x1+x2))", Logical = "x2>=x1" });
             var converter = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
             converter.ParseDocument(Jsonpathfolder+@"test3.json");
             var plan = new Plan(converter.GetBlocks(), qDet);

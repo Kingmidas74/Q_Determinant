@@ -105,6 +105,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Compiler\Compiler.csproj">
+      <Project>{40133abe-c6c3-4869-962e-8037a69d5d9d}</Project>
+      <Name>Compiler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Converters\Converters.csproj">
       <Project>{ff308b02-4a97-496d-aa01-14f53ac45f91}</Project>
       <Name>Converters</Name>

@@ -65,10 +65,17 @@ namespace Compiler
                             source = Source.Solution;
                         }
                     }
+                    if (args[i].Equals("-o"))
+                    {
+                        var Oconverter = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
+                        Oconverter.ParseDocument(args[i+1]);
+                        Opertaions = Oconverter.GetBlocks();
+                    }
                 }
-                var Oconverter = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
-                Oconverter.ParseDocument(@"Operations.json");
-                Opertaions = Oconverter.GetBlocks();
+                if (Opertaions == null)
+                {
+                    throw new Exception("Не удалось найти список операций");
+                }
                 if (source == Source.File)
                 {
                     if (targetState == TargetState.QDeterminant)
@@ -134,6 +141,7 @@ namespace Compiler
                 }
                 result.Remove(result.Length - 1, 1).Append("}");
             }
+            Console.WriteLine("Save QD");
             File.WriteAllText(@"QDeterminant.qd",result.ToString());
         }
 
@@ -148,7 +156,8 @@ namespace Compiler
             var IPConverter = Manufactory.CreateImplementationPlanConverter(ConverterTypes.JSON);
             IPConverter.SetBlocks(implementationPlan.GetVertexGraph());
             IPConverter.SetLinks(implementationPlan.GetEdgesGraph());
-            IPConverter.SaveToFile("ImplementationPlan.ip");
+            Console.WriteLine("Save IP");
+            IPConverter.SaveToFile(@"ImplementationPlan.ip");
         }
 
         static void CompileSolution(TargetState toState, string sourcePath)

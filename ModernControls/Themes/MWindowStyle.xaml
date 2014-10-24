@@ -4,6 +4,7 @@
                     xmlns:local="clr-namespace:ModernControls">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/ModernControls;component/Themes/MColors.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/FontsStyle.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/MTitleBarButtonStyle.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/MStatusBarStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
@@ -13,20 +14,22 @@
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="AllowsTransparency" Value="true" />
         <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:MWindow}">
-                    <Grid TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Display" Margin="7">
-                        <Border x:Name="PART_Border">
-                            <Border.Effect>
-                                <DropShadowEffect Color="black" Opacity="0.5" BlurRadius="7" ShadowDepth="2" Direction="315"/>
-                            </Border.Effect>
+                <ControlTemplate TargetType="{x:Type local:MWindow}" >
+                    <Grid TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Display" Margin="7" Background="{TemplateBinding Background }">
+                        <Grid.Effect>
+                            <DropShadowEffect Color="{StaticResource ActionBrushColor}" Opacity="0.5" BlurRadius="7" ShadowDepth="2" Direction="315"/>
+                        </Grid.Effect>
+                        <Border x:Name="PART_Border" BorderThickness="0.5" BorderBrush="{StaticResource ActionColorBrush}">
                             <DockPanel HorizontalAlignment="Stretch" Background="Transparent" VerticalAlignment="Stretch">
                                 <StatusBar
                                     DockPanel.Dock="Bottom"
+                                    Background="{StaticResource ActionColorBrush}"
                                     Height="24">
-                                    <TextBlock Margin="3,0,0,0" Text="{Binding StatusContent, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <TextBlock Margin="3,0,0,0" Text="{Binding StatusContent, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource BaseFont}"/>
                                     <StatusBarItem HorizontalAlignment="Right">
                                         <ResizeGrip Opacity="0.75" />
                                     </StatusBarItem>
@@ -34,8 +37,8 @@
                                 <Border
                                     x:Name="TitleBar"
                                     DockPanel.Dock="Top"
-                                    Background="{StaticResource BackgroundColorBrush}"
                                     BorderThickness="0" 
+                                    Background="Transparent"
                                     >
                                     <Grid VerticalAlignment="Center" Height="30">
                                         <Grid.ColumnDefinitions>
@@ -47,9 +50,8 @@
                                             <ColumnDefinition Width="30"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock x:Name="Caption" Grid.Column="1" Foreground="{StaticResource BasicFontColorBrush}"
-                                                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"
-                                                        FontFamily="Segoe UI" FontSize="24" Opacity="1" 
+                                        <TextBlock x:Name="Caption" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"
+                                                         Opacity="1" Style="{StaticResource BaseFont}"
                                                        Text="{Binding Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                        />
 
@@ -97,7 +99,7 @@
                                         </Button>
                                     </Grid>
                                 </Border>
-                                <Grid Background="{StaticResource BackgroundColorBrush}" >
+                                <Grid Background="Transparent">
                                     <ContentPresenter />
                                     <local:ASide Visibility="{Binding WithASide, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </Grid>

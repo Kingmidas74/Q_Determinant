@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,18 +29,23 @@ namespace Q_Determinant
     /// </summary>
     public partial class MainWindow
     {
-        private CollectionViewSource Tabs { get; set; }
+       /* private CollectionViewSource Tabs { get; set; }
         private List<TabContent> TabsList { get; set; }
 
         private string currentSolutionPath = null;
-        private string currentProjectPath = null;
+        private string currentProjectPath = null;*/
         public MainWindow()
         {
             InitializeComponent();
-            Height = (SystemParameters.PrimaryScreenHeight * 0.75);
-            Width = (SystemParameters.PrimaryScreenWidth * 0.75);
+            /*Height = (SystemParameters.PrimaryScreenHeight * 0.75);
+            Width = (SystemParameters.PrimaryScreenWidth * 0.75);*/
         }
-        private void OnLoad(object sender, RoutedEventArgs e)
+
+        public  void UpdateStatus(string content)
+        {
+            StatusContent = content;
+        }
+        /*private void OnLoad(object sender, RoutedEventArgs e)
         {
             TabsList = new List<TabContent>();
             FlowChartElements.ItemsSource = Adapter.TransformBlock();
@@ -235,6 +241,6 @@ namespace Q_Determinant
             p.StartInfo.FileName = "Compiler.exe";
             p.StartInfo.Arguments = startupstring.ToString();
             p.Start();
-        }
+        }*/
     }
 }

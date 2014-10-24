@@ -3,51 +3,48 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Q_Determinant"
-        WindowStartupLocation="CenterScreen" Title="Q-детерминант" WithASide="Collapsed" StatusContent="Reeeeeady" MinHeight="768" MinWidth="1024" Loaded="OnLoad" >
+        WindowStartupLocation="CenterScreen" Title="Q-детерминант" WithASide="Collapsed" StatusContent="Reeeeeady" MinHeight="768" MinWidth="1024">
     <modernControls:MWindow.Resources>
         <CollectionViewSource x:Key="Tabs"/>
     </modernControls:MWindow.Resources>
-    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-    <Menu DockPanel.Dock="Top" IsMainMenu="True">
-        <MenuItem Header="FILE">
-                <MenuItem Header="New">
-                    <MenuItem Header="Solution"/>
-                    <MenuItem Header="Project" Click="NewProjectClick" />
-                </MenuItem>
-                <MenuItem Header="Open">
-                    <MenuItem Header="Solution" Click="OpenSolutionClick"/>
-                </MenuItem>
-                <MenuItem Header="Save"/>
-                <MenuItem Header="Save All"/>
-                <MenuItem Header="Close" Click="CloseProgramClick"/>
-            </MenuItem>
-            <MenuItem Header="PROJECT">
-                <MenuItem Header="Add Flowchart" Click="AddFlowChartClick"/>
+    <modernControls:Workplace />
+    
+    <!--<DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Hidden">
+    <Menu DockPanel.Dock="Top" IsMainMenu="True" x:Name="MainMenu">
+                            <MenuItem Header="FILE">
+                                <MenuItem Header="New">
+                                    <MenuItem Header="Solution"/>
+                                    <MenuItem Header="Project" />
+                                </MenuItem>
+                                <MenuItem Header="Open">
+                                    <MenuItem Header="Solution" />
+                                </MenuItem>
+                                <MenuItem Header="Save"/>
+                                <MenuItem Header="Save All"/>
+                                <MenuItem Header="Close"/>
+                            </MenuItem>
+                            <MenuItem Header="PROJECT">
+                                <MenuItem Header="Add Flowchart"/>
 
-                <MenuItem Header="Import">
-                    <MenuItem Header="Flowchart..."/>
-                    <MenuItem Header="Implementation Plan..."/>
-                    <MenuItem Header="Q-Determinant..."/>
-                </MenuItem>
-                <MenuItem Header="Export">
-                    <MenuItem Header="Flowchart..."/>
-                    <MenuItem Header="Implementation Plan..."/>
-                    <MenuItem Header="Q-Determinant..."/>
-                </MenuItem>
+                                <MenuItem Header="Import">
+                                    <MenuItem Header="Flowchart..."/>
+                                    <MenuItem Header="Implementation Plan..."/>
+                                    <MenuItem Header="Q-Determinant..."/>
+                                </MenuItem>
+                                <MenuItem Header="Export">
+                                    <MenuItem Header="Flowchart..."/>
+                                    <MenuItem Header="Implementation Plan..."/>
+                                    <MenuItem Header="Q-Determinant..."/>
+                                </MenuItem>
 
-                <MenuItem Header="Properties"/>
-            </MenuItem>
-            <MenuItem Header="HELP">
-                <MenuItem Header="View Help"/>
-                <MenuItem Header="About Q-Determinant"/>
-                <MenuItem Header="Check Updates"/>
-            </MenuItem>
-        </Menu>
-        <ToolBarPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top">
-            <ToolBar HorizontalAlignment="Stretch" Band="0" BandIndex="0">
-                <Button Content="Тестовая компиляция" VerticalAlignment="Top" Click="TestCompileClick"/>
-            </ToolBar>
-        </ToolBarPanel>
+                                <MenuItem Header="Properties"/>
+                            </MenuItem>
+                            <MenuItem Header="HELP">
+                                <MenuItem Header="View Help"/>
+                                <MenuItem Header="About Q-Determinant"/>
+                                <MenuItem Header="Check Updates"/>
+                            </MenuItem>
+                        </Menu>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" MaxWidth="200"></ColumnDefinition>
@@ -118,5 +115,5 @@
                 
             </Grid>
         </Grid>
-    </DockPanel>
+    </DockPanel>-->
 </modernControls:MWindow>

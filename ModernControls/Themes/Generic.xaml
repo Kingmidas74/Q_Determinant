@@ -9,7 +9,11 @@
         <ResourceDictionary Source="/ModernControls;component/Themes/MTabControlStyle.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/MScrollBarStyle.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/MTreeViewStyle.xaml" />
-        <ResourceDictionary Source="/ModernControls;component/Themes/MMenuStyle.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/WorkplaceStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    
+
+    
+
     
 </ResourceDictionary>

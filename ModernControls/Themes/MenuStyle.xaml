@@ -5,118 +5,6 @@
         <ResourceDictionary Source="/ModernControls;component/Themes/MColors.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/FontsStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <!-- Fill Brushes -->
-
-    <LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#CCC" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="HorizontalNormalBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#CCC" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#EEE" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="HorizontalLightBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#EEE" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="DarkBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#AAA" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="PressedBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#BBB" Offset="0.0"/>
-                <GradientStop Color="#EEE" Offset="0.1"/>
-                <GradientStop Color="#EEE" Offset="0.9"/>
-                <GradientStop Color="#FFF" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
-
-    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" />
-
-    <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="#DDD" />
-
-    <!-- Border Brushes -->
-
-    <LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#CCC" Offset="0.0"/>
-                <GradientStop Color="#444" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="HorizontalNormalBorderBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#CCC" Offset="0.0"/>
-                <GradientStop Color="#444" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="DefaultedBorderBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#777" Offset="0.0"/>
-                <GradientStop Color="#000" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="PressedBorderBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#444" Offset="0.0"/>
-                <GradientStop Color="#888" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
-
-    <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
-
-    <SolidColorBrush x:Key="LightBorderBrush" Color="#AAA" />
-
-    <!-- Miscellaneous Brushes -->
-    <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
-
-    <SolidColorBrush x:Key="LightColorBrush" Color="#DDD" />
 
     <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator">
         <Setter Property="Height" Value="1"/>
@@ -167,7 +55,7 @@
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True"/>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource BasicFontColorBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -185,7 +73,7 @@
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource BasicFontColorBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -213,15 +101,15 @@
         Width="13" Height="13" 
         Visibility="Collapsed"
         Margin="6,0,6,0" 
-        Background="{StaticResource NormalBrush}"
+        Background="Transparent"
         BorderThickness="1"
-        BorderBrush="{StaticResource NormalBorderBrush}">
+        BorderBrush="{StaticResource BorderColorBrush}">
                     <Path 
           Name="CheckMark"
           Width="7" Height="7" 
           Visibility="Hidden" 
           SnapsToDevicePixels="False" 
-          Stroke="{StaticResource GlyphBrush}"
+          Stroke="{StaticResource ErrorFontColorBrush}"
           StrokeThickness="2"
           Data="M 0 0 L 7 7 M 0 7 L 7 0" />
                 </Border>
@@ -250,10 +138,10 @@
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
                 <Setter TargetName="Border" Property="Background"
-              Value="{StaticResource SelectedBackgroundBrush}"/>
+              Value="{StaticResource AcсentColorBrush}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource BasicFontColorBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -289,7 +177,7 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Data="M 0 0 L 0 7 L 4 3.5 Z" 
-        Fill="{StaticResource GlyphBrush}" />
+        Fill="{StaticResource AcсentColorBrush}" />
                 <Popup 
         Name="Popup"
         Placement="Right"
@@ -317,14 +205,14 @@
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
                 <Setter TargetName="Border" Property="Background"
-              Value="{StaticResource SelectedBackgroundBrush}"/>
+              Value="{StaticResource ErrorFontColorBrush}"/>
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4"/>
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource BasicFontColorBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

@@ -7,6 +7,7 @@
         <ResourceDictionary Source="/ModernControls;component/Themes/MenuStyle.xaml"/>
         <ResourceDictionary Source="/ModernControls;component/Themes/ToolBarStyle.xaml"/>
         <ResourceDictionary Source="/ModernControls;component/Themes/MTitleBarButtonStyle.xaml"/>
+        <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTabControlStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type local:Workplace}">
@@ -66,11 +67,11 @@
                         </ToolBarTray>
                         <Grid VerticalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" MaxWidth="200"/>
+                                <ColumnDefinition Width="0" MaxWidth="200"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition />
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="1*" MaxWidth="200"/>
+                                <ColumnDefinition MaxWidth="200"/>
                             </Grid.ColumnDefinitions>
                             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch"/>
                             <GridSplitter Grid.Column="3" VerticalAlignment="Stretch"/>
@@ -80,6 +81,10 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="1*" MaxHeight="150"/>
                                 </Grid.RowDefinitions>
+                                <local:ExtendedTabControl x:Name="MainTab">
+                                    <local:ExtendedTabItem Header="1"/>
+                                    <local:ExtendedTabItem Header="2"/>
+                                </local:ExtendedTabControl>
                                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
                             </Grid>
                             <Grid Grid.Column="4">

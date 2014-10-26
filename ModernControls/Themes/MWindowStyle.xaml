@@ -21,14 +21,12 @@
                 <ControlTemplate TargetType="{x:Type local:MWindow}" >
                     <Grid TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Display" Margin="7" Background="{TemplateBinding Background }">
                         <Grid.Effect>
-                            <DropShadowEffect Color="{StaticResource ActionBrushColor}" Opacity="1" BlurRadius="70" ShadowDepth="20" Direction="315"/>
+                            <DropShadowEffect Color="{StaticResource ActionBrushColor}" Opacity="0.5" BlurRadius="7" ShadowDepth="2" Direction="315"/>
                         </Grid.Effect>
                         <Border x:Name="PART_Border" BorderThickness="0.5" BorderBrush="{StaticResource ActionColorBrush}">
                             <DockPanel HorizontalAlignment="Stretch" Background="Transparent" VerticalAlignment="Stretch">
                                 <StatusBar
-                                    DockPanel.Dock="Bottom"
-                                    Background="{StaticResource ActionColorBrush}"
-                                    Height="24">
+                                    DockPanel.Dock="Bottom" Height="24">
                                     <TextBlock Margin="3,0,0,0" Text="{Binding StatusContent, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource BaseFont}"/>
                                     <StatusBarItem HorizontalAlignment="Right">
                                         <ResizeGrip Opacity="0.75" />

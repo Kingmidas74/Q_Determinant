@@ -41,46 +41,33 @@ namespace ModernControls
     /// Step 2)
     /// Go ahead and use your control in the XAML file.
     ///
-    ///     <MyNamespace:MTabControl/>
+    ///     <MyNamespace:ExtendedTabControl/>
     ///
     /// </summary>
-    public class MTabControl : TabControl
+    public class ExtendedTabItem : TabItem
     {
-        static MTabControl()
+        static ExtendedTabItem()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MTabControl), new FrameworkPropertyMetadata(typeof(MTabControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTabItem), new FrameworkPropertyMetadata(typeof(ExtendedTabItem)));
         }
 
+        public static readonly RoutedEvent CloseTabEvent = EventManager.RegisterRoutedEvent("CloseTab",
+            RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (ExtendedTabItem));
+
+        public event RoutedEventHandler CloseTab
+        {
+            add { AddHandler(CloseTabEvent, value); }
+            remove { RemoveHandler(CloseTabEvent, value); }
+        }
         public override void OnApplyTemplate()
         {
-           // (GetTemplateChild("CloseTab") as Button).Click += CloseTab;
+            (base.GetTemplateChild("CloseTabButton") as Button).Click += new RoutedEventHandler(CloseTabButtonClick);
             base.OnApplyTemplate();
         }
 
-
-        void CloseTab(object sender, RoutedEventArgs e)
+        void CloseTabButtonClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show((sender as Button).TemplatedParent.ToString());
-        }
-    }
-
-    public class MTabItem : TabItem
-    {
-        static MTabItem()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MTabItem), new FrameworkPropertyMetadata(typeof(MTabItem)));
-        }
-
-        public override void OnApplyTemplate()
-        {
-            (GetTemplateChild("CloseTab") as Button).Click += CloseTab;
-            base.OnApplyTemplate();
-        }
-
-
-        void CloseTab(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show((sender as Button).TemplatedParent.ToString());
+            this.RaiseEvent(new RoutedEventArgs(CloseTabEvent, this));
         }
     }
 }

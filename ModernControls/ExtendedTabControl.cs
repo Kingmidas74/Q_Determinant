@@ -41,16 +41,42 @@ namespace ModernControls
     /// Step 2)
     /// Go ahead and use your control in the XAML file.
     ///
-    ///     <MyNamespace:Workplace/>
+    ///     <MyNamespace:ExtendedTabControl/>
     ///
     /// </summary>
-    public class Workplace : Control
+    public class ExtendedTabControl : TabControl
     {
-        public Workplace()
+        public ExtendedTabControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(Workplace), new FrameworkPropertyMetadata(typeof(Workplace)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTabControl), new FrameworkPropertyMetadata(typeof(ExtendedTabControl)));
+            AddHandler(ExtendedTabItem.CloseTabEvent, new RoutedEventHandler(CloseTab));
         }
 
-        
+        private void CloseTab(object source, RoutedEventArgs args)
+        {
+            //MessageBox.Show(args.Source.ToString());
+            var item = args.Source as ExtendedTabItem;
+            ExtendedTabControl control = item.Parent as ExtendedTabControl;
+            control.Items.Remove(item);
+        }
+
+     /*   public static readonly RoutedEvent CloseTabEvent = EventManager.RegisterRoutedEvent("CloseTab",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ExtendedTabItem));
+
+        public event RoutedEventHandler CloseTab
+        {
+            add { AddHandler(CloseTabEvent, value); }
+            remove { RemoveHandler(CloseTabEvent, value); }
+        }
+        public override void OnApplyTemplate()
+        {
+            (base.GetTemplateChild("CloseTabButton") as Button).Click += new RoutedEventHandler(CloseTabButtonClick);
+            base.OnApplyTemplate();
+        }
+
+        void CloseTabButtonClick(object sender, RoutedEventArgs e)
+        {
+            this.RaiseEvent(new RoutedEventArgs(CloseTabEvent, this));
+        }*/
     }
 }

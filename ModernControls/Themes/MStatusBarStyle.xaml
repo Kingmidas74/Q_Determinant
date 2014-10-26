@@ -6,6 +6,7 @@
     <Style TargetType="{x:Type StatusBar}">
         <Setter Property="Foreground" Value="{StaticResource BasicFontColorBrush}" />
         <Setter Property="Background" Value="{StaticResource BorderColorBrush}" />
+        <Setter Property="Background" Value="{StaticResource ActionColorBrush}"/>
     </Style>
     <Style TargetType="{x:Type ResizeGrip}">
         <Setter Property="WindowChrome.ResizeGripDirection" Value="BottomRight" />

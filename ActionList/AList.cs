@@ -55,10 +55,10 @@ namespace ActionList
                 if (y.Type == BlockTypes.Process)
                 {
                     x.Definitive = y.Content;
-                    AL.QDeterminant.Add(x);
                     t = Links.FirstOrDefault(e => e.From == y.Id);
                     QQ(Blocks, Links, t);
                 }
+
                 if (y.Type == BlockTypes.Condition)
                 {
                     foreach (var m in Links)
@@ -71,23 +71,35 @@ namespace ActionList
                             t1 = m;
                     z = x;
                     x.Logical = y.Content;
-                    AL.QDeterminant.Add(x);
-                    // z.Logical = 
-                    //AL.QDeterminant.Add(z);
+                    z.Logical = y.Content;
+                    //z pars
                     QQ(Blocks, Links, t);
-                    //QQ(Blocks, Links, t1);
+                    QQ(Blocks, Links, t1);
+                    //QQFalse(Blocks, Links, t1, z);
                 }
+
                 if ((y.Type == BlockTypes.Input) && (y.Type == BlockTypes.Output))
                 {
                     t = Links.FirstOrDefault(e => e.From == y.Id);
                     QQ(Blocks, Links, t);
                 }
+
+                if (y.Type == BlockTypes.End)
+                {
+                    AL.QDeterminant.Add(x);
+                }
             }
    
         }
 
-        private void pars()
+       /* private void QQFalse(List<Block> Blocks, List<Link> Links, Link l, QTerm x)
         { 
+        
+        } */
+
+        private void pars(List x)
+        { 
+
         }
 
         public QDet getqdet()

@@ -9,6 +9,9 @@
         <ResourceDictionary Source="/ModernControls;component/Themes/MScrollBarStyle.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/WorkplaceStyle.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTabControlStyle.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTreeViewStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
    
+
+    
 </ResourceDictionary>

@@ -41,22 +41,14 @@ namespace ModernControls
     /// Step 2)
     /// Go ahead and use your control in the XAML file.
     ///
-    ///     <MyNamespace:ExtendedTabControl/>
+    ///     <MyNamespace:ExtendedTreeView/>
     ///
     /// </summary>
-    public class ExtendedTabControl : TabControl
+    public class ExtendedTreeView : TreeView
     {
-        public ExtendedTabControl()
+        static ExtendedTreeView()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTabControl), new FrameworkPropertyMetadata(typeof(ExtendedTabControl)));
-            AddHandler(ExtendedTabItem.CloseTabEvent, new RoutedEventHandler(CloseTab));
-        }
-
-        private void CloseTab(object source, RoutedEventArgs args)
-        {
-            var item = args.Source as ExtendedTabItem;
-            var control = item.Parent as ExtendedTabControl;
-            control.Items.Remove(item);
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTreeView), new FrameworkPropertyMetadata(typeof(ExtendedTreeView)));
         }
     }
 }

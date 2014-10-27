@@ -8,6 +8,7 @@
         <ResourceDictionary Source="/ModernControls;component/Themes/ToolBarStyle.xaml"/>
         <ResourceDictionary Source="/ModernControls;component/Themes/MTitleBarButtonStyle.xaml"/>
         <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTabControlStyle.xaml"/>
+        <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTreeViewStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type local:Workplace}">
@@ -81,10 +82,8 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="1*" MaxHeight="150"/>
                                 </Grid.RowDefinitions>
-                                <local:ExtendedTabControl x:Name="MainTab">
-                                    <local:ExtendedTabItem Header="1"/>
-                                    <local:ExtendedTabItem Header="2"/>
-                                </local:ExtendedTabControl>
+                                <local:ExtendedTabControl x:Name="WorkPlaceTabs" ItemsSource="{Binding}" ItemTemplate="{StaticResource HeaderTemplate}"
+                                                            ContentTemplate="{StaticResource ContentTemplate}"/>
                                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
                             </Grid>
                             <Grid Grid.Column="4">
@@ -93,6 +92,19 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="1*" MaxHeight="300"/>
                                 </Grid.RowDefinitions>
+                                <TreeView>
+                                    <TreeViewItem Header="Fruit">
+                                        <TreeViewItem Header="Lime"></TreeViewItem>
+                                        <TreeViewItem Header="Orange"></TreeViewItem>
+                                        <TreeViewItem Header="Apple"></TreeViewItem>
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="Colors">
+                                        <TreeViewItem Header="Red"></TreeViewItem>
+                                        <TreeViewItem Header="Orange"></TreeViewItem>
+                                        <TreeViewItem Header="Green"></TreeViewItem>
+                                    </TreeViewItem>
+                                </TreeView>
+
                                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
                             </Grid>
                         </Grid>

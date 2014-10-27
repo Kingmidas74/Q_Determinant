@@ -50,6 +50,7 @@
     <Compile Include="ASide.cs" />
     <Compile Include="ExtendedTabControl.cs" />
     <Compile Include="ExtendedTabItem.cs" />
+    <Compile Include="ExtendedTreeView.cs" />
     <Compile Include="MWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -81,6 +82,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ExtendedTabControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ExtendedTreeViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

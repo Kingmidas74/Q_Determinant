@@ -6,10 +6,21 @@
         <ResourceDictionary Source="/ModernControls;component/Themes/MColors.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/MTitleBarButtonStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
 
+    <DataTemplate x:Key="HeaderTemplate">
+        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+        <TextBlock Text="{Binding Path=Title}"/>
+    </DataTemplate>
+    <DataTemplate x:Key="ContentTemplate">
+        <ContentPresenter>
+            <ContentPresenter.Content>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Binding Path="Content"/>
+            </ContentPresenter.Content>
+        </ContentPresenter>
+    </DataTemplate>
+    
     <Style  TargetType="{x:Type local:ExtendedTabControl}">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>

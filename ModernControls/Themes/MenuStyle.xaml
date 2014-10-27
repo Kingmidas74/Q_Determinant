@@ -97,6 +97,7 @@
         VerticalAlignment="Center"
         ContentSource="Icon"/>
                 <Border 
+        Grid.Column="1"
         Name="Check"  
         Width="13" Height="13" 
         Visibility="Collapsed"

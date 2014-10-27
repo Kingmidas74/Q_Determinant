@@ -5,11 +5,11 @@ namespace Q_Determinant
 {
     public class TabContentWithCanvas:TabContent
     {
-        public StackPanel Content { get; set; }
+        public TextBlock Content { get; set; }
 
         public TabContentWithCanvas()
         {
-            Content = new StackPanel
+            Content = new TextBlock()
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch

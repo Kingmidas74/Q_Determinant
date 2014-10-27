@@ -6,10 +6,10 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/ModernControls;component/Themes/MWindowStyle.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/ASideStyle.xaml" />
-        <ResourceDictionary Source="/ModernControls;component/Themes/MTabControlStyle.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/MScrollBarStyle.xaml" />
-        <ResourceDictionary Source="/ModernControls;component/Themes/MTreeViewStyle.xaml" />
-        <ResourceDictionary Source="/ModernControls;component/Themes/MMenuStyle.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/WorkplaceStyle.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTabControlStyle.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTreeViewStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>

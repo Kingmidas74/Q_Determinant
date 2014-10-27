@@ -1,10 +1,26 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="BackgroundColorBrush" Color="#16837B" />
-    <SolidColorBrush x:Key="BorderColorBrush" Color="#6B6B6B" />
     <SolidColorBrush x:Key="BackgroundTitleColorBrush" Color="#007970" />
     <SolidColorBrush x:Key="AcсentColorBrush" Color="#1B1652" />
-    <SolidColorBrush x:Key="BasicFontColorBrush" Color="#F3F3F3" />
-    <SolidColorBrush x:Key="SuccesFontColorBrush" Color="#134747"/>
-    <SolidColorBrush x:Key="ErrorFontColorBrush" Color="#45144D"/>
+
+    <!--Colors-->
+    <Color x:Key="ActionBrushColor">#007ACC</Color>
+
+    <!--Brushes-->
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#2D2D30"/>
+    <SolidColorBrush x:Key="WorkplaceBackgroundBrush" Color="#1E1E1E"/>
+    <SolidColorBrush x:Key="SpltBackgroundBrush" Color="#3E3E42"/>
+    <SolidColorBrush x:Key="BorderColorBrush" Color="#333337"/>
+    <SolidColorBrush x:Key="ActionColorBrush" Color="{StaticResource ActionBrushColor}"/>
+    <SolidColorBrush x:Key="SuccesColorBrush" Color="#8DD28A"/>
+    <SolidColorBrush x:Key="ErrorColorBrush" Color="#FF4520"/>
+    
+    <!--Fonts-->
+    <SolidColorBrush x:Key="SuccesFontColorBrush" Color="#88D184"/>
+    <SolidColorBrush x:Key="ErrorFontColorBrush" Color="#832D25"/>
+    <SolidColorBrush x:Key="BasicFontColorBrush" Color="#F1F1F1" />
+    
+    
+    
 </ResourceDictionary>

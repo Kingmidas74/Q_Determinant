@@ -1,0 +1,73 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ModernControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ModernControls;component/Themes/MColors.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/MTitleBarButtonStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="HeaderTemplate">
+        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+        <TextBlock Text="{Binding Path=Title}"/>
+    </DataTemplate>
+    <DataTemplate x:Key="ContentTemplate">
+        <ContentPresenter>
+            <ContentPresenter.Content>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Binding Path="Content"/>
+            </ContentPresenter.Content>
+        </ContentPresenter>
+    </DataTemplate>
+    
+    <Style  TargetType="{x:Type local:ExtendedTabControl}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ExtendedTabControl}">
+                    <Grid KeyboardNavigation.TabNavigation="Local">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TabPanel x:Name="HeaderPanel" Grid.Row="0" Panel.ZIndex="1" Margin="0,0,4,-1" IsItemsHost="True" KeyboardNavigation.TabIndex="1" Background="Transparent" />
+                        <Border x:Name="Border" Grid.Row="1" BorderThickness="0,1,0,0" Background="{StaticResource WorkplaceBackgroundBrush}" BorderBrush="{StaticResource ActionColorBrush}"
+                                KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
+                            <ContentPresenter x:Name="PART_SelectedContentHost" Margin="4" ContentSource="SelectedContent" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:ExtendedTabItem}">
+        <Setter Property="Foreground" Value="{StaticResource BasicFontColorBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ExtendedTabItem}">
+                    <Grid x:Name="Root">
+                        <DockPanel x:Name="Border" Background="Transparent">
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header"
+                              Margin="6,2,6,2" RecognizesAccessKey="True" DockPanel.Dock="Left" />
+                            <Button x:Name="CloseTabButton" Style="{StaticResource MTitleBarButtonStyle}" Visibility="Collapsed" Width="20" Height="20" DockPanel.Dock="Right">
+                                
+                                <Grid MaxHeight="9" MaxWidth="9">
+                                    <Path Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                                StrokeThickness="1.5" Stretch="None" Data="M0,0 L8,8 M0,8 L8,0" />
+                                </Grid>
+                            </Button>
+                        </DockPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Panel.ZIndex" Value="100" />
+                            <Setter Property="Background" TargetName="Border" Value="{StaticResource ActionColorBrush}"/>
+                            <Setter Property="Visibility" TargetName="CloseTabButton" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

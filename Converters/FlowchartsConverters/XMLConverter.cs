@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using Core;
 
@@ -9,7 +10,7 @@ namespace Converters.FlowchartsConverters
     {
         public override void SaveToFile(string filePath)
         {
-            throw new NotImplementedException();
+            File.WriteAllText(filePath, "asdasd");
         }
 
         protected override bool Validation(string data)

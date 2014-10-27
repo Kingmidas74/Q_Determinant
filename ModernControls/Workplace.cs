@@ -41,46 +41,16 @@ namespace ModernControls
     /// Step 2)
     /// Go ahead and use your control in the XAML file.
     ///
-    ///     <MyNamespace:MTabControl/>
+    ///     <MyNamespace:Workplace/>
     ///
     /// </summary>
-    public class MTabControl : TabControl
+    public class Workplace : Control
     {
-        static MTabControl()
+        public Workplace()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MTabControl), new FrameworkPropertyMetadata(typeof(MTabControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(Workplace), new FrameworkPropertyMetadata(typeof(Workplace)));
         }
 
-        public override void OnApplyTemplate()
-        {
-           // (GetTemplateChild("CloseTab") as Button).Click += CloseTab;
-            base.OnApplyTemplate();
-        }
-
-
-        void CloseTab(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show((sender as Button).TemplatedParent.ToString());
-        }
-    }
-
-    public class MTabItem : TabItem
-    {
-        static MTabItem()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MTabItem), new FrameworkPropertyMetadata(typeof(MTabItem)));
-        }
-
-        public override void OnApplyTemplate()
-        {
-            (GetTemplateChild("CloseTab") as Button).Click += CloseTab;
-            base.OnApplyTemplate();
-        }
-
-
-        void CloseTab(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show((sender as Button).TemplatedParent.ToString());
-        }
+        
     }
 }

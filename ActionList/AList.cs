@@ -9,10 +9,15 @@ namespace ActionList
     public class AList: IAList
     {
         public QDet AL;
+        public List<Expressions> Op;
+
         public AList(List<Block> Blocks, List<Link> Links, List<Operation> Oper)
         {
             AL = new QDet();
             AL.QDeterminant = new List<QTerm>();
+
+            Op = new List<Expressions>();
+
             Link FLink;
             FLink = null;
             var k = new QTerm();
@@ -30,9 +35,9 @@ namespace ActionList
         }
         }
 
-        private void QQ(List<Block> Blocks, List<Link> Links, Link l, QTerm x)
-        {
 
+        private void QQ(List<Block> Blocks, List<Link> Links, Link l, QTerm x)
+        {           
             Link t;
             Link t1;
             t1 = null;
@@ -43,9 +48,71 @@ namespace ActionList
             {
                 if (y.Type == BlockTypes.Process)
                 {
-                    x.Definitive += '(';
-                    x.Definitive += y.Content;
-                    x.Definitive += ')';
+                    var Exs = new Expressions();
+                    bool isinop = false;
+                    int c;
+                    string te, inop;
+                    var tem = new StringBuilder("");
+                    var op = new StringBuilder("");
+                    var toqd = new StringBuilder("");
+
+                    tem.Append(y.Content);
+                    te = tem.ToString();
+                    c = te.IndexOf(':');
+
+                    for (int i = 0; i < c; i++)
+                    {
+                        op.Append(te[i]);
+                    }
+
+                    inop = op.ToString();
+
+                    foreach (var ex in Op)
+                    {
+                        if (inop == ex.name)
+                            isinop = true;
+                    }
+
+                    if (!isinop)
+                    {
+                        Exs.name = op.ToString();
+
+                        if (te[c + 1] != '0')
+                        {
+                            for (int i = c + 1; i < te.Length; i++)
+                            {
+                                toqd.Append(te[i]);
+                            }
+
+                            Exs.Exp = toqd.ToString();
+                        }
+
+                        Op.Add(Exs);
+                    }
+                    else
+                    {
+                        if (te[c + 1] != '0')
+                        {
+                            for (int i = c + 1; i < te.Length; i++)
+                            {
+                                toqd.Append(te[i]);
+                            }
+
+                            Exs.Exp = toqd.ToString();
+                        }
+
+                        foreach (var ex in Op)
+                        {
+                            if (ex.name == inop)
+                            { 
+                                
+                            } 
+                        }
+                    }
+
+                    //x.Definitive += '(';
+                    //x.Definitive += y.Content;
+                    //x.Definitive += ')';
                     t = Links.FirstOrDefault(e => e.From == y.Id);
                     QQ(Blocks, Links, t, x);
                 }

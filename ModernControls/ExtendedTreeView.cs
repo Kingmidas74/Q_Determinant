@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ModernControls.InternalClasses;
 
 namespace ModernControls
 {
@@ -46,9 +48,51 @@ namespace ModernControls
     /// </summary>
     public class ExtendedTreeView : TreeView
     {
+
+        public string CurrentSolutionPath { get; set; }
         static ExtendedTreeView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTreeView), new FrameworkPropertyMetadata(typeof(ExtendedTreeView)));
         }
+
+        public override void OnApplyTemplate()
+        {
+            (GetTemplateChild("RefreshSolutionButton") as Button).Click += new RoutedEventHandler(RefreshSolutionButtonClick);
+            base.OnApplyTemplate();
+        }
+
+        private void RefreshSolutionButtonClick(object sender, RoutedEventArgs e)
+        {
+            RefreshSolution();
+        }
+
+        public void RefreshSolution(string pathToSolutionFile = null)
+        {
+         /*   if (String.IsNullOrEmpty(CurrentSolutionPath) && String.IsNullOrEmpty(pathToSolutionFile)) throw new Exception("Не указан путь до решения");
+            var pathToSolution = CurrentSolutionPath;
+            if (!String.IsNullOrEmpty(pathToSolutionFile))
+            {
+                pathToSolution = pathToSolutionFile;
+            }
+            var rootDirectory = new DirectoryInfo(@pathToSolution);
+            foreach (var item in rootDirectory.GetDirectories())
+            {
+                var currentAlgorithmProject = new SolutionTreeItem(SolutionItemTypes.Project);
+
+                currentAlgorithmProject.Name = item.Name;
+                foreach (var file in item.GetFiles("*.*").Where(s => validExtensions.Any(e => s.Extension.EndsWith(e))))
+                {
+                    var currentAlgorithmFile = new AlgorithmFile();
+                    currentAlgorithmFile.Name = file.Name;
+                    currentAlgorithmFile.Path = file.FullName;
+                    currentAlgorithmProject.Files.Add(currentAlgorithmFile);
+                }
+                result.Add(currentAlgorithmProject);
+            }*/
+             
+
+        }
+
+    
     }
 }

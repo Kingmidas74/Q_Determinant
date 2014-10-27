@@ -11,7 +11,5 @@
         <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTabControlStyle.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTreeViewStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
-   
-
     
 </ResourceDictionary>

@@ -51,6 +51,9 @@
     <Compile Include="ExtendedTabControl.cs" />
     <Compile Include="ExtendedTabItem.cs" />
     <Compile Include="ExtendedTreeView.cs" />
+    <Compile Include="ExtendedTreeViewItem.cs" />
+    <Compile Include="InternalClasses\SolutionItemTypes.cs" />
+    <Compile Include="InternalClasses\SolutionTreeItem.cs" />
     <Compile Include="MWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -134,9 +137,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="InternalClasses\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

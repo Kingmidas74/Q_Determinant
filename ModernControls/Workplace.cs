@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace ModernControls
 {
@@ -51,6 +52,41 @@ namespace ModernControls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Workplace), new FrameworkPropertyMetadata(typeof(Workplace)));
         }
 
-        
+        public override void OnApplyTemplate()
+        {
+            (GetTemplateChild("OpenSolutionMenuItem") as MenuItem).Click += new RoutedEventHandler(OpenSolutionMenuItemClick);
+            (GetTemplateChild("Compiler") as Button).Click += new RoutedEventHandler(CompilerClick);
+            base.OnApplyTemplate();
+        }
+
+        private void OpenSolutionMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".qsln";
+            dlg.Filter = "SolutionFiles (*.qsln)|*.qsln";
+            var result = dlg.ShowDialog();
+            if (result == true)
+            {
+                (GetTemplateChild("SolutionTree") as ExtendedTreeView).RefreshSolution(dlg.FileName);
+            }
+        }
+
+        private void CompilerClick(object sender, RoutedEventArgs e)
+        {
+            var currentSolutionPath = (GetTemplateChild("SolutionTree") as ExtendedTreeView).CurrentSolutionPath;
+            var p = new System.Diagnostics.Process();
+            var startupstring = new StringBuilder("");
+            startupstring.Append(" -s ")
+                .Append(currentSolutionPath)
+                .Append(" -ip -o ")
+                .Append(System.IO.Path.GetDirectoryName(currentSolutionPath))
+                .Append(@"\Operations.json");
+            MessageBox.Show(startupstring.ToString());
+            p.StartInfo.FileName = "Compiler.exe";
+            p.StartInfo.Arguments = startupstring.ToString();
+            p.Start();
+            p.WaitForExit();
+            (GetTemplateChild("SolutionTree") as ExtendedTreeView).RefreshSolution();
+        }
     }
 }

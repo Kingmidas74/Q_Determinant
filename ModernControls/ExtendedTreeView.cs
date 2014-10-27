@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 using ModernControls.InternalClasses;
 
 namespace ModernControls
@@ -50,6 +51,7 @@ namespace ModernControls
     {
 
         public string CurrentSolutionPath { get; set; }
+
         static ExtendedTreeView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTreeView), new FrameworkPropertyMetadata(typeof(ExtendedTreeView)));
@@ -63,34 +65,59 @@ namespace ModernControls
 
         private void RefreshSolutionButtonClick(object sender, RoutedEventArgs e)
         {
-            RefreshSolution();
+            RefreshSolution(@"D:\tempforQ\QSOL\QSOL.qsln");
         }
 
         public void RefreshSolution(string pathToSolutionFile = null)
         {
-         /*   if (String.IsNullOrEmpty(CurrentSolutionPath) && String.IsNullOrEmpty(pathToSolutionFile)) throw new Exception("Не указан путь до решения");
-            var pathToSolution = CurrentSolutionPath;
-            if (!String.IsNullOrEmpty(pathToSolutionFile))
+            try
             {
-                pathToSolution = pathToSolutionFile;
-            }
-            var rootDirectory = new DirectoryInfo(@pathToSolution);
-            foreach (var item in rootDirectory.GetDirectories())
-            {
-                var currentAlgorithmProject = new SolutionTreeItem(SolutionItemTypes.Project);
-
-                currentAlgorithmProject.Name = item.Name;
-                foreach (var file in item.GetFiles("*.*").Where(s => validExtensions.Any(e => s.Extension.EndsWith(e))))
+                if (String.IsNullOrEmpty(CurrentSolutionPath) && String.IsNullOrEmpty(pathToSolutionFile))
+                    throw new Exception("Не указан путь до решения");
+                var pathToSolution = CurrentSolutionPath;
+                if (!String.IsNullOrEmpty(pathToSolutionFile))
                 {
-                    var currentAlgorithmFile = new AlgorithmFile();
-                    currentAlgorithmFile.Name = file.Name;
-                    currentAlgorithmFile.Path = file.FullName;
-                    currentAlgorithmProject.Files.Add(currentAlgorithmFile);
+                    pathToSolution = pathToSolutionFile;
                 }
-                result.Add(currentAlgorithmProject);
-            }*/
-             
-
+                var result = new SolutionTreeItem(SolutionItemTypes.Solution);
+                var SolutionXmlDoc = new XmlDocument();
+                var rootDirectory = System.IO.Path.GetDirectoryName(pathToSolution);
+                SolutionXmlDoc.Load(@pathToSolution);
+                result.Title = SolutionXmlDoc.SelectSingleNode("//Properties/Title").InnerText;
+                foreach (XmlNode project in SolutionXmlDoc.SelectNodes("//Project"))
+                {
+                    var currentAlgorithmProject = new SolutionTreeItem(SolutionItemTypes.Project);
+                    var ProjectXmlDoc = new XmlDocument();
+                    currentAlgorithmProject.FilePath = System.IO.Path.Combine(rootDirectory, project.Attributes["Path"].InnerText);
+                    currentAlgorithmProject.Title = System.IO.Path.GetFileName(currentAlgorithmProject.FilePath);
+                    var projectDirectory = System.IO.Path.GetDirectoryName(currentAlgorithmProject.FilePath);
+                    ProjectXmlDoc.Load(currentAlgorithmProject.FilePath);
+                    foreach (XmlNode file in ProjectXmlDoc.SelectNodes("//File"))
+                    {
+                        var currentFileInProject = new SolutionTreeItem((SolutionItemTypes)Enum.Parse(typeof(SolutionItemTypes), file.Attributes["Type"].InnerText));
+                        currentFileInProject.FilePath = System.IO.Path.Combine(projectDirectory, file.Attributes["Path"].InnerText);
+                        currentFileInProject.Title = System.IO.Path.GetFileName(currentFileInProject.FilePath);
+                        currentAlgorithmProject.Items.Add(currentFileInProject);
+                    }
+                    var currentProjectReference = new SolutionTreeItem(SolutionItemTypes.ReferenceCollection);
+                    currentProjectReference.Title = "References";
+                    foreach (XmlNode reference in ProjectXmlDoc.SelectNodes("//Reference"))
+                    {
+                        var currentReferenceInProject = new SolutionTreeItem(SolutionItemTypes.Reference);
+                        currentReferenceInProject.Title = reference.Attributes["ProjectName"].InnerText;
+                        currentProjectReference.Items.Add(currentReferenceInProject);
+                    }
+                    currentAlgorithmProject.Items.Add(currentProjectReference);
+                    result.Items.Add(currentAlgorithmProject);
+                }
+                this.ItemsSource = null;
+                this.ItemsSource = result.Items;
+                CurrentSolutionPath = pathToSolution;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
         }
 
     

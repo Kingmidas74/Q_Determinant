@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:ModernControls">
+                    xmlns:local="clr-namespace:ModernControls"
+                    xmlns:internalClasses="clr-namespace:ModernControls.InternalClasses">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/ModernControls;component/Themes/MColors.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/GridSplitterStyle.xaml"/>
@@ -23,7 +24,7 @@
                                     <MenuItem Header="Project" />
                                 </MenuItem>
                                 <MenuItem Header="Open">
-                                    <MenuItem Header="Solution" />
+                                    <MenuItem Header="Solution" x:Name="OpenSolutionMenuItem" />
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Save"/>
@@ -57,7 +58,7 @@
                         <ToolBarTray DockPanel.Dock="Top">
                             <ToolBar Band="0" BandIndex="0">
                                 <Separator/>
-                                <Button Style="{StaticResource MTitleBarButtonStyle}">
+                                <Button Style="{StaticResource MTitleBarButtonStyle}" x:Name="Compiler">
                                     <StackPanel Orientation="Horizontal">
                                         <Path Width="10" Height="10" Stretch="Fill" Fill="{StaticResource SuccesColorBrush}" Data="F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z "/>
                                         <TextBlock Text="Compile" Style="{StaticResource BaseFont}" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="12"/>
@@ -95,18 +96,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="1*" MaxHeight="300"/>
                                 </Grid.RowDefinitions>
-                                <local:ExtendedTreeView x:Name="SolutionTree">
-                                    <local:ExtendedTreeViewItem Header="Fruit">
-                                        <local:ExtendedTreeViewItem Header="Lime"></local:ExtendedTreeViewItem>
-                                        <local:ExtendedTreeViewItem Header="Orange"></local:ExtendedTreeViewItem>
-                                        <local:ExtendedTreeViewItem Header="Apple"></local:ExtendedTreeViewItem>
-                                    </local:ExtendedTreeViewItem>
-                                    <local:ExtendedTreeViewItem Header="Colors">
-                                        <local:ExtendedTreeViewItem Header="Red"></local:ExtendedTreeViewItem>
-                                        <local:ExtendedTreeViewItem Header="Orange"></local:ExtendedTreeViewItem>
-                                        <local:ExtendedTreeViewItem Header="Green"></local:ExtendedTreeViewItem>
-                                    </local:ExtendedTreeViewItem>
-                                </local:ExtendedTreeView>
+                                <local:ExtendedTreeView x:Name="SolutionTree"/>
 
                                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
                             </Grid>

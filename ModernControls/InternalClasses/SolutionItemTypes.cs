@@ -9,6 +9,7 @@
         Properties,
         ImplementationPlan,
         Qdeterminant,
-        OperationList
+        OperationList,
+        Solution
     }
 }

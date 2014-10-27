@@ -49,12 +49,15 @@ namespace ActionList
             Link t1;
             t1 = null;
             t = null;
+
             var y = Blocks.FirstOrDefault(e => e.Id == l.To);
             if (y != null)
             {
                 if (y.Type == BlockTypes.Process)
                 {
+                    x.Definitive += '(';
                     x.Definitive += y.Content;
+                    x.Definitive += ')';
                     t = Links.FirstOrDefault(e => e.From == y.Id);
                     QQ(Blocks, Links, t);
                 }
@@ -70,8 +73,12 @@ namespace ActionList
                         if ((m.From == y.Id) && (m != t))
                             t1 = m;
                     z = x;
+                    x.Logical += '(';
+                    z.Logical += '(';
                     x.Logical += y.Content;
                     z.Logical += pars(y.Content);
+                    x.Logical += ')';
+                    z.Logical += ')';
                     QQ(Blocks, Links, t);
                     QQ(Blocks, Links, t1);
                     //QQFalse(Blocks, Links, t1, z);
@@ -124,7 +131,6 @@ namespace ActionList
             return AL;
         }
 
-       // public bool ex { get; set; }
     }
 
 }

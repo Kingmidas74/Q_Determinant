@@ -6,6 +6,7 @@ namespace ModernControls.InternalClasses
     {
         public string IconPath { get; set; }
         public string Title { get; set; }
+        public string FilePath { get; set; }
         public List<SolutionTreeItem> Items { get; set; }
 
         public SolutionTreeItem(SolutionItemTypes ItemType)

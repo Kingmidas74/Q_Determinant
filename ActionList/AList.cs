@@ -54,7 +54,7 @@ namespace ActionList
             {
                 if (y.Type == BlockTypes.Process)
                 {
-                    x.Definitive = y.Content;
+                    x.Definitive += y.Content;
                     t = Links.FirstOrDefault(e => e.From == y.Id);
                     QQ(Blocks, Links, t);
                 }
@@ -70,8 +70,8 @@ namespace ActionList
                         if ((m.From == y.Id) && (m != t))
                             t1 = m;
                     z = x;
-                    x.Logical = y.Content;
-                    z.Logical = pars(y.Content);
+                    x.Logical += y.Content;
+                    z.Logical += pars(y.Content);
                     QQ(Blocks, Links, t);
                     QQ(Blocks, Links, t1);
                     //QQFalse(Blocks, Links, t1, z);

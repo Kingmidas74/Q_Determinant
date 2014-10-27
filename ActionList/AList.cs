@@ -30,27 +30,10 @@ namespace ActionList
 
         foreach (var ex in Links)
             {
-                var x = new QTerm();
-                var z = new QTerm();
                 if (ex.From == 1)
                 {
-                    var y = Blocks.FirstOrDefault(e => e.Id == ex.To);
-                    if (y != null)
-                    { 
-                        if (y.Type == BlockTypes.Process)
-                        {
-                            x.Definitive = y.Content;
-                        }
-                        if (y.Type == BlockTypes.Condition)
-                        {
-                            z = x;
-                            x.Logical = y.Content;
-                           // z.Logical = 
-                        }
-                    }
-                    
-                }
-                FLink = ex;
+                    FLink = ex; 
+                }            
             }
         if (FLink != null)
         {
@@ -92,7 +75,7 @@ namespace ActionList
                     // z.Logical = 
                     //AL.QDeterminant.Add(z);
                     QQ(Blocks, Links, t);
-                    QQ(Blocks, Links, t1);
+                    //QQ(Blocks, Links, t1);
                 }
                 if ((y.Type == BlockTypes.Input) && (y.Type == BlockTypes.Output))
                 {

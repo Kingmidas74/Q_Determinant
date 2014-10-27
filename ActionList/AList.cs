@@ -16,22 +16,6 @@ namespace ActionList
             Link FLink;
             FLink = null;
             var k = new QTerm();
-            //var z = new QTerm();
-           /* var x = new QTerm();
-            var y = new QTerm();
-            var z = new QTerm();
-            x.Logical = "dx>=(5*a+2*(b-1))";
-            x.Definitive = "(8+2*5)/(1+3*2-4)";
-            AL.QDeterminant.Add(x);
-            y.Definitive = "3*x+1";
-            AL.QDeterminant.Add(y);
-            foreach (var example in Blocks)
-            {
-                if (example.Type == BlockTypes.Condition)
-                { 
-
-                }
-            }*/
 
         foreach (var ex in Links)
             {
@@ -48,8 +32,7 @@ namespace ActionList
 
         private void QQ(List<Block> Blocks, List<Link> Links, Link l, QTerm x)
         {
-            //var x = new QTerm();
-            //var z = new QTerm();
+
             Link t;
             Link t1;
             t1 = null;
@@ -103,32 +86,7 @@ namespace ActionList
                         x.Logical += y.Content;
                         QQ(Blocks, Links, t, x);
                     }
-                    //z.Definitive = x.Definitive;
 
-                    //var xtemp = new StringBuilder("");
-                    //xtemp.Append(x.Logical);
-
-                    //Debug.WriteLine(x.Logical);
-                    //Debug.WriteLine(z.Logical);
-
-                    //xtemp.Append(y.Content);
-
-                   // x.Logical += y.Content;
-                   // Debug.WriteLine(y.Content);
-                   // z.Logical += pars(y.Content);
-
-                    //x.Logical = xtemp.ToString();
-
-                    //Debug.WriteLine(x.Logical);
-                    //Debug.WriteLine(z.Logical);
-
-                    //x.Logical += ')';
-                    //z.Logical += ')';
-
-                    //QQ(Blocks, Links, t, x);
-                    //QQ(Blocks, Links, t1, x);
-
-                    //QQFalse(Blocks, Links, t1, z);
                 }
 
                 if ((y.Type == BlockTypes.Input) || (y.Type == BlockTypes.Output))
@@ -140,7 +98,6 @@ namespace ActionList
                 if (y.Type == BlockTypes.End)
                 {
                     AL.QDeterminant.Add(x);
-                    //AL.QDeterminant.Add(z);
                 }
             }
    

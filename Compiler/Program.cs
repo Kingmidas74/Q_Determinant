@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using ActionList;
 using Converters;
@@ -60,6 +57,12 @@ namespace Compiler
                         if (args[i].Equals("-p"))
                         {
                             source = Source.Project;
+                            if (args[i].Equals("-o"))
+                            {
+                                var Oconverter = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
+                                Oconverter.ParseDocument(args[i + 1]);
+                                Opertaions = Oconverter.GetBlocks();
+                            }
                         }
                         if (args[i].Equals("-s"))
                         {
@@ -69,13 +72,9 @@ namespace Compiler
                     if (args[i].Equals("-o"))
                     {
                         var Oconverter = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
-                        Oconverter.ParseDocument(args[i+1]);
+                        Oconverter.ParseDocument(args[i + 1]);
                         Opertaions = Oconverter.GetBlocks();
                     }
-                }
-                if (Opertaions == null)
-                {
-                    throw new Exception("Не удалось найти список операций");
                 }
                 if (source == Source.File)
                 {
@@ -133,7 +132,7 @@ namespace Compiler
                 result.Remove(result.Length - 1, 1).Append("}");
             }
             Console.WriteLine("Save QD");
-            File.WriteAllText(Path.GetDirectoryName(sourcePath)+@"\QDeterminant.qd",result.ToString());
+            File.WriteAllText(Path.GetDirectoryName(sourcePath)+@"\Qdeterminant.qd",result.ToString());
         }
 
         static void CompileFcToIp(string sourcePath)
@@ -151,38 +150,76 @@ namespace Compiler
             IPConverter.SaveToFile(Path.GetDirectoryName(sourcePath) + @"\ImplementationPlan.ip");
         }
 
-        static void CompileProject(TargetState toState, string sourcePath)
+        private static void CompileProject(TargetState toState, string sourcePath)
         {
-            
+
             var directory = Path.GetDirectoryName(sourcePath);
             Console.WriteLine(directory);
+            XmlDocument PrXmlDoc = new XmlDocument();
+            PrXmlDoc.Load(sourcePath);
             if (File.Exists(directory + @"\ImplemetationPlan.ip"))
             {
                 Console.WriteLine("RemoveIP");
                 File.Delete(directory + @"\ImplemetationPlan.ip");
             }
-            if (File.Exists(directory + @"\QDeterminant.qd"))
+            if (File.Exists(directory + @"\Qdeterminant.qd"))
             {
                 Console.WriteLine("Remover QD");
-                File.Delete(directory + @"\QDeterminant.qd");
+                File.Delete(directory + @"\Qdeterminant.qd");
             }
+            XmlNode newListFile = PrXmlDoc.CreateNode(XmlNodeType.Element, "Files", null);
             if (File.Exists(directory + @"\FlowChart.fc"))
             {
                 Console.WriteLine("Compile fc in project");
+                XmlNode fNode = PrXmlDoc.CreateNode(XmlNodeType.Element, "File", null);
+                XmlAttribute path = PrXmlDoc.CreateAttribute("Path");
+                path.InnerText = "FlowChart.fc";
+                fNode.Attributes.Append(path);
+                XmlAttribute type = PrXmlDoc.CreateAttribute("Type");
+                type.InnerText = "FlowChart";
+                fNode.Attributes.Append(type);
+                newListFile.AppendChild(fNode);
                 if (toState == TargetState.QDeterminant)
                 {
+                    XmlNode qNode = PrXmlDoc.CreateNode(XmlNodeType.Element, "File", null);
+                    XmlAttribute qpath = PrXmlDoc.CreateAttribute("Path");
+                    qpath.InnerText = "Qdeterminant.qd";
+                    qNode.Attributes.Append(qpath);
+                    XmlAttribute qtype = PrXmlDoc.CreateAttribute("Type");
+                    qtype.InnerText = "Qdeterminant";
+                    qNode.Attributes.Append(qtype);
+                    newListFile.AppendChild(qNode);
                     CompileFcToQd(directory + @"\FlowChart.fc");
                 }
                 else
                 {
                     if (toState == TargetState.ImplementationPlan)
                     {
+                        XmlNode qNode = PrXmlDoc.CreateNode(XmlNodeType.Element, "File", null);
+                        XmlAttribute qpath = PrXmlDoc.CreateAttribute("Path");
+                        qpath.InnerText = "Qdeterminant.qd";
+                        qNode.Attributes.Append(qpath);
+                        XmlAttribute qtype = PrXmlDoc.CreateAttribute("Type");
+                        qtype.InnerText = "Qdeterminant";
+                        qNode.Attributes.Append(qtype);
+                        newListFile.AppendChild(qNode);
+                        XmlNode iNode = PrXmlDoc.CreateNode(XmlNodeType.Element, "File", null);
+                        XmlAttribute ipath = PrXmlDoc.CreateAttribute("Path");
+                        ipath.InnerText = "ImplementationPlan.ip";
+                        iNode.Attributes.Append(ipath);
+                        XmlAttribute itype = PrXmlDoc.CreateAttribute("Type");
+                        itype.InnerText = "ImplementationPlan";
+                        iNode.Attributes.Append(itype);
+                        newListFile.AppendChild(iNode);
                         CompileFcToIp(directory + @"\FlowChart.fc");
                     }
                 }
             }
+            XmlNode rChild = PrXmlDoc.SelectSingleNode("//Files");
+            PrXmlDoc.SelectSingleNode("//Project").RemoveChild(rChild);
+            PrXmlDoc.SelectSingleNode("//Project").AppendChild(newListFile);
+            PrXmlDoc.Save(sourcePath);
         }
-
 
         static void CompileSolution(TargetState toState, string sourcePath)
         {
@@ -190,6 +227,9 @@ namespace Compiler
             var directory_path = Path.GetDirectoryName(sourcePath);
             var doc = new XmlDocument();
             doc.Load(sourcePath);
+            var Oconverter = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
+            Oconverter.ParseDocument(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(sourcePath),doc.SelectSingleNode("//Operations").Attributes["Path"].InnerText));
+            Opertaions = Oconverter.GetBlocks();
             foreach (XmlNode project in doc.SelectNodes("//Project"))
             {
                 Console.WriteLine("Compile Project");

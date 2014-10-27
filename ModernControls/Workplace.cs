@@ -78,10 +78,7 @@ namespace ModernControls
             var startupstring = new StringBuilder("");
             startupstring.Append(" -s ")
                 .Append(currentSolutionPath)
-                .Append(" -ip -o ")
-                .Append(System.IO.Path.GetDirectoryName(currentSolutionPath))
-                .Append(@"\Operations.json");
-            MessageBox.Show(startupstring.ToString());
+                .Append(" -ip ");
             p.StartInfo.FileName = "Compiler.exe";
             p.StartInfo.Arguments = startupstring.ToString();
             p.Start();

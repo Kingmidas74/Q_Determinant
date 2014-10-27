@@ -71,8 +71,7 @@ namespace ActionList
                             t1 = m;
                     z = x;
                     x.Logical = y.Content;
-                    z.Logical = y.Content;
-                    //z pars
+                    z.Logical = pars(y.Content);
                     QQ(Blocks, Links, t);
                     QQ(Blocks, Links, t1);
                     //QQFalse(Blocks, Links, t1, z);
@@ -97,9 +96,27 @@ namespace ActionList
         
         } */
 
-        private void pars(List x)
-        { 
-
+        private string pars(string x)
+        {
+            int y;
+            y = x.IndexOf('<');
+            if (y != -1)
+                x.Replace("<", ">");
+            else
+            {
+                y = x.IndexOf('>');
+                if (y != -1)
+                    x.Replace(">", "<");
+                else
+                {
+                    y = x.IndexOf('=');
+                    if (y != -1)
+                        x.Replace("=", "!=");
+                    else
+                        x.Replace("!=", "=");
+                }
+            }
+            return (x);
         }
 
         public QDet getqdet()

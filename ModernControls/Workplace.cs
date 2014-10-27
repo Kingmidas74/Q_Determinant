@@ -59,6 +59,10 @@ namespace ModernControls
             base.OnApplyTemplate();
         }
 
+        private void SelectItem(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show(sender.ToString());
+        }
         private void OpenSolutionMenuItemClick(object sender, RoutedEventArgs e)
         {
             var dlg = new OpenFileDialog();

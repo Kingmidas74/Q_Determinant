@@ -56,7 +56,7 @@ namespace ModernControls
         private void OpenDocument(object source, RoutedEventArgs args)
         {
              var item = args.OriginalSource as ExtendedTreeViewItem;
-             MessageBox.Show(item.Tag.ToString());
+             MessageBox.Show(item.Type.ToString());
         }
 
         public override void OnApplyTemplate()
@@ -71,8 +71,7 @@ namespace ModernControls
             MessageBox.Show(sender.ToString());
         }
         private void OpenSolutionMenuItemClick(object sender, RoutedEventArgs e)
-        {
-            var add = new StringBuilder("");
+        {            
             var dlg = new OpenFileDialog();
             dlg.DefaultExt = ".qsln";
             dlg.Filter = "SolutionFiles (*.qsln)|*.qsln"; 

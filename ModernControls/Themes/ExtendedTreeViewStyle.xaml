@@ -193,7 +193,7 @@
     
     <HierarchicalDataTemplate DataType="{x:Type internalClasses:SolutionTreeItem}"
                             ItemsSource = "{Binding Path=Items}">
-        <local:ExtendedTreeViewItem Header="{Binding Path=Title}" Tag="{Binding Path=FilePath}" x:Name="ItemTemplate"/>
+        <local:ExtendedTreeViewItem Header="{Binding Path=Title}" Tag="{Binding Path=FilePath}" x:Name="ItemTemplate" Type="{Binding Path=Type}"/>
     </HierarchicalDataTemplate>
 
     

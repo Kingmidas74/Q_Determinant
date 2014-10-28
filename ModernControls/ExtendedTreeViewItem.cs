@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModernControls.InternalClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,14 @@ namespace ModernControls
     /// </summary>
     public class ExtendedTreeViewItem : TreeViewItem
     {
+        public static readonly DependencyProperty TypeProperty =
+    DependencyProperty.Register("Type", typeof(SolutionItemTypes), typeof(ExtendedTreeViewItem), new FrameworkPropertyMetadata());
+
+        public SolutionItemTypes Type
+        {
+            get { return (SolutionItemTypes)GetValue(TypeProperty); }
+            set { SetValue(TypeProperty, value); }
+        }
         static ExtendedTreeViewItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTreeViewItem), new FrameworkPropertyMetadata(typeof(ExtendedTreeViewItem)));

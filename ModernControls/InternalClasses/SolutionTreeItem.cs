@@ -9,9 +9,12 @@ namespace ModernControls.InternalClasses
         public string FilePath { get; set; }
         public List<SolutionTreeItem> Items { get; set; }
 
+        public SolutionItemTypes Type { get; set; }
+
         public SolutionTreeItem(SolutionItemTypes ItemType)
         {
             Items=new List<SolutionTreeItem>();
+            Type = ItemType;
             switch (ItemType)
             {
                 case SolutionItemTypes.Project:

@@ -1,6 +1,6 @@
 ﻿namespace ModernControls.InternalClasses
 {
-    internal enum SolutionItemTypes
+    public enum SolutionItemTypes
     {
         Project,
         FlowChart,

@@ -48,71 +48,10 @@ namespace ActionList
             {
                 if (y.Type == BlockTypes.Process)
                 {
-                    var Exs = new Expressions();
-                    bool isinop = false;
-                    int c;
-                    string te, inop;
-                    var tem = new StringBuilder("");
-                    var op = new StringBuilder("");
-                    var toqd = new StringBuilder("");
 
-                    tem.Append(y.Content);
-                    te = tem.ToString();
-                    c = te.IndexOf(':');
-
-                    for (int i = 0; i < c; i++)
-                    {
-                        op.Append(te[i]);
-                    }
-
-                    inop = op.ToString();
-
-                    foreach (var ex in Op)
-                    {
-                        if (inop == ex.name)
-                            isinop = true;
-                    }
-
-                    if (!isinop)
-                    {
-                        Exs.name = op.ToString();
-
-                        if (te[c + 1] != '0')
-                        {
-                            for (int i = c + 1; i < te.Length; i++)
-                            {
-                                toqd.Append(te[i]);
-                            }
-
-                            Exs.Exp = toqd.ToString();
-                        }
-
-                        Op.Add(Exs);
-                    }
-                    else
-                    {
-                        if (te[c + 1] != '0')
-                        {
-                            for (int i = c + 1; i < te.Length; i++)
-                            {
-                                toqd.Append(te[i]);
-                            }
-
-                            Exs.Exp = toqd.ToString();
-                        }
-
-                        foreach (var ex in Op)
-                        {
-                            if (ex.name == inop)
-                            { 
-                                
-                            } 
-                        }
-                    }
-
-                    //x.Definitive += '(';
-                    //x.Definitive += y.Content;
-                    //x.Definitive += ')';
+                    x.Definitive += '(';
+                    x.Definitive += y.Content;
+                    x.Definitive += ')';
                     t = Links.FirstOrDefault(e => e.From == y.Id);
                     QQ(Blocks, Links, t, x);
                 }
@@ -174,8 +113,37 @@ namespace ActionList
         {
             z.Logical += pars(s);
             QQ(Blocks, Links, l, z);
-        } 
+        }
 
+        private string QtPars(string s)
+        {   
+
+            return s;
+        }
+
+        private string getvar(string s)
+        {
+            char c;
+            var va = new StringBuilder("");
+            string vastr = "";
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                c = s[i];
+                if ((c != '=') || (c != '!') || (c != '+') || (c != ':') || (c != '-') || (c != '*') || (c != '/') || (c != '<') || (c != '>'))
+                {
+                    va.Append(c);
+                } 
+                break;
+            }
+            vastr = va.ToString();
+            return vastr;
+        }
+
+        private bool isinops(string s)
+        {
+            return false;
+        }
         private string pars(string x)
         {
             string z = "";

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ActionList
 {
-    private class Expressions
+    public class Expressions
     {
         public string name;
         public string Exp;

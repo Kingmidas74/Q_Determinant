@@ -160,10 +160,11 @@
                         </VisualStateManager.VisualStateGroups>
                         <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
                         <Image x:Name="Icon" Grid.Column="1" Source="{Binding Path=Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Width="12" Height="12"/>
-                        <Button x:Name="ItemButton" Grid.Column="0" Width="12" Height="12" Content="O"/>
-                        <Border x:Name="Bd" Grid.Column="1" Grid.ColumnSpan="2" Background="Transparent" BorderThickness="0" Padding="2,0,0,0">
-                            <ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
-                        </Border>
+                        <Button x:Name="ItemButton" Grid.Column="1" Grid.ColumnSpan="2" Background="Transparent" BorderThickness="0" Padding="2,0,0,0" Foreground="{StaticResource BasicFontColorBrush}">
+                            <Border x:Name="Bd" >
+                                <ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                            </Border>
+                        </Button>
                         <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Visibility="Collapsed" />
                     </Grid>
                     <ControlTemplate.Triggers>

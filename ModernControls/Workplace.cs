@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using ModernControls.InternalClasses;
 
 namespace ModernControls
 {
@@ -56,7 +57,10 @@ namespace ModernControls
         private void OpenDocument(object source, RoutedEventArgs args)
         {
              var item = args.OriginalSource as ExtendedTreeViewItem;
-             MessageBox.Show(item.Type.ToString());
+             if (item.Type == SolutionItemTypes.FlowChart || item.Type == SolutionItemTypes.Qdeterminant || item.Type == SolutionItemTypes.ImplementationPlan)
+             {
+                 (GetTemplateChild("WorkPlaceTabs") as TabControl).Items.Add(new ExtendedTabItem { Header = item.Header.ToString() });
+             }
         }
 
         public override void OnApplyTemplate()

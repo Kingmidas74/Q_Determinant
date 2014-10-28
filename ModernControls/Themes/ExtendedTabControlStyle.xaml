@@ -7,6 +7,8 @@
         <ResourceDictionary Source="/ModernControls;component/Themes/MTitleBarButtonStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <CollectionViewSource x:Key="TabList"/>
+    
     <DataTemplate x:Key="HeaderTemplate">
         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
         <TextBlock Text="{Binding Path=Title}"/>
@@ -22,6 +24,9 @@
     
     <Style  TargetType="{x:Type local:ExtendedTabControl}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="ItemsSource" Value="{Binding}"/>
+        <!--<Setter Property="ItemTemplate" Value="{StaticResource HeaderTemplate}"/>
+        <Setter Property="ContentTemplate" Value="{StaticResource ContentTemplate}"/>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ExtendedTabControl}">
@@ -33,7 +38,9 @@
                         <TabPanel x:Name="HeaderPanel" Grid.Row="0" Panel.ZIndex="1" Margin="0,0,4,-1" IsItemsHost="True" KeyboardNavigation.TabIndex="1" Background="Transparent" />
                         <Border x:Name="Border" Grid.Row="1" BorderThickness="0,1,0,0" Background="{StaticResource WorkplaceBackgroundBrush}" BorderBrush="{StaticResource ActionColorBrush}"
                                 KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
-                            <ContentPresenter x:Name="PART_SelectedContentHost" Margin="4" ContentSource="SelectedContent" />
+                            <ScrollViewer>
+                                <ContentPresenter x:Name="PART_SelectedContentHost" Margin="4" ContentSource="SelectedContent"  />
+                            </ScrollViewer>
                         </Border>
                     </Grid>
                 </ControlTemplate>

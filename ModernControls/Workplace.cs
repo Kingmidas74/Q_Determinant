@@ -17,35 +17,6 @@ using ModernControls.InternalClasses;
 
 namespace ModernControls
 {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ModernControls"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ModernControls;assembly=ModernControls"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Browse to and select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:Workplace/>
-    ///
-    /// </summary>
     public class Workplace : Control
     {
         public Workplace()
@@ -56,11 +27,7 @@ namespace ModernControls
 
         private void OpenDocument(object source, RoutedEventArgs args)
         {
-             var item = args.OriginalSource as ExtendedTreeViewItem;
-             if (item.Type == SolutionItemTypes.FlowChart || item.Type == SolutionItemTypes.Qdeterminant || item.Type == SolutionItemTypes.ImplementationPlan)
-             {
-                 (GetTemplateChild("WorkPlaceTabs") as TabControl).Items.Add(new ExtendedTabItem { Header = item.Header.ToString() });
-             }
+            (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).AddTab(args.OriginalSource as ExtendedTreeViewItem);
         }
 
         public override void OnApplyTemplate()
@@ -70,10 +37,7 @@ namespace ModernControls
             base.OnApplyTemplate();
         }
 
-        private void SelectItem(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show(sender.ToString());
-        }
+        
         private void OpenSolutionMenuItemClick(object sender, RoutedEventArgs e)
         {            
             var dlg = new OpenFileDialog();

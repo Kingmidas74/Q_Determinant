@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ModernControls.InternalClasses;
 
 namespace ModernControls
 {
@@ -44,19 +49,83 @@ namespace ModernControls
     ///     <MyNamespace:ExtendedTabControl/>
     ///
     /// </summary>
-    public class ExtendedTabControl : TabControl
+    public class ExtendedTabControl : TabControl, INotifyPropertyChanged
     {
+        private CollectionViewSource Tabs { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public ObservableCollection<ExtendedTabItem> _tabsList;
+        public ObservableCollection<ExtendedTabItem> TabsList
+        {
+            get { return _tabsList; }
+            set
+            {
+                _tabsList = value;
+                OnPropertyChanged("TabList");
+            }
+        }
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         public ExtendedTabControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTabControl), new FrameworkPropertyMetadata(typeof(ExtendedTabControl)));
             AddHandler(ExtendedTabItem.CloseTabEvent, new RoutedEventHandler(CloseTab));
+            TabsList = new ObservableCollection<ExtendedTabItem>();
         }
 
         private void CloseTab(object source, RoutedEventArgs args)
         {
-            var item = args.Source as ExtendedTabItem;
-            var control = item.Parent as ExtendedTabControl;
-            control.Items.Remove(item);
+            var item = args.OriginalSource as ExtendedTabItem;
+            TabsList.Remove(item);
+            ItemsSource = TabsList;
         }
+        
+        public void AddTab(ExtendedTreeViewItem item)
+        {
+            if (item.Type == SolutionItemTypes.FlowChart || item.Type == SolutionItemTypes.Qdeterminant || item.Type == SolutionItemTypes.ImplementationPlan)
+            {
+                var tab = new ExtendedTabItem();
+                tab.Header = item.Header.ToString();
+                tab.Tag = item.Tag.ToString();
+                if (CheckExistTabInItems(tab))
+                {
+                    var tb = new TextBox();
+                    tb.Text = File.ReadAllText(tab.Tag.ToString(), Encoding.UTF8);
+                    tb.FontSize = 20;
+                    tb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    tb.VerticalAlignment = VerticalAlignment.Stretch;
+                    tab.Content = tb;
+                    TabsList.Add(tab);
+                    ItemsSource = TabsList;
+                    SelectedIndex = TabsList.Count - 1;
+                }
+                else
+                {
+                    int Index = 0;
+                    foreach (var _tab in TabsList)
+                    {
+                        if (_tab.Tag.ToString().Equals(tab.Tag.ToString()))
+                        {
+                            SelectedIndex = Index;
+                            break;
+                        }
+                        Index++;
+                    }
+                }
+            }
+        }
+
+        private bool CheckExistTabInItems(ExtendedTabItem tab)
+        {
+            return TabsList.FirstOrDefault(x => x.Tag.ToString().Equals(tab.Tag.ToString())) == null;    
+        }
+
+
+        
     }
 }

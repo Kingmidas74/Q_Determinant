@@ -88,6 +88,8 @@ namespace ModernControls
                 new FrameworkPropertyMetadata(Visibility.Visible, new PropertyChangedCallback(OnWithASideChanged)));
             StatusContentProperty = DependencyProperty.Register("string", typeof(string), typeof(DependencyObject),
                 new FrameworkPropertyMetadata("Ready", new PropertyChangedCallback(OnStatucContentChanged)));
+            Height = (SystemParameters.PrimaryScreenHeight * 0.5);
+            Width = (SystemParameters.PrimaryScreenWidth * 0.5);
         }
 
         private void OnWithASideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

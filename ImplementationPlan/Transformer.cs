@@ -201,7 +201,7 @@ namespace ImplementationPlan
             {
                 result.Append(block.Content);
             }
-            File.WriteAllText(@"D:\out",result.ToString());
+           // File.WriteAllText(@"D:\out",result.ToString());
         }
     }
 }

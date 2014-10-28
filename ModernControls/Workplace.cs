@@ -50,6 +50,13 @@ namespace ModernControls
         public Workplace()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Workplace), new FrameworkPropertyMetadata(typeof(Workplace)));
+            AddHandler(ExtendedTreeViewItem.OpenDocumentEvent, new RoutedEventHandler(OpenDocument));
+        }
+
+        private void OpenDocument(object source, RoutedEventArgs args)
+        {
+             var item = args.OriginalSource as ExtendedTreeViewItem;
+             MessageBox.Show(item.Tag.ToString());
         }
 
         public override void OnApplyTemplate()
@@ -65,9 +72,10 @@ namespace ModernControls
         }
         private void OpenSolutionMenuItemClick(object sender, RoutedEventArgs e)
         {
+            var add = new StringBuilder("");
             var dlg = new OpenFileDialog();
             dlg.DefaultExt = ".qsln";
-            dlg.Filter = "SolutionFiles (*.qsln)|*.qsln";
+            dlg.Filter = "SolutionFiles (*.qsln)|*.qsln"; 
             var result = dlg.ShowDialog();
             if (result == true)
             {

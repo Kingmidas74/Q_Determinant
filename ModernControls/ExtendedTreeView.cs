@@ -52,21 +52,27 @@ namespace ModernControls
 
         public string CurrentSolutionPath { get; set; }
 
-        static ExtendedTreeView()
+
+        public ExtendedTreeView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTreeView), new FrameworkPropertyMetadata(typeof(ExtendedTreeView)));
+            
         }
 
         public override void OnApplyTemplate()
         {
-            (GetTemplateChild("RefreshSolutionButton") as Button).Click += new RoutedEventHandler(RefreshSolutionButtonClick);
+            (GetTemplateChild("RefreshSolutionButton") as Button).Click += new RoutedEventHandler(RefreshSolutionButtonClick);           
             base.OnApplyTemplate();
         }
 
         private void RefreshSolutionButtonClick(object sender, RoutedEventArgs e)
         {
-            RefreshSolution(@"D:\tempforQ\QSOL\QSOL.qsln");
+            RefreshSolution();
         }
+
+       
+
+       
 
         public void RefreshSolution(string pathToSolutionFile = null)
         {

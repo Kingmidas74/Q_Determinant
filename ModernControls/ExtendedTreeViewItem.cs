@@ -50,5 +50,26 @@ namespace ModernControls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTreeViewItem), new FrameworkPropertyMetadata(typeof(ExtendedTreeViewItem)));
         }
+
+        public static readonly RoutedEvent OpenDocumentEvent = EventManager.RegisterRoutedEvent("OpenDocument",
+            RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (ExtendedTabItem));
+
+        public event RoutedEventHandler OpenDocument
+        {
+            add { AddHandler(OpenDocumentEvent, value); }
+            remove { RemoveHandler(OpenDocumentEvent, value); }
+        }
+        public override void OnApplyTemplate()
+        {
+            (base.GetTemplateChild("ItemButton") as Button).Click += new RoutedEventHandler(OpenDocumentClick);
+            base.OnApplyTemplate();
+        }
+
+        void OpenDocumentClick(object sender, RoutedEventArgs e)
+        {
+            this.RaiseEvent(new RoutedEventArgs(OpenDocumentEvent, this));
+        }
+
+
     }
 }

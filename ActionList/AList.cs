@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System;
 
 namespace ActionList
 {
@@ -142,6 +143,12 @@ namespace ActionList
 
         private bool isinops(string s)
         {
+            bool areEqual = false;
+            foreach (var ex in Op)
+            {
+                if (areEqual = String.Equals(s, ex.name, StringComparison.Ordinal))
+                    return true;
+            }
             return false;
         }
         private string pars(string x)

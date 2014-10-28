@@ -143,10 +143,9 @@ namespace ActionList
 
         private bool isinops(string s)
         {
-            bool areEqual = false;
             foreach (var ex in Op)
             {
-                if (areEqual = String.Equals(s, ex.name, StringComparison.Ordinal))
+                if (String.Equals(s, ex.name, StringComparison.Ordinal))
                     return true;
             }
             return false;

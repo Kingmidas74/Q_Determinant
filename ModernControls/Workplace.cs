@@ -34,6 +34,7 @@ namespace ModernControls
         public override void OnApplyTemplate()
         {
             (GetTemplateChild("OpenSolutionMenuItem") as MenuItem).Click += new RoutedEventHandler(OpenSolutionMenuItemClick);
+            (GetTemplateChild("CloseMenuItem") as MenuItem).Click += new RoutedEventHandler(CloseMenuItemClick);
             (GetTemplateChild("Compiler") as Button).Click += new RoutedEventHandler(CompilerClick);
             base.OnApplyTemplate();
         }
@@ -51,7 +52,11 @@ namespace ModernControls
             }
         }
 
-        private StringBuilder res = new StringBuilder("");
+        private void CloseMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+        
         private void CompilerClick(object sender, RoutedEventArgs e)
         {
             var currentSolutionPath = (GetTemplateChild("SolutionTree") as ExtendedTreeView).CurrentSolutionPath;
@@ -71,15 +76,13 @@ namespace ModernControls
             p.Start();
             p.BeginOutputReadLine();
             p.WaitForExit();
+            (GetTemplateChild("DebugConsole") as TextBlock).Text = Logs.AllDebugInfo;
             (GetTemplateChild("SolutionTree") as ExtendedTreeView).RefreshSolution();
-            MessageBox.Show(res.ToString());
-            res.Clear();
         }
 
         private void WriteToLog(object sendingProcess, DataReceivedEventArgs outLine)
         {
-            //используем делегат для доступа к элементу формы из другого потока
-            res.Append(outLine.Data);
+            Logs.Instance.WriteLog(outLine.Data,LogType.Default);
         }
     }
 }

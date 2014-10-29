@@ -122,7 +122,7 @@ namespace ModernControls
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+                Logs.Instance.WriteLog(e.Data.ToString(),LogType.Error);
             }
         }
 

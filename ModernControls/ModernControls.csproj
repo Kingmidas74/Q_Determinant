@@ -53,6 +53,8 @@
     <Compile Include="ExtendedTabItem.cs" />
     <Compile Include="ExtendedTreeView.cs" />
     <Compile Include="ExtendedTreeViewItem.cs" />
+    <Compile Include="InternalClasses\Logs.cs" />
+    <Compile Include="InternalClasses\LogType.cs" />
     <Compile Include="InternalClasses\SolutionItemTypes.cs" />
     <Compile Include="InternalClasses\SolutionTreeItem.cs" />
     <Compile Include="MWindow.cs" />

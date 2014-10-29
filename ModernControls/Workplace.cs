@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,19 +51,35 @@ namespace ModernControls
             }
         }
 
+        private StringBuilder res = new StringBuilder("");
         private void CompilerClick(object sender, RoutedEventArgs e)
         {
             var currentSolutionPath = (GetTemplateChild("SolutionTree") as ExtendedTreeView).CurrentSolutionPath;
-            var p = new System.Diagnostics.Process();
+            var p = new Process();
             var startupstring = new StringBuilder("");
             startupstring.Append(" -s ")
                 .Append(currentSolutionPath)
                 .Append(" -ip ");
             p.StartInfo.FileName = "Compiler.exe";
             p.StartInfo.Arguments = startupstring.ToString();
+            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            //pr.StartInfo.StandardOutputEncoding = Encoding.GetEncoding(866);
+            p.StartInfo.CreateNoWindow = true;
+            p.OutputDataReceived += new DataReceivedEventHandler(WriteToLog);
             p.Start();
+            p.BeginOutputReadLine();
             p.WaitForExit();
             (GetTemplateChild("SolutionTree") as ExtendedTreeView).RefreshSolution();
+            MessageBox.Show(res.ToString());
+            res.Clear();
+        }
+
+        private void WriteToLog(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            //используем делегат для доступа к элементу формы из другого потока
+            res.Append(outLine.Data);
         }
     }
 }

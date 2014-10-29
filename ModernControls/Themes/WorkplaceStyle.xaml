@@ -9,6 +9,7 @@
         <ResourceDictionary Source="/ModernControls;component/Themes/MTitleBarButtonStyle.xaml"/>
         <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTabControlStyle.xaml"/>
         <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTreeViewStyle.xaml"/>
+        <ResourceDictionary Source="/ModernControls;component/Themes/BlockPanel.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type local:Workplace}">
@@ -74,6 +75,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition MaxWidth="200"/>
                             </Grid.ColumnDefinitions>
+                            <local:BlockPanel Title="Toolbox"/>
                             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch"/>
                             <GridSplitter Grid.Column="3" VerticalAlignment="Stretch"/>
                             <Grid Grid.Column="2">
@@ -84,6 +86,7 @@
                                 </Grid.RowDefinitions>
                                 <local:ExtendedTabControl x:Name="WorkPlaceTabs"/>
                                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+                                <local:BlockPanel Grid.Row="2" Title="Output"/>
                             </Grid>
                             <Grid Grid.Column="4">
                                 <Grid.RowDefinitions>
@@ -91,8 +94,11 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="1*" MaxHeight="300"/>
                                 </Grid.RowDefinitions>
-                                <local:ExtendedTreeView x:Name="SolutionTree"/>
+                                <local:BlockPanel Title="Solution Explorer">
+                                    <local:ExtendedTreeView x:Name="SolutionTree"/>
+                                </local:BlockPanel>
                                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+                                <local:BlockPanel Grid.Row="2" Title="Properties"/>
                             </Grid>
                         </Grid>
                     </DockPanel>

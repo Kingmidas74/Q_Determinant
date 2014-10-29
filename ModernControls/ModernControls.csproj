@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ASide.cs" />
+    <Compile Include="BlockPanel.cs" />
     <Compile Include="ExtendedTabControl.cs" />
     <Compile Include="ExtendedTabItem.cs" />
     <Compile Include="ExtendedTreeView.cs" />
@@ -81,6 +82,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\ASideStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\BlockPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

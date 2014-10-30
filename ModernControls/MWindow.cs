@@ -56,9 +56,9 @@ namespace ModernControls
         }
     }
 
-    public class MWindow : Window, INotifyPropertyChanged
+    public class MWindow : Window //, INotifyPropertyChanged
     {
-        public static DependencyProperty WithASideProperty;
+       /* public static DependencyProperty WithASideProperty;
         public Visibility WithASide
         {
             get { return (Visibility)GetValue(WithASideProperty); }
@@ -80,19 +80,18 @@ namespace ModernControls
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        
-        public MWindow()
+        */
+        static MWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MWindow), new FrameworkPropertyMetadata(typeof(MWindow)));
-            WithASideProperty = DependencyProperty.Register("Visibility", typeof(Visibility), typeof(DependencyObject),
+            /*WithASideProperty = DependencyProperty.Register("Visibility", typeof(Visibility), typeof(DependencyObject),
                 new FrameworkPropertyMetadata(Visibility.Visible, new PropertyChangedCallback(OnWithASideChanged)));
             StatusContentProperty = DependencyProperty.Register("string", typeof(string), typeof(DependencyObject),
-                new FrameworkPropertyMetadata("Ready", new PropertyChangedCallback(OnStatucContentChanged)));
-            Height = (SystemParameters.PrimaryScreenHeight * 0.5);
-            Width = (SystemParameters.PrimaryScreenWidth * 0.5);
+                new FrameworkPropertyMetadata("Ready", new PropertyChangedCallback(OnStatucContentChanged)));*/
+            
         }
 
-        private void OnWithASideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    /*    private void OnWithASideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WithASide = (Visibility) e.NewValue;
         }
@@ -100,14 +99,14 @@ namespace ModernControls
         private void OnStatucContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             StatusContent = (string)e.NewValue;
-        }
+        }*/
 
         public override void OnApplyTemplate()
         {
             (GetTemplateChild("CloseButton") as Button).Click += CloseButtonClick;
             (GetTemplateChild("MinButton") as Button).Click += MinButtonClick;
             (GetTemplateChild("MaxButton") as Button).Click += MaxButtonClick;
-            (GetTemplateChild("SettingsButton") as Button).Click += ShowHideAsideClick;
+            //(GetTemplateChild("SettingsButton") as Button).Click += ShowHideAsideClick;
             var _border = (Border)GetTemplateChild("TitleBar");
             _border.MouseLeftButtonDown += TitleBarMouseLeftButtonDown;
             _border.MouseMove += TitleBarMouseMove;

@@ -53,7 +53,7 @@
                             </MenuItem>
                             <MenuItem Header="HELP">
                                 <MenuItem Header="View Help"/>
-                                <MenuItem Header="About Q-Determinant"/>
+                                <MenuItem Header="About Q-Determinant" x:Name="AboutMenuItem"/>
                                 <MenuItem Header="Check Updates"/>
                             </MenuItem>
                         </Menu>

@@ -2,8 +2,42 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:modernControls="clr-namespace:ModernControls;assembly=ModernControls"
-        Title="AboutWindow" Height="300" Width="300" ResizeMode="NoResize">
-    <Grid>
-        
+        Title="AboutWindow" Height="300" Width="500" ResizeMode="NoResize">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="1" Text="Q-детерминант">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="#68217A"/>
+                    <Setter Property="FontSize" Value="40"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="10,0,0,0"/>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource BaseFont}" Text="(c) 2014" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource BaseFont}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5" FontSize="12">
+            Разработчики: <LineBreak />
+            Сулейманов Д.Э. (Email: 
+            <Hyperlink NavigateUri="kingmidas1992@gmail.com">
+                kingmidas1992@gmail.com
+            </Hyperlink>
+            )
+            <LineBreak />
+            Шарабура И.С. (Email: 
+            <Hyperlink NavigateUri="run174@yandex.ru">
+                run174@yandex.ru
+            </Hyperlink>
+            )
+        </TextBlock>
     </Grid>
 </modernControls:MWindow>

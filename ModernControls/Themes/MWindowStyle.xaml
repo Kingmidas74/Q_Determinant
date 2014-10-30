@@ -26,7 +26,7 @@
                         <Border x:Name="PART_Border" BorderThickness="0.5" BorderBrush="{StaticResource ActionColorBrush}">
                             <DockPanel HorizontalAlignment="Stretch" Background="Transparent" VerticalAlignment="Stretch">
                                 <StatusBar
-                                    DockPanel.Dock="Bottom" Height="24">
+                                    DockPanel.Dock="Bottom" Height="24" x:Name="StatusBar">
                                     <TextBlock Margin="3,0,0,0" Text="{Binding StatusContent, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource BaseFont}"/>
                                     <StatusBarItem HorizontalAlignment="Right">
                                         <ResizeGrip Opacity="0.75" />
@@ -107,6 +107,15 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="PART_MaxButton_Path" Property="Data" Value="M0,3 H5 V8 H0 V3 M0,4 H5 M3,0 H8 V5 H7 M3,1 H8"/>
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter TargetName="MinButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="MaxButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="StatusBar" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="CanMinimize">
+                            <Setter TargetName="MaxButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="StatusBar" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

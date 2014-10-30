@@ -145,7 +145,7 @@ namespace ModernControls
 
         void TitleBarMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount > 1)
+            if (e.ClickCount > 1 && ResizeMode!=ResizeMode.NoResize && ResizeMode!=ResizeMode.CanMinimize)
             {
                 MaxButtonClick(sender, e);
             }

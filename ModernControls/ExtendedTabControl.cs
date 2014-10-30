@@ -54,6 +54,12 @@ namespace ModernControls
         private CollectionViewSource Tabs { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<ExtendedTabItem> _tabsList;
+        private WriteLogsDelegate _logsDelegate;
+
+        public void SetLogsDelegate(WriteLogsDelegate writeDelegate)
+        {
+            _logsDelegate = writeDelegate;
+        }
         public ObservableCollection<ExtendedTabItem> TabsList
         {
             get { return _tabsList; }
@@ -87,36 +93,48 @@ namespace ModernControls
         
         public void AddTab(ExtendedTreeViewItem item)
         {
-            if (item.Type == SolutionItemTypes.FlowChart || item.Type == SolutionItemTypes.Qdeterminant || item.Type == SolutionItemTypes.ImplementationPlan)
+            try
             {
-                var tab = new ExtendedTabItem();
-                tab.Header = item.Header.ToString();
-                tab.Tag = item.Tag.ToString();
-                if (CheckExistTabInItems(tab))
+                if (item.Type == SolutionItemTypes.FlowChart || item.Type == SolutionItemTypes.Qdeterminant ||
+                    item.Type == SolutionItemTypes.ImplementationPlan)
                 {
-                    var tb = new TextBox();
-                    tb.Text = File.ReadAllText(tab.Tag.ToString(), Encoding.UTF8);
-                    tb.FontSize = 20;
-                    tb.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    tb.VerticalAlignment = VerticalAlignment.Stretch;
-                    tab.Content = tb;
-                    TabsList.Add(tab);
-                    ItemsSource = TabsList;
-                    SelectedIndex = TabsList.Count - 1;
+                    var tab = new ExtendedTabItem();
+                    tab.Header = item.Header.ToString();
+                    tab.Tag = item.Tag.ToString();
+                    if (CheckExistTabInItems(tab))
+                    {
+                        var tb = new TextBox();
+                        tb.Text = File.ReadAllText(tab.Tag.ToString(), Encoding.UTF8);
+                        tb.FontSize = 20;
+                        tb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        tb.VerticalAlignment = VerticalAlignment.Stretch;
+                        tab.Content = tb;
+                        TabsList.Add(tab);
+                        ItemsSource = TabsList;
+                        SelectedIndex = TabsList.Count - 1;
+                    }
+                    else
+                    {
+                        int Index = 0;
+                        foreach (var _tab in TabsList)
+                        {
+                            if (_tab.Tag.ToString().Equals(tab.Tag.ToString()))
+                            {
+                                SelectedIndex = Index;
+                                break;
+                            }
+                            Index++;
+                        }
+                    }
                 }
                 else
                 {
-                    int Index = 0;
-                    foreach (var _tab in TabsList)
-                    {
-                        if (_tab.Tag.ToString().Equals(tab.Tag.ToString()))
-                        {
-                            SelectedIndex = Index;
-                            break;
-                        }
-                        Index++;
-                    }
+                    throw new Exception("Вкладка иного типа");
                 }
+            }
+            catch (Exception e)
+            {
+                _logsDelegate(string.Concat("Ошибка открытия вкладки: ", e.Message), LogType.Error);
             }
         }
 

@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ASide.cs" />
     <Compile Include="BlockPanel.cs" />
+    <Compile Include="DebugConsole.cs" />
     <Compile Include="ExtendedTabControl.cs" />
     <Compile Include="ExtendedTabItem.cs" />
     <Compile Include="ExtendedTreeView.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="InternalClasses\SolutionItemTypes.cs" />
     <Compile Include="InternalClasses\SolutionTreeItem.cs" />
     <Compile Include="MWindow.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -88,6 +90,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\BlockPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\DebugConsole.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,8 +18,12 @@ using ModernControls.InternalClasses;
 
 namespace ModernControls
 {
+    public delegate void WriteLogsDelegate(string Message, LogType Type = LogType.Default);
     public class Workplace : Control
     {
+        public DebugConsole _debugConsole;
+       
+
         public Workplace()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Workplace), new FrameworkPropertyMetadata(typeof(Workplace)));
@@ -36,6 +40,10 @@ namespace ModernControls
             (GetTemplateChild("OpenSolutionMenuItem") as MenuItem).Click += new RoutedEventHandler(OpenSolutionMenuItemClick);
             (GetTemplateChild("CloseMenuItem") as MenuItem).Click += new RoutedEventHandler(CloseMenuItemClick);
             (GetTemplateChild("Compiler") as Button).Click += new RoutedEventHandler(CompilerClick);
+            _debugConsole = (GetTemplateChild("DebugConsole") as DebugConsole);
+            var WriteDelegate = new WriteLogsDelegate(WriteLog);
+            (GetTemplateChild("SolutionTree") as ExtendedTreeView).SetLogsDelegate(WriteDelegate);
+            (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).SetLogsDelegate(WriteDelegate);
             base.OnApplyTemplate();
         }
 
@@ -76,7 +84,7 @@ namespace ModernControls
             p.Start();
             p.BeginOutputReadLine();
             p.WaitForExit();
-            (GetTemplateChild("DebugConsole") as TextBlock).Text = Logs.AllDebugInfo;
+            WriteLog(Logs.AllDebugInfo);
             (GetTemplateChild("SolutionTree") as ExtendedTreeView).RefreshSolution();
         }
 
@@ -84,5 +92,12 @@ namespace ModernControls
         {
             Logs.Instance.WriteLog(outLine.Data,LogType.Default);
         }
+
+        public void WriteLog(string Message, LogType Type=LogType.Default)
+        {
+            _debugConsole.WriteLog(Message, Type);
+        }
+
+        
     }
 }

@@ -89,9 +89,7 @@
                                 <local:ExtendedTabControl x:Name="WorkPlaceTabs"/>
                                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
                                 <local:BlockPanel Grid.Row="2" Title="Output" VerticalAlignment="Stretch">
-                                    <ScrollViewer>
-                                        <TextBlock x:Name="DebugConsole" TextWrapping="Wrap" Foreground="{StaticResource BasicFontColorBrush}" FontSize="12" />
-                                    </ScrollViewer>
+                                    <local:DebugConsole x:Name="DebugConsole"/>
                                 </local:BlockPanel>
                             </Grid>
                             <Grid Grid.Column="4">

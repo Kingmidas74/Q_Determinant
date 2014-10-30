@@ -51,7 +51,7 @@ namespace ModernControls
     {
 
         public string CurrentSolutionPath { get; set; }
-
+        private WriteLogsDelegate _logsDelegate;
 
         public ExtendedTreeView()
         {
@@ -67,6 +67,7 @@ namespace ModernControls
 
         private void RefreshSolutionButtonClick(object sender, RoutedEventArgs e)
         {
+            _logsDelegate("Click Refresh Solution");
             RefreshSolution();
         }
 
@@ -123,9 +124,14 @@ namespace ModernControls
             catch (Exception e)
             {
                 Logs.Instance.WriteLog(e.Data.ToString(),LogType.Error);
+                _logsDelegate(e.Data.ToString(), LogType.Error);
             }
         }
 
-    
+
+        public void SetLogsDelegate(WriteLogsDelegate writeDelegate)
+        {
+            _logsDelegate = writeDelegate;
+        }
     }
 }

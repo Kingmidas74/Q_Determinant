@@ -123,7 +123,6 @@ namespace ModernControls
             }
             catch (Exception e)
             {
-                Logs.Instance.WriteLog(e.Data.ToString(),LogType.Error);
                 _logsDelegate(e.Data.ToString(), LogType.Error);
             }
         }

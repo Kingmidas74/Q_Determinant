@@ -96,13 +96,13 @@ namespace ModernControls
             p.Start();
             p.BeginOutputReadLine();
             p.WaitForExit();
-            WriteLog(Logs.AllDebugInfo);
+           // WriteLog(Logs.AllDebugInfo);
             (GetTemplateChild("SolutionTree") as ExtendedTreeView).RefreshSolution();
         }
 
         private void WriteToLog(object sendingProcess, DataReceivedEventArgs outLine)
         {
-            Logs.Instance.WriteLog(outLine.Data,LogType.Default);
+            //Logs.Instance.WriteLog(outLine.Data,LogType.Default);
         }
 
         public void WriteLog(string message, LogType type=LogType.Default)

@@ -57,7 +57,6 @@
     <Compile Include="InternalClasses\Converters\BaseConverter.cs" />
     <Compile Include="InternalClasses\Converters\LogsTypeToColorConverter.cs" />
     <Compile Include="InternalClasses\Log.cs" />
-    <Compile Include="InternalClasses\Logs.cs" />
     <Compile Include="InternalClasses\LogType.cs" />
     <Compile Include="InternalClasses\SolutionItemTypes.cs" />
     <Compile Include="InternalClasses\SolutionTreeItem.cs" />

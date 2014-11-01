@@ -117,8 +117,8 @@ namespace ActionList
         }
 
         private string QtPars(string s)
-        {   
-
+        {
+            s = "chek git PC";
             return s;
         }
 

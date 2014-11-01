@@ -14,45 +14,39 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ModernControls.Annotations;
 using ModernControls.InternalClasses;
 
 namespace ModernControls
 {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ModernControls"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ModernControls;assembly=ModernControls"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Browse to and select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:DebugConsole/>
-    ///
-    /// </summary>
     public class DebugConsole : Control
     {
-        private static TextBlock _textBlock;
-        private static StringBuilder _allDebugInfo;
-     
+        private List<Log> AllLogs { get; set; } 
+
+        private LogType _currentLogType;
+
+        public LogType CurrentLogType
+        {
+            get { return _currentLogType; }
+            set
+            {
+                _currentLogType = value;
+                SetCurrentLogs();
+            }
+        }
+
+        private void SetCurrentLogs()
+        {
+            if (CurrentLogType != LogType.Default)
+            {
+                var Logs = AllLogs.FindAll(x => x.Type == CurrentLogType);
+                (GetTemplateChild("DebugList") as ListBox).ItemsSource = Logs;
+            }
+            else
+            {
+                (GetTemplateChild("DebugList") as ListBox).ItemsSource = AllLogs;
+            }
+        }
+
         static DebugConsole()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DebugConsole), new FrameworkPropertyMetadata(typeof(DebugConsole)));
@@ -60,23 +54,14 @@ namespace ModernControls
 
         public override void OnApplyTemplate()
         {
-            _textBlock = (GetTemplateChild("TextOfLogs") as TextBlock);
-            _allDebugInfo = new StringBuilder("");
+            AllLogs= new List<Log>();
             base.OnApplyTemplate();
-        }
-
-        public static string AllDebugInfo
-        {
-            get
-            {
-                return _allDebugInfo.ToString();
-            }
         }
 
         public void WriteLog(string message, LogType type)
         {
-            _allDebugInfo.AppendLine(message);
-            _textBlock.Text = _allDebugInfo.ToString();
+            AllLogs.Add(new Log { Date = new DateTime(), Text = message, Type = type });
+            SetCurrentLogs();
         }
     }
 }

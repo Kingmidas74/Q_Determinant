@@ -54,6 +54,9 @@
     <Compile Include="ExtendedTabItem.cs" />
     <Compile Include="ExtendedTreeView.cs" />
     <Compile Include="ExtendedTreeViewItem.cs" />
+    <Compile Include="InternalClasses\Converters\BaseConverter.cs" />
+    <Compile Include="InternalClasses\Converters\LogsTypeToColorConverter.cs" />
+    <Compile Include="InternalClasses\Log.cs" />
     <Compile Include="InternalClasses\Logs.cs" />
     <Compile Include="InternalClasses\LogType.cs" />
     <Compile Include="InternalClasses\SolutionItemTypes.cs" />

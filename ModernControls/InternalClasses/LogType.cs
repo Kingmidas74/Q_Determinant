@@ -4,6 +4,7 @@
     {
         Error,
         Default,
-        Success
+        Success,
+        Command
     }
 }

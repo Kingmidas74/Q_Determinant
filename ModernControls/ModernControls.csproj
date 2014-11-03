@@ -59,6 +59,7 @@
     <Compile Include="ExtendedTreeView.cs" />
     <Compile Include="ExtendedTreeViewItem.cs" />
     <Compile Include="InternalClasses\Converters\BaseConverter.cs" />
+    <Compile Include="InternalClasses\Converters\BlockTypeToImgSourceConverter.cs" />
     <Compile Include="InternalClasses\Converters\LogsTypeToColorConverter.cs" />
     <Compile Include="InternalClasses\Log.cs" />
     <Compile Include="InternalClasses\LogType.cs" />
@@ -165,6 +166,15 @@
       <Project>{F501BEF7-5A55-43BC-910F-2BE759829E0E}</Project>
       <Name>Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\te1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\te2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using Core;
 using Microsoft.Win32;
 using ModernControls.InternalClasses;
 
@@ -13,12 +15,20 @@ namespace ModernControls
         public DebugConsole _debugConsole;
         public static readonly RoutedEvent AboutClickEvent = EventManager.RegisterRoutedEvent("AboutClick",
              RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ExtendedTabItem));
+        private BlockTypes _currentBlockType;
 
         public event RoutedEventHandler CloseTab
         {
             add { AddHandler(AboutClickEvent, value); }
             remove { RemoveHandler(AboutClickEvent, value); }
         }
+
+        public BlockTypes CurrentBlockType
+        {
+            get { return _currentBlockType; }
+            set { _currentBlockType = value; }
+        }
+
         void AboutMenuItemClick(object sender, RoutedEventArgs e)
         {
             this.RaiseEvent(new RoutedEventArgs(AboutClickEvent, this));
@@ -45,10 +55,16 @@ namespace ModernControls
             var WriteDelegate = new WriteLogsDelegate(WriteLog);
             (GetTemplateChild("SolutionTree") as ExtendedTreeView).SetLogsDelegate(WriteDelegate);
             (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).SetLogsDelegate(WriteDelegate);
+            (GetTemplateChild("ElementList") as ListBox).SelectionChanged+=SelectBlockType;
             base.OnApplyTemplate();
         }
 
-        
+        private void SelectBlockType(object sender, SelectionChangedEventArgs e)
+        {
+            CurrentBlockType = (BlockTypes)Enum.Parse(typeof(BlockTypes), (sender as ListBox).SelectedItem.ToString());
+        }
+
+
         private void OpenSolutionMenuItemClick(object sender, RoutedEventArgs e)
         {            
             var dlg = new OpenFileDialog();

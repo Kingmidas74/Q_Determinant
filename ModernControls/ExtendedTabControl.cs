@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Core;
 using ModernControls.InternalClasses;
 
 namespace ModernControls
@@ -94,13 +95,27 @@ namespace ModernControls
                     tab.Tag = item.Tag.ToString();
                     if (CheckExistTabInItems(tab))
                     {
-                        var tb = new TextBox();
-                        tb.Text = File.ReadAllText(tab.Tag.ToString(), Encoding.UTF8);
-                        tb.FontSize = 20;
-                        tb.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        tb.VerticalAlignment = VerticalAlignment.Stretch;
-                        tab.Content = tb;
-                        TabsList.Add(tab);
+                        if (item.Type != SolutionItemTypes.FlowChart)
+                        {
+                            var tb = new TextBox();
+                            tb.Text = File.ReadAllText(tab.Tag.ToString(), Encoding.UTF8);
+                            tb.FontSize = 20;
+                            tb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            tb.VerticalAlignment = VerticalAlignment.Stretch;
+                            tab.Content = tb;
+                            TabsList.Add(tab);
+                        }
+                        else
+                        {
+                            var content = new DrawCanvas();
+                            content.CurrentBlockType = BlockTypes.Process;
+                            tab.Content = content;
+                            /*content.Width = (TemplatedParent as Workplace).ActualWidth;
+                            content.Height = (TemplatedParent as Workplace).ActualHeight;*/
+                            
+                            TabsList.Add(tab);
+                        }
+
                         ItemsSource = TabsList;
                         SelectedIndex = TabsList.Count - 1;
                     }

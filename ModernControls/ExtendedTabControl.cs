@@ -6,52 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-//using Core;
 using ModernControls.InternalClasses;
 
 namespace ModernControls
 {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ModernControls"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ModernControls;assembly=ModernControls"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Browse to and select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:ExtendedTabControl/>
-    ///
-    /// </summary>
     public class ExtendedTabControl : TabControl, INotifyPropertyChanged
     {
-        private CollectionViewSource Tabs { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
-        public ObservableCollection<ExtendedTabItem> _tabsList;
         private WriteLogsDelegate _logsDelegate;
-
-        public void SetLogsDelegate(WriteLogsDelegate writeDelegate)
-        {
-            _logsDelegate = writeDelegate;
-        }
+        private ObservableCollection<ExtendedTabItem> _tabsList;
         public ObservableCollection<ExtendedTabItem> TabsList
         {
             get { return _tabsList; }
@@ -61,11 +23,12 @@ namespace ModernControls
                 OnPropertyChanged("TabList");
             }
         }
+        public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            if (this.PropertyChanged != null)
+            if (PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
@@ -81,6 +44,16 @@ namespace ModernControls
             var item = args.OriginalSource as ExtendedTabItem;
             TabsList.Remove(item);
             ItemsSource = TabsList;
+        }
+
+        private bool CheckExistTabInItems(ExtendedTabItem tab)
+        {
+            return TabsList.FirstOrDefault(x => x.Tag.ToString().Equals(tab.Tag.ToString())) == null;
+        }
+
+        public void SetLogsDelegate(WriteLogsDelegate writeDelegate)
+        {
+            _logsDelegate = writeDelegate;
         }
         
         public void AddTab(ExtendedTreeViewItem item)
@@ -103,33 +76,27 @@ namespace ModernControls
                             tb.HorizontalAlignment = HorizontalAlignment.Stretch;
                             tb.VerticalAlignment = VerticalAlignment.Stretch;
                             tab.Content = tb;
-                            TabsList.Add(tab);
                         }
                         else
                         {
                             var content = new DrawCanvas();
-                           // content.CurrentBlockType = BlockTypes.Process;
                             tab.Content = content;
-                            /*content.Width = (TemplatedParent as Workplace).ActualWidth;
-                            content.Height = (TemplatedParent as Workplace).ActualHeight;*/
-                            
-                            TabsList.Add(tab);
                         }
-
+                        TabsList.Add(tab);
                         ItemsSource = TabsList;
                         SelectedIndex = TabsList.Count - 1;
                     }
                     else
                     {
-                        int Index = 0;
-                        foreach (var _tab in TabsList)
+                        var index = 0;
+                        foreach (var currentTab in TabsList)
                         {
-                            if (_tab.Tag.ToString().Equals(tab.Tag.ToString()))
+                            if (currentTab.Tag.ToString().Equals(tab.Tag.ToString()))
                             {
-                                SelectedIndex = Index;
+                                SelectedIndex = index;
                                 break;
                             }
-                            Index++;
+                            index++;
                         }
                     }
                 }
@@ -143,13 +110,5 @@ namespace ModernControls
                 _logsDelegate(string.Concat("Ошибка открытия вкладки: ", e.Message), LogType.Error);
             }
         }
-
-        private bool CheckExistTabInItems(ExtendedTabItem tab)
-        {
-            return TabsList.FirstOrDefault(x => x.Tag.ToString().Equals(tab.Tag.ToString())) == null;    
-        }
-
-
-        
     }
 }

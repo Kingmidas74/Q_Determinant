@@ -1,31 +1,22 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using Core;
 using Microsoft.Win32;
 using ModernControls.InternalClasses;
 
 namespace ModernControls
 {
-    public delegate void WriteLogsDelegate(string Message, LogType Type = LogType.Default);
+    public delegate void WriteLogsDelegate(string message, LogType type = LogType.Default);
     public class Workplace : Control
     {
-        public DebugConsole _debugConsole;
+        private StringBuilder _compilerResultString;
         public static readonly RoutedEvent AboutClickEvent = EventManager.RegisterRoutedEvent("AboutClick",
              RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ExtendedTabItem));
-
         public event RoutedEventHandler CloseTab
         {
             add { AddHandler(AboutClickEvent, value); }
             remove { RemoveHandler(AboutClickEvent, value); }
-        }
-
-
-        void AboutMenuItemClick(object sender, RoutedEventArgs e)
-        {
-            this.RaiseEvent(new RoutedEventArgs(AboutClickEvent, this));
         }
 
         public Workplace()
@@ -34,29 +25,36 @@ namespace ModernControls
             AddHandler(ExtendedTreeViewItem.OpenDocumentEvent, new RoutedEventHandler(OpenDocument));
         }
 
+        public override void OnApplyTemplate()
+        {
+            (GetTemplateChild("OpenSolutionMenuItem") as MenuItem).Click += OpenSolutionMenuItemClick;
+            (GetTemplateChild("CloseMenuItem") as MenuItem).Click += CloseMenuItemClick;
+            (GetTemplateChild("AboutMenuItem") as MenuItem).Click += AboutMenuItemClick;
+            (GetTemplateChild("Compiler") as Button).Click += CompilerClick;
+            var writeDelegate = new WriteLogsDelegate(WriteLog);
+            (GetTemplateChild("SolutionTree") as ExtendedTreeView).SetLogsDelegate(writeDelegate);
+            (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).SetLogsDelegate(writeDelegate);
+            (GetTemplateChild("ElementList") as ListBox).SelectionChanged += SelectBlockType;
+            base.OnApplyTemplate();
+        }
+
+        void AboutMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(AboutClickEvent, this));
+        }
+
+        
+
         private void OpenDocument(object source, RoutedEventArgs args)
         {
             (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).AddTab(args.OriginalSource as ExtendedTreeViewItem);
         }
 
-        public override void OnApplyTemplate()
-        {
-            (GetTemplateChild("OpenSolutionMenuItem") as MenuItem).Click += new RoutedEventHandler(OpenSolutionMenuItemClick);
-            (GetTemplateChild("CloseMenuItem") as MenuItem).Click += new RoutedEventHandler(CloseMenuItemClick);
-            (GetTemplateChild("AboutMenuItem") as MenuItem).Click += new RoutedEventHandler(AboutMenuItemClick);
-            (GetTemplateChild("Compiler") as Button).Click += new RoutedEventHandler(CompilerClick);
-            _debugConsole = (GetTemplateChild("DebugConsole") as DebugConsole);
-            var WriteDelegate = new WriteLogsDelegate(WriteLog);
-            (GetTemplateChild("SolutionTree") as ExtendedTreeView).SetLogsDelegate(WriteDelegate);
-            (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).SetLogsDelegate(WriteDelegate);
-            (GetTemplateChild("ElementList") as ListBox).SelectionChanged+=SelectBlockType;
-            base.OnApplyTemplate();
-        }
+        
 
         private void SelectBlockType(object sender, SelectionChangedEventArgs e)
         {
             MessageBox.Show((sender as ListBox).SelectedItem.ToString());
-            //CurrentBlockType = (BlockTypes)Enum.Parse(typeof(BlockTypes), (sender as ListBox).SelectedItem.ToString());
         }
 
 
@@ -76,9 +74,15 @@ namespace ModernControls
         {
             Application.Current.Shutdown();
         }
+
+        private void WriteToLog(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            _compilerResultString.AppendLine(outLine.Data);
+        }
         
         private void CompilerClick(object sender, RoutedEventArgs e)
         {
+            _compilerResultString = new StringBuilder("");
             var currentSolutionPath = (GetTemplateChild("SolutionTree") as ExtendedTreeView).CurrentSolutionPath;
             var p = new Process();
             var startupstring = new StringBuilder("");
@@ -92,22 +96,17 @@ namespace ModernControls
             p.StartInfo.RedirectStandardOutput = true;
             //pr.StartInfo.StandardOutputEncoding = Encoding.GetEncoding(866);
             p.StartInfo.CreateNoWindow = true;
-            p.OutputDataReceived += new DataReceivedEventHandler(WriteToLog);
+            p.OutputDataReceived += WriteToLog;
             p.Start();
             p.BeginOutputReadLine();
             p.WaitForExit();
-           // WriteLog(Logs.AllDebugInfo);
+            WriteLog(_compilerResultString.ToString());
             (GetTemplateChild("SolutionTree") as ExtendedTreeView).RefreshSolution();
-        }
-
-        private void WriteToLog(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            //Logs.Instance.WriteLog(outLine.Data,LogType.Default);
         }
 
         public void WriteLog(string message, LogType type=LogType.Default)
         {
-            _debugConsole.WriteLog(message, type);
+            (GetTemplateChild("DebugConsole") as DebugConsole).WriteLog(message, type);
         }
 
         

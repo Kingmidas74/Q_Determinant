@@ -4,40 +4,17 @@ using System.Windows.Controls;
 
 namespace ModernControls
 {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ModernControls"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ModernControls;assembly=ModernControls"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Browse to and select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:ExtendedTreeViewItem/>
-    ///
-    /// </summary>
     public class ExtendedTreeViewItem : TreeViewItem
     {
+        public static readonly RoutedEvent OpenDocumentEvent = EventManager.RegisterRoutedEvent("OpenDocument",
+           RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ExtendedTabItem));
+        public event RoutedEventHandler OpenDocument
+        {
+            add { AddHandler(OpenDocumentEvent, value); }
+            remove { RemoveHandler(OpenDocumentEvent, value); }
+        }
         public static readonly DependencyProperty TypeProperty =
     DependencyProperty.Register("Type", typeof(SolutionItemTypes), typeof(ExtendedTreeViewItem), new FrameworkPropertyMetadata());
-
         public SolutionItemTypes Type
         {
             get { return (SolutionItemTypes)GetValue(TypeProperty); }
@@ -47,24 +24,15 @@ namespace ModernControls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTreeViewItem), new FrameworkPropertyMetadata(typeof(ExtendedTreeViewItem)));
         }
-
-        public static readonly RoutedEvent OpenDocumentEvent = EventManager.RegisterRoutedEvent("OpenDocument",
-            RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (ExtendedTabItem));
-
-        public event RoutedEventHandler OpenDocument
-        {
-            add { AddHandler(OpenDocumentEvent, value); }
-            remove { RemoveHandler(OpenDocumentEvent, value); }
-        }
         public override void OnApplyTemplate()
         {
-            (base.GetTemplateChild("ItemButton") as Button).Click += new RoutedEventHandler(OpenDocumentClick);
+            (GetTemplateChild("ItemButton") as Button).Click += OpenDocumentClick;
             base.OnApplyTemplate();
         }
 
-        void OpenDocumentClick(object sender, RoutedEventArgs e)
+        private void OpenDocumentClick(object sender, RoutedEventArgs e)
         {
-            this.RaiseEvent(new RoutedEventArgs(OpenDocumentEvent, this));
+            RaiseEvent(new RoutedEventArgs(OpenDocumentEvent, this));
         }
 
 

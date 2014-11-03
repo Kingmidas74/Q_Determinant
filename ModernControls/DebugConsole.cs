@@ -8,10 +8,9 @@ namespace ModernControls
 {
     public class DebugConsole : Control
     {
-        private List<Log> AllLogs { get; set; } 
+        private List<Log> AllLogs { get; set; }
 
-        private LogType _currentLogType;
-
+        private LogType _currentLogType = LogType.Default;
         public LogType CurrentLogType
         {
             get { return _currentLogType; }
@@ -19,19 +18,6 @@ namespace ModernControls
             {
                 _currentLogType = value;
                 SetCurrentLogs();
-            }
-        }
-
-        private void SetCurrentLogs()
-        {
-            if (CurrentLogType != LogType.Default)
-            {
-                var Logs = AllLogs.FindAll(x => x.Type == CurrentLogType);
-                (GetTemplateChild("DebugList") as ListBox).ItemsSource = Logs;
-            }
-            else
-            {
-                (GetTemplateChild("DebugList") as ListBox).ItemsSource = AllLogs;
             }
         }
 
@@ -44,6 +30,19 @@ namespace ModernControls
         {
             AllLogs= new List<Log>();
             base.OnApplyTemplate();
+        }
+
+        private void SetCurrentLogs()
+        {
+            if (CurrentLogType != LogType.Default)
+            {
+                var logs = AllLogs.FindAll(x => x.Type == CurrentLogType);
+                (GetTemplateChild("DebugList") as ListBox).ItemsSource = logs;
+            }
+            else
+            {
+                (GetTemplateChild("DebugList") as ListBox).ItemsSource = AllLogs;
+            }
         }
 
         public void WriteLog(string message, LogType type)

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Media.Imaging;
 using Core;
 
@@ -13,8 +11,8 @@ namespace ModernControls.InternalClasses.Converters
         private readonly Dictionary<BlockTypes, string> _imagePathDictionary = new Dictionary<BlockTypes, string>
         {
             {BlockTypes.Start, "/ModernControls;component/Assets/te1.png"},
-            {BlockTypes.End, "/ModernControls;component/Assets/te2.png"},
-            {BlockTypes.Input, "InOut.png"},
+            {BlockTypes.End, "Assets/te2.png"},
+            {BlockTypes.Input, @"Assets\te2.png"},
             {BlockTypes.Output, "InOut.png"},
             {BlockTypes.Process, "Process.png"},
             {BlockTypes.Condition, "Condition.png"},

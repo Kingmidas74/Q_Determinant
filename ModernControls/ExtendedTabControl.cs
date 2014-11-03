@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Core;
+//using Core;
 using ModernControls.InternalClasses;
 
 namespace ModernControls
@@ -108,7 +108,7 @@ namespace ModernControls
                         else
                         {
                             var content = new DrawCanvas();
-                            content.CurrentBlockType = BlockTypes.Process;
+                           // content.CurrentBlockType = BlockTypes.Process;
                             tab.Content = content;
                             /*content.Width = (TemplatedParent as Workplace).ActualWidth;
                             content.Height = (TemplatedParent as Workplace).ActualHeight;*/

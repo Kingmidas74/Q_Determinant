@@ -15,7 +15,6 @@ namespace ModernControls
         public DebugConsole _debugConsole;
         public static readonly RoutedEvent AboutClickEvent = EventManager.RegisterRoutedEvent("AboutClick",
              RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ExtendedTabItem));
-        private BlockTypes _currentBlockType;
 
         public event RoutedEventHandler CloseTab
         {
@@ -23,11 +22,6 @@ namespace ModernControls
             remove { RemoveHandler(AboutClickEvent, value); }
         }
 
-        public BlockTypes CurrentBlockType
-        {
-            get { return _currentBlockType; }
-            set { _currentBlockType = value; }
-        }
 
         void AboutMenuItemClick(object sender, RoutedEventArgs e)
         {
@@ -61,7 +55,8 @@ namespace ModernControls
 
         private void SelectBlockType(object sender, SelectionChangedEventArgs e)
         {
-            CurrentBlockType = (BlockTypes)Enum.Parse(typeof(BlockTypes), (sender as ListBox).SelectedItem.ToString());
+            MessageBox.Show((sender as ListBox).SelectedItem.ToString());
+            //CurrentBlockType = (BlockTypes)Enum.Parse(typeof(BlockTypes), (sender as ListBox).SelectedItem.ToString());
         }
 
 

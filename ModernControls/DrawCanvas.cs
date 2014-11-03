@@ -12,13 +12,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Core;
+//using Core;
 
 namespace ModernControls
 {
     public class DrawCanvas : Canvas
     {
-        public BlockTypes CurrentBlockType { get; set; }
+      //  public BlockTypes CurrentBlockType { get; set; }
         
         static DrawCanvas()
         {
@@ -27,7 +27,7 @@ namespace ModernControls
 
         public override void OnApplyTemplate()
         {
-            MessageBox.Show(CurrentBlockType.ToString());
+       //     MessageBox.Show(CurrentBlockType.ToString());
             base.OnApplyTemplate();
         }
         

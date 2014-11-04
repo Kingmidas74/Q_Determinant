@@ -9,6 +9,8 @@
     <Style TargetType="{x:Type local:DrawCanvas}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="Tomato"/>
+        <Setter Property="Width" Value="500"/>
+        <Setter Property="Height" Value="500"/>
     </Style>
 </ResourceDictionary>

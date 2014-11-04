@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using Core;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,11 +15,12 @@ namespace ModernControls
         private StringBuilder _compilerResultString;
         public static readonly RoutedEvent AboutClickEvent = EventManager.RegisterRoutedEvent("AboutClick",
              RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ExtendedTabItem));
-        public event RoutedEventHandler CloseTab
+        public event RoutedEventHandler AboutClick
         {
             add { AddHandler(AboutClickEvent, value); }
             remove { RemoveHandler(AboutClickEvent, value); }
         }
+        
 
         public Workplace()
         {
@@ -34,29 +37,26 @@ namespace ModernControls
             var writeDelegate = new WriteLogsDelegate(WriteLog);
             (GetTemplateChild("SolutionTree") as ExtendedTreeView).SetLogsDelegate(writeDelegate);
             (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).SetLogsDelegate(writeDelegate);
-            (GetTemplateChild("ElementList") as ListBox).SelectionChanged += SelectBlockType;
+            (GetTemplateChild("ElementList") as ListBox).SelectionChanged += SelectedBlockTypeClick;
             base.OnApplyTemplate();
+        }
+
+        private void SelectedBlockTypeClick(object sender, SelectionChangedEventArgs e)
+        {
+            Singleton.CurrentBlockType =
+                (BlockTypes) Enum.Parse(typeof (BlockTypes), (sender as ListBox).SelectedItem.ToString());
         }
 
         void AboutMenuItemClick(object sender, RoutedEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(AboutClickEvent, this));
         }
-
         
 
         private void OpenDocument(object source, RoutedEventArgs args)
         {
             (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).AddTab(args.OriginalSource as ExtendedTreeViewItem);
         }
-
-        
-
-        private void SelectBlockType(object sender, SelectionChangedEventArgs e)
-        {
-            MessageBox.Show((sender as ListBox).SelectedItem.ToString());
-        }
-
 
         private void OpenSolutionMenuItemClick(object sender, RoutedEventArgs e)
         {            

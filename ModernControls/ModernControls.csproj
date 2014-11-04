@@ -60,6 +60,7 @@
     <Compile Include="InternalClasses\Converters\LogsTypeToColorConverter.cs" />
     <Compile Include="InternalClasses\Log.cs" />
     <Compile Include="InternalClasses\LogType.cs" />
+    <Compile Include="InternalClasses\Singleton.cs" />
     <Compile Include="InternalClasses\SolutionItemTypes.cs" />
     <Compile Include="InternalClasses\SolutionTreeItem.cs" />
     <Compile Include="MWindow.cs" />
@@ -162,6 +163,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{F501BEF7-5A55-43BC-910F-2BE759829E0E}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowChart\FlowChart.csproj">
+      <Project>{2056d778-7c95-4d69-8fab-935a39f16249}</Project>
+      <Name>FlowChart</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

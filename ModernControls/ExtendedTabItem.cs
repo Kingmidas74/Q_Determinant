@@ -20,7 +20,7 @@ namespace ModernControls
         
         public override void OnApplyTemplate()
         {
-            (base.GetTemplateChild("CloseTabButton") as Button).Click += new RoutedEventHandler(CloseTabButtonClick);
+            (GetTemplateChild("CloseTabButton") as Button).Click += CloseTabButtonClick;
             base.OnApplyTemplate();
         }
 

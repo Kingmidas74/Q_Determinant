@@ -11,6 +11,7 @@ namespace ActionList
     {
         public QDet AL;
         public List<Expressions> Op;
+        public List<string> Vs;
 
         public AList(List<Block> Blocks, List<Link> Links, List<Operation> Oper)
         {
@@ -18,6 +19,8 @@ namespace ActionList
             AL.QDeterminant = new List<QTerm>();
 
             Op = new List<Expressions>();
+
+            Vs = new List<string>();
 
             Link FLink;
             FLink = null;
@@ -96,7 +99,14 @@ namespace ActionList
 
                 }
 
-                if ((y.Type == BlockTypes.Input) || (y.Type == BlockTypes.Output))
+                if (y.Type == BlockTypes.Input)
+                {
+                    Vs.Add(y.Content);
+                    t = Links.FirstOrDefault(e => e.From == y.Id);
+                    QQ(Blocks, Links, t, x);
+                }
+
+                if (y.Type == BlockTypes.Output)
                 {
                     t = Links.FirstOrDefault(e => e.From == y.Id);
                     QQ(Blocks, Links, t, x);
@@ -118,13 +128,20 @@ namespace ActionList
 
         private string QtPars(string s)
         {
-            s = "chek git PC";
+            string vari = "";
+            vari = getvar(s);
+
+            if (isinops(vari))
+            { 
+                
+            }
             return s;
         }
 
         private string getvar(string s)
         {
             char c;
+            int temp;
             var va = new StringBuilder("");
             string vastr = "";
 
@@ -134,10 +151,23 @@ namespace ActionList
                 if ((c != '=') || (c != '!') || (c != '+') || (c != ':') || (c != '-') || (c != '*') || (c != '/') || (c != '<') || (c != '>'))
                 {
                     va.Append(c);
-                } 
-                break;
+                    temp = i;
+                }
+                else
+                    break;
             }
+ 
             vastr = va.ToString();
+            if (vastr.Length != 0)
+            {
+                if (isnotinvs(vastr))
+                {
+                    if (isinops(vastr))
+                    { 
+                        
+                    }
+                }
+            }
             return vastr;
         }
 
@@ -149,6 +179,16 @@ namespace ActionList
                     return true;
             }
             return false;
+        }
+
+        private bool isnotinvs(string s)
+        {
+            foreach (var ex in Vs)
+            {
+                if (String.Equals(s, ex, StringComparison.Ordinal))
+                    return false;
+            }
+            return true;
         }
         private string pars(string x)
         {

@@ -154,18 +154,29 @@ namespace ActionList
                     temp = i;
                 }
                 else
+                {
+                    temp = i + 1;
+                    if (c == '!')
+                        temp = temp + 1;
                     break;
+                }
             }
  
             vastr = va.ToString();
+
+            va.Remove(0, vastr.Length);
+
             if (vastr.Length != 0)
             {
                     if (isinops(vastr))
                     {
                         for (int i = temp; i < s.Length; i++)
                         {
-                            if ((c != '=') || (c != '!'))
-
+                            c = s[i];
+                            if ((c != '+') || (c != ':') || (c != '-') || (c != '*') || (c != '/') || (c != '<') || (c != '>'))
+                            {
+                                va.Append(c);
+                            }
                         }
                     }                
             }

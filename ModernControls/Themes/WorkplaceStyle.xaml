@@ -5,7 +5,7 @@
                     xmlns:core="clr-namespace:Core;assembly=Core"
                     xmlns:converters="clr-namespace:ModernControls.InternalClasses.Converters">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/ModernControls;component/Themes/MColors.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/Colors.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/GridSplitterStyle.xaml"/>
         <ResourceDictionary Source="/ModernControls;component/Themes/MenuStyle.xaml"/>
         <ResourceDictionary Source="/ModernControls;component/Themes/ToolBarStyle.xaml"/>

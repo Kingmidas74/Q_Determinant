@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/ModernControls;component/Themes/MColors.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/Colors.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/Geometry.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/FontsStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
@@ -112,7 +113,7 @@
           SnapsToDevicePixels="False" 
           Stroke="{StaticResource ErrorFontColorBrush}"
           StrokeThickness="2"
-          Data="M 0 0 L 7 7 M 0 7 L 7 0" />
+          Data="{DynamicResource MenuIncludedSymbol}" />
                 </Border>
                 <ContentPresenter 
         Name="HeaderHost"
@@ -177,7 +178,7 @@
         Grid.Column="3"
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
-        Data="M 0 0 L 0 7 L 4 3.5 Z" 
+        Data="{DynamicResource CollapsedSymbol}" 
         Fill="{StaticResource AcсentColorBrush}" />
                 <Popup 
         Name="Popup"

@@ -12,7 +12,6 @@
         <ResourceDictionary Source="/ModernControls;component/Themes/ExtendedTreeViewStyle.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/BlockPanel.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/DebugConsole.xaml" />
-        <ResourceDictionary Source="/ModernControls;component/Themes/DrawCanvasStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     

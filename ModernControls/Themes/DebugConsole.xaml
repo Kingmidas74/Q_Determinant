@@ -6,7 +6,7 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
     
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/ModernControls;component/Themes/MColors.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/Colors.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/MTitleBarButtonStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

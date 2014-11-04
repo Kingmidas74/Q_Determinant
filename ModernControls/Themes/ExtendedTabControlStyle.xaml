@@ -3,7 +3,8 @@
                     xmlns:local="clr-namespace:ModernControls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/ModernControls;component/Themes/MColors.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/Colors.xaml" />
+        <ResourceDictionary Source="/ModernControls;component/Themes/Geometry.xaml" />
         <ResourceDictionary Source="/ModernControls;component/Themes/MTitleBarButtonStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
@@ -61,7 +62,7 @@
                                 
                                 <Grid MaxHeight="9" MaxWidth="9">
                                     <Path Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
-                                                StrokeThickness="1.5" Stretch="None" Data="M0,0 L8,8 M0,8 L8,0" />
+                                                StrokeThickness="1.5" Stretch="None" Data="{DynamicResource CloseSymbol}" />
                                 </Grid>
                             </Button>
                         </DockPanel>

@@ -68,7 +68,7 @@ namespace ModernControls
                     tab.Tag = item.Tag.ToString();
                     if (CheckExistTabInItems(tab))
                     {
-                        if (item.Type != SolutionItemTypes.FlowChart)
+                        if (item.Type != SolutionItemTypes.ImplementationPlan)
                         {
                             var tb = new TextBox();
                             tb.Text = File.ReadAllText(tab.Tag.ToString(), Encoding.UTF8);
@@ -79,7 +79,7 @@ namespace ModernControls
                         }
                         else
                         {
-                            var content = new DrawCanvas();
+                            var content = new Canvas();
                             tab.Content = content;
                         }
                         TabsList.Add(tab);

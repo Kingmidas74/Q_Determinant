@@ -141,14 +141,14 @@ namespace ActionList
         private string getvar(string s)
         {
             char c;
-            int temp;
+            int temp = 0;
             var va = new StringBuilder("");
             string vastr = "";
 
             for (int i = 0; i < s.Length; i++)
             {
                 c = s[i];
-                if ((c != '=') || (c != '!') || (c != '+') || (c != ':') || (c != '-') || (c != '*') || (c != '/') || (c != '<') || (c != '>'))
+                if ((c != '=') || (c != '!'))
                 {
                     va.Append(c);
                     temp = i;
@@ -160,13 +160,14 @@ namespace ActionList
             vastr = va.ToString();
             if (vastr.Length != 0)
             {
-                if (isnotinvs(vastr))
-                {
                     if (isinops(vastr))
-                    { 
-                        
-                    }
-                }
+                    {
+                        for (int i = temp; i < s.Length; i++)
+                        {
+                            if ((c != '=') || (c != '!'))
+
+                        }
+                    }                
             }
             return vastr;
         }

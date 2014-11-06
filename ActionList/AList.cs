@@ -150,7 +150,7 @@ namespace ActionList
             for (int i = 0; i < s.Length; i++)
             {
                 c = s[i];
-                if ((c != ':') || (c != '+') || (c != ':') || (c != '-') || (c != '*') || (c != '/'))
+                if ((c != ':') || (c != '+') || (c != '-') || (c != '*') || (c != '/'))
                 {
                     va.Append(c);
                 }
@@ -182,6 +182,7 @@ namespace ActionList
             if (!isweq)
             {
                 opex.name = vastr;
+                va.Append("(");
                 for (int i = temp; i < s.Length; i++)
                 {
                     va.Append(s[i]);
@@ -191,7 +192,30 @@ namespace ActionList
             }
             else
             {
+                for (int i = temp; i < s.Length; i++)
+                {
+                    c = s[i];
+                    if ((c != '+') || (c != '-') || (c != '*') || (c != '/'))
+                    {
+                        va.Append(c);
+                    }
+                    else
+                    {
+                        temp = i + 1;
+                        break;
+                    } 
+                }
 
+                opex.name = va.ToString();
+                va.Remove(0, vastr.Length);
+                va.Append("(");
+                for (int i = temp; i < s.Length; i++)
+                {
+                    va.Append(s[i]);  
+                }
+
+                opex.Exp = va.ToString();
+                addtoOp(opex);
             }
 
             //if (isweq)

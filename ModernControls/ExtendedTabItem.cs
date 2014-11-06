@@ -17,6 +17,11 @@ namespace ModernControls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTabItem), new FrameworkPropertyMetadata(typeof(ExtendedTabItem)));
         }
+
+        public void RefreshStatus(bool status)
+        {
+            (GetTemplateChild("ChangeSymbol") as TextBlock).Text = status ? "*" : "";
+        }
         
         public override void OnApplyTemplate()
         {

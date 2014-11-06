@@ -17,5 +17,7 @@ namespace ModernControls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(BlockPanel), new FrameworkPropertyMetadata(typeof(BlockPanel)));
         }
+
+        
     }
 }

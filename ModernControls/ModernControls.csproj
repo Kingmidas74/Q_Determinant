@@ -48,14 +48,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ASide.cs" />
+    <Compile Include="BasicTextEditor.xaml.cs">
+      <DependentUpon>BasicTextEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BlockPanel.cs" />
     <Compile Include="DebugConsole.cs" />
     <Compile Include="ExtendedTabControl.cs" />
     <Compile Include="ExtendedTabItem.cs" />
     <Compile Include="ExtendedTreeView.cs" />
     <Compile Include="ExtendedTreeViewItem.cs" />
+    <Compile Include="IEditable.cs" />
     <Compile Include="InternalClasses\Converters\BaseConverter.cs" />
     <Compile Include="InternalClasses\Converters\BlockTypeToImgSourceConverter.cs" />
+    <Compile Include="InternalClasses\Converters\BoolToStarConverter.cs" />
     <Compile Include="InternalClasses\Converters\LogsTypeToColorConverter.cs" />
     <Compile Include="InternalClasses\Log.cs" />
     <Compile Include="InternalClasses\LogType.cs" />
@@ -77,6 +82,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="TextEditor.cs" />
     <Compile Include="Workplace.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -89,6 +95,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BasicTextEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ASideStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -146,6 +156,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\MWindowStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\TextEditorStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

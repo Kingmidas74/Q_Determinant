@@ -31,6 +31,7 @@ namespace ModernControls
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        
 
         public ExtendedTabControl()
         {
@@ -45,6 +46,8 @@ namespace ModernControls
             TabsList.Remove(item);
             ItemsSource = TabsList;
         }
+
+    
 
         private bool CheckExistTabInItems(ExtendedTabItem tab)
         {
@@ -70,12 +73,9 @@ namespace ModernControls
                     {
                         if (item.Type != SolutionItemTypes.ImplementationPlan)
                         {
-                            var tb = new TextBox();
-                            tb.Text = File.ReadAllText(tab.Tag.ToString(), Encoding.UTF8);
-                            tb.FontSize = 20;
-                            tb.HorizontalAlignment = HorizontalAlignment.Stretch;
-                            tb.VerticalAlignment = VerticalAlignment.Stretch;
-                            tab.Content = tb;
+                            var textEditor = new BasicTextEditor();
+                            textEditor.SetText(tab.Tag.ToString());
+                            tab.Content = textEditor;
                         }
                         else
                         {
@@ -107,7 +107,7 @@ namespace ModernControls
             }
             catch (Exception e)
             {
-                _logsDelegate(string.Concat("Ошибка открытия вкладки: ", e.Message), LogType.Error);
+                _logsDelegate(string.Concat("Ошибка открытия вкладки: ", e.Message, e.Data.ToString(), e.ToString()), LogType.Error);
             }
         }
     }

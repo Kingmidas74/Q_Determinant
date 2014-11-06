@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="ModernControls.BasicTextEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ModernControls;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <TextBox x:Name="EditableText" Style="{DynamicResource BaseFont}" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" TextChanged="OnChanged"/>
+</UserControl>

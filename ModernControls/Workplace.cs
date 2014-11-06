@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Core;
 using System.Diagnostics;
 using System.Text;
@@ -20,12 +21,19 @@ namespace ModernControls
             add { AddHandler(AboutClickEvent, value); }
             remove { RemoveHandler(AboutClickEvent, value); }
         }
-        
-
         public Workplace()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Workplace), new FrameworkPropertyMetadata(typeof(Workplace)));
             AddHandler(ExtendedTreeViewItem.OpenDocumentEvent, new RoutedEventHandler(OpenDocument));
+        }
+
+        private void SaveAllMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            var tabControl = (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl);
+            foreach (ExtendedTabItem tab in tabControl.Items.Cast<ExtendedTabItem>().Where(tab => tab.Content is IEditable))
+            {
+                (tab.Content as IEditable).SaveFile();
+            }
         }
 
         public override void OnApplyTemplate()
@@ -33,6 +41,7 @@ namespace ModernControls
             (GetTemplateChild("OpenSolutionMenuItem") as MenuItem).Click += OpenSolutionMenuItemClick;
             (GetTemplateChild("CloseMenuItem") as MenuItem).Click += CloseMenuItemClick;
             (GetTemplateChild("AboutMenuItem") as MenuItem).Click += AboutMenuItemClick;
+            (GetTemplateChild("SaveAllMenuItem") as MenuItem).Click += SaveAllMenuItemClick;
             (GetTemplateChild("Compiler") as Button).Click += CompilerClick;
             var writeDelegate = new WriteLogsDelegate(WriteLog);
             (GetTemplateChild("SolutionTree") as ExtendedTreeView).SetLogsDelegate(writeDelegate);
@@ -40,6 +49,7 @@ namespace ModernControls
             (GetTemplateChild("ElementList") as ListBox).SelectionChanged += SelectedBlockTypeClick;
             base.OnApplyTemplate();
         }
+        
 
         private void SelectedBlockTypeClick(object sender, SelectionChangedEventArgs e)
         {
@@ -59,7 +69,7 @@ namespace ModernControls
         }
 
         private void OpenSolutionMenuItemClick(object sender, RoutedEventArgs e)
-        {            
+        {
             var dlg = new OpenFileDialog();
             dlg.DefaultExt = ".qsln";
             dlg.Filter = "SolutionFiles (*.qsln)|*.qsln"; 

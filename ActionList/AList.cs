@@ -129,7 +129,7 @@ namespace ActionList
         private string QtPars(string s)
         {
             string vari = "";
-            vari = getvar(s);
+            //vari = getvar(s);
 
             if (isinops(vari))
             { 
@@ -138,35 +138,65 @@ namespace ActionList
             return s;
         }
 
-        private string getvar(string s)
+        private void getvar(string s)
         {
+            var opex = new Expressions();
             char c;
             int temp = 0;
             var va = new StringBuilder("");
             string vastr = "";
+            bool isweq = false;
 
             for (int i = 0; i < s.Length; i++)
             {
                 c = s[i];
-                if ((c != '=') || (c != '!'))
+                if ((c != ':') || (c != '+') || (c != ':') || (c != '-') || (c != '*') || (c != '/'))
                 {
                     va.Append(c);
-                    temp = i;
                 }
                 else
                 {
                     temp = i + 1;
-                    if (c == '!')
+                    if ((s[i] == ':'))
+                    {
                         temp = temp + 1;
+                        isweq = true;
+                    }
+
                     break;
                 }
+                
             }
  
             vastr = va.ToString();
 
             va.Remove(0, vastr.Length);
 
-            if (vastr.Length != 0)
+            if (!isinops(vastr))
+            {
+                opex.name = vastr;
+                opex.Exp = "(";
+                Op.Add(opex);
+            }
+
+            if (!isweq)
+            {
+                opex.name = vastr;
+                for (int i = temp; i < s.Length; i++)
+                {
+                    va.Append(s[i]);
+                }
+                opex.Exp = va.ToString();
+                addtoOp(opex);
+            }
+            else
+            {
+
+            }
+
+            //if (isweq)
+
+            /*if (vastr.Length != 0)
             {
                     if (isinops(vastr))
                     {
@@ -179,8 +209,8 @@ namespace ActionList
                             }
                         }
                     }                
-            }
-            return vastr;
+            }*/
+
         }
 
         private bool isinops(string s)
@@ -191,6 +221,21 @@ namespace ActionList
                     return true;
             }
             return false;
+        }
+
+        private void addtoOp(Expressions s)
+        {
+            var temp = new StringBuilder("");
+            foreach (var ex in Op)
+            {
+                if (String.Equals(s.name, ex.name, StringComparison.Ordinal))
+                {
+                    temp.Append(ex.Exp);
+                    temp.Append(")");
+                    temp.Append(s.Exp);
+                    ex.Exp = temp.ToString();
+                }
+            }
         }
 
         private bool isnotinvs(string s)

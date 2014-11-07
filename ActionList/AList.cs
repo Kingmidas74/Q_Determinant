@@ -53,9 +53,10 @@ namespace ActionList
                 if (y.Type == BlockTypes.Process)
                 {
 
-                    x.Definitive += '(';
-                    x.Definitive += y.Content;
-                    x.Definitive += ')';
+                   // x.Definitive += '(';
+                   // x.Definitive += y.Content;
+                  //  x.Definitive += ')';
+                    getvar(y.Content);
                     t = Links.FirstOrDefault(e => e.From == y.Id);
                     QQ(Blocks, Links, t, x);
                 }
@@ -79,8 +80,9 @@ namespace ActionList
                         z2.Append(x.Definitive);
                         z.Logical = z1.ToString();
                         z.Definitive = z2.ToString();
-                        QQFalse(Blocks, Links, t, z, y.Content);
-                        x.Logical += y.Content;
+                        QQFalse(Blocks, Links, t, z, getvarcond(y.Content));
+                        //x.Logical += y.Content;
+                        x.Logical += getvarcond(y.Content);
                         QQ(Blocks, Links, t1, x);
                     }
                     else
@@ -92,8 +94,9 @@ namespace ActionList
                         z2.Append(x.Definitive);
                         z.Logical = z1.ToString();
                         z.Definitive = z2.ToString();
-                        QQFalse(Blocks, Links, t1, z, y.Content);
-                        x.Logical += y.Content;
+                        QQFalse(Blocks, Links, t1, z, getvarcond(y.Content));
+                        //x.Logical += y.Content;
+                        x.Logical += getvarcond(y.Content);
                         QQ(Blocks, Links, t, x);
                     }
 
@@ -109,6 +112,7 @@ namespace ActionList
                 if (y.Type == BlockTypes.Output)
                 {
                     t = Links.FirstOrDefault(e => e.From == y.Id);
+                    x.Definitive = retvalue(y.Content);
                     QQ(Blocks, Links, t, x);
                 }
 
@@ -126,7 +130,7 @@ namespace ActionList
             QQ(Blocks, Links, l, z);
         }
 
-        private string QtPars(string s)
+       /* private string QtPars(string s)
         {
             string vari = "";
             //vari = getvar(s);
@@ -136,6 +140,62 @@ namespace ActionList
                 
             }
             return s;
+        }*/
+
+        private string getvarcond(string s)
+        {
+            var va = new StringBuilder("");
+            var tmp = new StringBuilder("");
+            string vastr = "";
+            string vastr2 = "";
+            char c, c1;
+            string ret = "";
+            int t = 0;
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if ((s[i] != '<') || (s[i] != '>') || (s[i] != '!') || (s[i] != '='))
+                {
+                    va.Append(s[i]);
+                }
+                else
+                {
+                    t = i+1;
+                    vastr = va.ToString();
+                    if (isinops(vastr))
+                    {
+                        tmp.Append(retvalue(vastr));
+                    }
+                    else
+                        tmp.Append(s[i]);
+
+                    if ((s[i+1]) == '=')
+                    {
+                        tmp.Append(s[i + 1]);
+                        t = t + 1;
+                    }
+
+                    break;
+                }
+            }
+
+            va.Remove(0, vastr.Length);
+
+            for (int i = t; i < s.Length; i++)
+            {
+                va.Append(s[i]);
+            }
+            vastr2 = va.ToString();
+
+            if (isinops(vastr2))
+            {
+                tmp.Append(retvalue(vastr2));
+            }
+            else
+                tmp.Append(vastr2);
+
+            ret = tmp.ToString();
+            return ret;
         }
 
         private void getvar(string s)
@@ -245,6 +305,16 @@ namespace ActionList
                     return true;
             }
             return false;
+        }
+
+        private string retvalue(string s)
+        {
+            foreach (var ex in Op)
+            {
+                if (String.Equals(s, ex.name, StringComparison.Ordinal))
+                    return ex.Exp;
+            }
+            return null;
         }
 
         private void addtoOp(Expressions s)

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
 using ModernControls.InternalClasses;
+using ModernControls.InternalClasses.Dialogs;
 
 namespace ModernControls
 {
@@ -36,18 +37,62 @@ namespace ModernControls
             }
         }
 
+        private void SaveMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            var tabItem = ((GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).SelectedItem as ExtendedTabItem);
+            if (tabItem.Content is IEditable)
+            {
+                (tabItem.Content as IEditable).SaveFile();
+            }
+        }
+
         public override void OnApplyTemplate()
         {
             (GetTemplateChild("OpenSolutionMenuItem") as MenuItem).Click += OpenSolutionMenuItemClick;
+            (GetTemplateChild("EFCMenuItem") as MenuItem).Click += EFCMenuItemClick;
+            (GetTemplateChild("NewProjectMenuItem") as MenuItem).Click += NewProjectMenuItemClick;
+            //(GetTemplateChild("EQDMenuItem") as MenuItem).Click += EQDMenuItemClick;
+            (GetTemplateChild("EIPMenuItem") as MenuItem).Click += EIPMenuItemClick;
             (GetTemplateChild("CloseMenuItem") as MenuItem).Click += CloseMenuItemClick;
             (GetTemplateChild("AboutMenuItem") as MenuItem).Click += AboutMenuItemClick;
             (GetTemplateChild("SaveAllMenuItem") as MenuItem).Click += SaveAllMenuItemClick;
+            (GetTemplateChild("SaveMenuItem") as MenuItem).Click += SaveMenuItemClick;
             (GetTemplateChild("Compiler") as Button).Click += CompilerClick;
             var writeDelegate = new WriteLogsDelegate(WriteLog);
             (GetTemplateChild("SolutionTree") as ExtendedTreeView).SetLogsDelegate(writeDelegate);
             (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).SetLogsDelegate(writeDelegate);
             (GetTemplateChild("ElementList") as ListBox).SelectionChanged += SelectedBlockTypeClick;
             base.OnApplyTemplate();
+        }
+
+        private void NewProjectMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            (GetTemplateChild("SolutionTree") as ExtendedTreeView).AddProject();
+        }
+        
+        /*private void IIPMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(QDClickEvent, this));
+        }
+
+        private void IQDMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(IQDClickEvent, this));
+        }*/
+
+        private void EFCMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            (GetTemplateChild("SolutionTree") as ExtendedTreeView).ExportFC();
+        }
+
+        private void EQDMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            (GetTemplateChild("SolutionTree") as ExtendedTreeView).ExportQD();
+        }
+
+        private void EIPMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            (GetTemplateChild("SolutionTree") as ExtendedTreeView).ExportIP();
         }
         
 
@@ -65,18 +110,18 @@ namespace ModernControls
 
         private void OpenDocument(object source, RoutedEventArgs args)
         {
+            (GetTemplateChild("SolutionTree") as ExtendedTreeView).CurrentProjectPath =
+                (args.OriginalSource as ExtendedTreeViewItem).ProjectPath;
             (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).AddTab(args.OriginalSource as ExtendedTreeViewItem);
         }
 
         private void OpenSolutionMenuItemClick(object sender, RoutedEventArgs e)
         {
-            var dlg = new OpenFileDialog();
-            dlg.DefaultExt = ".qsln";
-            dlg.Filter = "SolutionFiles (*.qsln)|*.qsln"; 
-            var result = dlg.ShowDialog();
+            var dialog = DialogFactory.CallOpenDialog(DialogTypes.Solution);
+            var result = dialog.ShowDialog();
             if (result == true)
             {
-                (GetTemplateChild("SolutionTree") as ExtendedTreeView).RefreshSolution(dlg.FileName);
+                (GetTemplateChild("SolutionTree") as ExtendedTreeView).RefreshSolution(dialog.FileName);
             }
         }
 

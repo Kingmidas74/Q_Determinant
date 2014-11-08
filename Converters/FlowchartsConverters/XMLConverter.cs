@@ -32,7 +32,7 @@ namespace Converters.FlowchartsConverters
                     if (xmlAttributeCollection == null) continue;
                     Blocks.Add(new Block
                     {
-                        Content = ((XmlNode) b).InnerText,
+                        Content = ((XmlNode)b).InnerText.Replace("\r\n", string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty).Replace("\t", string.Empty),
                         Id = ulong.Parse((xmlAttributeCollection["Id"].Value)),
                         Type = BlockTypes.Condition
                     });
@@ -57,7 +57,7 @@ namespace Converters.FlowchartsConverters
                     if (xmlAttributeCollection == null) continue;
                     Blocks.Add(new Block
                     {
-                        Content = ((XmlNode)b).InnerText,
+                        Content = ((XmlNode)b).InnerText.Replace("\r\n", string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty).Replace("\t", string.Empty),
                         Id = ulong.Parse((xmlAttributeCollection["Id"].Value)),
                         Type = BlockTypes.Process
                     });
@@ -75,7 +75,7 @@ namespace Converters.FlowchartsConverters
                     if (xmlAttributeCollection == null) continue;
                     Blocks.Add(new Block
                     {
-                        Content = ((XmlNode)b).InnerText,
+                        Content = ((XmlNode)b).InnerText.Replace("\r\n", string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty).Replace("\t", string.Empty),
                         Id = ulong.Parse((xmlAttributeCollection["Id"].Value)),
                         Type = BlockTypes.Input
                     });
@@ -93,7 +93,7 @@ namespace Converters.FlowchartsConverters
                     if (xmlAttributeCollection == null) continue;
                     Blocks.Add(new Block
                     {
-                        Content = ((XmlNode)b).InnerText,
+                        Content = ((XmlNode)b).InnerText.Replace("\r\n", string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty).Replace("\t", string.Empty),
                         Id = ulong.Parse((xmlAttributeCollection["Id"].Value)),
                         Type = BlockTypes.Output
                     });

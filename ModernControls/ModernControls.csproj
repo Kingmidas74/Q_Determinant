@@ -62,12 +62,17 @@
     <Compile Include="InternalClasses\Converters\BlockTypeToImgSourceConverter.cs" />
     <Compile Include="InternalClasses\Converters\BoolToStarConverter.cs" />
     <Compile Include="InternalClasses\Converters\LogsTypeToColorConverter.cs" />
+    <Compile Include="InternalClasses\Dialogs\DialogFactory.cs" />
+    <Compile Include="InternalClasses\Dialogs\DialogTypes.cs" />
     <Compile Include="InternalClasses\Log.cs" />
     <Compile Include="InternalClasses\LogType.cs" />
     <Compile Include="InternalClasses\Singleton.cs" />
     <Compile Include="InternalClasses\SolutionItemTypes.cs" />
     <Compile Include="InternalClasses\SolutionTreeItem.cs" />
     <Compile Include="MWindow.cs" />
+    <Compile Include="NewProjectDialog.xaml.cs">
+      <DependentUpon>NewProjectDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -96,6 +101,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="BasicTextEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewProjectDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,6 +182,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Converters\Converters.csproj">
+      <Project>{ff308b02-4a97-496d-aa01-14f53ac45f91}</Project>
+      <Name>Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{F501BEF7-5A55-43BC-910F-2BE759829E0E}</Project>
       <Name>Core</Name>

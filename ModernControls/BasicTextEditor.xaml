@@ -8,5 +8,5 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <TextBox x:Name="EditableText" Style="{DynamicResource BaseFont}" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" TextChanged="OnChanged"/>
+    <RichTextBox x:Name="EditableText" TextChanged="OnChanged" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Width="600" Foreground="{DynamicResource BasicFontColorBrush}"/>
 </UserControl>

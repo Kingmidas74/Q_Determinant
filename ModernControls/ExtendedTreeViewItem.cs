@@ -1,4 +1,6 @@
-﻿using ModernControls.InternalClasses;
+﻿using System;
+using System.IO;
+using ModernControls.InternalClasses;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -19,6 +21,14 @@ namespace ModernControls
         {
             get { return (SolutionItemTypes)GetValue(TypeProperty); }
             set { SetValue(TypeProperty, value); }
+        }
+
+        public static readonly DependencyProperty ProjectPathProperty =
+    DependencyProperty.Register("ProjectPath", typeof(string), typeof(ExtendedTreeViewItem), new FrameworkPropertyMetadata());
+        public string ProjectPath
+        {
+            get { return (string)GetValue(ProjectPathProperty); }
+            set { SetValue(ProjectPathProperty, value); }
         }
         static ExtendedTreeViewItem()
         {

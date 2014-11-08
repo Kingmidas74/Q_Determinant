@@ -2,6 +2,7 @@
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Xml;
 
 namespace ModernControls
@@ -21,14 +22,14 @@ namespace ModernControls
         public void SetText(string filePath)
         {
             _filePath = filePath;
-            EditableText.Text = File.ReadAllText(filePath, Encoding.UTF8);
+            EditableText.AppendText(File.ReadAllText(filePath, Encoding.UTF8));
             SetIsChange(false);
+
         }
 
         private void SetIsChange(bool status)
         {
             IsChange = status;
-            //MessageBox.Show(((this as UserControl).Parent as object).ToString());
         }
 
         private void OnChanged(object sender, TextChangedEventArgs e)
@@ -41,16 +42,22 @@ namespace ModernControls
             if (IsChange)
             {
                 var tempFilePath = (new StringBuilder(_filePath)).Append(@".tmp").ToString();
+                var textRange = new TextRange(
+                    // TextPointer to the start of content in the RichTextBox.
+                        EditableText.Document.ContentStart,
+                    // TextPointer to the end of content in the RichTextBox.
+                        EditableText.Document.ContentEnd
+                    );
                 try
                 {
                     var xDoc = new XmlDocument();
-                    xDoc.LoadXml(EditableText.Text);
+                    xDoc.LoadXml(textRange.Text);
                     xDoc.Save(tempFilePath);
 
                 }
                 catch
                 {
-                    File.WriteAllText(tempFilePath, EditableText.Text);
+                    File.WriteAllText(tempFilePath, textRange.Text);
                 }
                 finally
                 {

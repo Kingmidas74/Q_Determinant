@@ -30,8 +30,8 @@
                         <Menu DockPanel.Dock="Top" IsMainMenu="True">
                             <MenuItem Header="FILE">
                                 <MenuItem Header="New">
-                                    <MenuItem Header="Solution"/>
-                                    <MenuItem Header="Project" />
+                                    <MenuItem Header="Solution" x:Name="NewSolutionMenuItem"/>
+                                    <MenuItem Header="Project" x:Name="NewProjectMenuItem"/>
                                 </MenuItem>
                                 <MenuItem Header="Open">
                                     <MenuItem Header="Solution" x:Name="OpenSolutionMenuItem" />
@@ -43,18 +43,17 @@
                                 <MenuItem Header="Close" x:Name="CloseMenuItem"/>
                             </MenuItem>
                             <MenuItem Header="PROJECT">
-                                <MenuItem Header="Add Flowchart"/>
+                                <!--<MenuItem Header="Add Flowchart"/>
                                 <Separator/>
                                 <MenuItem Header="Import">
-                                    <MenuItem Header="Flowchart..."/>
-                                    <MenuItem Header="Implementation Plan..."/>
-                                    <MenuItem Header="Q-Determinant..."/>
-                                </MenuItem>
+                                    <MenuItem Header="Flowchart..." x:Name="IFCMenuItem"/>
+                                    <MenuItem Header="Implementation Plan..." x:Name="IIPMenuItem"/>
+                                    <MenuItem Header="Q-Determinant..." x:Name="IQDMenuItem"/>
+                                </MenuItem>-->
                                 <MenuItem Header="Export">
-                                    <MenuItem Header="Flowchart..."/>
-                                    <MenuItem Header="Implementation Plan..."/>
-                                    <Separator/>
-                                    <MenuItem Header="Q-Determinant..."/>
+                                    <MenuItem Header="Flowchart..." x:Name="EFCMenuItem"/>
+                                    <MenuItem Header="Implementation Plan..." x:Name="EIPMenuItem"/>
+                                    <!--<MenuItem Header="Q-Determinant..." x:Name="EQDMenuItem"/>-->
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Properties"/>

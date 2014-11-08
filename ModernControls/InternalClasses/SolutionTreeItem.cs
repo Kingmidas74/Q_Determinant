@@ -7,6 +7,7 @@ namespace ModernControls.InternalClasses
         public string IconPath { get; set; }
         public string Title { get; set; }
         public string FilePath { get; set; }
+        public string ProjectPath { get; set; }
         public List<SolutionTreeItem> Items { get; set; }
 
         public SolutionItemTypes Type { get; set; }
@@ -15,13 +16,6 @@ namespace ModernControls.InternalClasses
         {
             Items=new List<SolutionTreeItem>();
             Type = ItemType;
-            switch (ItemType)
-            {
-                case SolutionItemTypes.Project:
-                    break;
-                default:
-                    break;
-            }
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using ActionList;
 using Converters;
 using Core;
 using FlowChart;
 using ImplementationPlan;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ImplementationPlan.ActionListTemp;
 
 namespace UnitTest
 {
@@ -41,13 +43,11 @@ namespace UnitTest
             var flowChart = new Chart(converter.GetBlocks(), converter.GetLinks());
             var converter2 = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
             converter2.ParseDocument(@"C:\test\op.json");
-            var actionList = new AList(flowChart.GetBlocks(), flowChart.GetLinks(), converter2.GetBlocks());
-            Assert.AreEqual("dx>=(5*a+2*(b-1))", actionList.getqdet().QDeterminant[0].Logical);
-            Assert.AreEqual("8+2", actionList.getqdet().QDeterminant[0].Definitive);
-            Assert.AreEqual("dx<=(5*a+2*(b-1))", actionList.getqdet().QDeterminant[0].Logical);
-            Assert.AreEqual("3+a", actionList.getqdet().QDeterminant[0].Definitive);
-            
-
+            var actionList = new QDCalculator(flowChart.GetBlocks(), flowChart.GetLinks(), converter2.GetBlocks());
+            Assert.AreEqual("dx>=(5*a+2*(b-1))", actionList.GetQD().QDeterminant[0].Logical);
+            Assert.AreEqual("8+2", actionList.GetQD().QDeterminant[0].Definitive);
+            Assert.AreEqual("dx<=(5*a+2*(b-1))", actionList.GetQD().QDeterminant[0].Logical);
+            Assert.AreEqual("3+a", actionList.GetQD().QDeterminant[0].Definitive);
         }
 
         [TestMethod]

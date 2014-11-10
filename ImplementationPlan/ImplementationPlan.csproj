@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionListTemp\ActionList.cs" />
+    <Compile Include="ActionListTemp\Element.cs" />
+    <Compile Include="ActionListTemp\QDCalculator.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="IGraph.cs" />
     <Compile Include="Plan.cs" />

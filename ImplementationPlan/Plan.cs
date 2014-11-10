@@ -61,7 +61,9 @@ namespace ImplementationPlan
                 block.Level = currentNewLevel;
                 nBlocks.Add(block);
             }
-            _graph = new Graph(nBlocks,links);
+            var ZeroBlocks = (GetVertexGraph()).Where(x => x.Level == 0).OrderBy(x => x.Id).ToList();
+            ZeroBlocks.AddRange(nBlocks);
+            _graph = new Graph(ZeroBlocks,links);
             CountProcessors = countProcessors;
             CountTacts = _graph.GetMaxLevel();
         }

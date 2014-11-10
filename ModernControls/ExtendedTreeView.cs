@@ -170,6 +170,10 @@ namespace ModernControls
                     var projectXmlDoc = new XmlDocument();
                     currentAlgorithmProject.FilePath = Path.Combine(rootDirectory, project.Attributes["Path"].InnerText);
                     currentAlgorithmProject.ProjectPath = currentAlgorithmProject.FilePath;
+                    if (String.IsNullOrEmpty(CurrentProjectPath) || !String.IsNullOrEmpty(pathToSolutionFile))
+                    {
+                        CurrentProjectPath = currentAlgorithmProject.FilePath;
+                    }
                     currentAlgorithmProject.Title = Path.GetFileName(currentAlgorithmProject.FilePath);
                     var projectDirectory = Path.GetDirectoryName(currentAlgorithmProject.FilePath);
                     projectXmlDoc.Load(currentAlgorithmProject.FilePath);

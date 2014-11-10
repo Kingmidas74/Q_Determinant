@@ -26,7 +26,7 @@ namespace Compiler
             Solution
         }
 
-        static private ulong countNode = 0;
+        private static ulong countNode;
         private static List<Operation> Opertaions; 
 
         private static QDet QDeterminant;
@@ -227,7 +227,11 @@ namespace Compiler
             var doc = new XmlDocument();
             doc.Load(sourcePath);
             var Oconverter = Manufactory.CreateOperationConverter(ConverterTypes.JSON);
-            Oconverter.ParseDocument(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(sourcePath),doc.SelectSingleNode("//Operations").Attributes["Path"].InnerText));
+            Oconverter.ParseDocument(Path.Combine(Path.GetDirectoryName(sourcePath),doc.SelectSingleNode("//Operations").Attributes["Path"].InnerText));
+            if (countNode == null)
+            {
+                countNode = ulong.Parse(doc.SelectSingleNode("//maxCPU").InnerText);
+            }
             Opertaions = Oconverter.GetBlocks();
             foreach (XmlNode project in doc.SelectNodes("//Project"))
             {

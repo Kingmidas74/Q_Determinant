@@ -66,6 +66,7 @@
                         </Menu>
                         <ToolBarTray DockPanel.Dock="Top">
                             <ToolBar Band="0" BandIndex="0">
+                                <local:NumericBox Value="0" Minimum="0" Increment="1" x:Name="CPUCount"/>
                                 <Separator/>
                                 <Button Style="{StaticResource MTitleBarButtonStyle}" x:Name="Compiler">
                                     <StackPanel Orientation="Horizontal">

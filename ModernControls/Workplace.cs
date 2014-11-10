@@ -155,7 +155,8 @@ namespace ModernControls
             var startupstring = new StringBuilder("");
             startupstring.Append(" -s ")
                 .Append(currentSolutionPath)
-                .Append(" -ip ");
+                .Append(" -ip ").Append(" -n ").Append((GetTemplateChild("CPUCount") as NumericBox).Value.ToString()).Append(" ");
+            
             p.StartInfo.FileName = "Compiler.exe";
             p.StartInfo.Arguments = startupstring.ToString();
             //p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;

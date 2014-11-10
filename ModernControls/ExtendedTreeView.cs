@@ -124,18 +124,11 @@ namespace ModernControls
                 xmlDoc.Save(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), dialog.ProjectTitle, "FlowChart.fc"));
                 xmlDoc = new XmlDocument();
                 xmlDoc.Load(CurrentSolutionPath);
-                var rChild = xmlDoc.SelectSingleNode("//Projects");
-                var nChild = xmlDoc.CreateNode(XmlNodeType.Element, "Projects", null);
-                foreach (XmlNode node in rChild.ChildNodes)
-                {
-                    nChild.AppendChild(node);
-                }
                 var nProj = xmlDoc.CreateNode(XmlNodeType.Element, "Project", null);
                 var pathProj = xmlDoc.CreateAttribute("Path");
                 pathProj.InnerText = dialog.ProjectTitle + "\\" + dialog.ProjectTitle + ".qpr";
                 nProj.Attributes.Append(pathProj);
-                nChild.AppendChild(nProj);
-                xmlDoc.SelectSingleNode("//Solution").ReplaceChild(nChild, rChild);
+                xmlDoc.SelectSingleNode("//Projects").AppendChild(nProj);
                 xmlDoc.Save(CurrentSolutionPath);
                 RefreshSolution();
             }

@@ -162,7 +162,7 @@ namespace ModernControls
             //p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
-            //pr.StartInfo.StandardOutputEncoding = Encoding.GetEncoding(866);
+            p.StartInfo.StandardOutputEncoding = Encoding.GetEncoding(866);
             p.StartInfo.CreateNoWindow = true;
             p.OutputDataReceived += WriteToLog;
             p.Start();

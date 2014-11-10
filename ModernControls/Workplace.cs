@@ -50,6 +50,8 @@ namespace ModernControls
         {
             (GetTemplateChild("OpenSolutionMenuItem") as MenuItem).Click += OpenSolutionMenuItemClick;
             (GetTemplateChild("EFCMenuItem") as MenuItem).Click += EFCMenuItemClick;
+            (GetTemplateChild("SAIFCMenuItem") as MenuItem).Click += SAIFCMenuItemClick;
+            (GetTemplateChild("SAIIPMenuItem") as MenuItem).Click += SAIIPMenuItemClick;
             (GetTemplateChild("NewProjectMenuItem") as MenuItem).Click += NewProjectMenuItemClick;
             //(GetTemplateChild("EQDMenuItem") as MenuItem).Click += EQDMenuItemClick;
             (GetTemplateChild("EIPMenuItem") as MenuItem).Click += EIPMenuItemClick;
@@ -63,6 +65,16 @@ namespace ModernControls
             (GetTemplateChild("WorkPlaceTabs") as ExtendedTabControl).SetLogsDelegate(writeDelegate);
             (GetTemplateChild("ElementList") as ListBox).SelectionChanged += SelectedBlockTypeClick;
             base.OnApplyTemplate();
+        }
+
+        private void SAIIPMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            (GetTemplateChild("SolutionTree") as ExtendedTreeView).SAIIP();
+        }
+
+        private void SAIFCMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            (GetTemplateChild("SolutionTree") as ExtendedTreeView).SAIFC();
         }
 
         private void NewProjectMenuItemClick(object sender, RoutedEventArgs e)
@@ -146,7 +158,7 @@ namespace ModernControls
                 .Append(" -ip ");
             p.StartInfo.FileName = "Compiler.exe";
             p.StartInfo.Arguments = startupstring.ToString();
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            //p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
             //pr.StartInfo.StandardOutputEncoding = Encoding.GetEncoding(866);

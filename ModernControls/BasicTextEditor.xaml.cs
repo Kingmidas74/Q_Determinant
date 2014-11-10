@@ -43,9 +43,7 @@ namespace ModernControls
             {
                 var tempFilePath = (new StringBuilder(_filePath)).Append(@".tmp").ToString();
                 var textRange = new TextRange(
-                    // TextPointer to the start of content in the RichTextBox.
                         EditableText.Document.ContentStart,
-                    // TextPointer to the end of content in the RichTextBox.
                         EditableText.Document.ContentEnd
                     );
                 try
@@ -63,6 +61,7 @@ namespace ModernControls
                 {
                     File.Delete(_filePath);
                     File.Copy(tempFilePath, _filePath);
+                    File.Delete(tempFilePath);
                     SetIsChange(false);
                 }
             }

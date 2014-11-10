@@ -81,7 +81,28 @@ namespace Converters.ImplementationPlanConverters
 
         protected override void Parse(string data)
         {
-            
+            if (Validation(data))
+            {
+                var jsonObject = JArray.Parse(data);
+                foreach (var element in jsonObject)
+                {
+                    Blocks.Add(new Block
+                    {
+                        Content = (string)element["Content"],
+                        Level = ulong.Parse((string)element["Level"]),
+                        Id = ulong.Parse((string)element["Id"]),
+                    });
+                    Links.Add(new Link
+                    {
+                        From = ulong.Parse((string)element["Id"]),
+                        To = ulong.Parse((string)element["NextElement"]),
+                    });
+                }
+            }
+            else
+            {
+                throw new Exception("Unvalid JSON");
+            }
         }
 
         public override void SaveToFile(string filePath)

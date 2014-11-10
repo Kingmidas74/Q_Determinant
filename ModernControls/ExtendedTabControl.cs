@@ -12,6 +12,7 @@ namespace ModernControls
 {
     public class ExtendedTabControl : TabControl, INotifyPropertyChanged
     {
+        private static ExtendedTabControl _instance=null;
         private WriteLogsDelegate _logsDelegate;
         private ObservableCollection<ExtendedTabItem> _tabsList;
         public ObservableCollection<ExtendedTabItem> TabsList
@@ -38,6 +39,7 @@ namespace ModernControls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedTabControl), new FrameworkPropertyMetadata(typeof(ExtendedTabControl)));
             AddHandler(ExtendedTabItem.CloseTabEvent, new RoutedEventHandler(CloseTab));
             TabsList = new ObservableCollection<ExtendedTabItem>();
+            _instance = this;
         }
 
         private void CloseTab(object source, RoutedEventArgs args)
@@ -49,14 +51,56 @@ namespace ModernControls
 
     
 
-        private bool CheckExistTabInItems(ExtendedTabItem tab)
+        private bool CheckExistTabInItems(ExtendedTabItem tab, string prefix=null)
         {
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                tab.Tag = (new StringBuilder(prefix).Append(tab.Tag));
+            }
             return TabsList.FirstOrDefault(x => x.Tag.ToString().Equals(tab.Tag.ToString())) == null;
+        }
+
+        private bool CheckExistTabByNameInItems(string name)
+        {
+            return true;//TabsList.FirstOrDefault(x => x.Tag.ToString().Equals(tab.Tag.ToString())) == null;
         }
 
         public void SetLogsDelegate(WriteLogsDelegate writeDelegate)
         {
             _logsDelegate = writeDelegate;
+        }
+
+        public static void SAIFile(string filepath, SolutionItemTypes type)
+        {
+            if (_instance != null)
+            {
+                var prefix = "[Image] ";
+                var tab = new ExtendedTabItem();
+                tab.Header = (new StringBuilder(prefix).Append(Path.GetFileName(filepath))).ToString();
+                tab.Tag = filepath;
+                if (_instance.CheckExistTabInItems(tab, prefix))
+                {
+                    var imageCanvas = new BasicCanvas();
+                    imageCanvas.SetFile(filepath,type);
+                    tab.Content = imageCanvas;
+                    _instance.TabsList.Add(tab);
+                    _instance.ItemsSource = _instance.TabsList;
+                    _instance.SelectedIndex = _instance.TabsList.Count - 1;
+                }
+                else
+                {
+                    var index = 0;
+                    foreach (var currentTab in _instance.TabsList)
+                    {
+                        if (currentTab.Tag.ToString().Equals(tab.Tag.ToString()))
+                        {
+                            _instance.SelectedIndex = index;
+                            break;
+                        }
+                        index++;
+                    }
+                }
+            }
         }
         
         public void AddTab(ExtendedTreeViewItem item)
@@ -71,17 +115,9 @@ namespace ModernControls
                     tab.Tag = item.Tag.ToString();
                     if (CheckExistTabInItems(tab))
                     {
-                        if (item.Type != SolutionItemTypes.ImplementationPlan)
-                        {
-                            var textEditor = new BasicTextEditor();
-                            textEditor.SetText(tab.Tag.ToString());
-                            tab.Content = textEditor;
-                        }
-                        else
-                        {
-                            var content = new Canvas();
-                            tab.Content = content;
-                        }
+                        var textEditor = new BasicTextEditor();
+                        textEditor.SetText(tab.Tag.ToString());
+                        tab.Content = textEditor;
                         TabsList.Add(tab);
                         ItemsSource = TabsList;
                         SelectedIndex = TabsList.Count - 1;

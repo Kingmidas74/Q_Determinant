@@ -48,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ASide.cs" />
+    <Compile Include="BasicCanvas.xaml.cs">
+      <DependentUpon>BasicCanvas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BasicTextEditor.xaml.cs">
       <DependentUpon>BasicTextEditor.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BasicCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BasicTextEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -193,6 +200,10 @@
     <ProjectReference Include="..\FlowChart\FlowChart.csproj">
       <Project>{2056d778-7c95-4d69-8fab-935a39f16249}</Project>
       <Name>FlowChart</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImplementationPlan\ImplementationPlan.csproj">
+      <Project>{bda4e566-d384-46bd-8d4a-16af5704f6ce}</Project>
+      <Name>ImplementationPlan</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@ using Core;
 
 namespace ImplementationPlan
 {
-    internal class Graph : IGraph
+    public class Graph : IGraph
     {
         private readonly List<Block> _vertex;
         private readonly List<Link> _edge;
@@ -82,5 +82,6 @@ namespace ImplementationPlan
         {
             return _vertex;
         }
+
     }
 }

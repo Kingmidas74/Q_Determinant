@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -206,6 +208,32 @@ namespace ModernControls
         public void SetLogsDelegate(WriteLogsDelegate writeDelegate)
         {
             _logsDelegate = writeDelegate;
+        }
+
+        public void SAIIP()
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(CurrentProjectPath);
+            foreach (XmlNode node in xmlDoc.SelectNodes("//File"))
+            {
+                if (node.Attributes["Type"].InnerText.Equals("ImplementationPlan"))
+                {
+                    ExtendedTabControl.SAIFile(Path.Combine(Path.GetDirectoryName(CurrentProjectPath), node.Attributes["Path"].InnerText), SolutionItemTypes.ImplementationPlan);
+                }
+            }
+        }
+
+        public void SAIFC()
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(CurrentProjectPath);
+            foreach (XmlNode node in xmlDoc.SelectNodes("//File"))
+            {
+                if (node.Attributes["Type"].InnerText.Equals("FlowChart"))
+                {
+                    ExtendedTabControl.SAIFile(Path.Combine(Path.GetDirectoryName(CurrentProjectPath), node.Attributes["Path"].InnerText), SolutionItemTypes.FlowChart);
+                }
+            }
         }
     }
 }

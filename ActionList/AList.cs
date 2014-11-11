@@ -344,11 +344,17 @@ namespace ActionList
                 vastr2 = va.ToString();
 
                 //opex.name = va.ToString();
-
-
-               
+                
+                
                     if (isinops(vastr2))
-                        opexexp.Append(retvalue(vastr2));
+                    {
+                        if (!vastr.Equals(vastr2))
+                        {
+                            opexexp.Append(retvalue(vastr2));
+                        }
+
+                        Debug.WriteLine(retvalue(vastr2), "RETVAL VAR2");
+                    }
                     else
                         opexexp.Append(vastr2);
 
@@ -358,6 +364,7 @@ namespace ActionList
                 
                 va.Clear();
                 //va.Append("");
+                Debug.WriteLine(vastr2, "2nd VAR");
 
                 if (isoperexist)
                 {
@@ -369,16 +376,28 @@ namespace ActionList
                     vastr3 = va.ToString();
 
                     if (isinops(vastr3))
-                        opexexp.Append(retvalue(vastr3));
+                    {
+                        if (!vastr.Equals(vastr3))
+                        {
+                            opexexp.Append(retvalue(vastr3));
+                        }
+
+                        Debug.WriteLine(retvalue(vastr3), "RETVAL VAR3");
+                    }
                     else
                         opexexp.Append(vastr3);
                 }
                 opex.name = vastr;
 
                 opex.Exp = opexexp.ToString();
+                opexexp.Clear();
 
                 addtoOp(opex);
+                opex.Exp = "";
             }
+
+            Debug.WriteLine(opexexp, "TO OPER");
+            Debug.WriteLine(vastr3, "3rd VAR");
 
             //if (isweq)
 
@@ -422,7 +441,7 @@ namespace ActionList
                 if (s.Equals(ex.name))
                 {
                     //Debug.WriteLine("IIO TRUE");
-                    if (ex.Exp.Length == 0)
+                    if (String.IsNullOrEmpty(ex.Exp))
                     return true;
                 }
             }

@@ -26,6 +26,29 @@ namespace ActionList
             FLink = null;
             var k = new QTerm();
 
+         /*   var test = new Block();
+            foreach (var ex in Blocks)
+            {
+                if (ex.Id == 14)
+                    test = ex;
+            }
+
+            Debug.WriteLine(test.Content);
+
+            for (int i = 0; i < test.Content.Length; i++)
+            {
+                if (!test.Content[i].Equals(':'))
+                    Debug.WriteLine(i);
+            }
+            string stri = "abcde";
+            for (int i = 0; i < stri.Length; i++)
+			{
+                if (!stri[i].Equals('d'))
+                    Debug.WriteLine(stri[i]);
+                else
+                    break;
+			}*/
+           
         foreach (var ex in Links)
             {
                 if (ex.From == 1)
@@ -126,7 +149,7 @@ namespace ActionList
 
         private void QQFalse(List<Block> Blocks, List<Link> Links, Link l, QTerm z, string s)
         {
-            z.Logical += pars(s);
+            z.Logical += pars(getvarcond(s));
             QQ(Blocks, Links, l, z);
         }
 
@@ -146,15 +169,22 @@ namespace ActionList
         {
             var va = new StringBuilder("");
             var tmp = new StringBuilder("");
+            var opex = new Expressions();
             string vastr = "";
             string vastr2 = "";
+
+            string vastrtest = "";
+
             char c, c1;
             string ret = "";
             int t = 0;
 
+            //Debug.WriteLine(s);
+
+
             for (int i = 0; i < s.Length; i++)
             {
-                if ((s[i] != '<') || (s[i] != '>') || (s[i] != '!') || (s[i] != '='))
+                if ((!s[i].Equals('<')) && (!s[i].Equals('>')) && (!s[i].Equals('!')) && (!s[i].Equals('=')))
                 {
                     va.Append(s[i]);
                 }
@@ -165,13 +195,20 @@ namespace ActionList
                     if (isinops(vastr))
                     {
                         tmp.Append(retvalue(vastr));
+                        tmp.Append(s[i]);
                     }
                     else
-                        tmp.Append(s[i]);
-
-                    if ((s[i+1]) == '=')
                     {
-                        tmp.Append(s[i + 1]);
+                       // opex.name = vastr;
+                       // opex.Exp = "";
+                       // addtoOp(opex);
+                        tmp.Append(vastr);
+                        tmp.Append(s[i]);
+                    }
+
+                    if (s[t].Equals('='))
+                    {
+                        tmp.Append(s[t]);
                         t = t + 1;
                     }
 
@@ -179,7 +216,11 @@ namespace ActionList
                 }
             }
 
-            va.Remove(0, vastr.Length);
+            va.Clear();
+
+            vastrtest = va.ToString();
+
+           // Debug.WriteLine(s.Length);
 
             for (int i = t; i < s.Length; i++)
             {
@@ -195,31 +236,44 @@ namespace ActionList
                 tmp.Append(vastr2);
 
             ret = tmp.ToString();
+
+           // Debug.WriteLine(ret);
+
+
             return ret;
         }
 
         private void getvar(string s)
         {
             var opex = new Expressions();
-            char c;
+           // string c = "";
             int temp = 0;
             var va = new StringBuilder("");
+            var opexexp = new StringBuilder("");
             string vastr = "";
+            string vastr2 = "";
+            string vastr3 = "";
             bool isweq = false;
+            bool isoperexist = false;
+            //bool isempty = false;
+
+            Debug.WriteLine(s, "BLOCK DATA");
 
             for (int i = 0; i < s.Length; i++)
             {
-                c = s[i];
-                if ((c != ':') || (c != '+') || (c != '-') || (c != '*') || (c != '/'))
+                //c = s[i];
+                if ((!s[i].Equals(':')) && (!s[i].Equals('+')) && (!s[i].Equals('-')) && (!s[i].Equals('*')) && (!s[i].Equals('/')))
                 {
-                    va.Append(c);
+                    //Debug.WriteLine(s[i]);
+                    va.Append(s[i]);
                 }
                 else
                 {
-                    temp = i + 1;
-                    if ((s[i] == ':'))
+                    //Debug.WriteLine(s[i]);
+                    temp = i;
+                    if ((s[i].Equals(':')))
                     {
-                        temp = temp + 1;
+                        temp = temp + 2;
                         isweq = true;
                     }
 
@@ -230,51 +284,99 @@ namespace ActionList
  
             vastr = va.ToString();
 
-            va.Remove(0, vastr.Length);
+
+            va.Clear();
 
             if (!isinops(vastr))
             {
+                //Debug.WriteLine(vastr);
                 opex.name = vastr;
-                opex.Exp = "(";
+                opex.Exp = "";
                 Op.Add(opex);
+                //Debug.WriteLine(opex.name);
+                opex.name = "";
             }
 
             if (!isweq)
             {
                 opex.name = vastr;
-                va.Append("(");
+                //va.Append("");
                 for (int i = temp; i < s.Length; i++)
                 {
                     va.Append(s[i]);
                 }
                 opex.Exp = va.ToString();
                 addtoOp(opex);
+                opex.Exp = "";
+                opex.name = "";
             }
             else
             {
+                //if (retvalue(vastr).Equals(""))
+                   // isempty = true;
+
+                
+                    opexexp.Append(retvalue(vastr));
+
+                 //   int l = retvalue(vastr).Length;
+
+                    
+                
+
                 for (int i = temp; i < s.Length; i++)
                 {
-                    c = s[i];
-                    if ((c != '+') || (c != '-') || (c != '*') || (c != '/'))
+                    //c = s[i];
+                    if ((!s[i].Equals('+')) && (!s[i].Equals('-')) && (!s[i].Equals('*')) && (!s[i].Equals('/')))
                     {
-                        va.Append(c);
+                        va.Append(s[i]);
+                        temp = i;
                     }
                     else
                     {
+                        //va.Append(s[i]);
                         temp = i + 1;
+                        //char c = s[i];
+                        isoperexist = true;
                         break;
                     } 
                 }
+ 
+                vastr2 = va.ToString();
 
-                opex.name = va.ToString();
-                va.Remove(0, vastr.Length);
-                va.Append("(");
-                for (int i = temp; i < s.Length; i++)
+                //opex.name = va.ToString();
+
+
+               
+                    if (isinops(vastr2))
+                        opexexp.Append(retvalue(vastr2));
+                    else
+                        opexexp.Append(vastr2);
+
+                    if (!isempty(vastr))
+                        if (isoperexist)
+                            opexexp.Append(s[temp - 1]);
+                
+                va.Clear();
+                //va.Append("");
+
+                if (isoperexist)
                 {
-                    va.Append(s[i]);  
-                }
+                    for (int i = temp; i < s.Length; i++)
+                    {
+                        va.Append(s[i]);
+                    }
 
-                opex.Exp = va.ToString();
+                    vastr3 = va.ToString();
+
+                    if (isinops(vastr3))
+                        opexexp.Append(retvalue(vastr3));
+                    else
+                        opexexp.Append(vastr3);
+                }
+                opex.name = vastr;
+
+                opex.Exp = opexexp.ToString();
+
                 addtoOp(opex);
             }
 
@@ -301,9 +403,30 @@ namespace ActionList
         {
             foreach (var ex in Op)
             {
-                if (String.Equals(s, ex.name, StringComparison.Ordinal))
+               // if (String.Equals(s, ex.name, StringComparison.Ordinal))
+                if (s.Equals(ex.name))
+                {
+                    //Debug.WriteLine("IIO TRUE");
                     return true;
+                }
             }
+           // Debug.WriteLine("IIO FALSE");
+            return false;
+        }
+
+        private bool isempty(string s)
+        {
+            foreach (var ex in Op)
+            {
+                // if (String.Equals(s, ex.name, StringComparison.Ordinal))
+                if (s.Equals(ex.name))
+                {
+                    //Debug.WriteLine("IIO TRUE");
+                    if (ex.Exp.Length == 0)
+                    return true;
+                }
+            }
+            // Debug.WriteLine("IIO FALSE");
             return false;
         }
 
@@ -311,7 +434,8 @@ namespace ActionList
         {
             foreach (var ex in Op)
             {
-                if (String.Equals(s, ex.name, StringComparison.Ordinal))
+               // if (String.Equals(s, ex.name, StringComparison.Ordinal))
+                if (s.Equals(ex.name))
                     return ex.Exp;
             }
             return null;
@@ -322,10 +446,11 @@ namespace ActionList
             var temp = new StringBuilder("");
             foreach (var ex in Op)
             {
-                if (String.Equals(s.name, ex.name, StringComparison.Ordinal))
+                //if (String.Equals(s.name, ex.name, StringComparison.Ordinal))
+                if (s.name.Equals(ex.name))
                 {
                     temp.Append(ex.Exp);
-                    temp.Append(")");
+                    //temp.Append("");
                     temp.Append(s.Exp);
                     ex.Exp = temp.ToString();
                 }
@@ -336,7 +461,8 @@ namespace ActionList
         {
             foreach (var ex in Vs)
             {
-                if (String.Equals(s, ex, StringComparison.Ordinal))
+               // if (String.Equals(s, ex, StringComparison.Ordinal))
+                if (s.Equals(ex))
                     return false;
             }
             return true;
@@ -373,8 +499,8 @@ namespace ActionList
         {
             foreach (var t in AL.QDeterminant)
             {
-                Debug.WriteLine(t.Logical);
-                Debug.WriteLine(t.Definitive);
+               // Debug.WriteLine(t.Logical);
+               // Debug.WriteLine(t.Definitive);
             }
             return AL;
         }

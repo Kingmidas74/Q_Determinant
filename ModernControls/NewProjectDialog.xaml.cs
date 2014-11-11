@@ -21,5 +21,10 @@ namespace ModernControls
         {
             DialogResult = true;
         }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
     }
 }

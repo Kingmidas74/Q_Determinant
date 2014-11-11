@@ -65,10 +65,12 @@
     <Compile Include="InternalClasses\Converters\BlockTypeToImgSourceConverter.cs" />
     <Compile Include="InternalClasses\Converters\BoolToStarConverter.cs" />
     <Compile Include="InternalClasses\Converters\LogsTypeToColorConverter.cs" />
+    <Compile Include="InternalClasses\Converters\ProjectTypeToImgSourceConverter.cs" />
     <Compile Include="InternalClasses\Dialogs\DialogFactory.cs" />
     <Compile Include="InternalClasses\Dialogs\DialogTypes.cs" />
     <Compile Include="InternalClasses\Log.cs" />
     <Compile Include="InternalClasses\LogType.cs" />
+    <Compile Include="InternalClasses\ProjectTypes.cs" />
     <Compile Include="InternalClasses\Singleton.cs" />
     <Compile Include="InternalClasses\SolutionItemTypes.cs" />
     <Compile Include="InternalClasses\SolutionTreeItem.cs" />

@@ -44,12 +44,12 @@ namespace ImplementationPlan
                         {
                             if (priorityFlag == false)
                             {
-                                result.Add(new Link() { From = blocks[k].Id, To = blocks[i].Id, Type = LinkTypes.False });
+                                result.Add(new Link { From = blocks[k].Id, To = blocks[i].Id, Type = LinkTypes.False });
                                 priorityFlag = true;
                             }
                             else
                             {
-                                result.Add(new Link() { From = blocks[k].Id, To = blocks[i].Id, Type = LinkTypes.True });
+                                result.Add(new Link { From = blocks[k].Id, To = blocks[i].Id, Type = LinkTypes.True });
                                 priorityFlag = false;
                             }
                             countLink++;
@@ -100,7 +100,7 @@ namespace ImplementationPlan
         private void AddBlockToRPN(string content, ref List<Block> blocks)
         {
             if (string.IsNullOrEmpty(content)) return;
-            blocks.Add(new Block() {Content = content, Id = _currentId, Level = 0});
+            blocks.Add(new Block {Content = content, Id = _currentId, Level = 0});
             _currentId++;
         }
 

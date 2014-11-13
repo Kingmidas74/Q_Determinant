@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text;
 using Core;
@@ -10,14 +9,14 @@ namespace ImplementationPlan
 {
     internal class Transformer
     {
-        private QDet _qDet;
+        //private QDet _qDet;
         internal Graph Graph { get; private set; }
         private readonly List<Operation> _operations;
 
         private ulong _currentId;
         public Transformer(QDet qDet, List<Operation> operations)
         {
-            _qDet = qDet;
+            //_qDet = qDet;
             _operations = operations;
             _currentId = 1;
             var allBlocks = new List<Block>();

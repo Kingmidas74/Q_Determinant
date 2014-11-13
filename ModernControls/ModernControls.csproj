@@ -56,6 +56,9 @@
     </Compile>
     <Compile Include="BlockPanel.cs" />
     <Compile Include="DebugConsole.cs" />
+    <Compile Include="EllipseIP.xaml.cs">
+      <DependentUpon>EllipseIP.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExtendedTabControl.cs" />
     <Compile Include="ExtendedTabItem.cs" />
     <Compile Include="ExtendedTreeView.cs" />
@@ -111,6 +114,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BasicTextEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EllipseIP.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

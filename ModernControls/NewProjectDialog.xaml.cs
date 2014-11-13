@@ -1,4 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using ModernControls.InternalClasses;
+
 namespace ModernControls
 {
     /// <summary>
@@ -9,6 +15,7 @@ namespace ModernControls
         public NewProjectDialog()
         {
             InitializeComponent();
+            //ProjectList.ItemsSource =
         }
 
         public string ProjectTitle
@@ -16,6 +23,9 @@ namespace ModernControls
             get { return ResponseTextBox.Text; }
             set { ResponseTextBox.Text = value; }
         }
+
+        public ProjectTypes ProjectType { get; set; }
+        
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
@@ -25,6 +35,15 @@ namespace ModernControls
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+        }
+
+        private void ChooseProjectType(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
+        private void ChooseType(object sender, MouseButtonEventArgs e)
+        {
+            ProjectType = (ProjectTypes)Enum.Parse(typeof(ProjectTypes), (sender as StackPanel).Tag.ToString());
         }
     }
 }

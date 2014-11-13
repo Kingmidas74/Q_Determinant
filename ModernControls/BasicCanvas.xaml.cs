@@ -51,15 +51,15 @@ namespace ModernControls
             var graph = new Graph(blocks, links);
             ulong startX = 30;
             ulong startY = 30;
-            var CountBlocksInLevel = new Dictionary<ulong, ulong>();
+            var countBlocksInLevel = new Dictionary<ulong, ulong>();
             for (ulong i = 0; i <= graph.GetMaxLevel(); i++)
             {
-                CountBlocksInLevel.Add(i, 0);
+                countBlocksInLevel.Add(i, 0);
             }
-            var grids = new List<Grid>();
+            var grids = new List<EllipseIP>();
             foreach (var block in blocks)
             {
-                var currentX = startX + (2*startX*CountBlocksInLevel[block.Level] + 20);
+                var currentX = startX + (2*startX*countBlocksInLevel[block.Level] + 20);
                 var currentY = (block.Level*startY + startY + 40*block.Level);
                 var grid = CreateGrid(currentY, currentX, block.Id);
                 if (block.Level > 0)
@@ -77,23 +77,21 @@ namespace ModernControls
                     y1 += currentGrids[0].Height;
                     foreach (var g in currentGrids)
                     {
-                        var line = CreateAPolyline(Canvas.GetLeft(g) + g.Width/2, Canvas.GetTop(g) + g.Height,
-                            x1 + g.Width/2, currentY);
+                        var line = CreateAPolyline(Canvas.GetLeft(g) + g.GetWidth()/2, Canvas.GetTop(g) + g.GetHeight(),
+                            x1 + g.GetWidth()/2, currentY);
                         ImageCanvas.Children.Add(line);
                     }
-                    grid = CreateGrid(currentY, x1, block.Id);
+                    grid = CreateGrid(currentY, x1, block.Id, block.Level);
                 }
-
-                CountBlocksInLevel[block.Level]++;
-                grid.Children.Add(CreateEllipse());
-                grid.Children.Add(CreateTb(block.Content));
+                countBlocksInLevel[block.Level]++;
+                grid.SetContent(block.Content);
                 grids.Add(grid);
             }
             foreach (var g in grids)
             {
                 ImageCanvas.Children.Add(g);
             }
-            ImageCanvas.Width = 2*startX + (2 * startX * CountBlocksInLevel[0] + 20);
+            ImageCanvas.Width = 2*startX + (2 * startX * countBlocksInLevel[0] + 20);
             ImageCanvas.Height = (graph.GetMaxLevel() * startY + 4*startY + 40 * graph.GetMaxLevel());
             
         }
@@ -101,7 +99,7 @@ namespace ModernControls
         private Polyline CreateAPolyline(double x1, double y1, double x2, double y2)
         {
             var arrow = new Polyline();
-            arrow.Stroke = FindResource("WindowBackgroundBrush") as SolidColorBrush;
+            arrow.Stroke = FindResource("BasicFontColorBrush") as SolidColorBrush;
             arrow.StrokeThickness = 0.5;
             
             var polygonPoints = new PointCollection();
@@ -113,37 +111,15 @@ namespace ModernControls
             return arrow;
         } 
 
-        private Grid CreateGrid(double top, double left, ulong id=0)
+        private EllipseIP CreateGrid(double top, double left, ulong id=0, ulong level=0)
         {
-            var grid = new Grid { Width = 40, Height = 40, Tag = id};
+            var grid = new EllipseIP {Tag = id};
             Canvas.SetTop(grid, top);
             Canvas.SetLeft(grid, left);
+            grid.SetLevel(level);
             return grid;
         }
 
-        private Ellipse CreateEllipse()
-        {
-            return new Ellipse
-            {
-                Width = 40,
-                Height = 40,
-                Stroke = FindResource("WindowBackgroundBrush") as SolidColorBrush,
-                StrokeThickness = 0.5
-            };
-        }
-
-        private TextBlock CreateTb(string content)
-        {
-            return new TextBlock
-            {
-                FontSize = 14,
-                Foreground = FindResource("WindowBackgroundBrush") as SolidColorBrush,
-                Text = content,
-                TextAlignment = TextAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
-        }
 
         private void drawFlowChart(string filepath)
         {

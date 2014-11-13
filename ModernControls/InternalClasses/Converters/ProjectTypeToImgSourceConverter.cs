@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Media.Imaging;
-using Core;
 
 namespace ModernControls.InternalClasses.Converters
 {
@@ -15,7 +14,6 @@ namespace ModernControls.InternalClasses.Converters
         };
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //return _imagePathDictionary[(BlockTypes) value];
             return new BitmapImage(new Uri(_imagePathDictionary[(ProjectTypes)value], UriKind.Relative));
         }
 

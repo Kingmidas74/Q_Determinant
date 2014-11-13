@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -35,26 +33,27 @@ namespace ModernControls
 
         public void ExportFC()
         {
+            if (String.IsNullOrEmpty(CurrentProjectPath)) { _logsDelegate("Не указан проект", LogType.Error); return; }
             var directory = new DirectoryInfo(Path.GetDirectoryName(CurrentProjectPath));
             foreach (var file in directory.GetFiles().Where(file => file.Extension.Equals(".fc")))
             {
                 var dialog = DialogFactory.CallSaveDialog(DialogTypes.FlowChart);
                 if (dialog.ShowDialog()==true)
                 {
-                    var FromConverter = Manufactory.CreateFlowChartConverter(ConverterTypes.XML);
-                    FromConverter.ParseDocument(file.FullName);
+                    var fromConverter = Manufactory.CreateFlowChartConverter(ConverterTypes.XML);
+                    fromConverter.ParseDocument(file.FullName);
                     var targetFile = new FileInfo(dialog.FileName);
                     IFlowchartsConverter ToConverter;
                     switch (targetFile.Extension)
                     {
                         case ".xml" :
-                            ToConverter = FromConverter;
+                            ToConverter = fromConverter;
                             ToConverter.SaveToFile(targetFile.FullName);
                             break;
                         case ".json":
                             ToConverter = Manufactory.CreateFlowChartConverter(ConverterTypes.JSON);
-                            ToConverter.SetBlocks(FromConverter.GetBlocks());
-                            ToConverter.SetLinks(FromConverter.GetLinks());
+                            ToConverter.SetBlocks(fromConverter.GetBlocks());
+                            ToConverter.SetLinks(fromConverter.GetLinks());
                             ToConverter.SaveToFile(targetFile.FullName);
                             break;
                     }
@@ -68,6 +67,7 @@ namespace ModernControls
         }
         public void ExportIP()
         {
+            if (String.IsNullOrEmpty(CurrentProjectPath)) {_logsDelegate("Не указан проект",LogType.Error); return;}
             var directory = new DirectoryInfo(Path.GetDirectoryName(CurrentProjectPath));
             foreach (var file in directory.GetFiles().Where(file => file.Extension.Equals(".fc")))
             {
@@ -98,11 +98,12 @@ namespace ModernControls
         public void AddProject()
         {
             var dialog = new NewProjectDialog();
-            if (dialog.ShowDialog() == true && !String.IsNullOrEmpty(dialog.ProjectTitle))
+            if (dialog.ShowDialog() == true && !String.IsNullOrEmpty(dialog.ProjectTitle) &&
+                !String.IsNullOrEmpty(CurrentSolutionPath))
             {
                 Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), dialog.ProjectTitle));
                 var xmlDoc = new XmlDocument();
-                
+
                 var projectNode = xmlDoc.CreateNode(XmlNodeType.Element, "Project", null);
                 var filesNode = xmlDoc.CreateNode(XmlNodeType.Element, "Files", null);
                 var flowchartNode = xmlDoc.CreateNode(XmlNodeType.Element, "File", null);
@@ -117,7 +118,8 @@ namespace ModernControls
                 projectNode.AppendChild(referencesNode);
                 projectNode.AppendChild(filesNode);
                 xmlDoc.AppendChild(projectNode);
-                xmlDoc.Save(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), dialog.ProjectTitle, dialog.ProjectTitle+".qpr"));
+                xmlDoc.Save(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), dialog.ProjectTitle,
+                    dialog.ProjectTitle + ".qpr"));
                 xmlDoc = new XmlDocument();
                 var FCNode = xmlDoc.CreateNode(XmlNodeType.Element, "FlowChart", null);
                 xmlDoc.AppendChild(FCNode);
@@ -131,6 +133,11 @@ namespace ModernControls
                 xmlDoc.SelectSingleNode("//Projects").AppendChild(nProj);
                 xmlDoc.Save(CurrentSolutionPath);
                 RefreshSolution();
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(dialog.ProjectTitle)) { _logsDelegate("Не указано имя проекта", LogType.Error); }
+                if (String.IsNullOrEmpty(CurrentSolutionPath)) { _logsDelegate("Не открыто решение", LogType.Error);}
             }
         }
 
@@ -197,7 +204,7 @@ namespace ModernControls
             }
             catch (Exception e)
             {
-                _logsDelegate(e.Data.ToString(), LogType.Error);
+                _logsDelegate(e.Message, LogType.Error);
             }
         }
 
@@ -209,6 +216,7 @@ namespace ModernControls
 
         public void SAIIP()
         {
+            if (String.IsNullOrEmpty(CurrentProjectPath)) { _logsDelegate("Не указан проект", LogType.Error); return; }
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(CurrentProjectPath);
             foreach (XmlNode node in xmlDoc.SelectNodes("//File"))
@@ -222,6 +230,7 @@ namespace ModernControls
 
         public void SAIFC()
         {
+            if (String.IsNullOrEmpty(CurrentProjectPath)) { _logsDelegate("Не указан проект", LogType.Error); return; }
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(CurrentProjectPath);
             foreach (XmlNode node in xmlDoc.SelectNodes("//File"))

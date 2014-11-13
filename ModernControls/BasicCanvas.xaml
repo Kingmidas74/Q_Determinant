@@ -8,5 +8,5 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Canvas x:Name="ImageCanvas" Background="{DynamicResource BasicFontColorBrush}"/>
+    <Canvas x:Name="ImageCanvas" Background="{DynamicResource WorkplaceBackgroundBrush}"/>
 </UserControl>

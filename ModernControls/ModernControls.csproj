@@ -96,6 +96,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="QStudioControls\SolutionExplorer.xaml.cs">
+      <DependentUpon>SolutionExplorer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SolutionExplorer.xaml.cs">
+      <DependentUpon>SolutionExplorer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TextEditor.cs" />
     <Compile Include="Workplace.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -122,6 +128,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NewProjectDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="QStudioControls\SolutionExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SolutionExplorer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -203,25 +217,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Converters\Converters.csproj">
-      <Project>{ff308b02-4a97-496d-aa01-14f53ac45f91}</Project>
-      <Name>Converters</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{F501BEF7-5A55-43BC-910F-2BE759829E0E}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlowChart\FlowChart.csproj">
-      <Project>{2056d778-7c95-4d69-8fab-935a39f16249}</Project>
-      <Name>FlowChart</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ImplementationPlan\ImplementationPlan.csproj">
-      <Project>{bda4e566-d384-46bd-8d4a-16af5704f6ce}</Project>
-      <Name>ImplementationPlan</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Assets\" />
+    <Folder Include="Themes\CustomControls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

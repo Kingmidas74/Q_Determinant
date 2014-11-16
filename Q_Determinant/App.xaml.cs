@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Q_Determinant
+namespace QStudio
 {
     
     public partial class App : Application

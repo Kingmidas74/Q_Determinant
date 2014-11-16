@@ -10,17 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ModernControls;
 
-namespace Q_Determinant
+namespace ModernControls.QStudioControls
 {
     /// <summary>
-    /// Interaction logic for AboutWindow.xaml
+    /// Interaction logic for SolutionExplorer.xaml
     /// </summary>
-    public partial class AboutWindow : MWindow
+    public partial class SolutionExplorer : UserControl
     {
-        public AboutWindow()
+        public SolutionExplorer()
         {
             InitializeComponent();
         }

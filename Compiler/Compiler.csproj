@@ -48,10 +48,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ActionList\ActionList.csproj">
-      <Project>{fa704519-e0f2-497e-9b45-7e6d45e9e7ec}</Project>
-      <Name>ActionList</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Converters\Converters.csproj">
       <Project>{ff308b02-4a97-496d-aa01-14f53ac45f91}</Project>
       <Name>Converters</Name>

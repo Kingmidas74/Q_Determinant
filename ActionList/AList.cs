@@ -12,7 +12,7 @@ namespace ActionList
         public QDet AL;
         public List<Expressions> Op;
         public List<string> Vs;
-
+        
         public AList(List<Block> Blocks, List<Link> Links, List<Operation> Oper)
         {
             AL = new QDet();
@@ -48,6 +48,7 @@ namespace ActionList
                 else
                     break;
 			}*/
+
            
         foreach (var ex in Links)
             {
@@ -58,19 +59,63 @@ namespace ActionList
             }
         if (FLink != null)
         {
-            QQ(Blocks, Links, FLink, k);
+            //addvars(Blocks, Links, FLink, FLink);
+            QQ(Blocks, Links, FLink, k, Op);
         }
         }
 
+        private void addvars(List<Block> Blocks, List<Link> Links, Link l, Link FLink)
+        {
+            var k = new QTerm();
+            Link t;
+            t = null;
+            var opex = new Expressions();
+            var temp = new StringBuilder("");
+            var y = Blocks.FirstOrDefault(e => e.Id == l.To);
+            if (y.Type == BlockTypes.Process)
+            {
+                for (int i = 0; i < y.Content.Length; i++)
+                {
+                    if (y.Content[i] != ':')
+                        temp.Append(y.Content[i]);
+                    else
+                        break;
+                }
+                opex.name = temp.ToString();
+                opex.Exp = null;
+                Op.Add(opex);
+            }
+            
 
-        private void QQ(List<Block> Blocks, List<Link> Links, Link l, QTerm x)
+            if (y.Type == BlockTypes.End)
+                QQ(Blocks, Links, FLink, k, Op);
+
+            t = Links.FirstOrDefault(e => e.From == y.Id);
+            addvars(Blocks, Links, t, FLink);
+                
+        }
+        private void QQ(List<Block> Blocks, List<Link> Links, Link l, QTerm x, List<Expressions> Ops)
         {           
             Link t;
             Link t1;
             t1 = null;
             t = null;
+            var Opx = new List<Expressions>();
+            foreach (var ex in Ops)
+                Opx.Add(ex);
+
+            
 
             var y = Blocks.FirstOrDefault(e => e.Id == l.To);
+
+
+            if (y.Type == BlockTypes.Process)
+                foreach (var ex in Ops)
+                {
+                    Debug.WriteLine(ex.name);
+                    Debug.WriteLine(ex.Exp);
+                }
+
             if (y != null)
             {
                 if (y.Type == BlockTypes.Process)
@@ -79,9 +124,9 @@ namespace ActionList
                    // x.Definitive += '(';
                    // x.Definitive += y.Content;
                   //  x.Definitive += ')';
-                    getvar(y.Content);
+                    getvar(y.Content, Opx);
                     t = Links.FirstOrDefault(e => e.From == y.Id);
-                    QQ(Blocks, Links, t, x);
+                    QQ(Blocks, Links, t, x, Opx);
                 }
 
                 if (y.Type == BlockTypes.Condition)
@@ -103,10 +148,10 @@ namespace ActionList
                         z2.Append(x.Definitive);
                         z.Logical = z1.ToString();
                         z.Definitive = z2.ToString();
-                        QQFalse(Blocks, Links, t, z, getvarcond(y.Content));
+                        QQFalse(Blocks, Links, t, z, getvarcond(y.Content, Opx), Opx);
                         //x.Logical += y.Content;
-                        x.Logical += getvarcond(y.Content);
-                        QQ(Blocks, Links, t1, x);
+                        x.Logical += getvarcond(y.Content, Opx);
+                        QQ(Blocks, Links, t1, x, Opx);
                     }
                     else
                     {
@@ -117,10 +162,10 @@ namespace ActionList
                         z2.Append(x.Definitive);
                         z.Logical = z1.ToString();
                         z.Definitive = z2.ToString();
-                        QQFalse(Blocks, Links, t1, z, getvarcond(y.Content));
+                        QQFalse(Blocks, Links, t1, z, getvarcond(y.Content, Opx), Opx);
                         //x.Logical += y.Content;
-                        x.Logical += getvarcond(y.Content);
-                        QQ(Blocks, Links, t, x);
+                        x.Logical += getvarcond(y.Content, Opx);
+                        QQ(Blocks, Links, t, x, Opx);
                     }
 
                 }
@@ -129,14 +174,14 @@ namespace ActionList
                 {
                     Vs.Add(y.Content);
                     t = Links.FirstOrDefault(e => e.From == y.Id);
-                    QQ(Blocks, Links, t, x);
+                    QQ(Blocks, Links, t, x, Opx);
                 }
 
                 if (y.Type == BlockTypes.Output)
                 {
                     t = Links.FirstOrDefault(e => e.From == y.Id);
-                    x.Definitive = retvalue(y.Content);
-                    QQ(Blocks, Links, t, x);
+                    x.Definitive = retvalue(y.Content, Opx);
+                    QQ(Blocks, Links, t, x, Opx);
                 }
 
                 if (y.Type == BlockTypes.End)
@@ -147,25 +192,17 @@ namespace ActionList
    
         }
 
-        private void QQFalse(List<Block> Blocks, List<Link> Links, Link l, QTerm z, string s)
+        private void QQFalse(List<Block> Blocks, List<Link> Links, Link l, QTerm z, string s, List<Expressions> Opx)
         {
-            z.Logical += pars(getvarcond(s));
-            QQ(Blocks, Links, l, z);
+            var Opf = new List<Expressions>();
+            foreach (var ex in Opx)
+                Opf.Add(ex);
+
+            z.Logical += pars(getvarcond(s, Opf));
+            QQ(Blocks, Links, l, z, Opf);
         }
 
-       /* private string QtPars(string s)
-        {
-            string vari = "";
-            //vari = getvar(s);
-
-            if (isinops(vari))
-            { 
-                
-            }
-            return s;
-        }*/
-
-        private string getvarcond(string s)
+        private string getvarcond(string s, List<Expressions> Ops)
         {
             var va = new StringBuilder("");
             var tmp = new StringBuilder("");
@@ -174,12 +211,11 @@ namespace ActionList
             string vastr2 = "";
 
             string vastrtest = "";
+            bool isweq = false;
 
             char c, c1;
             string ret = "";
             int t = 0;
-
-            //Debug.WriteLine(s);
 
 
             for (int i = 0; i < s.Length; i++)
@@ -192,10 +228,18 @@ namespace ActionList
                 {
                     t = i+1;
                     vastr = va.ToString();
-                    if (isinops(vastr))
+                    //Debug.WriteLine(vastr, "CONDITION BLOCK!!! 1st VAR ");
+                    if (s[t].Equals('='))
                     {
-                        tmp.Append(retvalue(vastr));
+                        t = t + 1;
+                        isweq = true;
+                    }
+                    if (isinops(vastr, Ops))
+                    {
+                        tmp.Append(retvalue(vastr, Ops));
                         tmp.Append(s[i]);
+                        if (isweq)
+                            tmp.Append(s[i + 1]);
                     }
                     else
                     {
@@ -204,13 +248,15 @@ namespace ActionList
                        // addtoOp(opex);
                         tmp.Append(vastr);
                         tmp.Append(s[i]);
+                        if (isweq)
+                            tmp.Append(s[i+1]);
                     }
 
-                    if (s[t].Equals('='))
+                  /*  if (s[t].Equals('='))
                     {
                         tmp.Append(s[t]);
                         t = t + 1;
-                    }
+                    }*/
 
                     break;
                 }
@@ -220,30 +266,26 @@ namespace ActionList
 
             vastrtest = va.ToString();
 
-           // Debug.WriteLine(s.Length);
-
             for (int i = t; i < s.Length; i++)
             {
                 va.Append(s[i]);
             }
             vastr2 = va.ToString();
 
-            if (isinops(vastr2))
+            if (isinops(vastr2, Ops))
             {
-                tmp.Append(retvalue(vastr2));
+                tmp.Append(retvalue(vastr2, Ops));
             }
             else
                 tmp.Append(vastr2);
+            //Debug.WriteLine(vastr2, "CONDITION BLOCK!!! 2st VAR ");
 
             ret = tmp.ToString();
-
-           // Debug.WriteLine(ret);
-
 
             return ret;
         }
 
-        private void getvar(string s)
+        private void getvar(string s, List<Expressions> Ops)
         {
             var opex = new Expressions();
            // string c = "";
@@ -255,24 +297,27 @@ namespace ActionList
             string vastr3 = "";
             bool isweq = false;
             bool isoperexist = false;
+            char c = 'e';
             //bool isempty = false;
 
+            Debug.WriteLine("");
             Debug.WriteLine(s, "BLOCK DATA");
 
             for (int i = 0; i < s.Length; i++)
             {
-                //c = s[i];
                 if ((!s[i].Equals(':')) && (!s[i].Equals('+')) && (!s[i].Equals('-')) && (!s[i].Equals('*')) && (!s[i].Equals('/')))
                 {
-                    //Debug.WriteLine(s[i]);
                     va.Append(s[i]);
                 }
                 else
                 {
-                    //Debug.WriteLine(s[i]);
+
+                    Debug.WriteLine(s[i], "1st OPERATION ");
+
                     temp = i;
                     if ((s[i].Equals(':')))
                     {
+                        Debug.WriteLine(s[i + 1], "1st OP WEQ ");
                         temp = temp + 2;
                         isweq = true;
                     }
@@ -287,45 +332,60 @@ namespace ActionList
 
             va.Clear();
 
-            if (!isinops(vastr))
+            Debug.WriteLine(vastr, "1st VAR ");
+
+            if (!isinops(vastr, Ops))
             {
-                //Debug.WriteLine(vastr);
                 opex.name = vastr;
-                opex.Exp = "";
-                Op.Add(opex);
-                //Debug.WriteLine(opex.name);
-                opex.name = "";
+                Debug.WriteLine(opex.name, "TO OPS FIRST TIME");
+
+                if (opex.name.Equals(vastr))
+                    Debug.WriteLine("THEY ARE EQUALS!!!!!!!!!!!!!!!!!!!");
+
+//==================================================================================================================================================================================
+
+                for (int i = temp; i < s.Length; i++)
+                {
+                        va.Append(s[i]);
+                        temp = i;
+                }
+
+                
+//==================================================================================================================================================================================                
+                opex.Exp = va.ToString();
+                va.Clear();
+
+                Ops.Add(opex);
+                opex.name = null;
+                opex.Exp = null;
+                Debug.WriteLine("1st VAR NOT IN OPS");
             }
 
             if (!isweq)
             {
                 opex.name = vastr;
                 //va.Append("");
+                
                 for (int i = temp; i < s.Length; i++)
                 {
                     va.Append(s[i]);
                 }
                 opex.Exp = va.ToString();
-                addtoOp(opex);
-                opex.Exp = "";
-                opex.name = "";
+
+                Debug.WriteLine(opex.Exp, "W/O EQ ");
+
+                addtoOp(opex, Ops);
+                opex.Exp = null;
+                opex.name = null;
             }
             else
             {
-                //if (retvalue(vastr).Equals(""))
-                   // isempty = true;
+                    //opexexp.Append(retvalue(vastr, Ops));
 
-                
-                    opexexp.Append(retvalue(vastr));
-
-                 //   int l = retvalue(vastr).Length;
-
-                    
-                
+                    Debug.WriteLine(retvalue(vastr, Ops), "IN LIST");
 
                 for (int i = temp; i < s.Length; i++)
                 {
-                    //c = s[i];
                     if ((!s[i].Equals('+')) && (!s[i].Equals('-')) && (!s[i].Equals('*')) && (!s[i].Equals('/')))
                     {
                         va.Append(s[i]);
@@ -333,6 +393,7 @@ namespace ActionList
                     }
                     else
                     {
+                        c = s[i];
                         //va.Append(s[i]);
                         temp = i + 1;
                         //char c = s[i];
@@ -344,30 +405,40 @@ namespace ActionList
                 vastr2 = va.ToString();
 
                 //opex.name = va.ToString();
-                
-                
-                    if (isinops(vastr2))
+                Debug.WriteLine(vastr2, "2nd VAR");
+
+                if (isinops(vastr2, Ops))
+                {
+                    Debug.WriteLine("IS IN OPS");
+                    if (!vastr.Equals(vastr2))
                     {
-                        if (!vastr.Equals(vastr2))
-                        {
-                            opexexp.Append(retvalue(vastr2));
-                        }
-
-                        Debug.WriteLine(retvalue(vastr2), "RETVAL VAR2");
+                        Debug.WriteLine("VAR 1 NOT EQ VAR 2");
+                        opexexp.Append(retvalue(vastr2, Ops));
                     }
-                    else
-                        opexexp.Append(vastr2);
 
-                    if (!isempty(vastr))
+                    //  Debug.WriteLine(retvalue(vastr2, Ops), "RETVAL VAR2");
+                }
+                else
+                {
+                    Debug.WriteLine("IS NOT IN OPS");
+                    opexexp.Append(vastr2);
+                }
+
+                /*    if (!isempty(vastr, Ops))
                         if (isoperexist)
-                            opexexp.Append(s[temp - 1]);
+                            opexexp.Append(s[temp - 1]);*/
                 
                 va.Clear();
                 //va.Append("");
-                Debug.WriteLine(vastr2, "2nd VAR");
+               // Debug.WriteLine(vastr2, "2nd VAR");
 
                 if (isoperexist)
                 {
+                    if ((c != 'e') || (retvalue(vastr, Ops) != null))
+                    {
+                        opexexp.Append(c);    
+                    }
+                    
                     for (int i = temp; i < s.Length; i++)
                     {
                         va.Append(s[i]);
@@ -375,14 +446,14 @@ namespace ActionList
 
                     vastr3 = va.ToString();
 
-                    if (isinops(vastr3))
+                    if (isinops(vastr3, Ops))
                     {
                         if (!vastr.Equals(vastr3))
                         {
-                            opexexp.Append(retvalue(vastr3));
+                            opexexp.Append(retvalue(vastr3, Ops));
                         }
 
-                        Debug.WriteLine(retvalue(vastr3), "RETVAL VAR3");
+                        //Debug.WriteLine(retvalue(vastr3, Ops), "RETVAL VAR3");
                     }
                     else
                         opexexp.Append(vastr3);
@@ -392,12 +463,12 @@ namespace ActionList
                 opex.Exp = opexexp.ToString();
                 opexexp.Clear();
 
-                addtoOp(opex);
-                opex.Exp = "";
+                addtoOp(opex, Ops);
+                opex.Exp = null;
             }
 
-            Debug.WriteLine(opexexp, "TO OPER");
-            Debug.WriteLine(vastr3, "3rd VAR");
+            //Debug.WriteLine(opexexp, "TO OPER");
+            //Debug.WriteLine(vastr3, "3rd VAR");
 
             //if (isweq)
 
@@ -418,40 +489,36 @@ namespace ActionList
 
         }
 
-        private bool isinops(string s)
+        private bool isinops(string s, List<Expressions> Ops)
         {
-            foreach (var ex in Op)
+            foreach (var ex in Ops)
             {
                // if (String.Equals(s, ex.name, StringComparison.Ordinal))
                 if (s.Equals(ex.name))
                 {
-                    //Debug.WriteLine("IIO TRUE");
                     return true;
                 }
             }
-           // Debug.WriteLine("IIO FALSE");
             return false;
         }
 
-        private bool isempty(string s)
+        private bool isempty(string s, List<Expressions> Ops)
         {
-            foreach (var ex in Op)
+            foreach (var ex in Ops)
             {
                 // if (String.Equals(s, ex.name, StringComparison.Ordinal))
                 if (s.Equals(ex.name))
                 {
-                    //Debug.WriteLine("IIO TRUE");
                     if (String.IsNullOrEmpty(ex.Exp))
                     return true;
                 }
             }
-            // Debug.WriteLine("IIO FALSE");
             return false;
         }
 
-        private string retvalue(string s)
+        private string retvalue(string s, List<Expressions> Ops)
         {
-            foreach (var ex in Op)
+            foreach (var ex in Ops)
             {
                // if (String.Equals(s, ex.name, StringComparison.Ordinal))
                 if (s.Equals(ex.name))
@@ -460,18 +527,28 @@ namespace ActionList
             return null;
         }
 
-        private void addtoOp(Expressions s)
+        private void addtoOp(Expressions s, List<Expressions> Ops)
         {
             var temp = new StringBuilder("");
-            foreach (var ex in Op)
+            foreach (var ex in Ops)
             {
                 //if (String.Equals(s.name, ex.name, StringComparison.Ordinal))
                 if (s.name.Equals(ex.name))
                 {
+                    Debug.WriteLine("");
+                    Debug.WriteLine(s.name, "TO OPS NAME");
+                    Debug.WriteLine(s.Exp, "TO OPS EXP");
+
+                    Debug.WriteLine(ex.Exp, "IN OPS EXP");
                     temp.Append(ex.Exp);
                     //temp.Append("");
+                    ex.Exp = null;
+                    Debug.WriteLine(ex.Exp, "IN OPS EXP AFTER NULL");
                     temp.Append(s.Exp);
                     ex.Exp = temp.ToString();
+
+                    Debug.WriteLine(ex.Exp);
+                    Debug.WriteLine("");
                 }
             }
         }

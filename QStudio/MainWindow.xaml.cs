@@ -1,7 +1,4 @@
-﻿using System;
-using DefaultControlsPack;
-
-namespace QStudio
+﻿namespace QStudio
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

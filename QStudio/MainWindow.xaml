@@ -1,5 +1,114 @@
 ﻿<defaultControlsPack:ModernWindow x:Class="QStudio.MainWindow"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         WindowStartupLocation="CenterScreen" Title="Q-детерминант" MinHeight="768" MinWidth="1024">
+    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Menu DockPanel.Dock="Top" IsMainMenu="True">
+            <MenuItem Header="FILE">
+                <MenuItem Header="New">
+                    <MenuItem Header="Solution" x:Name="NewSolutionMenuItem"/>
+                    <MenuItem Header="Project" x:Name="NewProjectMenuItem"/>
+                </MenuItem>
+                <MenuItem Header="Open">
+                    <MenuItem Header="Solution" x:Name="OpenSolutionMenuItem" />
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Save" x:Name="SaveMenuItem"/>
+                <MenuItem Header="Save All" x:Name="SaveAllMenuItem"/>
+                <Separator/>
+                <MenuItem Header="Close" x:Name="CloseMenuItem"/>
+            </MenuItem>
+            <MenuItem Header="PROJECT">
+                <MenuItem Header="FlowChart">
+                    <MenuItem Header="Export..." x:Name="EFCMenuItem"/>
+                    <MenuItem Header="Show As">
+                        <MenuItem Header="Image" x:Name="SAIFCMenuItem"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="ImplementationPlan">
+                    <MenuItem Header="Export..." x:Name="EIPMenuItem"/>
+                    <MenuItem Header="Show As">
+                        <MenuItem Header="Image" x:Name="SAIIPMenuItem"/>
+                    </MenuItem>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Properties"/>
+            </MenuItem>
+            <!--<MenuItem Header="PLUGINS"/>-->
+            <MenuItem Header="HELP">
+                <MenuItem Header="View Help"/>
+                <MenuItem Header="About Q-Determinant" x:Name="AboutMenuItem"/>
+                <MenuItem Header="Check Updates"/>
+            </MenuItem>
+        </Menu>
+        <ToolBarTray DockPanel.Dock="Top" x:Name="ToolBarTray">
+            <!--<ToolBar Band="0" BandIndex="0">
+                <local:NumericBox Value="0" Minimum="0" Increment="1" x:Name="CPUCount"/>
+                <Separator/>
+                <Button Style="{StaticResource {x:Type Button}}" x:Name="Compiler">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Width="10" Height="10" Stretch="Fill" Fill="{StaticResource SuccessBrush}" Data="F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z "/>
+                        <TextBlock Text="Compile" Style="{StaticResource BaseFont}" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+                <Separator/>
+            </ToolBar>-->
+        </ToolBarTray>
+        <Grid VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0" MaxWidth="200"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition MaxWidth="200"/>
+            </Grid.ColumnDefinitions>
+            <!--<local:BlockPanel Title="Toolbox">
+                <ListBox x:Name="ElementList" ItemsSource="{Binding Source={StaticResource DataFromEnum}}" Background="Transparent" BorderThickness="0" Visibility="Collapsed">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image Source="{Binding Converter={converters:BlockTypeToImgSourceConverter}}" Width="25" Height="25"/>
+                                <TextBlock Text="{Binding}" Foreground="{StaticResource BasicFontColorBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </local:BlockPanel>-->
+            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch"/>
+            <GridSplitter Grid.Column="3" VerticalAlignment="Stretch"/>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*" MaxHeight="500"/>
+                </Grid.RowDefinitions>
+                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Bottom">
+                    <defaultControlsPack:EnclosedTabItem Header="Tab1" />
+                    <defaultControlsPack:EnclosedTabItem Header="Tab2" />
+                </defaultControlsPack:EnclosedTabControl>
+              <!--  <local:ExtendedTabControl x:Name="WorkPlaceTabs"/>-->
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+                <!--<local:BlockPanel Grid.Row="2" Title="Output" VerticalAlignment="Stretch">
+                    <local:DebugConsole x:Name="DebugConsole"/>
+                </local:BlockPanel>-->
+            </Grid>
+            <Grid Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*" MaxHeight="300"/>
+                </Grid.RowDefinitions>
+                <!--<local:BlockPanel Title="Solution Explorer">
+                    <local:ExtendedTreeView x:Name="SolutionTree"/>
+                </local:BlockPanel>-->
+                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top">
+                    <defaultControlsPack:EnclosedTabItem Header="Tab1" />
+                    <defaultControlsPack:EnclosedTabItem Header="Tab2" />
+                </defaultControlsPack:EnclosedTabControl>
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+               <!-- <local:BlockPanel Grid.Row="2" Title="Properties"/>-->
+            </Grid>
+        </Grid>
+    </DockPanel>
 </defaultControlsPack:ModernWindow>

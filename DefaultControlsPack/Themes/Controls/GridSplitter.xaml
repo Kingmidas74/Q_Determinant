@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Resources/Container.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <Style TargetType="{x:Type GridSplitter}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Background" Value="{StaticResource BorderBrush}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridSplitter">
+                    <Grid x:Name="Root" IsHitTestVisible="{TemplateBinding IsEnabled}">
+                        <Rectangle Fill="{TemplateBinding Background}" StrokeThickness="0" />
+                        <Grid x:Name="HorizontalTemplate">
+                            <StackPanel Height="6" VerticalAlignment="Center">
+                                <Rectangle Height="1" Margin="1" Width="10" StrokeThickness="0" Fill="{StaticResource SuccessBrush}" />
+                                <Rectangle Height="1" Margin="1" Width="10" StrokeThickness="0" Fill="{StaticResource SuccessBrush}" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid x:Name="VerticalTemplate" Visibility="Collapsed">
+                            <StackPanel Width="6" VerticalAlignment="Center" Orientation="Horizontal">
+                                <Rectangle Width="1" Margin="1" Height="10" StrokeThickness="0" Fill="{StaticResource SuccessBrush}" />
+                                <Rectangle Width="1" Margin="1" Height="10" StrokeThickness="0" Fill="{StaticResource SuccessBrush}" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="HorizontalAlignment" Value="Stretch">
+                <Setter Property="Height" Value="5" />
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Trigger>
+            <Trigger Property="VerticalAlignment" Value="Stretch">
+                <Setter Property="Width" Value="5" />
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

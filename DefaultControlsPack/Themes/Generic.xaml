@@ -1,10 +1,17 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DefaultControlsPack">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/DefaultControlsPack;component/Themes/ModernWindow.xaml" />
+        <ResourceDictionary Source="/DefaultControlsPack;component/Themes/Controls/ModernWindow.xaml" />
+        <ResourceDictionary Source="/DefaultControlsPack;component/Themes/Controls/GridSplitter.xaml" />
+        <ResourceDictionary Source="/DefaultControlsPack;component/Themes/Controls/EnclosedTabControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
    
+
+    
+
+    
 </ResourceDictionary>

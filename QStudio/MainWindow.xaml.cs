@@ -1,4 +1,6 @@
-﻿namespace QStudio
+﻿using System.Windows;
+
+namespace QStudio
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -8,6 +10,11 @@
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            WorkplaceTabs.AddTab("TEST");
         }
     }
 }

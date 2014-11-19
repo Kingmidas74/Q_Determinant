@@ -29,5 +29,22 @@ namespace BasicComponentsPack
             var currentItem = (e.OriginalSource as EnclosedTabControl).SelectedItem as EnclosedTabItem;
             WorkplaceTabControl.Items.Remove(currentItem);
         }
+
+        public void AddTab(string FilePath)
+        {
+            WorkplaceTabControl.Items.Add(new EnclosedTabItem()
+            {
+                Header = "NEW",
+                Content =
+                    new TextBlock()
+                    {
+                        Text = "TESTTESTTEST",
+                        Foreground = new SolidColorBrush(Colors.Black),
+                        FontSize = 14,
+                        Width = 200,
+                        Background = new SolidColorBrush(Colors.Red)
+                    }
+            });
+        }
     }
 }

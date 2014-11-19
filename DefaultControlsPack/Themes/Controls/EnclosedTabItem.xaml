@@ -6,7 +6,7 @@
         <ResourceDictionary Source="Button.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type local:EnclosedTabItem}">
+   <!-- <Style TargetType="{x:Type local:EnclosedTabItem}">
         <Setter Property="Foreground" Value="{StaticResource BaseFontBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -40,5 +40,67 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>-->
+
+    <ControlTemplate x:Key="BottomPosition" TargetType="{x:Type local:EnclosedTabItem}">
+        <Grid x:Name="Root">
+            <DockPanel x:Name="Border" Background="Transparent">
+                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header"
+                              Margin="6,2,6,2" RecognizesAccessKey="True" DockPanel.Dock="Left" />
+                
+            </DockPanel>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Panel.ZIndex" Value="100" />
+                <Setter Property="Background" TargetName="Border" Value="{StaticResource SlaveBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource ActiveBrush}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Panel.ZIndex" Value="100" />
+                <Setter Property="Background" TargetName="Border" Value="{StaticResource BorderBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource ActiveBrush}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="TopPosition" TargetType="{x:Type local:EnclosedTabItem}">
+        <Grid x:Name="Root">
+            <DockPanel x:Name="Border" Background="Transparent">
+                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header"
+                              Margin="6,2,6,2" RecognizesAccessKey="True" DockPanel.Dock="Left" />
+                <Button x:Name="CloseTabButton" Style="{StaticResource {x:Type Button}}" Width="20" Height="20" DockPanel.Dock="Right" Visibility="Hidden">
+                    <Grid MaxHeight="9" MaxWidth="9">
+                        <Path Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                                StrokeThickness="1.5" Stretch="None" Data="{DynamicResource CloseSymbol}" />
+                    </Grid>
+                </Button>
+            </DockPanel>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Panel.ZIndex" Value="100" />
+                <Setter Property="Background" TargetName="Border" Value="{StaticResource ActiveBrush}"/>
+                <Setter Property="Visibility" TargetName="CloseTabButton" Value="Visible"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Panel.ZIndex" Value="100" />
+                <Setter Property="Background" TargetName="Border" Value="{StaticResource ActiveBrush}"/>
+                <Setter Property="Visibility" TargetName="CloseTabButton" Value="Visible"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type local:EnclosedTabItem}">
+        <Setter Property="Foreground" Value="{StaticResource BaseFontBrush}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=VerticalContentPosition, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:EnclosedTabControl}}}" Value="Bottom">
+                <Setter Property="Template" Value="{StaticResource TopPosition}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=VerticalContentPosition, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:EnclosedTabControl}}}" Value="Top">
+                <Setter Property="Template" Value="{StaticResource BottomPosition}"/>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
+
 </ResourceDictionary>

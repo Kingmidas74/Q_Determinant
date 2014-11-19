@@ -35,7 +35,11 @@ namespace DefaultControlsPack
 
         public override void OnApplyTemplate()
         {
-            (GetTemplateChild("CloseTabButton") as Button).Click += CloseTabButtonClick;
+            var closeButton = (GetTemplateChild("CloseTabButton") as Button);
+            if (closeButton != null)
+            {
+                closeButton.Click += CloseTabButtonClick;
+            }
             base.OnApplyTemplate();
         }
 

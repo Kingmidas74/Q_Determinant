@@ -36,10 +36,32 @@ namespace DefaultControlsPack
             AddHandler(EnclosedTabItem.CloseTabEvent, new RoutedEventHandler(CloseTab));
         }
 
+        public override void OnApplyTemplate()
+        {
+            var closeButton = (GetTemplateChild("CloseTabButton") as Button);
+            if (closeButton != null)
+            {
+                closeButton.Click += ClosePluginPanel;
+            }
+            base.OnApplyTemplate();
+        }
+
+        private void ClosePluginPanel(object sender, RoutedEventArgs e)
+        {
+            RemoveItem((sender as Button).Tag as EnclosedTabItem);
+        }
+
         private void CloseTab(object source, RoutedEventArgs args)
         {
-            var item = args.OriginalSource as EnclosedTabItem;
-            Items.Remove(item);
+            RemoveItem(args.OriginalSource as EnclosedTabItem);
+        }
+
+        private void RemoveItem(EnclosedTabItem item)
+        {
+            if (item != null)
+            {
+                Items.Remove(item);
+            }
         }
     }
 }

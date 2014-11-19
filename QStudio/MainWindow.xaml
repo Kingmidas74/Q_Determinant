@@ -36,7 +36,7 @@
                 <Separator/>
                 <MenuItem Header="Properties"/>
             </MenuItem>
-            <!--<MenuItem Header="PLUGINS"/>-->
+            <MenuItem Header="PLUGINS"/>
             <MenuItem Header="HELP">
                 <MenuItem Header="View Help"/>
                 <MenuItem Header="About Q-Determinant" x:Name="AboutMenuItem"/>
@@ -64,18 +64,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition MaxWidth="200"/>
             </Grid.ColumnDefinitions>
-            <!--<local:BlockPanel Title="Toolbox">
-                <ListBox x:Name="ElementList" ItemsSource="{Binding Source={StaticResource DataFromEnum}}" Background="Transparent" BorderThickness="0" Visibility="Collapsed">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image Source="{Binding Converter={converters:BlockTypeToImgSourceConverter}}" Width="25" Height="25"/>
-                                <TextBlock Text="{Binding}" Foreground="{StaticResource BasicFontColorBrush}" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </local:BlockPanel>-->
+            <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top" x:Name="LeftSegment" Grid.Column="0"/>
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch"/>
             <GridSplitter Grid.Column="3" VerticalAlignment="Stretch"/>
             <Grid Grid.Column="2">
@@ -84,12 +73,9 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="1*" MaxHeight="500"/>
                 </Grid.RowDefinitions>
-                <basicComponentsPack:WorkplaceTabs x:Name="WorkplaceTabs"/>
-              <!--  <local:ExtendedTabControl />-->
+                <basicComponentsPack:WorkplaceTabs x:Name="WorkplaceTabs" Grid.Row="0"/>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
-                <!--<local:BlockPanel Grid.Row="2" Title="Output" VerticalAlignment="Stretch">
-                    <local:DebugConsole x:Name="DebugConsole"/>
-                </local:BlockPanel>-->
+                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top" x:Name="CenterBottomSegment" Grid.Row="2"/>
             </Grid>
             <Grid Grid.Column="4">
                 <Grid.RowDefinitions>
@@ -97,16 +83,13 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="1*" MaxHeight="300"/>
                 </Grid.RowDefinitions>
-                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top">
-                    <defaultControlsPack:EnclosedTabItem Header="1"/>
-                    <defaultControlsPack:EnclosedTabItem Header="2"/>
+                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top" x:Name="RightTopSegment" Grid.Row="0">
+                    <defaultControlsPack:EnclosedTabItem Header="Solution Explorer">
+                        
+                    </defaultControlsPack:EnclosedTabItem>
                 </defaultControlsPack:EnclosedTabControl>
-                <!--<local:BlockPanel Title="Solution Explorer">
-                    <local:ExtendedTreeView x:Name="SolutionTree"/>
-                </local:BlockPanel>-->
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
-                <Button Content="Addtab" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Click="ButtonBase_OnClick"/>
-               <!-- <local:BlockPanel Grid.Row="2" Title="Properties"/>-->
+                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top" x:Name="RightBottomSegment" Grid.Row="2"/>
             </Grid>
         </Grid>
     </DockPanel>

@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DefaultControlsPack;
 
 namespace BasicComponentsPack
@@ -32,7 +21,7 @@ namespace BasicComponentsPack
 
         public void AddTab(string FilePath)
         {
-            WorkplaceTabControl.Items.Add(new EnclosedTabItem()
+            var item = new EnclosedTabItem()
             {
                 Header = "NEW",
                 Content =
@@ -44,7 +33,9 @@ namespace BasicComponentsPack
                         Width = 200,
                         Background = new SolidColorBrush(Colors.Red)
                     }
-            });
+            };
+            WorkplaceTabControl.Items.Add(item);
         }
+        
     }
 }

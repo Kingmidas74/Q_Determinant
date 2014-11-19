@@ -1,0 +1,10 @@
+﻿<UserControl xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack"  x:Class="BasicComponentsPack.WorkplaceTabs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             >
+    <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Bottom" x:Name="WorkplaceTabControl">
+        <defaultControlsPack:EnclosedTabItem  Header="tab1"/>
+        <defaultControlsPack:EnclosedTabItem  Header="tab 2"/>
+    </defaultControlsPack:EnclosedTabControl>
+</UserControl>

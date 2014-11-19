@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:basicComponentsPack="clr-namespace:BasicComponentsPack;assembly=BasicComponentsPack"
         WindowStartupLocation="CenterScreen" Title="Q-детерминант" MinHeight="768" MinWidth="1024">
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Menu DockPanel.Dock="Top" IsMainMenu="True">
@@ -83,11 +84,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="1*" MaxHeight="500"/>
                 </Grid.RowDefinitions>
-                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Bottom">
-                    <defaultControlsPack:EnclosedTabItem Header="Tab1" />
-                    <defaultControlsPack:EnclosedTabItem Header="Tab2" />
-                </defaultControlsPack:EnclosedTabControl>
-              <!--  <local:ExtendedTabControl x:Name="WorkPlaceTabs"/>-->
+                <basicComponentsPack:WorkplaceTabs/>
+              <!--  <local:ExtendedTabControl />-->
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
                 <!--<local:BlockPanel Grid.Row="2" Title="Output" VerticalAlignment="Stretch">
                     <local:DebugConsole x:Name="DebugConsole"/>
@@ -99,13 +97,13 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="1*" MaxHeight="300"/>
                 </Grid.RowDefinitions>
+                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top">
+                    <defaultControlsPack:EnclosedTabItem Header="1"/>
+                    <defaultControlsPack:EnclosedTabItem Header="2"/>
+                </defaultControlsPack:EnclosedTabControl>
                 <!--<local:BlockPanel Title="Solution Explorer">
                     <local:ExtendedTreeView x:Name="SolutionTree"/>
                 </local:BlockPanel>-->
-                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top">
-                    <defaultControlsPack:EnclosedTabItem Header="Tab1" />
-                    <defaultControlsPack:EnclosedTabItem Header="Tab2" />
-                </defaultControlsPack:EnclosedTabControl>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
                <!-- <local:BlockPanel Grid.Row="2" Title="Properties"/>-->
             </Grid>

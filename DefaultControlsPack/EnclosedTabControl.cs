@@ -31,9 +31,20 @@ namespace DefaultControlsPack
         }
         #endregion
 
+        #region CloseTabEvent
+        public static readonly RoutedEvent CloseTabEvent = EventManager.RegisterRoutedEvent("CloseTab",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(EnclosedTabControl));
+
+        public event RoutedEventHandler CloseTab
+        {
+            add { AddHandler(CloseTabEvent, value); }
+            remove { RemoveHandler(CloseTabEvent, value); }
+        }
+        #endregion
+
         public EnclosedTabControl()
         {
-            AddHandler(EnclosedTabItem.CloseTabEvent, new RoutedEventHandler(CloseTab));
+            AddHandler(EnclosedTabItem.CloseTabEvent, new RoutedEventHandler(CloseWorkTab));
         }
 
         public override void OnApplyTemplate()
@@ -48,20 +59,14 @@ namespace DefaultControlsPack
 
         private void ClosePluginPanel(object sender, RoutedEventArgs e)
         {
-            RemoveItem((sender as Button).Tag as EnclosedTabItem);
+            Items.Remove((sender as Button).Tag as EnclosedTabItem);
         }
 
-        private void CloseTab(object source, RoutedEventArgs args)
+        private void CloseWorkTab(object source, RoutedEventArgs args)
         {
-            RemoveItem(args.OriginalSource as EnclosedTabItem);
+            //RemoveItem(args.OriginalSource as EnclosedTabItem);
+            this.RaiseEvent(new RoutedEventArgs(CloseTabEvent, this));
         }
-
-        private void RemoveItem(EnclosedTabItem item)
-        {
-            if (item != null)
-            {
-                Items.Remove(item);
-            }
-        }
+        
     }
 }

@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginController", "PluginController\PluginController.csproj", "{87F06A7A-C02E-4B61-AEDA-9622FE84F362}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultControlsPack", "DefaultControlsPack\DefaultControlsPack.csproj", "{8976B701-F121-41E8-903F-FC32FDDEDF26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QStudio", "QStudio\QStudio.csproj", "{EEF28981-EE80-4C22-832A-05FD0B612570}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{87F06A7A-C02E-4B61-AEDA-9622FE84F362}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87F06A7A-C02E-4B61-AEDA-9622FE84F362}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87F06A7A-C02E-4B61-AEDA-9622FE84F362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8976B701-F121-41E8-903F-FC32FDDEDF26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8976B701-F121-41E8-903F-FC32FDDEDF26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8976B701-F121-41E8-903F-FC32FDDEDF26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8976B701-F121-41E8-903F-FC32FDDEDF26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEF28981-EE80-4C22-832A-05FD0B612570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEF28981-EE80-4C22-832A-05FD0B612570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEF28981-EE80-4C22-832A-05FD0B612570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEF28981-EE80-4C22-832A-05FD0B612570}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

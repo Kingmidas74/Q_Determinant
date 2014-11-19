@@ -1,0 +1,5 @@
+﻿<defaultControlsPack:ModernWindow x:Class="QStudio.MainWindow"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack"
+                             Title="ASD" MinHeight="768" MinWidth="960">
+</defaultControlsPack:ModernWindow>

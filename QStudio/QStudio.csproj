@@ -61,6 +61,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InternalClasses\CurrentSettings.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -114,7 +115,12 @@
       <Project>{87f06a7a-c02e-4b61-aeda-9622fe84f362}</Project>
       <Name>PluginController</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VisualCore\VisualCore.csproj">
+      <Project>{a018b627-f53b-42f2-823f-4f6b899f1954}</Project>
+      <Name>VisualCore</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,11 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using DefaultControlsPack;
+using VisualCore;
+using System.Collections.Generic;
 
 namespace BasicComponentsPack
 {
-    public partial class WorkplaceTabs : UserControl
+    public partial class WorkplaceTabs : UserControl, IWorkPlaceTabs
     {
         public WorkplaceTabs()
         {
@@ -19,11 +22,16 @@ namespace BasicComponentsPack
             WorkplaceTabControl.Items.Remove(currentItem);
         }
 
-        public void AddTab(string FilePath)
+        public void SelectedFileListener(object sender, RoutedEventArgs e)
+        {
+            AddTab(e.OriginalSource.ToString());
+        }
+
+        public void AddTab(string filePath)
         {
             var item = new EnclosedTabItem()
             {
-                Header = "NEW",
+                Header = filePath,
                 Content =
                     new TextBlock()
                     {
@@ -36,6 +44,5 @@ namespace BasicComponentsPack
             };
             WorkplaceTabControl.Items.Add(item);
         }
-        
     }
 }

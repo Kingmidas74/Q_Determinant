@@ -30,8 +30,8 @@
                                 <VisualState x:Name="Indeterminate" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Path x:Name="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1,1,1,1" Data="{StaticResource CollapsedSymbol}" Fill="{StaticResource BorderBrush}" Stroke="{StaticResource BaseFontBrush}" StrokeThickness="0.5"/>
-                        <Path x:Name="Expanded" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1,1,1,1" Data="{StaticResource ExpandedSymbol}" Fill="{StaticResource BorderBrush}" Stroke="{StaticResource BaseFontBrush}" StrokeThickness="0.5" Visibility="Hidden"/>
+                        <Path x:Name="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1,1,1,1" Data="{StaticResource RightArrow}" Fill="{StaticResource BorderBrush}" Stroke="{StaticResource BaseFontBrush}" StrokeThickness="0.5"/>
+                        <Path x:Name="Expanded" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1,1,1,1" Data="{StaticResource DownArrow}" Fill="{StaticResource BorderBrush}" Stroke="{StaticResource BaseFontBrush}" StrokeThickness="0.5" Visibility="Hidden"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

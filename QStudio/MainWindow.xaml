@@ -4,9 +4,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:basicComponentsPack="clr-namespace:BasicComponentsPack;assembly=BasicComponentsPack"
         WindowStartupLocation="CenterScreen" Title="Q-детерминант" MinHeight="768" MinWidth="1024">
+    
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Menu DockPanel.Dock="Top" IsMainMenu="True">
-            <MenuItem Header="FILE">
+            <MenuItem Header="FILE" >
                 <MenuItem Header="New">
                     <MenuItem Header="Solution" x:Name="NewSolutionMenuItem"/>
                     <MenuItem Header="Project" x:Name="NewProjectMenuItem"/>
@@ -27,7 +28,7 @@
                         <MenuItem Header="Image" x:Name="SAIFCMenuItem"/>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="ImplementationPlan">
+                <MenuItem Header="ImplementationPlan" IsEnabled="False">
                     <MenuItem Header="Export..." x:Name="EIPMenuItem"/>
                     <MenuItem Header="Show As">
                         <MenuItem Header="Image" x:Name="SAIIPMenuItem"/>
@@ -36,7 +37,7 @@
                 <Separator/>
                 <MenuItem Header="Properties"/>
             </MenuItem>
-            <MenuItem Header="PLUGINS"/>
+            <MenuItem Header="PLUGINS" x:Name="PluginsMenuItem"/>
             <MenuItem Header="HELP">
                 <MenuItem Header="View Help"/>
                 <MenuItem Header="About Q-Determinant" x:Name="AboutMenuItem"/>

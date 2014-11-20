@@ -3,7 +3,7 @@
 
     <Color x:Key="MasterBackgroundColor">#2D2D30</Color>
     <Color x:Key="SlaveBackgroundColor">#1E1E1E</Color>
-    <Color x:Key="BorderColor">#333337</Color>
+    <Color x:Key="BorderColor">#444444</Color>
     <Color x:Key="SuccessColor">#8DD28A</Color>
     <Color x:Key="ErrorColor">#FF4520</Color>
     <Color x:Key="WarningColor">#CC8100</Color>

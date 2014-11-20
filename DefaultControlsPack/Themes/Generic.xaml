@@ -8,6 +8,7 @@
         <ResourceDictionary Source="/DefaultControlsPack;component/Themes/Controls/GridSplitter.xaml" />
         <ResourceDictionary Source="/DefaultControlsPack;component/Themes/Controls/EnclosedTabControl.xaml" />
         <ResourceDictionary Source="/DefaultControlsPack;component/Themes/Controls/SearchTreeView.xaml" />
+        <ResourceDictionary Source="/DefaultControlsPack;component/Themes/Controls/Menu.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
    

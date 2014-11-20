@@ -22,7 +22,6 @@
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Panel.ZIndex" Value="100" />
-                <Setter Property="Background" TargetName="Border" Value="{StaticResource BorderBrush}"/>
                 <Setter Property="Foreground" Value="{StaticResource ActiveBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>

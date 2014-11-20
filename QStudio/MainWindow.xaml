@@ -84,8 +84,17 @@
                     <RowDefinition Height="1*" MaxHeight="300"/>
                 </Grid.RowDefinitions>
                 <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top" x:Name="RightTopSegment" Grid.Row="0">
-                    <defaultControlsPack:EnclosedTabItem Header="Solution Explorer">
-                        
+                    <defaultControlsPack:EnclosedTabItem Header="Solution Explorer" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <defaultControlsPack:SearchTreeView>
+                            <defaultControlsPack:IconTreeViewItem Header="SE">
+                                <defaultControlsPack:IconTreeViewItem Header="111111"/>
+                                <defaultControlsPack:IconTreeViewItem Header="2222">
+                                    <defaultControlsPack:IconTreeViewItem Header="2221111111111"/>
+                                    <defaultControlsPack:IconTreeViewItem Header="2222222222222"/>
+                                </defaultControlsPack:IconTreeViewItem>
+                                <defaultControlsPack:IconTreeViewItem Header="333333333"/>
+                            </defaultControlsPack:IconTreeViewItem>
+                        </defaultControlsPack:SearchTreeView>
                     </defaultControlsPack:EnclosedTabItem>
                 </defaultControlsPack:EnclosedTabControl>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>

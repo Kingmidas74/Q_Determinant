@@ -9,7 +9,7 @@ namespace DefaultControlsPack
 
         #region VerticalContentPosition
         public static readonly DependencyProperty VerticalContentPositionProperty =
-            DependencyProperty.Register("VerticalContentPosition", typeof(VerticalContentPosition), typeof(TabControl),
+            DependencyProperty.Register("VerticalContentPosition", typeof(VerticalContentPosition), typeof(EnclosedTabControl),
                 new FrameworkPropertyMetadata());
 
         public VerticalContentPosition VerticalContentPosition

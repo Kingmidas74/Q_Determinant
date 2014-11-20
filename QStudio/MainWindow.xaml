@@ -45,17 +45,17 @@
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top" x:Name="ToolBarTray">
-            <!--<ToolBar Band="0" BandIndex="0">
-                <local:NumericBox Value="0" Minimum="0" Increment="1" x:Name="CPUCount"/>
+            <ToolBar Band="0" BandIndex="0">
+                <!--<local:NumericBox Value="0" Minimum="0" Increment="1" x:Name="CPUCount"/>-->
                 <Separator/>
-                <Button Style="{StaticResource {x:Type Button}}" x:Name="Compiler">
+                <Button Style="{StaticResource {x:Type Button}}" x:Name="Compiler" Click="CompilerClick">
                     <StackPanel Orientation="Horizontal">
                         <Path Width="10" Height="10" Stretch="Fill" Fill="{StaticResource SuccessBrush}" Data="F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z "/>
                         <TextBlock Text="Compile" Style="{StaticResource BaseFont}" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="12"/>
                     </StackPanel>
                 </Button>
                 <Separator/>
-            </ToolBar>-->
+            </ToolBar>
         </ToolBarTray>
         <Grid VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>

@@ -2,21 +2,31 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack"
-             xmlns:internalClasses="clr-namespace:BasicComponentsPack.InternalClasses"
-             xmlns:solutionModels="clr-namespace:Core.Serializers.SerializationModels.SolutionModels;assembly=Core"
-             xmlns:projectModels="clr-namespace:Core.Serializers.SerializationModels.ProjectModels;assembly=Core">
+             xmlns:internalClasses="clr-namespace:BasicComponentsPack.InternalClasses">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DefaultControlsPack;component/Themes/Resources/Container.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.Resources>
-            <HierarchicalDataTemplate x:Key="Level3" DataType="{x:Type projectModels:File}" ItemsSource = "{Binding}">
-                <defaultControlsPack:IconTreeViewItem Header="{Binding Path=Path}" Tag="{Binding Path=Path.Length}"/>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{StaticResource BaseFontBrush}"/>
+                <Setter Property="FontSize" Value="14"></Setter>
+                <EventSetter Event="MouseLeftButtonDown" Handler="ChooseTreeElement"/>
+            </Style>
+            <DataTemplate x:Key="Level3" DataType="{x:Type internalClasses:SolutionTreeItem}">
+                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}"/>
+            </DataTemplate>
+            <HierarchicalDataTemplate x:Key="Level2" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" >
+                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}"/>
             </HierarchicalDataTemplate>
-            <HierarchicalDataTemplate x:Key="Level2" DataType="{x:Type projectModels:Project}" ItemsSource = "{Binding Path=Files}" ItemTemplate="{StaticResource Level3}">
-                <defaultControlsPack:IconTreeViewItem Header="{Binding Path=Title}" Tag="{Binding Path=Title}"/>
-            </HierarchicalDataTemplate>
-            <HierarchicalDataTemplate x:Key="Level1" DataType="{x:Type solutionModels:Solution}" ItemsSource = "{Binding Path=Projects}" ItemTemplate="{StaticResource Level2}">
-                <defaultControlsPack:IconTreeViewItem Header="{Binding Path=Title}" Tag="{Binding Path=Title}"/>
+            <HierarchicalDataTemplate x:Key="Level1" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" ItemTemplate="{StaticResource Level2}">
+                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}"/>
             </HierarchicalDataTemplate>
         </Grid.Resources>
-        <defaultControlsPack:SearchTreeView x:Name="SearchTreeView" ItemTemplate="{StaticResource Level1}" ItemsSource="{Binding}"/>
+        <defaultControlsPack:SearchTreeView x:Name="SearchTreeView" ItemTemplate="{StaticResource Level1}"/>
     </Grid>
 </UserControl>

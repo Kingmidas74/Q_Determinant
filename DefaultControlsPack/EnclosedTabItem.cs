@@ -46,7 +46,7 @@ namespace DefaultControlsPack
 
         void TabMiddleClick(object sender, MouseButtonEventArgs e)
         {
-            this.RaiseEvent(new RoutedEventArgs(MiddleClickEvent, this));
+           // this.RaiseEvent(new RoutedEventArgs(MiddleClickEvent, this));
         }
 
         void CloseTabButtonClick(object sender, RoutedEventArgs e)

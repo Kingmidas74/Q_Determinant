@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BasicComponentsPack.InternalClasses
 {
-    internal class SolutionTreeItem
+    public class SolutionTreeItem
     {
         public string IconPath { get; set; }
         public string Title { get; set; }

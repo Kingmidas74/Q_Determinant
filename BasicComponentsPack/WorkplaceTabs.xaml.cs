@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -11,10 +14,30 @@ namespace BasicComponentsPack
 {
     public partial class WorkplaceTabs : UserControl
     {
+        #region ErrorException
+        public static readonly RoutedEvent ErrorExceptionEvent = EventManager.RegisterRoutedEvent("ErrorException",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(WorkplaceTabs));
+
+        public event RoutedEventHandler ErrorException
+        {
+            add { AddHandler(ErrorExceptionEvent, value); }
+            remove { RemoveHandler(ErrorExceptionEvent, value); }
+        }
+        #endregion
+
         public WorkplaceTabs()
         {
             InitializeComponent();
             AddHandler(EnclosedTabControl.CloseTabEvent, new RoutedEventHandler(CloseTab));
+        }
+
+        private void AddFlowChart(FileInfo file)
+        {
+            MessageBox.Show("FC");
+        }
+        private void AddImplementationPlan(FileInfo file)
+        {
+            MessageBox.Show("IP");
         }
 
         private void CloseTab(object sender, RoutedEventArgs e)
@@ -33,20 +56,23 @@ namespace BasicComponentsPack
 
         public void AddTab(string filePath)
         {
-            var item = new EnclosedTabItem()
+            try
             {
-                Header = filePath,
-                Content =
-                    new TextBlock()
-                    {
-                        Text = "TESTTESTTEST",
-                        Foreground = new SolidColorBrush(Colors.Black),
-                        FontSize = 14,
-                        Width = 200,
-                        Background = new SolidColorBrush(Colors.Red)
-                    }
-            };
-            WorkplaceTabControl.Items.Add(item);
+                var PathToFile = new StringBuilder(filePath);
+                var file = new FileInfo(filePath);
+                switch (file.Extension)
+                {
+                    case ".fc":AddFlowChart(file);
+                        break;
+                    case ".ip": AddFlowChart(file);
+                        break;
+                    default: throw new Exception("Invalid file type");
+                }
+            }
+            catch (Exception e)
+            {
+                RaiseEvent(new RoutedEventArgs(ErrorExceptionEvent, "Invalid file type"));
+            }
         }
 
         public void SaveAllListener(object sender, RoutedEventArgs e)

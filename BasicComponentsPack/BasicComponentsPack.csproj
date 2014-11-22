@@ -47,6 +47,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InternalClasses\CascadeSolutionTreeItem.cs" />
     <Compile Include="InternalClasses\Dialogs\AbstractDialog.cs" />
     <Compile Include="InternalClasses\Dialogs\DialogsFactory.cs" />
     <Compile Include="InternalClasses\Dialogs\DialogTypes.cs" />

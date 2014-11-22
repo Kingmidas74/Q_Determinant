@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Input;
 using Microsoft.Win32;
 
 namespace QStudio
@@ -43,6 +42,17 @@ namespace QStudio
                 remove { RemoveHandler(CloseSolutionEvent, value); }
             }
             #endregion
+
+            #region Error
+            public static readonly RoutedEvent ErrorEvent = EventManager.RegisterRoutedEvent("Error",
+                RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
+
+            public event RoutedEventHandler Error
+            {
+                add { AddHandler(ErrorEvent, value); }
+                remove { RemoveHandler(ErrorEvent, value); }
+            }
+            #endregion
         
         #endregion
 
@@ -50,15 +60,27 @@ namespace QStudio
         {
             InitializeComponent();
             AddHandler(BasicComponentsPack.SolutionExplorer.SelectingFileEvent, new RoutedEventHandler(SelectedFile));
+            AddHandler(BasicComponentsPack.WorkplaceTabs.ErrorExceptionEvent, new RoutedEventHandler(ErrorHandler));
             AddHandler(SelectingFileEvent, new RoutedEventHandler(WorkplaceTabs.SelectedFileListener));
             AddHandler(SaveAllEvent, new RoutedEventHandler(WorkplaceTabs.SaveAllListener));
             AddHandler(CloseSolutionEvent, new RoutedEventHandler(WorkplaceTabs.CloseSolutionListener));
             AddHandler(CloseSolutionEvent, new RoutedEventHandler(SolutionExplorer.CloseSolutionListener));
+            AddHandler(ErrorEvent, new RoutedEventHandler(ErrorMessage));
+        }
+
+        private void ErrorMessage(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(e.OriginalSource.ToString());
+        }
+
+        private void ErrorHandler(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(ErrorEvent, e.OriginalSource));
         }
 
         private void SelectedFile(object sender, RoutedEventArgs e)
         {
-            RaiseEvent(new RoutedEventArgs(SelectingFileEvent, e.OriginalSource.ToString()));
+            RaiseEvent(new RoutedEventArgs(SelectingFileEvent, e.OriginalSource));
         }
 
         private void CompilerClick(object sender, RoutedEventArgs e)

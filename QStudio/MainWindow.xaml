@@ -13,13 +13,12 @@
                     <MenuItem Header="Project" x:Name="NewProjectMenuItem"/>
                 </MenuItem>
                 <MenuItem Header="Open">
-                    <MenuItem Header="Solution" x:Name="OpenSolutionMenuItem" />
+                    <MenuItem Header="Solution" Click="OpenSolution"  />
                 </MenuItem>
+                <MenuItem Header="Save" Click="SaveAllClick" />
+                <MenuItem Header="Close Solution" Click="CloseSolutionClick"/>
                 <Separator/>
-                <MenuItem Header="Save" x:Name="SaveMenuItem"/>
-                <MenuItem Header="Save All" x:Name="SaveAllMenuItem"/>
-                <Separator/>
-                <MenuItem Header="Close" x:Name="CloseMenuItem"/>
+                <MenuItem Header="Exit" Click="CloseProgram"/>
             </MenuItem>
             <MenuItem Header="PROJECT">
                 <MenuItem Header="FlowChart">

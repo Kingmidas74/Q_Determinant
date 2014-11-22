@@ -1,19 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using BasicComponentsPack.InternalClasses;
 using Core.Serializers;
 using Core.Serializers.SerializationModels.SolutionModels;
@@ -51,10 +39,11 @@ namespace BasicComponentsPack
 
         private void RefreshSolution()
         {
+            SearchTreeView.ItemsSource = null;
             if (!String.IsNullOrEmpty(CurrentSolutionPath))
             {
                 var solution = new Core.Serializers.SerializationModels.SolutionModels.Solution();
-                var serializer = Factory.GeSerializer();
+                var serializer = SerializersFactory.GeSerializer();
                 serializer.DeserializeSolution(CurrentSolutionPath, out solution);
                 var result = new SolutionTreeItem();
                 result.FilePath = CurrentSolutionPath;
@@ -75,6 +64,11 @@ namespace BasicComponentsPack
         public SolutionExplorer()
         {
             InitializeComponent();
+        }
+
+        public void CloseSolutionListener(object sender, RoutedEventArgs e)
+        {
+            CurrentSolutionPath = null;
         }
     }
 }

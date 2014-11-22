@@ -47,6 +47,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InternalClasses\Dialogs\AbstractDialog.cs" />
+    <Compile Include="InternalClasses\Dialogs\DialogsFactory.cs" />
+    <Compile Include="InternalClasses\Dialogs\DialogTypes.cs" />
     <Compile Include="InternalClasses\SolutionTreeItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 
 namespace BasicComponentsPack
 {
-    public partial class WorkplaceTabs : UserControl, IWorkPlaceTabs
+    public partial class WorkplaceTabs : UserControl
     {
         public WorkplaceTabs()
         {
@@ -18,8 +19,11 @@ namespace BasicComponentsPack
 
         private void CloseTab(object sender, RoutedEventArgs e)
         {
-            var currentItem = (e.OriginalSource as EnclosedTabControl).SelectedItem as EnclosedTabItem;
-            WorkplaceTabControl.Items.Remove(currentItem);
+            var currentTab = (e.OriginalSource as EnclosedTabItem);
+            if (currentTab.Content is ISaveable)
+            {
+                (currentTab.Content as ISaveable).Save();
+            }
         }
 
         public void SelectedFileListener(object sender, RoutedEventArgs e)
@@ -43,6 +47,20 @@ namespace BasicComponentsPack
                     }
             };
             WorkplaceTabControl.Items.Add(item);
+        }
+
+        public void SaveAllListener(object sender, RoutedEventArgs e)
+        {
+            foreach (var content in (from object item in WorkplaceTabControl.Items select (item as EnclosedTabItem).Content).OfType<ISaveable>())
+            {
+                content.Save();
+            }
+        }
+
+        public void CloseSolutionListener(object sender, RoutedEventArgs e)
+        {
+            SaveAllListener(sender, e);
+            WorkplaceTabControl.Items.Clear();
         }
     }
 }

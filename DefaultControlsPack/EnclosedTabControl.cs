@@ -53,7 +53,8 @@ namespace DefaultControlsPack
 
         private void CloseWorkTab(object source, RoutedEventArgs args)
         {
-            this.RaiseEvent(new RoutedEventArgs(CloseTabEvent, this));
+            RaiseEvent(new RoutedEventArgs(CloseTabEvent, args.Source));
+            Items.Remove(args.Source as EnclosedTabItem);
         }
         
     }

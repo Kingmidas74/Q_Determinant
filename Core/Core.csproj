@@ -51,7 +51,7 @@
     <Compile Include="Serializers\SerializationModels\SolutionModels\Solution.cs" />
     <Compile Include="Serializers\AbstractSerializer.cs" />
     <Compile Include="Serializers\BinarySerializer.cs" />
-    <Compile Include="Serializers\Factory.cs" />
+    <Compile Include="Serializers\SerializersFactory.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

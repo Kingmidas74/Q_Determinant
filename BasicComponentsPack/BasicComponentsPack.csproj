@@ -47,6 +47,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InternalClasses\SolutionTreeItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -87,6 +88,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{0F025B2A-3987-43A0-BDD5-328511BCCC1A}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DefaultControlsPack\DefaultControlsPack.csproj">
       <Project>{8976b701-f121-41e8-903f-fc32fddedf26}</Project>
       <Name>DefaultControlsPack</Name>

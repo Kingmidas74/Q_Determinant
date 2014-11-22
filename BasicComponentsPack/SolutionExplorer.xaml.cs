@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BasicComponentsPack.InternalClasses;
+using Core.Serializers;
+using Core.Serializers.SerializationModels.SolutionModels;
 using DefaultControlsPack;
 
 namespace BasicComponentsPack
@@ -50,20 +53,28 @@ namespace BasicComponentsPack
         {
             if (!String.IsNullOrEmpty(CurrentSolutionPath))
             {
-                MessageBox.Show(CurrentSolutionPath);
+                var solution = new Core.Serializers.SerializationModels.SolutionModels.Solution();
+                var serializer = Factory.GeSerializer();
+                serializer.DeserializeSolution(CurrentSolutionPath, out solution);
+                var result = new SolutionTreeItem();
+                result.FilePath = CurrentSolutionPath;
+                result.Title = solution.Title;
+                foreach (var project in solution.Projects)
+                {
+                    var currentProject = new SolutionTreeItem();
+                    currentProject.Title = project.Title;
+                    currentProject.FilePath = project.Path;
+                    result.Items.Add(currentProject);
+                }
+                var solutions = new List<Solution>() {solution};
+                SearchTreeView.ItemsSource = null;
+                SearchTreeView.ItemsSource = solutions;
             }
         }
+
         public SolutionExplorer()
         {
             InitializeComponent();
         }
-
-        private void SelectedItem(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            this.RaiseEvent(new RoutedEventArgs(SelectingFileEvent,(e.NewValue as IconTreeViewItem).Tag.ToString()));
-        }
-
-
-        
     }
 }

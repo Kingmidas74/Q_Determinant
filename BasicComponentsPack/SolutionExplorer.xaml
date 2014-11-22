@@ -1,17 +1,22 @@
 ﻿<UserControl x:Class="BasicComponentsPack.SolutionExplorer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack">
+             xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack"
+             xmlns:internalClasses="clr-namespace:BasicComponentsPack.InternalClasses"
+             xmlns:solutionModels="clr-namespace:Core.Serializers.SerializationModels.SolutionModels;assembly=Core"
+             xmlns:projectModels="clr-namespace:Core.Serializers.SerializationModels.ProjectModels;assembly=Core">
     <Grid>
-        <defaultControlsPack:SearchTreeView x:Name="SearchTreeView" SelectedItemChanged="SelectedItem" >
-            <defaultControlsPack:IconTreeViewItem Header="SE" Tag="D:\tempforQ\NewQSOL\Testsolution.qsln">
-                <defaultControlsPack:IconTreeViewItem Header="111111"/>
-                <defaultControlsPack:IconTreeViewItem Header="2222">
-                    <defaultControlsPack:IconTreeViewItem Header="2221111111111"/>
-                    <defaultControlsPack:IconTreeViewItem Header="2222222222222"/>
-                </defaultControlsPack:IconTreeViewItem>
-                <defaultControlsPack:IconTreeViewItem Header="333333333"/>
-            </defaultControlsPack:IconTreeViewItem>
-        </defaultControlsPack:SearchTreeView>
+        <Grid.Resources>
+            <HierarchicalDataTemplate x:Key="Level3" DataType="{x:Type projectModels:File}" ItemsSource = "{Binding}">
+                <defaultControlsPack:IconTreeViewItem Header="{Binding Path=Path}" Tag="{Binding Path=Path.Length}"/>
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="Level2" DataType="{x:Type projectModels:Project}" ItemsSource = "{Binding Path=Files}" ItemTemplate="{StaticResource Level3}">
+                <defaultControlsPack:IconTreeViewItem Header="{Binding Path=Title}" Tag="{Binding Path=Title}"/>
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="Level1" DataType="{x:Type solutionModels:Solution}" ItemsSource = "{Binding Path=Projects}" ItemTemplate="{StaticResource Level2}">
+                <defaultControlsPack:IconTreeViewItem Header="{Binding Path=Title}" Tag="{Binding Path=Title}"/>
+            </HierarchicalDataTemplate>
+        </Grid.Resources>
+        <defaultControlsPack:SearchTreeView x:Name="SearchTreeView" ItemTemplate="{StaticResource Level1}" ItemsSource="{Binding}"/>
     </Grid>
 </UserControl>

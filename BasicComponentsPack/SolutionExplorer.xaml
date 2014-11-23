@@ -17,10 +17,13 @@
                 <Setter Property="FontSize" Value="14"></Setter>
                 <EventSetter Event="MouseLeftButtonDown" Handler="ChooseTreeElement"/>
             </Style>
-            <DataTemplate x:Key="Level3" DataType="{x:Type internalClasses:SolutionTreeItem}">
+            <HierarchicalDataTemplate x:Key="Level4" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}">
                 <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}"/>
-            </DataTemplate>
-            <HierarchicalDataTemplate x:Key="Level2" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" >
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="Level3" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" ItemTemplate="{StaticResource Level4}">
+                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}"/>
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="Level2" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" ItemTemplate="{StaticResource Level3}">
                 <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}"/>
             </HierarchicalDataTemplate>
             <HierarchicalDataTemplate x:Key="Level1" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" ItemTemplate="{StaticResource Level2}">

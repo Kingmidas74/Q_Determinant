@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICloseable.cs" />
+    <Compile Include="ITabContent.cs" />
     <Compile Include="ISaveable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

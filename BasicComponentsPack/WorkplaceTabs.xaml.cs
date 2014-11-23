@@ -14,9 +14,13 @@ namespace BasicComponentsPack
 {
     public partial class WorkplaceTabs : UserControl
     {
+        private readonly Dictionary<string, Func<FileInfo, EnclosedTabItem>> _fileRevealers;
+
+        private List<string> _openedFiles; 
+
         #region ErrorException
         public static readonly RoutedEvent ErrorExceptionEvent = EventManager.RegisterRoutedEvent("ErrorException",
-            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(WorkplaceTabs));
+            RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(WorkplaceTabs));
 
         public event RoutedEventHandler ErrorException
         {
@@ -29,15 +33,51 @@ namespace BasicComponentsPack
         {
             InitializeComponent();
             AddHandler(EnclosedTabControl.CloseTabEvent, new RoutedEventHandler(CloseTab));
+            _fileRevealers = new Dictionary<string, Func<FileInfo, EnclosedTabItem>>
+                        {
+                            { ".fc", this.AddFlowChart },
+                            { ".ip", this.AddImplementationPlan },
+                            { ".qd", this.AddQDeterminant },
+                        };
+            _openedFiles = new List<string>();
         }
 
-        private void AddFlowChart(FileInfo file)
+        private EnclosedTabItem AddQDeterminant(FileInfo file)
         {
-            MessageBox.Show("FC");
+            var tabItem = new EnclosedTabItem()
+            {
+                Header = file.Name,
+                Tag = file.FullName
+            };
+            var textEditor = new TextEditor();
+            textEditor.SetContent(file);
+            tabItem.Content = textEditor;
+            return tabItem;
         }
-        private void AddImplementationPlan(FileInfo file)
+
+        private EnclosedTabItem AddFlowChart(FileInfo file)
         {
-            MessageBox.Show("IP");
+            var tabItem = new EnclosedTabItem()
+            {
+                Header = file.Name,
+                Tag = file.FullName
+            };
+            var textEditor = new TextEditor();
+            textEditor.SetContent(file);
+            tabItem.Content = textEditor;
+            return tabItem;
+        }
+        private EnclosedTabItem AddImplementationPlan(FileInfo file)
+        {
+            var tabItem = new EnclosedTabItem()
+            {
+                Header = file.Name,
+                Tag = file.FullName
+            };
+            var textEditor = new TextEditor();
+            textEditor.SetContent(file);
+            tabItem.Content = textEditor;
+            return tabItem;
         }
 
         private void CloseTab(object sender, RoutedEventArgs e)
@@ -54,25 +94,57 @@ namespace BasicComponentsPack
             AddTab(e.OriginalSource.ToString());
         }
 
+        private EnclosedTabItem PerformRevealer(FileInfo file)
+        {
+            if (!_fileRevealers.ContainsKey(file.Extension))
+                throw new ArgumentException(string.Format("Invalid Format File"));
+            return _fileRevealers[file.Extension](file);
+        }
+
+        public void DefineRevealer(string extention, Func<FileInfo, EnclosedTabItem> revealer)
+        {
+            try
+            {
+                if (_fileRevealers.ContainsKey(extention))
+                    throw new ArgumentException(string.Format("Revealer already exists"));
+                _fileRevealers.Add(extention, revealer);
+            }
+            catch (Exception e)
+            {
+                RaiseEvent(new RoutedEventArgs(ErrorExceptionEvent, e.Message));
+            }
+        }
+
         public void AddTab(string filePath)
         {
             try
             {
-                var PathToFile = new StringBuilder(filePath);
-                var file = new FileInfo(filePath);
-                switch (file.Extension)
+                if (!FileIsOpen(filePath))
                 {
-                    case ".fc":AddFlowChart(file);
-                        break;
-                    case ".ip": AddFlowChart(file);
-                        break;
-                    default: throw new Exception("Invalid file type");
+                    var tabItem = PerformRevealer(new FileInfo(filePath));
+                    WorkplaceTabControl.Items.Add(tabItem);
+                    WorkplaceTabControl.SelectedItem = tabItem;
+                    _openedFiles.Add(filePath);
+                }
+                else
+                {
+                    WorkplaceTabControl.SelectedIndex = GetIndexOfTab(filePath);
                 }
             }
             catch (Exception e)
             {
-                RaiseEvent(new RoutedEventArgs(ErrorExceptionEvent, "Invalid file type"));
+                RaiseEvent(new RoutedEventArgs(ErrorExceptionEvent, e.Message));
             }
+        }
+
+        private int GetIndexOfTab(string filepath)
+        {
+            return WorkplaceTabControl.Items.Cast<EnclosedTabItem>().Where(item => item.Tag.ToString().Equals(filepath)).Select(item => WorkplaceTabControl.Items.IndexOf(item)).FirstOrDefault();
+        }
+
+        private bool FileIsOpen(string filePath)
+        {
+            return _openedFiles.Exists(x => x.Equals(filePath));
         }
 
         public void SaveAllListener(object sender, RoutedEventArgs e)
@@ -87,6 +159,7 @@ namespace BasicComponentsPack
         {
             SaveAllListener(sender, e);
             WorkplaceTabControl.Items.Clear();
+            _openedFiles.Clear();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Windows;
 using Microsoft.Win32;
 
 namespace QStudio
@@ -115,19 +117,18 @@ namespace QStudio
             s.SerializeProject(@"D:\tempforQ\NewQSOL\NewProject\NewProject.qpr", NewProject);
             */
             //SolutionExplorer.CurrentSolutionPath = @"D:\tempforQ\NewQSOL\Testsolution.qsln";
-            
 
         }
 
         private void OpenSolution(object sender, RoutedEventArgs e)
         {
-            var _openDialog = new OpenFileDialog();
-            _openDialog.DefaultExt = ".qsln";
-            _openDialog.Filter = "SolutionFiles (*.qsln)|*.qsln";
-            var result = _openDialog.ShowDialog();
+            var openDialog = new OpenFileDialog();
+            openDialog.DefaultExt = ".qsln";
+            openDialog.Filter = "SolutionFiles (*.qsln)|*.qsln";
+            var result = openDialog.ShowDialog();
             if (result == true)
             {
-                SolutionExplorer.CurrentSolutionPath = _openDialog.FileName;
+                SolutionExplorer.CurrentSolutionPath = openDialog.FileName;
             }
         }
 

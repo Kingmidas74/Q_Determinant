@@ -68,6 +68,9 @@
     <Compile Include="SolutionExplorer.xaml.cs">
       <DependentUpon>SolutionExplorer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TextEditor.xaml.cs">
+      <DependentUpon>TextEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WorkplaceTabs.xaml.cs">
       <DependentUpon>WorkplaceTabs.xaml</DependentUpon>
     </Compile>
@@ -83,6 +86,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="SolutionExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TextEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

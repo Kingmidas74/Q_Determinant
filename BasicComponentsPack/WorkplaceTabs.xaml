@@ -2,8 +2,5 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              >
-    <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Bottom" x:Name="WorkplaceTabControl">
-        <defaultControlsPack:EnclosedTabItem Header="1"/>
-        <defaultControlsPack:EnclosedTabItem Header="2"/>
-    </defaultControlsPack:EnclosedTabControl>
+    <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Bottom" x:Name="WorkplaceTabControl"/>
 </UserControl>

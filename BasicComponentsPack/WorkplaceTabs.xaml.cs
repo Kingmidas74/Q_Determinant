@@ -1,11 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
 using DefaultControlsPack;
 using VisualCore;
 using System.Collections.Generic;
@@ -44,7 +41,7 @@ namespace BasicComponentsPack
 
         private EnclosedTabItem AddQDeterminant(FileInfo file)
         {
-            var tabItem = new EnclosedTabItem()
+            var tabItem = new EnclosedTabItem
             {
                 Header = file.Name,
                 Tag = file.FullName
@@ -57,7 +54,7 @@ namespace BasicComponentsPack
 
         private EnclosedTabItem AddFlowChart(FileInfo file)
         {
-            var tabItem = new EnclosedTabItem()
+            var tabItem = new EnclosedTabItem
             {
                 Header = file.Name,
                 Tag = file.FullName
@@ -69,7 +66,7 @@ namespace BasicComponentsPack
         }
         private EnclosedTabItem AddImplementationPlan(FileInfo file)
         {
-            var tabItem = new EnclosedTabItem()
+            var tabItem = new EnclosedTabItem
             {
                 Header = file.Name,
                 Tag = file.FullName
@@ -87,6 +84,7 @@ namespace BasicComponentsPack
             {
                 (currentTab.Content as ISaveable).Save();
             }
+            _openedFiles.Remove(currentTab.Tag.ToString());
         }
 
         public void SelectedFileListener(object sender, RoutedEventArgs e)

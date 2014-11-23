@@ -1,7 +1,4 @@
-﻿using BasicComponentsPack;
-using VisualCore;
-
-namespace QStudio.InternalClasses
+﻿namespace QStudio.InternalClasses
 {
     public sealed class CurrentSettings
     {

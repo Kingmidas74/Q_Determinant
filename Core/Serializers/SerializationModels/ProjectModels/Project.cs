@@ -15,6 +15,7 @@ namespace Core.Serializers.SerializationModels.ProjectModels
         {
             Files = new List<File>();
             References = new List<Reference>();
+            Properties = new Properties();
         }
     }
 }

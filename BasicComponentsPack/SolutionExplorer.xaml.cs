@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -7,8 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using BasicComponentsPack.InternalClasses;
 using Core.Serializers;
-using Core.Serializers.SerializationModels.SolutionModels;
-using DefaultControlsPack;
+using Core.Serializers.SerializationModels;
+using Microsoft.Win32;
 
 namespace BasicComponentsPack
 {
@@ -43,7 +42,6 @@ namespace BasicComponentsPack
         private void RefreshSolution()
         {
             SearchTreeView.ItemsSource = null;
-            //SearchTreeView.ItemsSource = null;
             if (!String.IsNullOrEmpty(CurrentSolutionPath))
             {
                 var solution = new Core.Serializers.SerializationModels.SolutionModels.Solution();
@@ -68,7 +66,7 @@ namespace BasicComponentsPack
                     }
                     result.Items.Add(currentProjectView);
                 }
-                var solutions = new List<SolutionTreeItem>() {result};
+                var solutions = new List<SolutionTreeItem> {result};
                 SearchTreeView.ItemsSource = solutions;
             }
         }
@@ -89,6 +87,56 @@ namespace BasicComponentsPack
             {
                 RaiseEvent(new RoutedEventArgs(SelectingFileEvent, (sender as TextBlock).Tag.ToString()));
             }
+        }
+
+        public void OpenSolutionListener(object sender, RoutedEventArgs e)
+        {
+            var openDialog = new OpenFileDialog();
+            openDialog.DefaultExt = ".qsln";
+            openDialog.Filter = "SolutionFiles (*.qsln)|*.qsln";
+            openDialog.Title = "Открытие решения...";
+            var result = openDialog.ShowDialog();
+            if (result == true)
+            {
+                CurrentSolutionPath = openDialog.FileName;
+            }
+        }
+
+        public void NewSolutionListener(object sender, RoutedEventArgs e)
+        {
+            var saveDialog = new SaveFileDialog();
+            saveDialog.DefaultExt = ".qsln";
+            saveDialog.Filter = "SolutionFiles (*.qsln)|*.qsln";
+            saveDialog.Title = "Создание решения...";
+            var result = saveDialog.ShowDialog();
+            if (result == true)
+            {
+                var newSolution = new Core.Serializers.SerializationModels.SolutionModels.Solution();
+                
+                var solutionFile = new FileInfo(saveDialog.FileName);
+                newSolution.Title = Path.GetFileNameWithoutExtension(solutionFile.Name);
+                newSolution.Properties.MaxCPU = 1;
+                newSolution.Projects.Add(new Core.Serializers.SerializationModels.SolutionModels.Project { Path = string.Format("{0}\\{0}.qpr", newSolution.Title), Title = newSolution.Title, Type = ProjectTypes.Algorithm });
+                
+                var defaultProject = new Core.Serializers.SerializationModels.ProjectModels.Project();
+                defaultProject.Title = newSolution.Title;
+                defaultProject.Properties.Type = ProjectTypes.Algorithm;
+                defaultProject.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File {Path = "FlowChart.fc"});
+
+                Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(solutionFile.FullName), newSolution.Title));
+
+                var serializer = SerializersFactory.GeSerializer();
+                serializer.SerializeSolution(saveDialog.FileName, newSolution);
+                serializer.SerializeProject(
+                    Path.Combine(Path.GetDirectoryName(solutionFile.FullName), newSolution.Title,
+                        newSolution.Title + ".qpr"), defaultProject);
+                CurrentSolutionPath = saveDialog.FileName;
+            }
+        }
+
+        public void NewProjectListener(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("NPL");
         }
     }
 }

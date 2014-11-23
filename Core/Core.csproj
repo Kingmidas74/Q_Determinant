@@ -39,11 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Atoms\Block.cs" />
+    <Compile Include="Atoms\BlockTypes.cs" />
+    <Compile Include="Atoms\Graph.cs" />
+    <Compile Include="Atoms\Link.cs" />
+    <Compile Include="Atoms\LinkTypes.cs" />
+    <Compile Include="Atoms\QTerm.cs" />
+    <Compile Include="IPlan.cs" />
     <Compile Include="Serializers\SerializationModels\ProjectModels\File.cs" />
     <Compile Include="Serializers\SerializationModels\ProjectModels\Project.cs" />
     <Compile Include="Serializers\SerializationModels\ProjectTypes.cs" />
     <Compile Include="Serializers\SerializationModels\ProjectModels\Properties.cs" />
     <Compile Include="Serializers\SerializationModels\ProjectModels\Reference.cs" />
+    <Compile Include="Serializers\SerializationModels\SolutionModels\Function.cs" />
+    <Compile Include="Serializers\SerializationModels\SolutionModels\FunctionPriorities.cs" />
     <Compile Include="Serializers\SerializeTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializers\SerializationModels\SolutionModels\Project.cs" />

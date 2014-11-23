@@ -5,20 +5,53 @@
         xmlns:basicComponentsPack="clr-namespace:BasicComponentsPack;assembly=BasicComponentsPack"
         WindowStartupLocation="CenterScreen" Title="Q-детерминант" MinHeight="768" MinWidth="1024">
     
+    <defaultControlsPack:ModernWindow.CommandBindings>
+        <CommandBinding Command="Open" Executed="OpenSolutionClick" />
+        <CommandBinding Command="Close" Executed="CloseSolutionClick"/>
+        <CommandBinding Command="Save" Executed="SaveAllClick"/>
+        <CommandBinding Command="NextPage" Executed="NewProjectClick"/>
+        <CommandBinding Command="New" Executed="NewSolutionClick"/>
+        <CommandBinding Command="NotACommand" Executed="CompilerClick"/>
+    </defaultControlsPack:ModernWindow.CommandBindings>
+    <defaultControlsPack:ModernWindow.InputBindings>
+        <KeyBinding Modifiers="Control" Key="Q" Command="Close"/>
+        <KeyBinding Modifiers="Control+Shift" Key="N" Command="NextPage"/>
+        <KeyBinding Modifiers="Shift" Key="F5" Command="NotACommand"/>
+    </defaultControlsPack:ModernWindow.InputBindings>
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Menu DockPanel.Dock="Top" IsMainMenu="True">
             <MenuItem Header="FILE" >
                 <MenuItem Header="New">
-                    <MenuItem Header="Solution" x:Name="NewSolutionMenuItem"/>
-                    <MenuItem Header="Project" x:Name="NewProjectMenuItem"/>
+                    <MenuItem Header="Solution" Command="New">
+                        <MenuItem.Icon>
+                            <Path Stretch="Fill" Fill="{StaticResource ActiveBrush}" Data="{StaticResource New}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Project" Command="NextPage" InputGestureText="Ctrl+Shift+N"/>
                 </MenuItem>
                 <MenuItem Header="Open">
-                    <MenuItem Header="Solution" Click="OpenSolution"  />
+                    <MenuItem Header="Solution" Command="Open">
+                        <MenuItem.Icon>
+                            <Path Stretch="Fill" Fill="{StaticResource ActiveBrush}" Data="{StaticResource Open}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Save" Click="SaveAllClick" />
-                <MenuItem Header="Close Solution" Click="CloseSolutionClick"/>
+                <MenuItem Header="Save" Command="Save" >
+                    <MenuItem.Icon>
+                        <Path Stretch="Fill" Fill="{StaticResource ActiveBrush}" Data="{StaticResource Save}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Close Solution" Command="Close" InputGestureText="Ctrl+Q">
+                    <MenuItem.Icon>
+                        <Path Stretch="Fill" Fill="{StaticResource ErrorBrush}" Data="{StaticResource Leave}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="Exit" Click="CloseProgram"/>
+                <MenuItem Header="Exit" Click="CloseProgram" InputGestureText="Alt+F4">
+                    <MenuItem.Icon>
+                        <Path Stretch="Fill" Fill="{StaticResource ErrorBrush}" Data="{StaticResource Close}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="PROJECT">
                 <MenuItem Header="FlowChart">
@@ -36,6 +69,13 @@
                 <Separator/>
                 <MenuItem Header="Properties"/>
             </MenuItem>
+            <MenuItem Header="DEBUG">
+                <MenuItem Header="Start compile" Command="NotACommand" InputGestureText="Shift+F5">
+                    <MenuItem.Icon>
+                        <Path Stretch="Fill" Fill="{StaticResource SuccessBrush}" Data="{StaticResource RightArrow}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="PLUGINS" x:Name="PluginsMenuItem"/>
             <MenuItem Header="HELP">
                 <MenuItem Header="View Help"/>
@@ -43,14 +83,26 @@
                 <MenuItem Header="Check Updates"/>
             </MenuItem>
         </Menu>
-        <ToolBarTray DockPanel.Dock="Top" x:Name="ToolBarTray">
-            <ToolBar Band="0" BandIndex="0">
-                <!--<local:NumericBox Value="0" Minimum="0" Increment="1" x:Name="CPUCount"/>-->
+        <ToolBarTray DockPanel.Dock="Top" x:Name="ToolBarTray" Height="30">
+            <ToolBar Band="0" BandIndex="0" VerticalAlignment="Stretch" VerticalContentAlignment="Center">
+                <Button Command="New" ToolTip="New Solution (Ctrl+N)">
+                    <Path Stretch="Fill" Fill="{StaticResource ActiveBrush}" Data="{StaticResource New}"/>
+                </Button>
+                <Button Command="Open" ToolTip="Open Solution (Ctrl+O)">
+                    <Path Stretch="Fill" Fill="{StaticResource ActiveBrush}" Data="{StaticResource Open}"/>
+                </Button>
+                <Button Command="Save" ToolTip="Save (Ctrl+S)">
+                    <Path Stretch="Fill" Fill="{StaticResource ActiveBrush}" Data="{StaticResource Save}"/>
+                </Button>
+                <Button Command="Close" ToolTip="Close Solution (Ctrl+S)">
+                    <Path Stretch="Fill" Fill="{StaticResource ErrorBrush}" Data="{StaticResource Leave}"/>
+                </Button>
                 <Separator/>
-                <Button Style="{StaticResource {x:Type Button}}" x:Name="Compiler" Click="CompilerClick">
-                    <StackPanel Orientation="Horizontal">
-                        <Path Width="10" Height="10" Stretch="Fill" Fill="{StaticResource SuccessBrush}" Data="F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z "/>
-                        <TextBlock Text="Compile" Style="{StaticResource BaseFont}" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="12"/>
+                <!--<local:NumericBox Value="0" Minimum="0" Increment="1" x:Name="CPUCount"/>-->
+                <Button Command="NotACommand" Style="{StaticResource {x:Type Button}}" >
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="20">
+                        <Path Stretch="Fill" Fill="{StaticResource SuccessBrush}" Data="{StaticResource RightArrow}" DockPanel.Dock="Left" Width="16" Height="16" VerticalAlignment="Center"/>
+                        <TextBlock Text="Compile" FontSize="14" Foreground="{StaticResource BaseFontBrush}" Margin="5,0,0,0" DockPanel.Dock="Right" Style="{StaticResource BaseFont}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Separator/>

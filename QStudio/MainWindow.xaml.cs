@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using Microsoft.Win32;
+﻿using System.Windows;
 
 namespace QStudio
 {
@@ -55,6 +52,39 @@ namespace QStudio
                 remove { RemoveHandler(ErrorEvent, value); }
             }
             #endregion
+
+            #region OpenSolution
+            public static readonly RoutedEvent OpenSolutionEvent = EventManager.RegisterRoutedEvent("OpenSolution",
+                RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
+
+            public event RoutedEventHandler OpenSolution
+            {
+                add { AddHandler(OpenSolutionEvent, value); }
+                remove { RemoveHandler(OpenSolutionEvent, value); }
+            }
+            #endregion
+
+            #region NewSolution
+            public static readonly RoutedEvent NewSolutionEvent = EventManager.RegisterRoutedEvent("NewSolution",
+                RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
+
+            public event RoutedEventHandler NewSolution
+            {
+                add { AddHandler(NewSolutionEvent, value); }
+                remove { RemoveHandler(NewSolutionEvent, value); }
+            }
+            #endregion
+
+            #region NewProject
+            public static readonly RoutedEvent NewProjectEvent = EventManager.RegisterRoutedEvent("NewProject",
+                RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
+
+            public event RoutedEventHandler NewProject
+            {
+                add { AddHandler(NewProjectEvent, value); }
+                remove { RemoveHandler(NewProjectEvent, value); }
+            }
+            #endregion
         
         #endregion
 
@@ -67,6 +97,9 @@ namespace QStudio
             AddHandler(SaveAllEvent, new RoutedEventHandler(WorkplaceTabs.SaveAllListener));
             AddHandler(CloseSolutionEvent, new RoutedEventHandler(WorkplaceTabs.CloseSolutionListener));
             AddHandler(CloseSolutionEvent, new RoutedEventHandler(SolutionExplorer.CloseSolutionListener));
+            AddHandler(OpenSolutionEvent, new RoutedEventHandler(SolutionExplorer.OpenSolutionListener));
+            AddHandler(NewSolutionEvent, new RoutedEventHandler(SolutionExplorer.NewSolutionListener));
+            AddHandler(NewProjectEvent, new RoutedEventHandler(SolutionExplorer.NewProjectListener));
             AddHandler(ErrorEvent, new RoutedEventHandler(ErrorMessage));
         }
 
@@ -117,19 +150,23 @@ namespace QStudio
             s.SerializeProject(@"D:\tempforQ\NewQSOL\NewProject\NewProject.qpr", NewProject);
             */
             //SolutionExplorer.CurrentSolutionPath = @"D:\tempforQ\NewQSOL\Testsolution.qsln";
+            MessageBox.Show("ASD");
 
         }
 
-        private void OpenSolution(object sender, RoutedEventArgs e)
+        private void OpenSolutionClick(object sender, RoutedEventArgs e)
         {
-            var openDialog = new OpenFileDialog();
-            openDialog.DefaultExt = ".qsln";
-            openDialog.Filter = "SolutionFiles (*.qsln)|*.qsln";
-            var result = openDialog.ShowDialog();
-            if (result == true)
-            {
-                SolutionExplorer.CurrentSolutionPath = openDialog.FileName;
-            }
+            RaiseEvent(new RoutedEventArgs(OpenSolutionEvent));
+        }
+
+        private void NewSolutionClick(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(NewSolutionEvent));
+        }
+
+        private void NewProjectClick(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(NewProjectEvent));
         }
 
         private void CloseProgram(object sender, RoutedEventArgs e)

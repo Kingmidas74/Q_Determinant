@@ -9,10 +9,13 @@ namespace Core.Serializers.SerializationModels.SolutionModels
         public string Title { get; set; }
         public List<Project> Projects { get; set; }
         public Properties Properties { get; set; }
+        public List<Function> Functions { get; set; } 
         
         public Solution()
         {
             Projects = new List<Project>();
+            Functions = new List<Function>();
+            Properties = new Properties();
         }
     }
 }

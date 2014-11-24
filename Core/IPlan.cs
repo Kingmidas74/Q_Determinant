@@ -4,7 +4,7 @@ namespace Core
 {
     public interface IPlan
     {
-        bool AvoidDuplication { get; set; }
+        bool AvoidDuplication { get;  }
         ulong CountCPU { get; }
         ulong CountTacts { get; }
         void OptimizePlan(ulong countCPU);

@@ -13,6 +13,7 @@ namespace ImplementationPlan
     internal static class ReversePolishNotation
     {
         private static List<Function> _functions; 
+        private static ulong _currentId;
         public static List<Function> Functions
         {
             get { return _functions; }
@@ -27,7 +28,6 @@ namespace ImplementationPlan
         public static IEnumerable<Block> Translate(string term)
         {
             var result = new List<Block>();
-            ulong currentId = 0;
             if (string.IsNullOrEmpty(term))
             {
                 return result;
@@ -46,13 +46,13 @@ namespace ImplementationPlan
                     }
                     else if (symbol.Equals(')'))
                     {
-                        AddBlockToRPN(currentSegment.ToString(), ref result, ref currentId);
+                        AddBlockToRPN(currentSegment.ToString(), ref result, ref _currentId);
                         while (stack.Count > 0 && !(stack.Peek()).Signature.Equals("("))
                         {
                             
                             var content = stack.Pop();
                             Debug.WriteLine(content.Signature, "Pop");
-                            AddBlockToRPN(content.Signature, ref result, ref currentId);
+                            AddBlockToRPN(content.Signature, ref result, ref _currentId);
                         }
                         var content2 = stack.Pop();
                         Debug.WriteLine(content2.Signature, "Pop");
@@ -60,12 +60,12 @@ namespace ImplementationPlan
                     }
                     else if (symbol.Equals(','))
                     {
-                        AddBlockToRPN(currentSegment.ToString(), ref result, ref currentId);
+                        AddBlockToRPN(currentSegment.ToString(), ref result, ref _currentId);
                         while (stack.Count > 0 && !(stack.Peek()).Signature.Equals("("))
                         {
                             var content = stack.Pop();
                             Debug.WriteLine(content.Signature, "Pop");
-                            AddBlockToRPN(content.Signature, ref result, ref currentId);
+                            AddBlockToRPN(content.Signature, ref result, ref _currentId);
                         }
                         currentSegment.Clear();
                     }
@@ -85,7 +85,7 @@ namespace ImplementationPlan
                             {
                                 var content = stack.Pop();
                                 Debug.WriteLine(content.Signature, "Pop");
-                                AddBlockToRPN(content.Signature, ref result, ref currentId);
+                                AddBlockToRPN(content.Signature, ref result, ref _currentId);
                             }
                             Debug.WriteLine(currentFunction.Signature, "Push");
                             stack.Push(currentFunction);
@@ -101,7 +101,7 @@ namespace ImplementationPlan
                         {
                             var content = stack.Pop();
                             Debug.WriteLine(content.Signature, "Pop");
-                            AddBlockToRPN(content.Signature, ref result, ref currentId);
+                            AddBlockToRPN(content.Signature, ref result, ref _currentId);
                         }
                         Debug.WriteLine(currentFunction.Signature, "Push");
                         stack.Push(currentFunction);
@@ -109,17 +109,22 @@ namespace ImplementationPlan
                 }
             }
             Debug.WriteLine(stack.Count,"FiSC");
-            AddBlockToRPN(currentSegment.ToString(), ref result,ref currentId);
+            AddBlockToRPN(currentSegment.ToString(), ref result, ref _currentId);
             while (stack.Count > 0)
             {
                 var content = stack.Pop().Signature;
-                AddBlockToRPN(content, ref result, ref currentId);
+                AddBlockToRPN(content, ref result, ref _currentId);
             }
             foreach (var block in result)
             {
                 Debug.Write(block.Content);
             }
             return result;
+        }
+
+        public static void RefreshId()
+        {
+            _currentId = 0;
         }
 
         public static bool IsFunction(string signature)

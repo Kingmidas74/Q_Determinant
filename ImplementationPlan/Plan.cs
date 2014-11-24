@@ -8,7 +8,7 @@ namespace ImplementationPlan
 {
     public class Plan:IPlan
     {
-        public bool AvoidDuplication { get; set; }
+        public bool AvoidDuplication { get; private set; }
 
         public ulong CountCPU { get; private set; }
 
@@ -19,11 +19,12 @@ namespace ImplementationPlan
 
 
 
-        public Plan(IEnumerable<QTerm> qTerms, List<Function> functions)
+        public Plan(IEnumerable<QTerm> qTerms, List<Function> functions, AvoidDuplicationTypes avoidDuplicationType=AvoidDuplicationTypes.None)
         {
             _functions = functions;
             _implementationPlan = new Graph();
             ReversePolishNotation.Functions = _functions;
+            ReversePolishNotation.RefreshId();
             foreach (var qTerm in qTerms)
             {
                 ReversePolishNotation.Translate(qTerm.Logical);

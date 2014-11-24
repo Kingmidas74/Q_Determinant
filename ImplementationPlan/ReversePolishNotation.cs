@@ -20,12 +20,12 @@ namespace ImplementationPlan
             set
             {
                 _functions = value;
-                _functions.Add(new Function() { MinimumParameters = 0, Priority = 0, Signature = "(" });
-                _functions.Add(new Function() { MinimumParameters = 0, Priority = 0, Signature = ")" });
+                _functions.Add(new Function() { Parameters = 0, Priority = 0, Signature = "(" });
+                _functions.Add(new Function() { Parameters = 0, Priority = 0, Signature = ")" });
             }
         }
 
-        public static IEnumerable<Block> Translate(string term)
+        public static List<Block> Translate(string term)
         {
             var result = new List<Block>();
             if (string.IsNullOrEmpty(term))
@@ -41,7 +41,6 @@ namespace ImplementationPlan
                     if (symbol.Equals('('))
                     {
                         var currentFunction = _functions.First(x => x.Signature.Equals(symbol.ToString()));
-                        Debug.WriteLine(currentFunction.Signature, "Push");
                         stack.Push(currentFunction);
                     }
                     else if (symbol.Equals(')'))
@@ -51,11 +50,9 @@ namespace ImplementationPlan
                         {
                             
                             var content = stack.Pop();
-                            Debug.WriteLine(content.Signature, "Pop");
                             AddBlockToRPN(content.Signature, ref result, ref _currentId);
                         }
                         var content2 = stack.Pop();
-                        Debug.WriteLine(content2.Signature, "Pop");
                         currentSegment.Clear();
                     }
                     else if (symbol.Equals(','))
@@ -64,7 +61,6 @@ namespace ImplementationPlan
                         while (stack.Count > 0 && !(stack.Peek()).Signature.Equals("("))
                         {
                             var content = stack.Pop();
-                            Debug.WriteLine(content.Signature, "Pop");
                             AddBlockToRPN(content.Signature, ref result, ref _currentId);
                         }
                         currentSegment.Clear();
@@ -72,22 +68,18 @@ namespace ImplementationPlan
                 }
                 else
                 {
-                    Debug.WriteLine(IsFunction(symbol.ToString()));
                     if (!IsFunction(symbol.ToString()))
                     {
                         currentSegment.Append(symbol);
                         if (IsFunction(currentSegment.ToString()))
                         {
-                            Debug.WriteLine(currentSegment, "ISF");
                             var currentFunction = _functions.First(x => x.Signature.Equals(currentSegment.ToString()));
                             while (stack.Count > 0 && currentFunction.Priority <= (stack.Peek()).Priority &&
                                    !(stack.Peek()).Signature.Equals("("))
                             {
                                 var content = stack.Pop();
-                                Debug.WriteLine(content.Signature, "Pop");
                                 AddBlockToRPN(content.Signature, ref result, ref _currentId);
                             }
-                            Debug.WriteLine(currentFunction.Signature, "Push");
                             stack.Push(currentFunction);
                             currentSegment.Clear();
                         }
@@ -100,15 +92,12 @@ namespace ImplementationPlan
                                !(stack.Peek()).Signature.Equals("("))
                         {
                             var content = stack.Pop();
-                            Debug.WriteLine(content.Signature, "Pop");
                             AddBlockToRPN(content.Signature, ref result, ref _currentId);
                         }
-                        Debug.WriteLine(currentFunction.Signature, "Push");
                         stack.Push(currentFunction);
                     }
                 }
             }
-            Debug.WriteLine(stack.Count,"FiSC");
             AddBlockToRPN(currentSegment.ToString(), ref result, ref _currentId);
             while (stack.Count > 0)
             {
@@ -124,7 +113,7 @@ namespace ImplementationPlan
 
         public static void RefreshId()
         {
-            _currentId = 0;
+            _currentId = 1;
         }
 
         public static bool IsFunction(string signature)

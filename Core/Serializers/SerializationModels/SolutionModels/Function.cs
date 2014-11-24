@@ -6,7 +6,7 @@ namespace Core.Serializers.SerializationModels.SolutionModels
     public class Function
     {
         public string Signature { get; set; }
-        public ulong MinimumParameters { get; set; }
+        public ulong Parameters { get; set; }
         public FunctionPriorities Priority { get; set; }
     }
 }

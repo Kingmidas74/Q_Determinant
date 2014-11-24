@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Atoms
 {
@@ -23,6 +24,34 @@ namespace Core.Atoms
         public bool[,] GetAdjancencyMatrix()
         {
             return null;
+        }
+
+        public ulong GetMaxLevel()
+        {
+            ulong result = 0;
+            foreach (var vertex in Vertices)
+            {
+                if (vertex.Level > result)
+                {
+                    result = vertex.Level;
+                }
+            }
+            return result;
+        }
+
+        public ulong GetMaxOperationsInLevel()
+        {
+            ulong result = 0;
+            var maxLevel = GetMaxLevel();
+            for (ulong i = 1; i <= maxLevel; i++)
+            {
+                var operationsInLevel = (ulong)Vertices.LongCount(x => x.Level == i);
+                if (operationsInLevel > result)
+                {
+                    result = operationsInLevel;
+                }
+            }
+            return result;
         }
     }
 }

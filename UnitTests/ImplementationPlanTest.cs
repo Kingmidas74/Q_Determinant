@@ -14,7 +14,7 @@ namespace UnitTests
         [TestMethod]
         public void TestAll()
         {
-            IPlan plan = new Plan(new List<QTerm>{new QTerm(){Logical = "*(+(+(5,3),*(7,2,5)),4,+(1,+(+(1,2),2)))"}},new List<Function>(){new Function(){MinimumParameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"}, new Function(){MinimumParameters = 2,Priority = FunctionPriorities.Third,Signature = "+"}});
+            IPlan plan = new Plan(new List<QTerm>{new QTerm(){Logical = "+(*(8,+(+(5,5),+(7,1))),+(+(5,5),+(5,5)))"}},new List<Function>(){new Function(){Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"}, new Function(){Parameters = 2,Priority = FunctionPriorities.Third,Signature = "+"}},AvoidDuplicationTypes.Term);
         }
     }
 }

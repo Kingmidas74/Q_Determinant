@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Core.Atoms;
 
 namespace ImplementationPlan
@@ -27,7 +26,7 @@ namespace ImplementationPlan
                         }
                         if (result.Count(link => link.From == verticesList[k].Id) == 0)
                         {
-                            result.Add(new Link() {From = verticesList[k].Id,To = verticesList[i].Id});
+                            result.Add(new Link {From = verticesList[k].Id,To = verticesList[i].Id});
                             countLink++;
                         }
                     }
@@ -109,7 +108,7 @@ namespace ImplementationPlan
                 {
                     var currentFunction = functions[i];
                     var currentPreviousIds = graph.Edges.Where(x => x.To == currentFunction.Id).Select(link => link.From).ToList();
-                    var currentSignature = new FunctionSignature() {PreviousIds = currentPreviousIds, Signature = currentFunction.Content};
+                    var currentSignature = new FunctionSignature {PreviousIds = currentPreviousIds, Signature = currentFunction.Content};
                     Debug.WriteLine(currentFunction.Content,"CHECK FUNCTION:");
 
                     if (checkedFunctions.Count(x => x.Signature.Equals(currentFunction.Content) && x.PreviousIds.SequenceEqual(currentPreviousIds)) == 0)
@@ -118,7 +117,7 @@ namespace ImplementationPlan
                         {
                             var tempFunction = functions[j];
                             var tempPreviousIds = graph.Edges.Where(x => x.To == tempFunction.Id).Select(link => link.From).ToList();
-                            var tempSignature = new FunctionSignature(){Signature = tempFunction.Content, PreviousIds = tempPreviousIds};
+                            var tempSignature = new FunctionSignature {Signature = tempFunction.Content, PreviousIds = tempPreviousIds};
                             if (tempSignature.Signature.Equals(currentSignature.Signature) && tempSignature.PreviousIds.SequenceEqual(currentSignature.PreviousIds))
                             {
                                 foreach (var link in graph.Edges.Where(x => x.From == tempFunction.Id))
@@ -143,6 +142,36 @@ namespace ImplementationPlan
 
         internal static Graph OptimizateGraph(Graph graph, ulong maxVertexOnLevel)
         {
+            if (maxVertexOnLevel > graph.GetMaxLevel())
+            {
+                return graph;
+            }
+            var oldVertices = graph.Vertices.FindAll(x=>x.Level>0);
+            var newVertices = new List<Block>();
+            ulong currentLevel = 1;
+            foreach (var oldVertex in oldVertices)
+            {
+                var needIncrementLevel = (ulong) newVertices.LongCount(x => x.Level == currentLevel) == maxVertexOnLevel;
+                var allIncomingLink = graph.Edges.FindAll(x => x.To == oldVertex.Id);
+                var allPreviousVertices = new List<Block>();
+                foreach (var link in allIncomingLink)
+                {
+                    var vertexFromNewCollection = newVertices.FirstOrDefault(x => x.Id == link.From);
+                    if (vertexFromNewCollection != null && vertexFromNewCollection.Level>=currentLevel)
+                    {
+                        needIncrementLevel = true;
+                    }
+                }
+
+                if (needIncrementLevel)
+                {
+                    currentLevel++;
+                }
+                newVertices.Add(new Block {Content = oldVertex.Content,Id = oldVertex.Id,Level = currentLevel});
+            }
+            var tempVertices = graph.Vertices.FindAll(x => x.Level == 0);
+            tempVertices.AddRange(newVertices);
+            graph.Vertices = tempVertices;
             return graph;
         }
     }

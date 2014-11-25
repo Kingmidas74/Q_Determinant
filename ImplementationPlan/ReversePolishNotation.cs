@@ -20,8 +20,8 @@ namespace ImplementationPlan
             set
             {
                 _functions = value;
-                _functions.Add(new Function() { Parameters = 0, Priority = 0, Signature = "(" });
-                _functions.Add(new Function() { Parameters = 0, Priority = 0, Signature = ")" });
+                _functions.Add(new Function { Parameters = 0, Priority = 0, Signature = "(" });
+                _functions.Add(new Function { Parameters = 0, Priority = 0, Signature = ")" });
             }
         }
 

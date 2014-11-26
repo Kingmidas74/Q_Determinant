@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Core.Atoms;
+﻿using Core.Atoms;
 using Newtonsoft.Json;
 
 namespace Core.Converters

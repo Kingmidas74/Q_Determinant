@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Core;
 using Core.Atoms;
 using Core.Serializers.SerializationModels.SolutionModels;

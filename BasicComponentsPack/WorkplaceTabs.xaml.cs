@@ -33,7 +33,7 @@ namespace BasicComponentsPack
             _fileRevealers = new Dictionary<string, Func<FileInfo, EnclosedTabItem>>
                         {
                             { ".fc", this.AddFlowChart },
-                          /*  { ".ip", this.AddImplementationPlan },*/
+                            { ".ip", this.AddImplementationPlan },
                             { ".qd", this.AddQDeterminant },
                         };
             _openedFiles = new List<string>();
@@ -104,8 +104,13 @@ namespace BasicComponentsPack
             try
             {
                 if (_fileRevealers.ContainsKey(extention))
-                    throw new ArgumentException(string.Format("Revealer already exists"));
-                _fileRevealers.Add(extention, revealer);
+                {
+                    _fileRevealers[extention] = revealer;
+                }
+                else
+                {
+                    _fileRevealers.Add(extention, revealer);
+                }
             }
             catch (Exception e)
             {

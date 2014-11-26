@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Core;
 using Core.Atoms;
+using Core.Enums;
 using Core.Serializers.SerializationModels.SolutionModels;
 
 namespace ImplementationPlan
@@ -14,10 +15,13 @@ namespace ImplementationPlan
 
         public ulong CountTacts { get; private set; }
 
+        public StatusTypes Status { get; private set; }
+
+        public string StatusMessage { get; private set; }
+
         private List<Graph> _implementationPlan;
         private AvoidDuplicationTypes AvoidDuplicationType { get; set; }
-
-
+        
 
         public Plan(IEnumerable<QTerm> qTerms, List<Function> functions, AvoidDuplicationTypes avoidDuplicationType=AvoidDuplicationTypes.None)
         {
@@ -32,6 +36,35 @@ namespace ImplementationPlan
             }
             CountTacts = GetMaxLevel();
             CountCPU = GetMaxOperationsInLevel();
+        }
+
+        public void OptimizePlan(ulong countCPU)
+        {
+            var globalGraph = new Graph();
+            foreach (var graph in _implementationPlan)
+            {
+                globalGraph.Vertices.AddRange(graph.Vertices);
+                globalGraph.Edges.AddRange(graph.Edges);
+            }
+            globalGraph = Optimization.OptimizateGraph(globalGraph, countCPU);
+            foreach (var vertex in globalGraph.Vertices)
+            {
+                Debug.WriteLine(vertex.Content, "VERTEX_CONTENT");
+                Debug.WriteLine(vertex.Level, "LEVEL");
+            }
+            CountTacts = globalGraph.GetMaxLevel();
+            CountCPU = globalGraph.GetMaxOperationsInLevel();
+        }
+
+        public Graph GetPlan()
+        {
+            var globalGraph = new Graph();
+            foreach (var graph in _implementationPlan)
+            {
+                globalGraph.Vertices.AddRange(graph.Vertices);
+                globalGraph.Edges.AddRange(graph.Edges);
+            }
+            return globalGraph;
         }
 
         private ulong GetMaxLevel(Graph graph= null)
@@ -83,33 +116,13 @@ namespace ImplementationPlan
             return graph;
         }
 
-        public void OptimizePlan(ulong countCPU)
+        private void MessageHandler(string message, StatusTypes type=StatusTypes.Success)
         {
-            var globalGraph = new Graph();
-            foreach (var graph in _implementationPlan)
-            {
-                globalGraph.Vertices.AddRange(graph.Vertices);
-                globalGraph.Edges.AddRange(graph.Edges);
-            }
-            globalGraph = Optimization.OptimizateGraph(globalGraph, countCPU);
-            foreach (var vertex in globalGraph.Vertices)
-            {
-                Debug.WriteLine(vertex.Content,"VERTEX_CONTENT");
-                Debug.WriteLine(vertex.Level, "LEVEL");
-            }
-            CountTacts = globalGraph.GetMaxLevel();
-            CountCPU = globalGraph.GetMaxOperationsInLevel();
+            Status = type;
+            StatusMessage = message;
         }
+        
 
-        public Graph GetPlan()
-        {
-            var globalGraph = new Graph();
-            foreach (var graph in _implementationPlan)
-            {
-                globalGraph.Vertices.AddRange(graph.Vertices);
-                globalGraph.Edges.AddRange(graph.Edges);
-            }
-            return globalGraph;
-        }
+        
     }
 }

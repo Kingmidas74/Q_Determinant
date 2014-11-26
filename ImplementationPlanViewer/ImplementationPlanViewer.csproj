@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F2D2C25F-1792-434B-8CB9-37061E33A0E4}</ProjectGuid>
+    <ProjectGuid>{63728805-A87D-47AF-828B-1B7B7AA3CB31}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BasicComponentsPack</RootNamespace>
-    <AssemblyName>BasicComponentsPack</AssemblyName>
+    <RootNamespace>ImplementationPlanViewer</RootNamespace>
+    <AssemblyName>ImplementationPlanViewer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -47,11 +47,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InternalClasses\CascadeSolutionTreeItem.cs" />
-    <Compile Include="InternalClasses\Dialogs\AbstractDialog.cs" />
-    <Compile Include="InternalClasses\Dialogs\DialogsFactory.cs" />
-    <Compile Include="InternalClasses\Dialogs\DialogTypes.cs" />
-    <Compile Include="InternalClasses\SolutionTreeItem.cs" />
+    <Page Include="Viewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Viewer.xaml.cs">
+      <DependentUpon>Viewer.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -65,15 +71,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SolutionExplorer.xaml.cs">
-      <DependentUpon>SolutionExplorer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TextEditor.xaml.cs">
-      <DependentUpon>TextEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WorkplaceTabs.xaml.cs">
-      <DependentUpon>WorkplaceTabs.xaml</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -85,20 +82,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="SolutionExplorer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TextEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WorkplaceTabs.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\BasicComponentsPack\BasicComponentsPack.csproj">
+      <Project>{f2d2c25f-1792-434b-8cb9-37061e33a0e4}</Project>
+      <Name>BasicComponentsPack</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{0f025b2a-3987-43a0-bdd5-328511bccc1a}</Project>
       <Name>Core</Name>
@@ -106,6 +93,10 @@
     <ProjectReference Include="..\DefaultControlsPack\DefaultControlsPack.csproj">
       <Project>{8976b701-f121-41e8-903f-fc32fddedf26}</Project>
       <Name>DefaultControlsPack</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginController\PluginController.csproj">
+      <Project>{87f06a7a-c02e-4b61-aeda-9622fe84f362}</Project>
+      <Name>PluginController</Name>
     </ProjectReference>
     <ProjectReference Include="..\VisualCore\VisualCore.csproj">
       <Project>{a018b627-f53b-42f2-823f-4f6b899f1954}</Project>

@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Core.Atoms
 {
+    [Serializable]
     public class Graph
     {
         public List<Block> Vertices;

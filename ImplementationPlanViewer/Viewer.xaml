@@ -1,7 +1,6 @@
-﻿<UserControl x:Class="BasicComponentsPack.TextEditor"
+﻿<UserControl x:Class="ImplementationPlanViewer.Viewer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             >
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -9,5 +8,5 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <RichTextBox Name="ContentEditor" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="{StaticResource SlaveBackgroundBrush}" CaretBrush="{StaticResource ActiveBrush}" BorderThickness="0" TextChanged="ChangeContent" Style="{StaticResource BaseFont}"/>
+    <Canvas x:Name="ViewerContent" />
 </UserControl>

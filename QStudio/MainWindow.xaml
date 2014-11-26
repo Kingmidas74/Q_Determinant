@@ -3,7 +3,7 @@
         xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:basicComponentsPack="clr-namespace:BasicComponentsPack;assembly=BasicComponentsPack"
-        WindowStartupLocation="CenterScreen" Title="Q-детерминант" MinHeight="768" MinWidth="1024">
+        WindowStartupLocation="CenterScreen" Title="Q-детерминант" MinHeight="768" MinWidth="1024" Loaded="LoadPlugins">
     
     <defaultControlsPack:ModernWindow.CommandBindings>
         <CommandBinding Command="Open" Executed="OpenSolutionClick" />

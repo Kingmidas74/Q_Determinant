@@ -33,7 +33,7 @@ namespace BasicComponentsPack
             _fileRevealers = new Dictionary<string, Func<FileInfo, EnclosedTabItem>>
                         {
                             { ".fc", this.AddFlowChart },
-                            { ".ip", this.AddImplementationPlan },
+                          /*  { ".ip", this.AddImplementationPlan },*/
                             { ".qd", this.AddQDeterminant },
                         };
             _openedFiles = new List<string>();

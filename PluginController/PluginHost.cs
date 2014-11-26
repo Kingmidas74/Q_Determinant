@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace PluginController
@@ -41,14 +43,15 @@ namespace PluginController
         private void LoadPlugins()
         {
             _plugins = new List<IPlugin>();
-            foreach (string file in Directory.GetFiles(_folderPath, "*.dll"))
+            var directory = new DirectoryInfo(_folderPath);
+            foreach (var file in Directory.GetFiles(directory.FullName, "*.dll"))
             {
                 var pluginDll = Assembly.LoadFile(file);
                 foreach (var type in pluginDll.GetTypes())
                 {
                     foreach (var currentInterface in type.GetInterfaces())
                     {
-                        if (currentInterface.FullName.Equals(Type.GetType("IPlugin")))
+                        if (currentInterface == Type.GetType("PluginController.IPlugin"))
                         {
                             var plugin = (IPlugin)Activator.CreateInstance(type);
                             _plugins.Add(plugin);

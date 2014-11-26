@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +49,16 @@
     <Compile Include="Atoms\Link.cs" />
     <Compile Include="Atoms\LinkTypes.cs" />
     <Compile Include="Atoms\QTerm.cs" />
+    <Compile Include="Converters\AbstractConverter.cs" />
+    <Compile Include="Converters\Converter.cs" />
+    <Compile Include="Converters\ConverterFactory.cs" />
+    <Compile Include="Converters\ConverterFormats.cs" />
+    <Compile Include="Converters\JSONConverter.cs" />
+    <Compile Include="Converters\XMLConverter.cs" />
+    <Compile Include="Enums\StatusTypes.cs" />
+    <Compile Include="IDeterminant.cs" />
+    <Compile Include="IFlowChart.cs" />
+    <Compile Include="IModule.cs" />
     <Compile Include="IPlan.cs" />
     <Compile Include="Serializers\SerializationModels\ProjectModels\File.cs" />
     <Compile Include="Serializers\SerializationModels\ProjectModels\Project.cs" />

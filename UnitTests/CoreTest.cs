@@ -2,6 +2,7 @@
 using Core;
 using Core.Atoms;
 using Core.Converters;
+using Core.Interfaces;
 using Core.Serializers.SerializationModels.SolutionModels;
 using ImplementationPlan;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

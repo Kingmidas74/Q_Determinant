@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\Adapter.cs" />
     <Compile Include="Atoms\Block.cs" />
     <Compile Include="Atoms\BlockTypes.cs" />
     <Compile Include="Atoms\Graph.cs" />
@@ -56,10 +57,10 @@
     <Compile Include="Converters\JSONConverter.cs" />
     <Compile Include="Converters\XMLConverter.cs" />
     <Compile Include="Enums\StatusTypes.cs" />
-    <Compile Include="IDeterminant.cs" />
-    <Compile Include="IFlowChart.cs" />
-    <Compile Include="IModule.cs" />
-    <Compile Include="IPlan.cs" />
+    <Compile Include="Interfaces\IDeterminant.cs" />
+    <Compile Include="Interfaces\IFlowChart.cs" />
+    <Compile Include="Interfaces\IModule.cs" />
+    <Compile Include="Interfaces\IPlan.cs" />
     <Compile Include="Serializers\SerializationModels\ProjectModels\File.cs" />
     <Compile Include="Serializers\SerializationModels\ProjectModels\Project.cs" />
     <Compile Include="Serializers\SerializationModels\ProjectTypes.cs" />

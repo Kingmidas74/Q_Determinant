@@ -1,6 +1,6 @@
 ﻿using Core.Atoms;
 
-namespace Core
+namespace Core.Interfaces
 {
     public interface IFlowChart:IModule
     {

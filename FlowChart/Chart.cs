@@ -2,6 +2,7 @@
 using Core;
 using Core.Atoms;
 using Core.Enums;
+using Core.Interfaces;
 
 namespace FlowChart
 {

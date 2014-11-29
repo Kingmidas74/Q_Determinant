@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Atoms;
 
-namespace Core
+namespace Core.Interfaces
 {
     public interface IDeterminant:IModule
     {

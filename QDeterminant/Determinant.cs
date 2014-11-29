@@ -3,6 +3,8 @@ using System.Linq;
 using Core;
 using Core.Atoms;
 using Core.Enums;
+using Core.Interfaces;
+using Core.Serializers.SerializationModels.SolutionModels;
 
 namespace QDeterminant
 {
@@ -18,12 +20,14 @@ namespace QDeterminant
         private List<QTerm> _qDeterminantStandart;
         private List<QTerm> _qDeterminantModern;
         private Graph _flowChart;
+        private List<Function> _functions; 
 
 
-        public Determinant(Graph flowChart)
+        public Determinant(Graph flowChart, List<Function> functions )
         {
             _qDeterminantStandart = new List<QTerm>();
             _flowChart = flowChart;
+            _functions = functions;
             _variables = new Dictionary<string, string>();
             CalculateDeterminant();
         }

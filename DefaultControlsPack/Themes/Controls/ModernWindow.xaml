@@ -55,7 +55,7 @@
                                             <Path Width="20" Height="20" Stretch="Fill" Fill="White" Data="{DynamicResource SettingsSymbol}"/>
                                         </Button>
 -->
-                                        <Button x:Name="MinButton" Grid.Column="3" Style="{StaticResource {x:Type Button}}">
+                                        <Button x:Name="MinButton" Grid.Column="3" Style="{StaticResource {x:Type Button}}" ToolTip="Minimize">
                                             <Grid MaxHeight="9" MaxWidth="9">
                                                 <Path
                                                 Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
@@ -67,7 +67,7 @@
                                             </Grid>
                                         </Button>
 
-                                        <Button Grid.Column="4" x:Name="MaxButton" Style="{StaticResource {x:Type Button}}">
+                                        <Button Grid.Column="4" x:Name="MaxButton" Style="{StaticResource {x:Type Button}}" ToolTip="Maximize">
                                             <Grid MaxHeight="9" MaxWidth="9">
                                                 <Path
                                                 x:Name="PART_MaxButton_Path"
@@ -80,7 +80,7 @@
                                             </Grid>
                                         </Button>
 
-                                        <Button Grid.Column="5" x:Name="CloseButton" Style="{StaticResource CloseButton}">
+                                        <Button Grid.Column="5" x:Name="CloseButton" Style="{StaticResource CloseButton}" ToolTip="Close">
                                             <Grid MaxHeight="9" MaxWidth="9">
                                                 <Path
                                                 Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
@@ -102,6 +102,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="PART_MaxButton_Path" Property="Data" Value="{StaticResource RestoreSymbol}"/>
+                            <Setter TargetName="MaxButton" Property="ToolTip" Value="Restore"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="NoResize">
                             <Setter TargetName="MinButton" Property="Visibility" Value="Collapsed"/>

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using BasicComponentsPack.InternalClasses;
 using Core.Serializers;
 using Core.Serializers.SerializationModels;
+using Core.Serializers.SerializationModels.SolutionModels;
 using Microsoft.Win32;
 
 namespace BasicComponentsPack
@@ -44,24 +46,25 @@ namespace BasicComponentsPack
             SearchTreeView.ItemsSource = null;
             if (!String.IsNullOrEmpty(CurrentSolutionPath))
             {
-                var solution = new Core.Serializers.SerializationModels.SolutionModels.Solution();
+                Solution solution;
                 var serializer = SerializersFactory.GetSerializer();
                 serializer.DeserializeSolution(CurrentSolutionPath, out solution);
-                var result = new SolutionTreeItem();
-                result.FilePath = CurrentSolutionPath;
-                result.Title = solution.Title;
-                foreach (var project in solution.Projects)
+                var result = new SolutionTreeItem {FilePath = CurrentSolutionPath, Title = solution.Title};
+                foreach (var currentProjectView in solution.Projects.Select(project => new SolutionTreeItem
                 {
-                    var currentProjectView = new SolutionTreeItem();
-                    currentProjectView.FilePath = Path.Combine(Path.GetDirectoryName(result.FilePath), project.Path);
-                    var currentProjectModel = new Core.Serializers.SerializationModels.ProjectModels.Project();
+                    FilePath = Path.Combine(Path.GetDirectoryName(result.FilePath), project.Path)
+                }))
+                {
+                    Core.Serializers.SerializationModels.ProjectModels.Project currentProjectModel;
                     serializer.DeserializeProject(currentProjectView.FilePath, out currentProjectModel);
                     currentProjectView.Title = currentProjectModel.Title;
                     foreach (var file in currentProjectModel.Files)
                     {
-                        var currentFileView = new SolutionTreeItem();
-                        currentFileView.FilePath = Path.Combine(Path.GetDirectoryName(currentProjectView.FilePath), file.Path);
-                        currentFileView.Title = file.Path;
+                        var currentFileView = new SolutionTreeItem
+                        {
+                            FilePath = Path.Combine(Path.GetDirectoryName(currentProjectView.FilePath), file.Path),
+                            Title = file.Path
+                        };
                         currentProjectView.Items.Add(currentFileView);
                     }
                     result.Items.Add(currentProjectView);

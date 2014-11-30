@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace ImplementationPlanViewer
+﻿namespace ImplementationPlanViewer
 {
     /// <summary>
     /// Interaction logic for EllipseIP.xaml
     /// </summary>
-    public partial class EllipseIP : UserControl
+    public partial class EllipseIP
     {
         public EllipseIP()
         {

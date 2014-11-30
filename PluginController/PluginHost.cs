@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using PluginController.Enums;
 
 namespace PluginController
 {
@@ -59,14 +58,16 @@ namespace PluginController
         private void LoadPlugins()
         {
             createDirectory();
+
             if (_interface.Equals("PluginController.IPlugin"))
             {
                 _plugins = new List<IPlugin>();
+                Debug.WriteLine(_folderPath, "ASDASDASD");
                 foreach (var file in Directory.GetFiles(_folderPath, "*.dll"))
                 {
                     Debug.WriteLine(file, "PLUGIN");
                     var pluginDll = Assembly.LoadFile(file);
-                    
+                    Debug.WriteLine(pluginDll.GetTypes(), "DLL");
                     foreach (var type in pluginDll.GetTypes())
                     {
                         foreach (var currentInterface in type.GetInterfaces())

@@ -6,14 +6,13 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Core.Converters;
-using VisualCore;
 
 namespace ImplementationPlanViewer
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class Viewer : ISaveable,ITabContent
+    public partial class Viewer : VisualCore.ISaveable,VisualCore.ITabContent
     {
         public Viewer()
         {

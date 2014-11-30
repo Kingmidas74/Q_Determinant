@@ -3,7 +3,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Core.Serializers
 {
-    public class BinarySerializer:AbstractSerializer
+    internal class BinarySerializer : AbstractSerializer
     {
         public override void SerializeSolution(string fileName, SerializationModels.SolutionModels.Solution solution)
         {

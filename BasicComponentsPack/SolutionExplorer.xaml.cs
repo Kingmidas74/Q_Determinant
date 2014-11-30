@@ -45,7 +45,7 @@ namespace BasicComponentsPack
             if (!String.IsNullOrEmpty(CurrentSolutionPath))
             {
                 var solution = new Core.Serializers.SerializationModels.SolutionModels.Solution();
-                var serializer = SerializersFactory.GeSerializer();
+                var serializer = SerializersFactory.GetSerializer();
                 serializer.DeserializeSolution(CurrentSolutionPath, out solution);
                 var result = new SolutionTreeItem();
                 result.FilePath = CurrentSolutionPath;
@@ -125,7 +125,7 @@ namespace BasicComponentsPack
 
                 Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(solutionFile.FullName), newSolution.Title));
 
-                var serializer = SerializersFactory.GeSerializer();
+                var serializer = SerializersFactory.GetSerializer();
                 serializer.SerializeSolution(saveDialog.FileName, newSolution);
                 serializer.SerializeProject(
                     Path.Combine(Path.GetDirectoryName(solutionFile.FullName), newSolution.Title,

@@ -2,7 +2,7 @@
 {
     public static class SerializersFactory
     {
-        public static AbstractSerializer GeSerializer(SerializeTypes type=SerializeTypes.Binary)
+        public static AbstractSerializer GetSerializer(SerializeTypes type = SerializeTypes.Binary)
         {
             switch (type)
             {

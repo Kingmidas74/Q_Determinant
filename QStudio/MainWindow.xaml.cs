@@ -125,7 +125,7 @@ namespace QStudio
             var solution = new Solution {Title = "Testsolution", Properties = new Core.Serializers.SerializationModels.SolutionModels.Properties {MaxCPU = 6}};
             solution.Projects.Add(new Project {Path = @"TestProject\TestProject.qpr", Title="TestProject"});
             solution.Projects.Add(new Project { Path = @"NewProject\NewProject.qpr", Title = "NewProject" });
-            var s = Factory.GeSerializer();
+            var s = Factory.GetSerializer();
             s.SerializeSolution(@"D:\tempforQ\NewQSOL\Testsolution.qsln", solution);
 
             var TestProject = new Core.Serializers.SerializationModels.ProjectModels.Project

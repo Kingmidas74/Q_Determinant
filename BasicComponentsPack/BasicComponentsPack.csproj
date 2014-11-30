@@ -102,14 +102,17 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{0f025b2a-3987-43a0-bdd5-328511bccc1a}</Project>
       <Name>Core</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\DefaultControlsPack\DefaultControlsPack.csproj">
       <Project>{8976b701-f121-41e8-903f-fc32fddedf26}</Project>
       <Name>DefaultControlsPack</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\VisualCore\VisualCore.csproj">
       <Project>{a018b627-f53b-42f2-823f-4f6b899f1954}</Project>
       <Name>VisualCore</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

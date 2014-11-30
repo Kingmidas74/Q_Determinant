@@ -64,7 +64,9 @@ namespace PluginController
                 _plugins = new List<IPlugin>();
                 foreach (var file in Directory.GetFiles(_folderPath, "*.dll"))
                 {
+                    Debug.WriteLine(file, "PLUGIN");
                     var pluginDll = Assembly.LoadFile(file);
+                    
                     foreach (var type in pluginDll.GetTypes())
                     {
                         foreach (var currentInterface in type.GetInterfaces())

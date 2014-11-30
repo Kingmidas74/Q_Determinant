@@ -75,6 +75,7 @@
                         <Path Stretch="Fill" Fill="{StaticResource SuccessBrush}" Data="{StaticResource RightArrow}"/>
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="Debug Settings..." Click="ShowDebugSettings"/>
             </MenuItem>
             <MenuItem Header="PLUGINS" x:Name="PluginsMenuItem"/>
             <MenuItem Header="HELP">

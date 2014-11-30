@@ -188,10 +188,15 @@ namespace QStudio
 
         private void LoadPlugins(object sender, RoutedEventArgs e)
         {
-            var pluginController = new PluginHost();
-            pluginController.FolderPath = "plugins";
+            var pluginController = new PluginHost("plugins", "PluginController.IPlugin");
             var plugins = pluginController.Plugins;
             plugins[0].Initialize(new List<object>{WorkplaceTabs});
+        }
+
+        private void ShowDebugSettings(object sender, RoutedEventArgs e)
+        {
+            var DebugSettings = new DebugSettings();
+            DebugSettings.Show();
         }
     }
 }

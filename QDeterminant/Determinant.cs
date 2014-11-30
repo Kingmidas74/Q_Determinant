@@ -20,14 +20,21 @@ namespace QDeterminant
         private List<QTerm> _qDeterminantStandart;
         private List<QTerm> _qDeterminantModern;
         private Graph _flowChart;
-        private List<Function> _functions; 
+        private List<Function> _functions;
 
+        public Graph FlowChart
+        {
+            set { _flowChart = value; }
+        }
 
-        public Determinant(Graph flowChart, List<Function> functions )
+        public List<Function> Functions
+        {
+            set { _functions=value; }
+        }
+
+        public Determinant()
         {
             _qDeterminantStandart = new List<QTerm>();
-            _flowChart = flowChart;
-            _functions = functions;
             _variables = new Dictionary<string, string>();
             CalculateDeterminant();
         }

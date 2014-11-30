@@ -2,6 +2,7 @@
 using Core.Atoms;
 using Core.Enums;
 using Core.Interfaces;
+using Core.Serializers.SerializationModels.SolutionModels;
 
 namespace Core.Adapter
 {
@@ -22,14 +23,22 @@ namespace Core.Adapter
             _implementationPlan = new Graph();
         }
 
+        public void SetFunctions(List<Function> functions)
+        {
+            ImplementationPlanModule.Functions = functions;
+            QDeterminantModule.Functions = functions;
+        }
+        
         public D QDeterminantModule
         {
             set { _qDeterminantModule = value; }
+            private get { return _qDeterminantModule; }
         }
 
         public P ImplementationPlanModule
         {
             set { _implementationPlanModule = value; }
+            private get { return _implementationPlanModule; }
         }
 
         public List<QTerm> QDerterminant
@@ -42,8 +51,10 @@ namespace Core.Adapter
             get { return _implementationPlan; }
         }
 
-        public Graph FlowChart { get; set; }
-
+        public Graph FlowChart
+        {
+            set { QDeterminantModule.FlowChart = value; } 
+        }
 
         public StatusTypes Status { get; set; }
 

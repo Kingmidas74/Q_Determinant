@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Atoms;
+using Core.Serializers.SerializationModels.SolutionModels;
 
 namespace Core.Interfaces
 {
@@ -14,5 +15,8 @@ namespace Core.Interfaces
         List<QTerm> GetDefaultDereminant();
 
         void CalculateDeterminant();
+
+        List<Function> Functions { set; }
+        Graph FlowChart { set; }
     }
 }

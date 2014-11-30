@@ -22,18 +22,33 @@ namespace ImplementationPlan
 
         private List<Graph> _implementationPlan;
         private AvoidDuplicationTypes AvoidDuplicationType { get; set; }
-        
 
-        public Plan(IEnumerable<QTerm> qTerms, List<Function> functions, AvoidDuplicationTypes avoidDuplicationType=AvoidDuplicationTypes.None)
+        private IEnumerable<QTerm> _qTerms;
+
+        public IEnumerable<QTerm> QTerms
         {
-            AvoidDuplicationType = avoidDuplicationType;
+            set { _qTerms = value; }
+        }
+        private List<Function> _functions;
+
+        public List<Function> Functions
+        {
+            set { _functions = value; }
+        } 
+
+        public Plan()
+        {
             _implementationPlan = new List<Graph>();
-            ReversePolishNotation.Functions = functions;
+        }
+
+        public void FindPlan()
+        {
+            ReversePolishNotation.Functions = _functions;
             ReversePolishNotation.RefreshId();
-            
-            foreach (var qTerm in qTerms)
+
+            foreach (var qTerm in _qTerms)
             {
-                _implementationPlan.AddRange(new List<Graph> {ParseTerm(qTerm.Logical), ParseTerm(qTerm.Definitive)});
+                _implementationPlan.AddRange(new List<Graph> { ParseTerm(qTerm.Logical), ParseTerm(qTerm.Definitive) });
             }
             CountTacts = GetMaxLevel();
             CountCPU = GetMaxOperationsInLevel();

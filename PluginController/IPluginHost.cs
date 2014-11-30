@@ -4,7 +4,7 @@ namespace PluginController
 {
     public interface IPluginHost
     {
-        string FolderPath { set; }
-        List<IPlugin> Plugins { get; } 
+        List<IPlugin> Plugins { get; }
+        Dictionary<string, string> Libraries { get; } 
     }
 }

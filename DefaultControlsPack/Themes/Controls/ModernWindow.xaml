@@ -41,7 +41,7 @@
                                             <ColumnDefinition />
                                             <ColumnDefinition Width="30"/>
                                             <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition MinWidth="0" Width="30" x:Name="MaximizeCell"/>
                                             <ColumnDefinition Width="30"/>
                                         </Grid.ColumnDefinitions>
                                         <Path Width="30" Height="30" Margin="-20,-20,0,0" Stretch="Fill" Fill="{StaticResource ErrorBrush}" Data="{StaticResource Icon}"/>
@@ -111,6 +111,7 @@
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="CanMinimize">
                             <Setter TargetName="MaxButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="MaximizeCell" Property="Width" Value="0"/>
                             <!--<Setter TargetName="StatusBar" Property="Visibility" Value="Collapsed"/>-->
                         </Trigger>
                     </ControlTemplate.Triggers>

@@ -15,7 +15,14 @@ namespace UnitTests
         [TestMethod]
         public void TestConvertJSON()
         {
-            IPlan plan = new Plan(new List<QTerm> { new QTerm { Logical = "+(*(8,+(+(5,5),+(7,1))),+(+(5,5),+(5,5)))" } }, new List<Function> { new Function { Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*" }, new Function { Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+" } }, AvoidDuplicationTypes.Term);
+            IPlan plan = new Plan();
+            plan.QTerms = new List<QTerm> {new QTerm {Logical = "+(*(8,+(+(5,5),+(7,1))),+(+(5,5),+(5,5)))"}};
+            plan.Functions = new List<Function>
+            {
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"}
+            };
+            plan.FindPlan();
             var serializeraph = plan.GetPlan();
             var data = Converter.GraphToData(serializeraph, ConverterFormats.JSON);
             var deserializeGraph = Converter.DataToGraph(data, ConverterFormats.JSON);

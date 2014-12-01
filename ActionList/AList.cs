@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System.Xml.Schema;
+using Core;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,50 +8,27 @@ using System;
 
 namespace ActionList
 {
+    
     public class AList: IAList
     {
         public QDet AL;
-        public List<Expressions> Op;
+        //public List<Expressions> Op;
         public List<string> Vs;
         
-        public AList(List<Block> Blocks, List<Link> Links, List<Operation> Oper)
+        public AList(List<Block> blocks, List<Link> links, List<Operation> oper)
         {
-            AL = new QDet();
-            AL.QDeterminant = new List<QTerm>();
+            AL = new QDet {QDeterminant = new List<QTerm>()};
 
-            Op = new List<Expressions>();
+            var Op = new List<Expressions>();
+
+            var Opl = new List<List<Expressions>>();
 
             Vs = new List<string>();
 
-            Link FLink;
-            FLink = null;
+            Link FLink = null;
             var k = new QTerm();
-
-         /*   var test = new Block();
-            foreach (var ex in Blocks)
-            {
-                if (ex.Id == 14)
-                    test = ex;
-            }
-
-            Debug.WriteLine(test.Content);
-
-            for (int i = 0; i < test.Content.Length; i++)
-            {
-                if (!test.Content[i].Equals(':'))
-                    Debug.WriteLine(i);
-            }
-            string stri = "abcde";
-            for (int i = 0; i < stri.Length; i++)
-			{
-                if (!stri[i].Equals('d'))
-                    Debug.WriteLine(stri[i]);
-                else
-                    break;
-			}*/
-
-           
-        foreach (var ex in Links)
+         
+        foreach (var ex in links)
             {
                 if (ex.From == 1)
                 {
@@ -59,19 +37,24 @@ namespace ActionList
             }
         if (FLink != null)
         {
-            //addvars(Blocks, Links, FLink, FLink);
-            QQ(Blocks, Links, FLink, k, Op);
+            addvars(blocks, links, FLink, FLink, Op);
+            //QQ(blocks, links, FLink, k, Op);
         }
         }
 
-        private void addvars(List<Block> Blocks, List<Link> Links, Link l, Link FLink)
+        private void addvars(List<Block> Blocks, List<Link> Links, Link l, Link FLink, List<Expressions> Opx )
         {
+            var Ops = new List<Expressions>(Opx);
+            //clonelist(Opx, ref Ops);
+
             var k = new QTerm();
             Link t;
             t = null;
             var opex = new Expressions();
             var temp = new StringBuilder("");
             var y = Blocks.FirstOrDefault(e => e.Id == l.To);
+
+            if (y != null)
             if (y.Type == BlockTypes.Process)
             {
                 for (int i = 0; i < y.Content.Length; i++)
@@ -83,15 +66,25 @@ namespace ActionList
                 }
                 opex.name = temp.ToString();
                 opex.Exp = null;
-                Op.Add(opex);
+
+                Ops.Add(opex);
+
+                t = Links.FirstOrDefault(e => e.From == y.Id);
+                addvars(Blocks, Links, t, FLink, Ops);
+
+            }
+
+            if ((y.Type == BlockTypes.Condition) || (y.Type == BlockTypes.Input) || (y.Type == BlockTypes.Output))
+            {
+                t = Links.FirstOrDefault(e => e.From == y.Id);
+                addvars(Blocks, Links, t, FLink, Ops);
             }
             
 
             if (y.Type == BlockTypes.End)
-                QQ(Blocks, Links, FLink, k, Op);
+                QQ(Blocks, Links, FLink, k, Ops);
 
-            t = Links.FirstOrDefault(e => e.From == y.Id);
-            addvars(Blocks, Links, t, FLink);
+            
                 
         }
         private void QQ(List<Block> Blocks, List<Link> Links, Link l, QTerm x, List<Expressions> Ops)
@@ -100,27 +93,20 @@ namespace ActionList
             Link t1;
             t1 = null;
             t = null;
-            var Opx = new List<Expressions>();
+            //var Opx = Ops.FindAll(u => u.name.Length > 0);
+                /*new List<Expressions>();
             foreach (var ex in Ops)
-                Opx.Add(ex);
-
-            
+                Opx.Add(ex);*/
+            var Opx = new List<Expressions>(Ops);
+            //clonelist(Ops, ref Opx);
 
             var y = Blocks.FirstOrDefault(e => e.Id == l.To);
-
-
-            if (y.Type == BlockTypes.Process)
-                foreach (var ex in Ops)
-                {
-                    Debug.WriteLine(ex.name);
-                    Debug.WriteLine(ex.Exp);
-                }
 
             if (y != null)
             {
                 if (y.Type == BlockTypes.Process)
                 {
-
+                    Debug.WriteLine(y.Content);
                    // x.Definitive += '(';
                    // x.Definitive += y.Content;
                   //  x.Definitive += ')';
@@ -138,6 +124,8 @@ namespace ActionList
                     foreach (var m in Links)
                         if ((m.From == y.Id) && (m != t))
                             t1 = m;
+
+                    Debug.WriteLine(y.Content);
 
                     if (t.Type == LinkTypes.False)
                     {
@@ -192,16 +180,105 @@ namespace ActionList
    
         }
 
+
+//=============================================================================================================================================================
+       /* private void QQFalse(List<Block> Blocks, List<Link> Links, Link l, QTerm x, List<Expressions> Ops)
+        {
+            Link t;
+            Link t1;
+            t1 = null;
+            t = null;
+            //var Opx = Ops.FindAll(u => u.name.Length > 0);
+           
+            var Opx = new List<Expressions>(Ops);
+            //clonelist(Ops, ref Opx);
+
+            var y = Blocks.FirstOrDefault(e => e.Id == l.To);
+
+            if (y != null)
+            {
+                if (y.Type == BlockTypes.Process)
+                {
+                    Debug.WriteLine(y.Content);
+                    // x.Definitive += '(';
+                    // x.Definitive += y.Content;
+                    //  x.Definitive += ')';
+                    getvar(y.Content, Opx);
+                    t = Links.FirstOrDefault(e => e.From == y.Id);
+                    QQFalse(Blocks, Links, t, x, Opx);
+                }
+
+                if (y.Type == BlockTypes.Condition)
+                {
+                    foreach (var m in Links)
+                        if (m.From == y.Id)
+                            t = m;
+
+                    foreach (var m in Links)
+                        if ((m.From == y.Id) && (m != t))
+                            t1 = m;
+
+                    Debug.WriteLine(y.Content);
+
+                    if (t.Type == LinkTypes.False)
+                    {
+                        var z = new QTerm();
+                        var z1 = new StringBuilder("");
+                        var z2 = new StringBuilder("");
+                        z1.Append(x.Logical);
+                        z2.Append(x.Definitive);
+                        z.Logical = z1.ToString();
+                        z.Definitive = z2.ToString();
+                        QQFalse(Blocks, Links, t, z, getvarcond(y.Content, Opx), Opx);
+                        //x.Logical += y.Content;
+                        x.Logical += getvarcond(y.Content, Opx);
+                        //QQ(Blocks, Links, t1, x, Opx);
+                    }
+
+                }
+
+                if (y.Type == BlockTypes.Input)
+                {
+                    Vs.Add(y.Content);
+                    t = Links.FirstOrDefault(e => e.From == y.Id);
+                    QQ(Blocks, Links, t, x, Opx);
+                }
+
+                if (y.Type == BlockTypes.Output)
+                {
+                    t = Links.FirstOrDefault(e => e.From == y.Id);
+                    x.Definitive = retvalue(y.Content, Opx);
+                    QQ(Blocks, Links, t, x, Opx);
+                }
+
+                if (y.Type == BlockTypes.End)
+                {
+                    AL.QDeterminant.Add(x);
+                }
+            }
+
+        }*/
+//=============================================================================================================================================================        
         private void QQFalse(List<Block> Blocks, List<Link> Links, Link l, QTerm z, string s, List<Expressions> Opx)
         {
             var Opf = new List<Expressions>();
             foreach (var ex in Opx)
-                Opf.Add(ex);
+            {
+                var temp = new Expressions();
+                var tempstrb = new StringBuilder("");
+                tempstrb.Append(ex.name);
+                temp.name = tempstrb.ToString();
+                tempstrb.Clear();
+                tempstrb.Append(ex.Exp);
+                temp.Exp = tempstrb.ToString();
+                tempstrb.Clear();
+                Opf.Add(temp);
+            }
 
             z.Logical += pars(getvarcond(s, Opf));
             QQ(Blocks, Links, l, z, Opf);
         }
-
+    
         private string getvarcond(string s, List<Expressions> Ops)
         {
             var va = new StringBuilder("");
@@ -210,10 +287,8 @@ namespace ActionList
             string vastr = "";
             string vastr2 = "";
 
-            string vastrtest = "";
             bool isweq = false;
 
-            char c, c1;
             string ret = "";
             int t = 0;
 
@@ -252,19 +327,11 @@ namespace ActionList
                             tmp.Append(s[i+1]);
                     }
 
-                  /*  if (s[t].Equals('='))
-                    {
-                        tmp.Append(s[t]);
-                        t = t + 1;
-                    }*/
-
                     break;
                 }
             }
 
             va.Clear();
-
-            vastrtest = va.ToString();
 
             for (int i = t; i < s.Length; i++)
             {
@@ -285,8 +352,12 @@ namespace ActionList
             return ret;
         }
 
-        private void getvar(string s, List<Expressions> Ops)
+        private void getvar(string s, List<Expressions> Opz)
         {
+
+            var Ops = new List<Expressions>(Opz);
+            //clonelist(Opz, ref Ops);
+
             var opex = new Expressions();
            // string c = "";
             int temp = 0;
@@ -300,8 +371,7 @@ namespace ActionList
             char c = 'e';
             //bool isempty = false;
 
-            Debug.WriteLine("");
-            Debug.WriteLine(s, "BLOCK DATA");
+
 
             for (int i = 0; i < s.Length; i++)
             {
@@ -311,13 +381,9 @@ namespace ActionList
                 }
                 else
                 {
-
-                    Debug.WriteLine(s[i], "1st OPERATION ");
-
                     temp = i;
                     if ((s[i].Equals(':')))
                     {
-                        Debug.WriteLine(s[i + 1], "1st OP WEQ ");
                         temp = temp + 2;
                         isweq = true;
                     }
@@ -332,19 +398,17 @@ namespace ActionList
 
             va.Clear();
 
-            Debug.WriteLine(vastr, "1st VAR ");
 
             if (!isinops(vastr, Ops))
             {
                 opex.name = vastr;
-                Debug.WriteLine(opex.name, "TO OPS FIRST TIME");
 
-                if (opex.name.Equals(vastr))
-                    Debug.WriteLine("THEY ARE EQUALS!!!!!!!!!!!!!!!!!!!");
+
+                //if (opex.name.Equals(vastr))
 
 //==================================================================================================================================================================================
 
-                for (int i = temp; i < s.Length; i++)
+               /* for (int i = temp; i < s.Length; i++)
                 {
                         va.Append(s[i]);
                         temp = i;
@@ -352,28 +416,23 @@ namespace ActionList
 
                 
 //==================================================================================================================================================================================                
-                opex.Exp = va.ToString();
+                opex.Exp = va.ToString();*/
                 va.Clear();
 
                 Ops.Add(opex);
                 opex.name = null;
                 opex.Exp = null;
-                Debug.WriteLine("1st VAR NOT IN OPS");
             }
 
             if (!isweq)
             {
                 opex.name = vastr;
-                //va.Append("");
-                
                 for (int i = temp; i < s.Length; i++)
                 {
                     va.Append(s[i]);
                 }
                 opex.Exp = va.ToString();
-
-                Debug.WriteLine(opex.Exp, "W/O EQ ");
-
+                
                 addtoOp(opex, Ops);
                 opex.Exp = null;
                 opex.name = null;
@@ -382,14 +441,13 @@ namespace ActionList
             {
                     //opexexp.Append(retvalue(vastr, Ops));
 
-                    Debug.WriteLine(retvalue(vastr, Ops), "IN LIST");
 
                 for (int i = temp; i < s.Length; i++)
                 {
                     if ((!s[i].Equals('+')) && (!s[i].Equals('-')) && (!s[i].Equals('*')) && (!s[i].Equals('/')))
                     {
                         va.Append(s[i]);
-                        temp = i;
+                       // temp = i;
                     }
                     else
                     {
@@ -398,6 +456,7 @@ namespace ActionList
                         temp = i + 1;
                         //char c = s[i];
                         isoperexist = true;
+
                         break;
                     } 
                 }
@@ -405,14 +464,11 @@ namespace ActionList
                 vastr2 = va.ToString();
 
                 //opex.name = va.ToString();
-                Debug.WriteLine(vastr2, "2nd VAR");
 
                 if (isinops(vastr2, Ops))
                 {
-                    Debug.WriteLine("IS IN OPS");
                     if (!vastr.Equals(vastr2))
                     {
-                        Debug.WriteLine("VAR 1 NOT EQ VAR 2");
                         opexexp.Append(retvalue(vastr2, Ops));
                     }
 
@@ -420,7 +476,6 @@ namespace ActionList
                 }
                 else
                 {
-                    Debug.WriteLine("IS NOT IN OPS");
                     opexexp.Append(vastr2);
                 }
 
@@ -434,7 +489,7 @@ namespace ActionList
 
                 if (isoperexist)
                 {
-                    if ((c != 'e') || (retvalue(vastr, Ops) != null))
+                    if ((c != 'e') || String.IsNullOrEmpty(retvalue(vastr, Ops)))
                     {
                         opexexp.Append(c);    
                     }
@@ -453,7 +508,6 @@ namespace ActionList
                             opexexp.Append(retvalue(vastr3, Ops));
                         }
 
-                        //Debug.WriteLine(retvalue(vastr3, Ops), "RETVAL VAR3");
                     }
                     else
                         opexexp.Append(vastr3);
@@ -463,32 +517,29 @@ namespace ActionList
                 opex.Exp = opexexp.ToString();
                 opexexp.Clear();
 
-                addtoOp(opex, Ops);
+                addtoOp(opex,  Ops);
                 opex.Exp = null;
             }
 
-            //Debug.WriteLine(opexexp, "TO OPER");
-            //Debug.WriteLine(vastr3, "3rd VAR");
-
-            //if (isweq)
-
-            /*if (vastr.Length != 0)
-            {
-                    if (isinops(vastr))
-                    {
-                        for (int i = temp; i < s.Length; i++)
-                        {
-                            c = s[i];
-                            if ((c != '+') || (c != ':') || (c != '-') || (c != '*') || (c != '/') || (c != '<') || (c != '>'))
-                            {
-                                va.Append(c);
-                            }
-                        }
-                    }                
-            }*/
 
         }
 
+        private void clonelist(List<Expressions> Opx, ref List<Expressions> Opz)
+        {
+            var temp = new Expressions();
+            var tempstbexp = new StringBuilder("");
+            var tempstbnm = new StringBuilder("");
+            foreach (var ex in Opx)
+            {
+                tempstbnm.Append(ex.name);
+                tempstbexp.Append(ex.Exp);
+                temp.name = tempstbnm.ToString();
+                temp.Exp = tempstbexp.ToString();
+                Opz.Add(temp);
+                tempstbnm.Clear();
+                tempstbexp.Clear();
+            }
+        }
         private bool isinops(string s, List<Expressions> Ops)
         {
             foreach (var ex in Ops)
@@ -535,20 +586,11 @@ namespace ActionList
                 //if (String.Equals(s.name, ex.name, StringComparison.Ordinal))
                 if (s.name.Equals(ex.name))
                 {
-                    Debug.WriteLine("");
-                    Debug.WriteLine(s.name, "TO OPS NAME");
-                    Debug.WriteLine(s.Exp, "TO OPS EXP");
-
-                    Debug.WriteLine(ex.Exp, "IN OPS EXP");
                     temp.Append(ex.Exp);
                     //temp.Append("");
-                    ex.Exp = null;
-                    Debug.WriteLine(ex.Exp, "IN OPS EXP AFTER NULL");
+                    ex.Exp = "";
                     temp.Append(s.Exp);
                     ex.Exp = temp.ToString();
-
-                    Debug.WriteLine(ex.Exp);
-                    Debug.WriteLine("");
                 }
             }
         }
@@ -589,6 +631,12 @@ namespace ActionList
                 }
             }
             return z;
+        }
+
+        private class Expressions
+        {
+            public string name;
+            public string Exp;
         }
 
         public QDet getqdet()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,6 +12,7 @@ using Core.Interfaces;
 using Core.Serializers;
 using Core.Serializers.SerializationModels.ProjectModels;
 using Core.Serializers.SerializationModels.SolutionModels;
+using File = Core.Serializers.SerializationModels.ProjectModels.File;
 
 namespace Compiler
 {
@@ -19,17 +21,76 @@ namespace Compiler
         private static Adapter<IDeterminant, IPlan> _adapter;
         private static string _solutionPath;
 
-        private static List<Function> GetFunctions(Solution solution)
+        private static Dictionary<string, FunctionPriorities> _functionPrioritieses = new Dictionary
+            <string, FunctionPriorities>
         {
-            var functions = new List<Function>
-                {
-                    new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
-                    new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"}
-                };
-            return functions;
-        } 
+            {"||",FunctionPriorities.First},{"&&",FunctionPriorities.First},{"!",FunctionPriorities.First},
+            {">",FunctionPriorities.Second},{"<",FunctionPriorities.Second},{">=",FunctionPriorities.Second},{"<=",FunctionPriorities.Second},
+            {"==",FunctionPriorities.Second},{"!=",FunctionPriorities.Second},
+            {"+",FunctionPriorities.Third},{"-",FunctionPriorities.Third},
+            {"*",FunctionPriorities.Fourth},{"/",FunctionPriorities.Fourth},
+        };
 
-        private static void CreateAdapter(XContainer configXml,Solution solution)
+        private static List<Function> GetFunctions(Core.Serializers.SerializationModels.ProjectModels.Project project)
+        {
+            Console.WriteLine("NEED FUNCTIONS TO PROJECT: {0}",project.Title);
+                var functions = new List<Function>();
+                foreach (var reference in project.References)
+                {
+                    Console.WriteLine("Reference: {0}", reference.ProjectPath);
+                    Core.Serializers.SerializationModels.ProjectModels.Project functionProject;
+                    SerializersFactory.GetSerializer().DeserializeProject(reference.ProjectPath, out functionProject);
+                    Graph implementationFunction = null;
+                    foreach (File file in functionProject.Files)
+                    {
+                        if (Path.GetExtension(file.Path).Equals(".ip"))
+                        {
+                            implementationFunction = Converter.DataToGraph(System.IO.File.ReadAllText(Path.Combine(Path.GetDirectoryName(reference.ProjectPath),file.Path)), ConverterFormats.JSON);
+                            break;
+                        }
+                    }
+                    var currentFunction = new Function {Signature = functionProject.Title};
+                    if (implementationFunction != null)
+                    {
+                        Console.WriteLine("ISSET");
+                        currentFunction.Parameters =
+                            (ulong) implementationFunction.Vertices.LongCount(x => x.Level == 0);
+                        currentFunction.Priority = _functionPrioritieses.ContainsKey(functionProject.Title)
+                            ? _functionPrioritieses[functionProject.Title]
+                            : FunctionPriorities.Fifth;
+                        functions.Add(currentFunction);
+                    }
+                    else
+                    {
+                        Console.WriteLine("NONE");
+                        CompileProject(reference.ProjectPath);
+                    }
+                }
+            return functions;
+        }
+
+        private static void CompileProject(string projectPath)
+        {
+            projectPath = Path.Combine(Path.GetDirectoryName(_solutionPath), projectPath);
+            Console.WriteLine("Compile project: {0}",projectPath);
+            var configs = XDocument.Load(@"config.xml");
+            Core.Serializers.SerializationModels.ProjectModels.Project currentProject;
+            SerializersFactory.GetSerializer().DeserializeProject(projectPath, out currentProject);
+            CreateAdapter(configs, currentProject);
+            var flowchartFilePath = currentProject.Files.First(x => Path.GetExtension(x.Path).Equals(".fc")).Path;
+            //_adapter.FlowChart = Converter.DataToGraph(System.IO.File.ReadAllText(flowchartFilePath), ConverterFormats.JSON);
+            _adapter.CalculateDeterminant();
+            _adapter.FindPlan();
+            var result = _adapter.GetPlan();
+            var data = Converter.GraphToData(result, ConverterFormats.JSON);
+            System.IO.File.WriteAllText(Path.Combine(Path.GetDirectoryName(projectPath),"ImplementationPlan.ip"), data);
+            currentProject.Files.Clear();
+            currentProject.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File { Path = Path.Combine(Path.GetDirectoryName(projectPath), "FlowChart.fc") });
+            currentProject.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File { Path = Path.Combine(Path.GetDirectoryName(projectPath), "ImplementationPlan.ip") });
+            SerializersFactory.GetSerializer().SerializeProject(projectPath, currentProject);
+        }
+
+        private static void CreateAdapter(XContainer configXml, Core.Serializers.SerializationModels.ProjectModels.Project project)
         {
             var qDeterminantFile = Assembly.LoadFile(configXml.Element("Settings").Element("QDeterminant").Attribute("Path").Value);
             IDeterminant qDeterminant = null;
@@ -43,7 +104,7 @@ namespace Compiler
             {
                 implementationPlan = (IPlan)Activator.CreateInstance(type);
             }
-            var functions = GetFunctions(solution);
+            var functions = GetFunctions(project);
             _adapter = new Adapter<IDeterminant, IPlan>(qDeterminant, implementationPlan, functions);
         }
 
@@ -53,18 +114,13 @@ namespace Compiler
             var status = new StringBuilder("");
             try
             {
-                var configs = XDocument.Load(@"config.xml");
                 _solutionPath = args[0];
-                Solution solution;
+                Core.Serializers.SerializationModels.SolutionModels.Solution solution;
                 SerializersFactory.GetSerializer().DeserializeSolution(_solutionPath, out solution);
-                CreateAdapter(configs,solution);
-                _adapter.CalculateDeterminant();
-                _adapter.FindPlan();
-                var result = _adapter.GetPlan();
-                var data = Converter.GraphToData(result, ConverterFormats.JSON);
-                System.IO.File.WriteAllText(@"C:\Users\Денис\SkyDrive\Old\Q_Determinant\TestSolutionDefault\NewProject\ImplementationPlan.ip", data);
-                Console.WriteLine(_adapter.CountTacts);
-                Console.WriteLine(_adapter.CountCPU);
+                foreach (var project in solution.Projects.Where(x=>x.Type==Core.Serializers.SerializationModels.ProjectTypes.Algorithm))
+                {
+                    CompileProject(project.Path);
+                }
 
             }
             catch (Exception e)

@@ -6,5 +6,6 @@ namespace Core.Serializers.SerializationModels.ProjectModels
     public class Reference
     {
         public string ProjectTitle { get; set; }
+        public string ProjectPath { get; set; }
     }
 }

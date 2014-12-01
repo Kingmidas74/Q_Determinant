@@ -42,5 +42,11 @@ namespace BasicComponentsPack
         {
             IsChange = true;
         }
+
+        public void ReLoad()
+        {
+            var file = new FileInfo(_originalFileName);
+            SetContent(file);
+        }
     }
 }

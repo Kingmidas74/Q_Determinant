@@ -14,6 +14,7 @@ namespace ImplementationPlanViewer
     /// </summary>
     public partial class Viewer : VisualCore.ISaveable,VisualCore.ITabContent
     {
+        private string _originalFileName;
         public Viewer()
         {
             InitializeComponent();
@@ -23,6 +24,8 @@ namespace ImplementationPlanViewer
 
         public void SetContent(FileInfo file)
         {
+            _originalFileName = file.FullName;
+            ViewerContent.Children.Clear();
             var graph = Converter.DataToGraph(File.ReadAllText(file.FullName), ConverterFormats.JSON);
             const ulong startX = 30;
             const ulong startY = 30;
@@ -95,6 +98,12 @@ namespace ImplementationPlanViewer
         public void Save()
         {
             
+        }
+
+        public void ReLoad()
+        {
+            var file = new FileInfo(_originalFileName);
+            SetContent(file);
         }
     }
 }

@@ -54,6 +54,8 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="PROJECT">
+                <MenuItem Header="Add/Remove Reference..." Click="ReferenceManagerClick"/>
+                <Separator/>
                 <MenuItem Header="FlowChart">
                     <MenuItem Header="Export..." x:Name="EFCMenuItem"/>
                     <MenuItem Header="Show As">

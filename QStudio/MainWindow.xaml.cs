@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using DefaultControlsPack;
 using PluginController;
+using System.Diagnostics;
 
 namespace QStudio
 {
@@ -88,6 +91,33 @@ namespace QStudio
                 remove { RemoveHandler(NewProjectEvent, value); }
             }
             #endregion
+
+            #region OpenSolution
+            public static readonly RoutedEvent ReferenceManagerEvent = EventManager.RegisterRoutedEvent("ReferenceManager",
+                RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
+            #endregion
+
+            #region BeforeCompiler
+            public static readonly RoutedEvent BeforeCompilerEvent = EventManager.RegisterRoutedEvent("BeforeCompiler",
+                RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
+
+            public event RoutedEventHandler BeforeCompiler
+            {
+                add { AddHandler(BeforeCompilerEvent, value); }
+                remove { RemoveHandler(BeforeCompilerEvent, value); }
+            }
+            #endregion
+
+            #region AfterCompiler
+            public static readonly RoutedEvent AfterCompilerEvent = EventManager.RegisterRoutedEvent("AfterCompiler",
+                RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
+
+            public event RoutedEventHandler AfterCompiler
+            {
+                add { AddHandler(AfterCompilerEvent, value); }
+                remove { RemoveHandler(AfterCompilerEvent, value); }
+            }
+            #endregion
         
         #endregion
 
@@ -102,6 +132,10 @@ namespace QStudio
             AddHandler(CloseSolutionEvent, new RoutedEventHandler(SolutionExplorer.CloseSolutionListener));
             AddHandler(OpenSolutionEvent, new RoutedEventHandler(SolutionExplorer.OpenSolutionListener));
             AddHandler(NewSolutionEvent, new RoutedEventHandler(SolutionExplorer.NewSolutionListener));
+            AddHandler(AfterCompilerEvent, new RoutedEventHandler(SolutionExplorer.AfterCompilerListener));
+            AddHandler(ReferenceManagerEvent, new RoutedEventHandler(SolutionExplorer.ReferenceManagerListener));
+            AddHandler(BeforeCompilerEvent, new RoutedEventHandler(WorkplaceTabs.BeforeCompilerListener));
+            AddHandler(AfterCompilerEvent, new RoutedEventHandler(WorkplaceTabs.AfterCompilerListener));
             AddHandler(NewProjectEvent, new RoutedEventHandler(SolutionExplorer.NewProjectListener));
             AddHandler(ErrorEvent, new RoutedEventHandler(ErrorMessage));
         }
@@ -122,39 +156,29 @@ namespace QStudio
         }
 
         private void CompilerClick(object sender, RoutedEventArgs e)
-        {/*
-            var solution = new Solution {Title = "Testsolution", Properties = new Core.Serializers.SerializationModels.SolutionModels.Properties {MaxCPU = 6}};
-            solution.Projects.Add(new Project {Path = @"TestProject\TestProject.qpr", Title="TestProject"});
-            solution.Projects.Add(new Project { Path = @"NewProject\NewProject.qpr", Title = "NewProject" });
-            var s = Factory.GetSerializer();
-            s.SerializeSolution(@"D:\tempforQ\NewQSOL\Testsolution.qsln", solution);
-
-            var TestProject = new Core.Serializers.SerializationModels.ProjectModels.Project
+        {
+            if (!String.IsNullOrEmpty(SolutionExplorer.CurrentSolutionPath))
             {
-                Properties =
-                    new Core.Serializers.SerializationModels.ProjectModels.Properties {Type = ProjectTypes.Algorithm},
-                Title = "TestProject",
-                Files = new List<File> {new File {Path = @"FlowChart.fc"}},
-                References = new List<Reference> {new Reference {ProjectTitle = "NewProject"}}
-            };
-            var NewProject = new Core.Serializers.SerializationModels.ProjectModels.Project
-            {
-                Properties =
-                    new Core.Serializers.SerializationModels.ProjectModels.Properties { Type = ProjectTypes.Function },
-                Title = "NewProject",
-                Files = new List<File>
-                { 
-                    new File { Path = @"FlowChart.fc" },
-                    new File {Path = @"ImplementationPlan.ip"} 
-                },
-                References = new List<Reference>()
-            };
-            s.SerializeProject(@"D:\tempforQ\NewQSOL\TestProject\TestProject.qpr", TestProject);
-            s.SerializeProject(@"D:\tempforQ\NewQSOL\NewProject\NewProject.qpr", NewProject);
-            */
-            //SolutionExplorer.CurrentSolutionPath = @"D:\tempforQ\NewQSOL\Testsolution.qsln";
-            MessageBox.Show("ASD");
+                RaiseEvent(new RoutedEventArgs(BeforeCompilerEvent));
+                var currentSolutionPath = SolutionExplorer.CurrentSolutionPath;
+                var p = new Process();
+                var startupstring = new StringBuilder(" ");
+                startupstring.Append(currentSolutionPath).Append(" ").Append(4);
 
+                p.StartInfo.FileName = "Compiler.exe";
+                p.StartInfo.Arguments = startupstring.ToString();
+                //p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.RedirectStandardOutput = true;
+                p.StartInfo.StandardOutputEncoding = Encoding.GetEncoding(866);
+                p.StartInfo.CreateNoWindow = true;
+                //p.OutputDataReceived += WriteToLog;
+                p.Start();
+                p.BeginOutputReadLine();
+                p.WaitForExit();
+                // WriteLog(_compilerResultString.ToString());
+                RaiseEvent(new RoutedEventArgs(AfterCompilerEvent));
+            }
         }
 
         private void OpenSolutionClick(object sender, RoutedEventArgs e)
@@ -170,6 +194,10 @@ namespace QStudio
         private void NewProjectClick(object sender, RoutedEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(NewProjectEvent));
+        }
+        private void ReferenceManagerClick(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(ReferenceManagerEvent));
         }
 
         private void CloseProgram(object sender, RoutedEventArgs e)

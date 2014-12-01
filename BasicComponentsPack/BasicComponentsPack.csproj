@@ -43,6 +43,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateProject.xaml.cs">
+      <DependentUpon>CreateProject.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InternalClasses\CascadeSolutionTreeItem.cs" />
     <Compile Include="InternalClasses\Dialogs\AbstractDialog.cs" />
     <Compile Include="InternalClasses\Dialogs\DialogsFactory.cs" />
@@ -60,6 +63,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ReferenceManager.xaml.cs">
+      <DependentUpon>ReferenceManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="SolutionExplorer.xaml.cs">
       <DependentUpon>SolutionExplorer.xaml</DependentUpon>
@@ -81,6 +87,14 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CreateProject.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ReferenceManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SolutionExplorer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -14,20 +14,20 @@
         <Grid.Resources>
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="Foreground" Value="{StaticResource BaseFontBrush}"/>
-                <Setter Property="FontSize" Value="14"></Setter>
+                <Setter Property="FontSize" Value="14"/>
                 <EventSetter Event="MouseLeftButtonDown" Handler="ChooseTreeElement"/>
             </Style>
             <HierarchicalDataTemplate x:Key="Level4" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}">
-                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}"/>
+                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
             </HierarchicalDataTemplate>
             <HierarchicalDataTemplate x:Key="Level3" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" ItemTemplate="{StaticResource Level4}">
-                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}"/>
+                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
             </HierarchicalDataTemplate>
             <HierarchicalDataTemplate x:Key="Level2" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" ItemTemplate="{StaticResource Level3}">
-                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}"/>
+                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
             </HierarchicalDataTemplate>
             <HierarchicalDataTemplate x:Key="Level1" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" ItemTemplate="{StaticResource Level2}">
-                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}"/>
+                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
             </HierarchicalDataTemplate>
         </Grid.Resources>
         <defaultControlsPack:SearchTreeView x:Name="SearchTreeView" ItemTemplate="{StaticResource Level1}"/>

@@ -11,7 +11,10 @@ namespace BasicComponentsPack.InternalClasses
         public SolutionTreeItem()
         {
             Items = new List<SolutionTreeItem>();
-            
+            Enabled = true;
+
         }
+
+        public bool Enabled { get; set; }
     }
 }

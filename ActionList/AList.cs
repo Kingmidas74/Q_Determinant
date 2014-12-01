@@ -21,7 +21,6 @@ namespace ActionList
 
             var Op = new List<Expressions>();
 
-            var Opl = new List<List<Expressions>>();
 
             Vs = new List<string>();
 
@@ -428,6 +427,8 @@ namespace ActionList
             {
                 skobesadd(Ops, vastr);
                 opex.name = vastr;
+                if (String.IsNullOrEmpty(retvalue(vastr, Ops)))
+                    temp = temp + 1;
                 for (int i = temp; i < s.Length; i++)
                 {
                     va.Append(s[i]);
@@ -465,7 +466,7 @@ namespace ActionList
                 vastr2 = va.ToString();
 
                 //opex.name = va.ToString();
-
+                if (!vastr2.Equals("0"))
                 if (isinops(vastr2, Ops))
                 {
                     if (!vastr.Equals(vastr2))
@@ -490,7 +491,9 @@ namespace ActionList
 
                 if (isoperexist)
                 {
-                    if ((c != 'e') || String.IsNullOrEmpty(retvalue(vastr, Ops)))
+                    if (String.IsNullOrEmpty(retvalue(vastr, Ops)))
+                        c = 'e';
+                    if ((c != 'e'))
                     {
                         opexexp.Append(c);    
                     }

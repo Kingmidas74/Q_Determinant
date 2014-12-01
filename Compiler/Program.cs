@@ -78,7 +78,7 @@ namespace Compiler
             SerializersFactory.GetSerializer().DeserializeProject(projectPath, out currentProject);
             CreateAdapter(configs, currentProject);
             var flowchartFilePath = currentProject.Files.First(x => Path.GetExtension(x.Path).Equals(".fc")).Path;
-            //_adapter.FlowChart = Converter.DataToGraph(System.IO.File.ReadAllText(flowchartFilePath), ConverterFormats.JSON);
+            _adapter.FlowChart = Converter.DataToGraph(System.IO.File.ReadAllText(flowchartFilePath), ConverterFormats.JSON);
             _adapter.CalculateDeterminant();
             _adapter.FindPlan();
             var result = _adapter.GetPlan();

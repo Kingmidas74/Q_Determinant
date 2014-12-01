@@ -76,7 +76,12 @@ namespace UnitTests
         public void OneFullQTermWithoutOptimization()
         {
             IPlan plan = new Plan();
-            plan.QTerms = new List<QTerm> { new QTerm { Logical = "+(*(8,+(+(5,5),+(7,1))),+(+(5,5),+(5,5)))", Definitive = "+(*(8,+(+(5,5),+(7,1))),+(+(5,5),+(5,5)))" } };
+            plan.QTerms = new List<QTerm> { new QTerm
+                {
+                    Definitive = "+(/(+(5,+(3,8)),-(*(3,5),7)),*(3,5))",
+                    Logical = ">=(+(+(5,5),+(5,5)),*(8,+(+(5,5),+(7,1))))"
+                }
+            };
             plan.Functions = new List<Function>
             {
                 new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
@@ -91,7 +96,12 @@ namespace UnitTests
         public void OneFullQTermWithOptimization()
         {
             IPlan plan = new Plan();
-            plan.QTerms = new List<QTerm> { new QTerm { Logical = "+(*(8,+(+(5,5),+(7,1))),+(+(5,5),+(5,5)))", Definitive = "+(*(8,+(+(5,5),+(7,1))),+(+(5,5),+(5,5)))" } };
+            plan.QTerms = new List<QTerm> { new QTerm
+                {
+                    Definitive = "+(/(+(5,+(3,8)),-(*(3,5),7)),*(3,5))",
+                    Logical = ">=(+(+(5,5),+(5,5)),*(8,+(+(5,5),+(7,1))))"
+                }
+            };
             plan.Functions = new List<Function>
             {
                 new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},

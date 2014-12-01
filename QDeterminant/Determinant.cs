@@ -35,7 +35,7 @@ namespace QDeterminant
         {
             _qDeterminantStandart = new List<QTerm>();
             _variables = new Dictionary<string, string>();
-            CalculateDeterminant();
+            Status = StatusTypes.Success;
         }
         public List<string> GetVariables()
         {

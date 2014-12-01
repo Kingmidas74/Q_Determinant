@@ -6,71 +6,104 @@ using Core.Serializers.SerializationModels.SolutionModels;
 
 namespace Core.Adapter
 {
-    public class Adapter<D,P> where D:IDeterminant where P:IPlan 
+    public class Adapter<D,P> where D:IDeterminant where P:IPlan
     {
+        private D QDeterminantModule { get; set; }
 
-        private D _qDeterminantModule;
-        private P _implementationPlanModule;
+        private P ImplementationPlanModule { get; set; }
 
-        private readonly List<QTerm> _qDerterminant;
-        private readonly Graph _implementationPlan;
-
-        public Adapter(D qDeterminant, P implementationPlan)
+        private List<Function> FunctionsList
         {
-            QDeterminantModule = qDeterminant;
-            ImplementationPlanModule = implementationPlan;
-            _qDerterminant=new List<QTerm>();
-            _implementationPlan = new Graph();
-        }
-
-        public void SetFunctions(List<Function> functions)
-        {
-            ImplementationPlanModule.Functions = functions;
-            QDeterminantModule.Functions = functions;
+            set
+            {
+                ImplementationPlanModule.Functions = value;
+                QDeterminantModule.Functions = value;
+            }
         }
         
-        public D QDeterminantModule
-        {
-            set { _qDeterminantModule = value; }
-            private get { return _qDeterminantModule; }
-        }
 
-        public P ImplementationPlanModule
-        {
-            set { _implementationPlanModule = value; }
-            private get { return _implementationPlanModule; }
-        }
-
+        private readonly List<QTerm> _qDerterminant;
         public List<QTerm> QDerterminant
         {
             get { return _qDerterminant; }
         }
 
+        private readonly Graph _implementationPlan;
         public Graph ImplementationPlan
         {
             get { return _implementationPlan; }
         }
 
-        public Graph FlowChart
-        {
-            set { QDeterminantModule.FlowChart = value; } 
-        }
+
+        #region Fields
 
         public StatusTypes Status { get; set; }
 
         public string StatusMessage { get; set; }
 
+        public ulong CountCPU
+        {
+            get { return ImplementationPlanModule.CountCPU; }
+        }
+
+        public ulong CountTacts
+        {
+            get { return ImplementationPlanModule.CountTacts; }
+        }
+
+        public Graph FlowChart
+        {
+            set { QDeterminantModule.FlowChart = value; }
+        }
+        #endregion
+
+
+        public Adapter(D qDeterminant, P implementationPlan, List<Function> functions)
+        {
+            QDeterminantModule = qDeterminant;
+            ImplementationPlanModule = implementationPlan;
+            FunctionsList = functions;
+            _qDerterminant=new List<QTerm>();
+            _implementationPlan = new Graph();
+        }
+
+        
+        
         public List<string> GetVariables()
         {
-            return _qDeterminantModule.GetVariables();
+            return QDeterminantModule.GetVariables();
         }
 
         public void SetVariables(Dictionary<string, string> variables)
         {
-            _qDeterminantModule.SetVariables(variables);
+            QDeterminantModule.SetVariables(variables);
         }
 
-        public List<QTerm> GetOptimizationDeterminant()
+        public void CalculateDeterminant()
+        {
+            QDeterminantModule.CalculateDeterminant();
+            Status = QDeterminantModule.Status;
+        }
+
+        public void FindPlan()
+        {
+            ImplementationPlanModule.QTerms = QDeterminantModule.GetOptimizationDeterminant();
+            ImplementationPlanModule.FindPlan();
+            Status = ImplementationPlanModule.Status;
+        }
+
+        public void OptimizePlan(ulong countCPU)
+        {
+            ImplementationPlanModule.OptimizePlan(countCPU);
+            Status = ImplementationPlanModule.Status;
+        }
+
+        public Graph GetPlan()
+        {
+            return ImplementationPlanModule.GetPlan();
+        }
+
+       /* public List<QTerm> GetOptimizationDeterminant()
         {
             return _qDeterminantModule.GetOptimizationDeterminant();
         }
@@ -79,30 +112,6 @@ namespace Core.Adapter
         {
             return _qDeterminantModule.GetDefaultDereminant();
         }
-
-        public void CalculateDeterminant()
-        {
-            _qDeterminantModule.CalculateDeterminant();
-        }
-
-        public ulong CountCPU
-        {
-            get { return _implementationPlanModule.CountCPU; }
-        }
-
-        public ulong CountTacts
-        {
-            get { return _implementationPlanModule.CountTacts; }
-        }
-
-        public void OptimizePlan(ulong countCPU)
-        {
-            _implementationPlanModule.OptimizePlan(countCPU);
-        }
-
-        public Graph GetPlan()
-        {
-            return _implementationPlanModule.GetPlan();
-        }
+        */
     }
 }

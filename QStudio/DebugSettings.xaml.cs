@@ -14,7 +14,7 @@ namespace QStudio
     public partial class DebugSettings : ModernWindow
     {
         private XDocument Settings;
-        private const string Path = @"compiler\config.xml";
+        private const string Path = @"config.xml";
         public DebugSettings()
         {
             InitializeComponent();

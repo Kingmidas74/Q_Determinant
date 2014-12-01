@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using DefaultControlsPack;
 using PluginController;
 
 namespace QStudio
@@ -7,7 +8,7 @@ namespace QStudio
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow:ModernWindow
     {
         #region CustomEvents
 

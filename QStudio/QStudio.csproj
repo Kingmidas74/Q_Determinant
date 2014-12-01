@@ -117,10 +117,8 @@
       <Project>{87f06a7a-c02e-4b61-aeda-9622fe84f362}</Project>
       <Name>PluginController</Name>
       <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

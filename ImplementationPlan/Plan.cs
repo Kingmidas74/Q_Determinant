@@ -38,6 +38,7 @@ namespace ImplementationPlan
         public Plan()
         {
             _implementationPlan = new List<Graph>();
+            Status=StatusTypes.Success;
         }
 
         public void FindPlan()

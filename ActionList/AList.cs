@@ -426,6 +426,7 @@ namespace ActionList
 
             if (!isweq)
             {
+                skobesadd(Ops, vastr);
                 opex.name = vastr;
                 for (int i = temp; i < s.Length; i++)
                 {
@@ -633,12 +634,110 @@ namespace ActionList
             return z;
         }
 
-        private class Expressions
+        public void skobesadd(List<Expressions> Ops, string s)
         {
-            public string name;
-            public string Exp;
+            var temp = new StringBuilder("");
+            int tmp = 0;
+            char c = 'e';
+
+            foreach (var ex in Ops)
+            {
+                if (s.Equals(ex.name))
+                {
+                    for (int i = 0; i < ex.Exp.Length; i++)
+                    {
+                        if ((ex.Exp[i].Equals('+')) || (ex.Exp[i].Equals('-')) || (ex.Exp[i].Equals('*')) || (ex.Exp[i].Equals('/')))
+                        {
+                            tmp = tmp + 1;
+                            c = ex.Exp[i];
+                        }
+                    }
+
+                    if (tmp > 0)   //((tmp > 1) || ((tmp == 1) && ((c == '+') || (c == '-'))))
+                    {
+                        temp.Append("(");
+                        temp.Append(ex.Exp);
+                        temp.Append(")");
+                        ex.Exp = "";
+                        ex.Exp = temp.ToString();
+                        temp.Clear();
+                    }
+                }
+            }
         }
 
+//==================================================================Cycles Metods======================================================================================
+
+        public List<string> GetSignature()
+        {
+            var vars = new List<string>();
+            return vars;
+        }
+
+        public void SetVariables(Dictionary<string, string> variables)
+        {
+            
+        }
+
+
+//================================================================Cycles Check========================================================================================
+
+        private void CheckCycles(List<Link> links, List<Block> blocks)
+        {
+            var cycleblockslist = new List<ulong>();
+            string needvar1;
+            string needvar2;
+            string value1;
+            string value2;
+            string blockvalue;
+            var temp = new StringBuilder("");
+            int tmp = 0;
+
+            foreach (var ex in links)
+            {
+                foreach (var ex1 in links)
+                {
+                    if (ex.To == ex1.To)
+                    {
+                        var y = blocks.FirstOrDefault(e => e.Id == ex.To);
+                        cycleblockslist.Add(y.Id);
+                    }
+                }
+            }
+
+            foreach (var ex in cycleblockslist)
+            {
+                var b = blocks.FirstOrDefault(e => e.Id == ex);
+                temp.Append(b.Content);
+                blockvalue = temp.ToString();
+                temp.Clear();
+                for (int i = 0; i < blockvalue.Length; i++)
+                {
+                    if ((!blockvalue[i].Equals('<')) && (!blockvalue[i].Equals('>')) && (!blockvalue[i].Equals('!')) && (!blockvalue[i].Equals('=')))
+                    {
+                        temp.Append(blockvalue[i]);
+                    }
+                    else
+                    {
+                        tmp = i+1;
+                        needvar1 = temp.ToString();
+                        temp.Clear();
+                        if (blockvalue[i + 1] == '=')
+                            tmp = tmp + 1;
+                        break;
+                    }
+                }
+
+                for (int i = tmp; i < blockvalue.Length; i++)
+                {
+                    temp.Append(blockvalue[i]);
+                }
+
+                needvar2 = temp.ToString();
+            }
+        }
+
+//====================================================================================================================================================================
         public QDet getqdet()
         {
             foreach (var t in AL.QDeterminant)

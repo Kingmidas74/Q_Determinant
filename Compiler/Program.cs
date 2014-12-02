@@ -6,13 +6,10 @@ using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using Core.Adapter;
-using Core.Atoms;
 using Core.Converters;
 using Core.Interfaces;
 using Core.Serializers;
-using Core.Serializers.SerializationModels.ProjectModels;
 using Core.Serializers.SerializationModels.SolutionModels;
-using File = Core.Serializers.SerializationModels.ProjectModels.File;
 
 namespace Compiler
 {

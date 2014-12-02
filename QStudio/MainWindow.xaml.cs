@@ -219,7 +219,10 @@ namespace QStudio
         {
             var pluginController = new PluginHost("plugins", "PluginController.IPlugin");
             var plugins = pluginController.Plugins;
-            plugins[0].Initialize(new List<object>{WorkplaceTabs});
+            if (plugins.Count > 0)
+            {
+                plugins[0].Initialize(new List<object> {WorkplaceTabs});
+            }
         }
 
         private void ShowDebugSettings(object sender, RoutedEventArgs e)

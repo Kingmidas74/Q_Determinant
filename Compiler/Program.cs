@@ -111,7 +111,7 @@ namespace Compiler
         static void CompileFcToQd(string sourcePath)
         {
             QDeterminant = new QDet();
-            var FCconverter = Manufactory.CreateFlowChartConverter(ConverterTypes.XML);
+            var FCconverter = Manufactory.CreateFlowChartConverter(ConverterTypes.JSON);
             FCconverter.ParseDocument(sourcePath);
             var actionList = new AList(FCconverter.GetBlocks(), FCconverter.GetLinks(), Opertaions);
             QDeterminant = actionList.getqdet();

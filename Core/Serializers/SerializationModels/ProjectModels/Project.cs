@@ -10,12 +10,14 @@ namespace Core.Serializers.SerializationModels.ProjectModels
         public List<File> Files { get; set; }
         public List<Reference> References { get; set; }
         public Properties Properties { get; set; }
+        public Dictionary<string, string> SignificantVariables { get; set; } 
 
         public Project()
         {
             Files = new List<File>();
             References = new List<Reference>();
             Properties = new Properties();
+            SignificantVariables = new Dictionary<string, string>();
         }
     }
 }

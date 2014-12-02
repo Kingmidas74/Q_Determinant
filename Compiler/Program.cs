@@ -67,6 +67,7 @@ namespace Compiler
             _adapter.FlowChart = Converter.DataToGraph(System.IO.File.ReadAllText(flowchartFilePath),
                 ConverterFormats.JSON);
             _adapter.CalculateDeterminant();
+            _adapter.SetVariables(currentProject.SignificantVariables);
             _adapter.FindPlan();
             var result = _adapter.GetPlan();
             var data = Converter.GraphToData(result, ConverterFormats.JSON);

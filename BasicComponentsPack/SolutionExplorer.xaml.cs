@@ -73,6 +73,11 @@ namespace BasicComponentsPack
                     Core.Serializers.SerializationModels.ProjectModels.Project currentProjectModel;
                     serializer.DeserializeProject(currentProjectView.FilePath, out currentProjectModel);
                     currentProjectView.Title = currentProjectModel.Title;
+                    if (currentProjectModel.Properties.Type ==
+                        Core.Serializers.SerializationModels.ProjectTypes.Algorithm)
+                    {
+                        CurrentProjectPath = currentProjectView.FilePath;
+                    }
                     var referenceCollection = new SolutionTreeItem {Title = "References", FilePath = currentProjectView.FilePath};
                     foreach (var currentReferenceView in currentProjectModel.References.Select(reference => new SolutionTreeItem
                     {
@@ -229,7 +234,11 @@ namespace BasicComponentsPack
             referenceDialog.CurrentProjectPath = CurrentProjectPath;
             if (referenceDialog.ShowDialog() == true)
             {
-                
+                Core.Serializers.SerializationModels.ProjectModels.Project currentProject;
+                SerializersFactory.GetSerializer().DeserializeProject(CurrentProjectPath, out currentProject);
+                currentProject.References = referenceDialog.ReferenceCollection;
+                SerializersFactory.GetSerializer().SerializeProject(CurrentProjectPath, currentProject);
+                RefreshSolution();
             };
         }
     }

@@ -40,53 +40,47 @@ namespace Compiler
                     Console.WriteLine("Reference: {0}", reference.ProjectPath);
                     Core.Serializers.SerializationModels.ProjectModels.Project functionProject;
                     SerializersFactory.GetSerializer().DeserializeProject(reference.ProjectPath, out functionProject);
-                    Graph implementationFunction = null;
-                    foreach (File file in functionProject.Files)
-                    {
-                        if (Path.GetExtension(file.Path).Equals(".ip"))
-                        {
-                            implementationFunction = Converter.DataToGraph(System.IO.File.ReadAllText(Path.Combine(Path.GetDirectoryName(reference.ProjectPath),file.Path)), ConverterFormats.JSON);
-                            break;
-                        }
-                    }
-                    var currentFunction = new Function {Signature = functionProject.Title};
-                    if (implementationFunction != null)
-                    {
-                        Console.WriteLine("ISSET");
-                        currentFunction.Parameters =
-                            (ulong) implementationFunction.Vertices.LongCount(x => x.Level == 0);
-                        currentFunction.Priority = _functionPrioritieses.ContainsKey(functionProject.Title)
+                    CompileProject(reference.ProjectPath);
+                    var implementationFunction = (from file in functionProject.Files where Path.GetExtension(file.Path).Equals(".ip") select Converter.DataToGraph(System.IO.File.ReadAllText(Path.Combine(Path.GetDirectoryName(reference.ProjectPath), file.Path)), ConverterFormats.JSON)).FirstOrDefault();
+                    functions.Add(new Function { 
+                        Signature = functionProject.Title, 
+                        Parameters = (ulong) implementationFunction.Vertices.LongCount(x => x.Level == 0),
+                        Priority = _functionPrioritieses.ContainsKey(functionProject.Title)
                             ? _functionPrioritieses[functionProject.Title]
-                            : FunctionPriorities.Fifth;
-                        functions.Add(currentFunction);
-                    }
-                    else
-                    {
-                        Console.WriteLine("NONE");
-                        CompileProject(reference.ProjectPath);
-                    }
+                            : FunctionPriorities.Fifth
+                    });
                 }
             return functions;
         }
 
         private static void CompileProject(string projectPath)
         {
+            if (projectPath.Contains(@"\BasicFunctions\")) return;
             projectPath = Path.Combine(Path.GetDirectoryName(_solutionPath), projectPath);
-            Console.WriteLine("Compile project: {0}",projectPath);
+            Console.WriteLine("Compile project: {0}", projectPath);
             var configs = XDocument.Load(@"config.xml");
             Core.Serializers.SerializationModels.ProjectModels.Project currentProject;
             SerializersFactory.GetSerializer().DeserializeProject(projectPath, out currentProject);
             CreateAdapter(configs, currentProject);
-            var flowchartFilePath = currentProject.Files.First(x => Path.GetExtension(x.Path).Equals(".fc")).Path;
-            _adapter.FlowChart = Converter.DataToGraph(System.IO.File.ReadAllText(flowchartFilePath), ConverterFormats.JSON);
+            var flowchartFilePath = Path.Combine(Path.GetDirectoryName(projectPath),
+                currentProject.Files.First(x => Path.GetExtension(x.Path).Equals(".fc")).Path);
+            _adapter.FlowChart = Converter.DataToGraph(System.IO.File.ReadAllText(flowchartFilePath),
+                ConverterFormats.JSON);
             _adapter.CalculateDeterminant();
             _adapter.FindPlan();
             var result = _adapter.GetPlan();
             var data = Converter.GraphToData(result, ConverterFormats.JSON);
-            System.IO.File.WriteAllText(Path.Combine(Path.GetDirectoryName(projectPath),"ImplementationPlan.ip"), data);
+            System.IO.File.WriteAllText(Path.Combine(Path.GetDirectoryName(projectPath), "ImplementationPlan.ip"),
+                data);
             currentProject.Files.Clear();
-            currentProject.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File { Path = Path.Combine(Path.GetDirectoryName(projectPath), "FlowChart.fc") });
-            currentProject.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File { Path = Path.Combine(Path.GetDirectoryName(projectPath), "ImplementationPlan.ip") });
+            currentProject.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File
+            {
+                Path = Path.Combine(Path.GetDirectoryName(projectPath), "FlowChart.fc")
+            });
+            currentProject.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File
+            {
+                Path = Path.Combine(Path.GetDirectoryName(projectPath), "ImplementationPlan.ip")
+            });
             SerializersFactory.GetSerializer().SerializeProject(projectPath, currentProject);
         }
 

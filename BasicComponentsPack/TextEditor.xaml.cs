@@ -33,6 +33,7 @@ namespace BasicComponentsPack
 
         public void SetContent(FileInfo file)
         {
+            ContentEditor.Document.Blocks.Clear();
             ContentEditor.AppendText(File.ReadAllText(file.FullName));
             IsChange = false;
             _originalFileName = file.FullName;

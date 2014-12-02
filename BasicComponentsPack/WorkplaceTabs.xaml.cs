@@ -152,7 +152,6 @@ namespace BasicComponentsPack
 
         public void SaveAllListener(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("SA");
             foreach (var content in (from object item in WorkplaceTabControl.Items select (item as EnclosedTabItem).Content).OfType<ISaveable>())
             {
                 content.Save();

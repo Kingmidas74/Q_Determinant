@@ -98,7 +98,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{x:Type ToolBar}" TargetType="{x:Type ToolBar}">
+    <Style  TargetType="{x:Type ToolBar}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Template">
@@ -125,13 +125,16 @@
                         <Trigger Property="ToolBarTray.IsLocked" Value="true">
                             <Setter TargetName="ToolBarThumb" Property="Visibility" Value="Collapsed" />
                         </Trigger>
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="{x:Type ToolBarTray}" TargetType="{x:Type ToolBarTray}">
+    <Style TargetType="{x:Type ToolBarTray}">
         <Setter Property="Background" Value="{StaticResource MasterBackgroundBrush}"/>
     </Style>
 </ResourceDictionary>

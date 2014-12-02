@@ -32,10 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\ICompile.cs" />
     <Compile Include="ITabContent.cs" />
     <Compile Include="ISaveable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

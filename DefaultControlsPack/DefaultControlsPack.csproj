@@ -49,6 +49,7 @@
     <Compile Include="EnclosedTabItem.cs" />
     <Compile Include="Enums\VerticalContentPosition.cs" />
     <Compile Include="IconTreeViewItem.cs" />
+    <Compile Include="Info.cs" />
     <Compile Include="ModernWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -89,6 +90,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Controls\IconTreeViewItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\Info.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

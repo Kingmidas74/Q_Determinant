@@ -119,6 +119,10 @@
       <Private>True</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
+    <ProjectReference Include="..\VisualCore\VisualCore.csproj">
+      <Project>{a018b627-f53b-42f2-823f-4f6b899f1954}</Project>
+      <Name>VisualCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using DefaultControlsPack;
 using PluginController;
 using System.Diagnostics;
+using VisualCore.Events;
 
 namespace QStudio
 {
@@ -92,7 +95,7 @@ namespace QStudio
             }
             #endregion
 
-            #region OpenSolution
+            #region ReferenceManager
             public static readonly RoutedEvent ReferenceManagerEvent = EventManager.RegisterRoutedEvent("ReferenceManager",
                 RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
             #endregion
@@ -139,6 +142,8 @@ namespace QStudio
             AddHandler(NewProjectEvent, new RoutedEventHandler(SolutionExplorer.NewProjectListener));
             AddHandler(ErrorEvent, new RoutedEventHandler(ErrorMessage));
         }
+
+        
 
         private void ErrorMessage(object sender, RoutedEventArgs e)
         {
@@ -219,16 +224,28 @@ namespace QStudio
         {
             var pluginController = new PluginHost("plugins", "PluginController.IPlugin");
             var plugins = pluginController.Plugins;
-            if (plugins.Count > 0)
+            foreach(var plugin in plugins)
             {
-                plugins[0].Initialize(new List<object> {WorkplaceTabs});
+                var pluginMenuItem = new MenuItem {Header = plugin.Title};
+                PluginsMenuItem.Items.Add(pluginMenuItem);
+                var objects = new List<object> {pluginMenuItem};
+                var toolBar = new ToolBar();
+                ToolBarTray.ToolBars.Add(toolBar);
+                objects.Add(toolBar);
+                objects.AddRange(plugin.InitializeObjects.Select(FindName).Where(_object => _object != null));
+                if (plugin is ICompile)
+                {
+                    AddHandler(BeforeCompilerEvent, new RoutedEventHandler((plugin as ICompile).BeforeCompilerListener));
+                    AddHandler(AfterCompilerEvent, new RoutedEventHandler((plugin as ICompile).AfterCompilerListener));
+                }
+                plugin.Initialize(objects);
             }
         }
 
         private void ShowDebugSettings(object sender, RoutedEventArgs e)
         {
-            var DebugSettings = new DebugSettings();
-            DebugSettings.Show();
+            var debugSettings = new DebugSettings();
+            debugSettings.Show();
         }
     }
 }

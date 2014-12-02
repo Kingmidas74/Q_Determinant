@@ -6,10 +6,11 @@ using System.Windows.Controls;
 using DefaultControlsPack;
 using VisualCore;
 using System.Collections.Generic;
+using VisualCore.Events;
 
 namespace BasicComponentsPack
 {
-    public partial class WorkplaceTabs : UserControl
+    public partial class WorkplaceTabs : UserControl,ICompile
     {
         private readonly Dictionary<string, Func<FileInfo, EnclosedTabItem>> _fileRevealers;
 

@@ -13,6 +13,7 @@ namespace PluginController
         PluginTypes Type { get; }
         Positions Position { get; }
         string ContainerType { get; }
+        List<string> InitializeObjects { get; }
         void Initialize(List<object> containers);
     }
 }

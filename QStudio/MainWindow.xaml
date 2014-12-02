@@ -86,7 +86,7 @@
                 <MenuItem Header="Check Updates"/>
             </MenuItem>
         </Menu>
-        <ToolBarTray DockPanel.Dock="Top" x:Name="ToolBarTray" Height="30">
+        <ToolBarTray DockPanel.Dock="Top" x:Name="ToolBarTray">
             <ToolBar Band="0" BandIndex="0" VerticalAlignment="Stretch" VerticalContentAlignment="Center">
                 <Button Command="New" ToolTip="New Solution (Ctrl+N)">
                     <Path Stretch="Fill" Fill="{StaticResource ActiveBrush}" Data="{StaticResource New}"/>
@@ -111,7 +111,7 @@
                 <Separator/>
             </ToolBar>
         </ToolBarTray>
-        <Grid VerticalAlignment="Stretch">
+        <Grid VerticalAlignment="Stretch" x:Name="Grid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0" MaxWidth="200"/>
                 <ColumnDefinition Width="Auto"/>

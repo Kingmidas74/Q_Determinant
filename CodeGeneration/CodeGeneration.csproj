@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{63728805-A87D-47AF-828B-1B7B7AA3CB31}</ProjectGuid>
+    <ProjectGuid>{DD716541-D5C1-4381-BF54-922D02721361}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ImplementationPlanViewer</RootNamespace>
-    <AssemblyName>ImplementationPlanViewer</AssemblyName>
+    <RootNamespace>CodeGeneration</RootNamespace>
+    <AssemblyName>CodeGeneration</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,24 +44,25 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="EllipseIP.xaml">
+    <Page Include="CodeGenerationSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Viewer.xaml">
+    <Page Include="GenerationButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="EllipseIP.xaml.cs">
-      <DependentUpon>EllipseIP.xaml</DependentUpon>
+    <Compile Include="CodeGenerationSettings.xaml.cs">
+      <DependentUpon>CodeGenerationSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Plugin.cs" />
-    <Compile Include="Viewer.xaml.cs">
-      <DependentUpon>Viewer.xaml</DependentUpon>
+    <Compile Include="GenerationButton.xaml.cs">
+      <DependentUpon>GenerationButton.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generator.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,7 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BasicComponentsPack\BasicComponentsPack.csproj">
-      <Project>{f2d2c25f-1792-434b-8cb9-37061e33a0e4}</Project>
+      <Project>{F2D2C25F-1792-434B-8CB9-37061E33A0E4}</Project>
       <Name>BasicComponentsPack</Name>
       <Private>False</Private>
     </ProjectReference>
@@ -101,12 +103,12 @@
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PluginController\PluginController.csproj">
-      <Project>{87f06a7a-c02e-4b61-aeda-9622fe84f362}</Project>
+      <Project>{87F06A7A-C02E-4B61-AEDA-9622FE84F362}</Project>
       <Name>PluginController</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\VisualCore\VisualCore.csproj">
-      <Project>{a018b627-f53b-42f2-823f-4f6b899f1954}</Project>
+      <Project>{A018B627-F53B-42F2-823F-4F6B899F1954}</Project>
       <Name>VisualCore</Name>
       <Private>False</Private>
     </ProjectReference>

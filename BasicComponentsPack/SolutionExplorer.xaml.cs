@@ -13,6 +13,7 @@ using Core.Serializers.SerializationModels.ProjectModels;
 using Core.Serializers.SerializationModels.SolutionModels;
 using Microsoft.Win32;
 using Core.Converters;
+using VisualCore.Events;
 using File = System.IO.File;
 
 namespace BasicComponentsPack
@@ -20,7 +21,7 @@ namespace BasicComponentsPack
     /// <summary>
     /// Interaction logic for SolutionExplorer.xaml
     /// </summary>
-    public partial class SolutionExplorer : UserControl
+    public partial class SolutionExplorer : UserControl,ICompile
     {
         #region SelectingFile
         public static readonly RoutedEvent SelectingFileEvent = EventManager.RegisterRoutedEvent("SelectingFile",
@@ -240,6 +241,10 @@ namespace BasicComponentsPack
                 SerializersFactory.GetSerializer().SerializeProject(CurrentProjectPath, currentProject);
                 RefreshSolution();
             };
+        }
+
+        public void BeforeCompilerListener(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

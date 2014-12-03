@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using Core.Atoms;
+using System.Xml.Serialization;
 
 namespace Core.Converters
 {
@@ -7,12 +9,14 @@ namespace Core.Converters
     {
         internal override Graph DataToGraph(string data)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         internal override string GraphToData(Graph graph)
         {
-            throw new NotImplementedException();
+            var textWriter = new StringWriter();
+            (new XmlSerializer(typeof(Graph))).Serialize(textWriter, graph);
+            return textWriter.ToString();
         }
     }
 }

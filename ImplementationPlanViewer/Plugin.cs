@@ -58,6 +58,7 @@ namespace ImplementationPlanViewer
             CreateMenu(containers[0] as MenuItem);
             var workPlaceTabs = containers[2] as WorkplaceTabs;
             workPlaceTabs.DefineRevealer(".ip", AddIPView);
+            workPlaceTabs.DefineRevealer(".tip", AddIPView);
         }
 
         private void CreateMenu(ItemsControl item)

@@ -127,24 +127,8 @@ namespace QStudio
         public MainWindow()
         {
             InitializeComponent();
-            AddHandler(BasicComponentsPack.SolutionExplorer.SelectingFileEvent, new RoutedEventHandler(SelectedFile));
-            AddHandler(BasicComponentsPack.WorkplaceTabs.ErrorExceptionEvent, new RoutedEventHandler(ErrorHandler));
-            AddHandler(SelectingFileEvent, new RoutedEventHandler(WorkplaceTabs.SelectedFileListener));
-            AddHandler(SaveAllEvent, new RoutedEventHandler(WorkplaceTabs.SaveAllListener));
-            AddHandler(CloseSolutionEvent, new RoutedEventHandler(WorkplaceTabs.CloseSolutionListener));
-            AddHandler(CloseSolutionEvent, new RoutedEventHandler(SolutionExplorer.CloseSolutionListener));
-            AddHandler(OpenSolutionEvent, new RoutedEventHandler(SolutionExplorer.OpenSolutionListener));
-            AddHandler(NewSolutionEvent, new RoutedEventHandler(SolutionExplorer.NewSolutionListener));
-            AddHandler(AfterCompilerEvent, new RoutedEventHandler(SolutionExplorer.AfterCompilerListener));
-            AddHandler(ReferenceManagerEvent, new RoutedEventHandler(SolutionExplorer.ReferenceManagerListener));
-            AddHandler(BeforeCompilerEvent, new RoutedEventHandler(WorkplaceTabs.BeforeCompilerListener));
-            AddHandler(AfterCompilerEvent, new RoutedEventHandler(WorkplaceTabs.AfterCompilerListener));
-            AddHandler(NewProjectEvent, new RoutedEventHandler(SolutionExplorer.NewProjectListener));
-            AddHandler(ErrorEvent, new RoutedEventHandler(ErrorMessage));
         }
-
         
-
         private void ErrorMessage(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(e.OriginalSource.ToString());
@@ -240,6 +224,25 @@ namespace QStudio
                 }
                 plugin.Initialize(objects);
             }
+            RegistrateDefaultHandler();
+        }
+
+        private void RegistrateDefaultHandler()
+        {
+            AddHandler(BasicComponentsPack.SolutionExplorer.SelectingFileEvent, new RoutedEventHandler(SelectedFile));
+            AddHandler(BasicComponentsPack.WorkplaceTabs.ErrorExceptionEvent, new RoutedEventHandler(ErrorHandler));
+            AddHandler(SelectingFileEvent, new RoutedEventHandler(WorkplaceTabs.SelectedFileListener));
+            AddHandler(SaveAllEvent, new RoutedEventHandler(WorkplaceTabs.SaveAllListener));
+            AddHandler(CloseSolutionEvent, new RoutedEventHandler(WorkplaceTabs.CloseSolutionListener));
+            AddHandler(CloseSolutionEvent, new RoutedEventHandler(SolutionExplorer.CloseSolutionListener));
+            AddHandler(OpenSolutionEvent, new RoutedEventHandler(SolutionExplorer.OpenSolutionListener));
+            AddHandler(NewSolutionEvent, new RoutedEventHandler(SolutionExplorer.NewSolutionListener));
+            AddHandler(AfterCompilerEvent, new RoutedEventHandler(SolutionExplorer.AfterCompilerListener));
+            AddHandler(ReferenceManagerEvent, new RoutedEventHandler(SolutionExplorer.ReferenceManagerListener));
+            AddHandler(BeforeCompilerEvent, new RoutedEventHandler(WorkplaceTabs.BeforeCompilerListener));
+            AddHandler(AfterCompilerEvent, new RoutedEventHandler(WorkplaceTabs.AfterCompilerListener));
+            AddHandler(NewProjectEvent, new RoutedEventHandler(SolutionExplorer.NewProjectListener));
+            AddHandler(ErrorEvent, new RoutedEventHandler(ErrorMessage));
         }
 
         private void ShowDebugSettings(object sender, RoutedEventArgs e)

@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using BasicComponentsPack;
 
 namespace CodeGeneration
@@ -21,7 +20,8 @@ namespace CodeGeneration
             var settingsWindow = new CodeGenerationSettings();
             if (settingsWindow.ShowDialog() == true)
             {
-                Generator.GenerateByProject(SE.CurrentProjectPath);   
+                Generator.GenerateByProject(SE.CurrentProjectPath);
+                SE.CurrentSolutionPath = SE.CurrentSolutionPath;
             }
         }
     }

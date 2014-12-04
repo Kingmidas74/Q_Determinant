@@ -22,6 +22,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
+        <defaultControlsPack:EnclosedTabControl Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" x:Name="ProjectTabControl" VerticalContentPosition="Bottom"/>
         <Button Grid.Column="1" Grid.Row="2" Style="{StaticResource {x:Type Button}}" VerticalContentAlignment="Center" Click="OKClick">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="30">
                 <Path Stretch="Fill" Fill="{StaticResource SuccessBrush}" Data="{StaticResource RightArrow}" Width="16" Height="16" VerticalAlignment="Center" Margin="5"/>

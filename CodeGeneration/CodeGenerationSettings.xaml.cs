@@ -1,4 +1,13 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Windows;
+using System.Windows.Documents;
+using CodeGeneration.InternalClasses;
+using Core.Converters;
+using Core.Serializers;
+using Core.Serializers.SerializationModels;
 using DefaultControlsPack;
 
 namespace CodeGeneration
@@ -11,6 +20,43 @@ namespace CodeGeneration
         public CodeGenerationSettings()
         {
             InitializeComponent();
+        }
+
+        private string currentSolutionPath { get; set; }
+
+        public void SetSolutionPath(string currentPathToSolution)
+        {
+            currentSolutionPath = currentPathToSolution;
+            Core.Serializers.SerializationModels.SolutionModels.Solution solution;
+            SerializersFactory.GetSerializer().DeserializeSolution(currentSolutionPath, out solution);
+            var tabItems = new List<EnclosedTabItem>();
+            foreach (var project in solution.Projects.Where(x => x.Type == ProjectTypes.Algorithm))
+            {
+                tabItems.Add(CreateTabitemByProject(project));
+            }
+            ProjectTabControl.ItemsSource = null;
+            ProjectTabControl.ItemsSource = tabItems;
+        }
+
+        private EnclosedTabItem CreateTabitemByProject(Core.Serializers.SerializationModels.SolutionModels.Project project)
+        {
+            var pathToProject = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(currentSolutionPath),
+                project.Path);
+            var result = new EnclosedTabItem {Header = project.Title};
+            var variables = new List<string>();
+            foreach (var variable in Converter.DataToGraph(System.IO.File.ReadAllText(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(pathToProject),"ImplementationPlan.ip")),ConverterFormats.JSON).Vertices.Where(x=>x.Level==0))
+            {
+                decimal d;
+                long l;
+                if (!(Decimal.TryParse(variable.Content, out d ) || long.TryParse(variable.Content, out l)))
+                {
+                    variables.Add(variable.Content);
+                }
+            }
+            var content = new SettingsProjectTabItem();
+            content.SetContent(variables);
+            result.Content = content;
+            return result;
         }
 
         private void CancelClick(object sender, RoutedEventArgs e)

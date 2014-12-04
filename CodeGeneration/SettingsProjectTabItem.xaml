@@ -1,0 +1,6 @@
+﻿<UserControl x:Class="CodeGeneration.SettingsProjectTabItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:internalClasses="clr-namespace:CodeGeneration.InternalClasses">
+    <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{x:Type internalClasses:VariableTypesGridViewItem}" ItemsSource="{Binding}" x:Name="VariableTypes" CanUserAddRows="False" SelectionUnit="FullRow" SelectionMode="Single" />
+</UserControl>

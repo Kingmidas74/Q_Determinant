@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using BasicComponentsPack;
 using PluginController;
 using System.Diagnostics;
 using VisualCore.Events;
@@ -270,6 +273,16 @@ namespace QStudio
         {
             var debugSettings = new DebugSettings();
             debugSettings.Show();
+        }
+
+        private void AboutClick(object sender, RoutedEventArgs e)
+        {
+            var about = new AboutWindow {Title = "About QStudio", Image = new System.Windows.Shapes.Path
+            {
+                Data = FindResource("Icon") as Geometry,
+                Fill = FindResource("ErrorBrush") as SolidColorBrush
+            }};
+            about.ShowDialog();
         }
     }
 }

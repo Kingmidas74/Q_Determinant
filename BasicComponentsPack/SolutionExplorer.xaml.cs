@@ -34,6 +34,17 @@ namespace BasicComponentsPack
         }
         #endregion
 
+        #region SetProject
+        public static readonly RoutedEvent SetProjectEvent = EventManager.RegisterRoutedEvent("SetProject",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SolutionExplorer));
+
+        public event RoutedEventHandler SetProject
+        {
+            add { AddHandler(SetProjectEvent, value); }
+            remove { RemoveHandler(SetProjectEvent, value); }
+        }
+        #endregion
+
         private string _currentSolutionPath = String.Empty;
 
         public string CurrentSolutionPath
@@ -54,6 +65,7 @@ namespace BasicComponentsPack
             set
             {
                 _currentProjectPath = value;
+                RaiseEvent(new RoutedEventArgs(SetProjectEvent, value));
             }
         }
 

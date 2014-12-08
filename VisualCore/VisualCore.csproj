@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ICompile.cs" />
+    <Compile Include="Events\ISetProjectAndSolution.cs" />
     <Compile Include="ITabContent.cs" />
     <Compile Include="ISaveable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

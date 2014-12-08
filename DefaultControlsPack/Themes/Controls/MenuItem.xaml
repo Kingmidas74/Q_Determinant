@@ -105,6 +105,9 @@
             <Trigger Property="IsOpen" SourceName="PART_Popup" Value="True">
                 <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource SlaveBackgroundBrush}"/>
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{StaticResource InactiveBrush}"/>
+            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 

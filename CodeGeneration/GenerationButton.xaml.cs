@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using BasicComponentsPack;
 
 namespace CodeGeneration
@@ -13,7 +14,17 @@ namespace CodeGeneration
             InitializeComponent();
         }
 
-        public SolutionExplorer SE { get; set; }
+        private SolutionExplorer _se;
+        public SolutionExplorer SE
+        {
+            get { return _se; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException("value");
+                _se = value;
+                G_Button.IsEnabled = !String.IsNullOrEmpty(value.CurrentProjectPath);
+            }
+        }
 
         private void GC_Click(object sender, System.Windows.RoutedEventArgs e)
         {

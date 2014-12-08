@@ -19,6 +19,12 @@
         <KeyBinding Modifiers="Shift" Key="F5" Command="NotACommand"/>
     </defaultControlsPack:ModernWindow.InputBindings>
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <StatusBar DockPanel.Dock="Bottom" Height="24" x:Name="StatusBar" Background="{StaticResource ActiveBrush}">
+            <TextBlock Margin="3,0,0,0" Text="{Binding StatusContent, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource BaseFont}"/>
+            <StatusBarItem HorizontalAlignment="Right">
+                <ResizeGrip Opacity="0.75" />
+            </StatusBarItem>
+        </StatusBar>
         <Menu DockPanel.Dock="Top" IsMainMenu="True">
             <MenuItem Header="FILE" >
                 <MenuItem Header="New">
@@ -53,7 +59,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="PROJECT">
+            <MenuItem Header="PROJECT" x:Name="ProjectItem" IsEnabled="False">
                 <MenuItem Header="Add/Remove Reference..." Click="ReferenceManagerClick"/>
                 <Separator/>
                 <MenuItem Header="FlowChart">

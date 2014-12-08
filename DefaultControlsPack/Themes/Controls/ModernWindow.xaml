@@ -22,13 +22,6 @@
                         </Grid.Effect>
                         <Border x:Name="PART_Border" BorderThickness="0.5" BorderBrush="{StaticResource ActiveBrush}">
                             <DockPanel HorizontalAlignment="Stretch" Background="Transparent" VerticalAlignment="Stretch">
-                                <!--<StatusBar
-                                    DockPanel.Dock="Bottom" Height="24" x:Name="StatusBar">
-                                    <TextBlock Margin="3,0,0,0" Text="{Binding StatusContent, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource BaseFont}"/>
-                                    <StatusBarItem HorizontalAlignment="Right">
-                                        <ResizeGrip Opacity="0.75" />
-                                    </StatusBarItem>
-                                </StatusBar>-->
                                 <Border
                                     x:Name="TitleBar"
                                     DockPanel.Dock="Top"
@@ -49,12 +42,6 @@
                                                          Opacity="1" Style="{StaticResource BaseFont}"
                                                        Text="{Binding Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                        />
-<!--
-                                        <Button x:Name="SettingsButton"  Grid.Column="2" Style="{StaticResource MTitleBarButtonStyle}"
-                                                Visibility="{Binding WithASide, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                            <Path Width="20" Height="20" Stretch="Fill" Fill="White" Data="{DynamicResource SettingsSymbol}"/>
-                                        </Button>
--->
                                         <Button x:Name="MinButton" Grid.Column="3" Style="{StaticResource {x:Type Button}}" ToolTip="Minimize">
                                             <Grid MaxHeight="9" MaxWidth="9">
                                                 <Path
@@ -94,7 +81,6 @@
                                 </Border>
                                 <Grid Background="Transparent">
                                     <ContentPresenter />
-                                <!--    <local:ASide Visibility="{Binding WithASide, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>-->
                                 </Grid>
                             </DockPanel>
                         </Border>
@@ -107,12 +93,10 @@
                         <Trigger Property="ResizeMode" Value="NoResize">
                             <Setter TargetName="MinButton" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="MaxButton" Property="Visibility" Value="Collapsed"/>
-                            <!--<Setter TargetName="StatusBar" Property="Visibility" Value="Collapsed"/>-->
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="CanMinimize">
                             <Setter TargetName="MaxButton" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="MaximizeCell" Property="Width" Value="0"/>
-                            <!--<Setter TargetName="StatusBar" Property="Visibility" Value="Collapsed"/>-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

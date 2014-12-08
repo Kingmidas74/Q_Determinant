@@ -121,6 +121,17 @@ namespace QStudio
                 remove { RemoveHandler(AfterCompilerEvent, value); }
             }
             #endregion
+
+            #region SetProject
+            public static readonly RoutedEvent SetProjectEvent = EventManager.RegisterRoutedEvent("SetProject",
+                RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
+
+            public event RoutedEventHandler SetProject
+            {
+                add { AddHandler(SetProjectEvent, value); }
+                remove { RemoveHandler(SetProjectEvent, value); }
+            }
+            #endregion
         
         #endregion
 
@@ -222,6 +233,11 @@ namespace QStudio
                     AddHandler(BeforeCompilerEvent, new RoutedEventHandler((plugin as ICompile).BeforeCompilerListener));
                     AddHandler(AfterCompilerEvent, new RoutedEventHandler((plugin as ICompile).AfterCompilerListener));
                 }
+                if (plugin is ISetProjectAndSolution)
+                {
+                    AddHandler(BeforeCompilerEvent, new RoutedEventHandler((plugin as ISetProjectAndSolution).SetProjectListener));
+                    AddHandler(AfterCompilerEvent, new RoutedEventHandler((plugin as ISetProjectAndSolution).SetSolutionListener));
+                }
                 plugin.Initialize(objects);
             }
             RegistrateDefaultHandler();
@@ -230,6 +246,7 @@ namespace QStudio
         private void RegistrateDefaultHandler()
         {
             AddHandler(BasicComponentsPack.SolutionExplorer.SelectingFileEvent, new RoutedEventHandler(SelectedFile));
+            AddHandler(BasicComponentsPack.SolutionExplorer.SetProjectEvent, new RoutedEventHandler(SetProjectHandler));
             AddHandler(BasicComponentsPack.WorkplaceTabs.ErrorExceptionEvent, new RoutedEventHandler(ErrorHandler));
             AddHandler(SelectingFileEvent, new RoutedEventHandler(WorkplaceTabs.SelectedFileListener));
             AddHandler(SaveAllEvent, new RoutedEventHandler(WorkplaceTabs.SaveAllListener));
@@ -243,6 +260,12 @@ namespace QStudio
             AddHandler(AfterCompilerEvent, new RoutedEventHandler(WorkplaceTabs.AfterCompilerListener));
             AddHandler(NewProjectEvent, new RoutedEventHandler(SolutionExplorer.NewProjectListener));
             AddHandler(ErrorEvent, new RoutedEventHandler(ErrorMessage));
+        }
+
+        private void SetProjectHandler(object sender, RoutedEventArgs e)
+        {
+            ProjectItem.IsEnabled = !String.IsNullOrEmpty(e.OriginalSource.ToString());
+            RaiseEvent(new RoutedEventArgs(SetProjectEvent));
         }
 
         private void ShowDebugSettings(object sender, RoutedEventArgs e)

@@ -14,7 +14,7 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid >
                         <Border x:Name="PART_border" Background="Transparent"/>
-                        <ContentPresenter/>
+                        <ContentPresenter x:Name="PART_Content"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -24,6 +24,9 @@
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="PART_border" Property="Background" Value="{StaticResource InactiveBrush}"/>
                             <Setter TargetName="PART_border" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_Content" Property="Path.Fill" Value="{StaticResource InactiveBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

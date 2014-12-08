@@ -65,7 +65,9 @@ namespace BasicComponentsPack
             set
             {
                 _currentProjectPath = value;
-                RaiseEvent(new RoutedEventArgs(SetProjectEvent, value));
+                RaiseEvent(String.IsNullOrEmpty(_currentProjectPath)
+                    ? new RoutedEventArgs(SetProjectEvent, "NULL")
+                    : new RoutedEventArgs(SetProjectEvent, _currentProjectPath));
             }
         }
 

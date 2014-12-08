@@ -264,7 +264,7 @@ namespace QStudio
 
         private void SetProjectHandler(object sender, RoutedEventArgs e)
         {
-            ProjectItem.IsEnabled = !String.IsNullOrEmpty(e.OriginalSource.ToString());
+            ProjectItem.IsEnabled = !(String.IsNullOrEmpty(e.OriginalSource.ToString()) || e.OriginalSource.ToString().Equals("NULL"));
             RaiseEvent(new RoutedEventArgs(SetProjectEvent));
         }
 

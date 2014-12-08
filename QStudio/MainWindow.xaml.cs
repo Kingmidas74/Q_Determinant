@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using DefaultControlsPack;
 using PluginController;
 using System.Diagnostics;
 using VisualCore.Events;
@@ -14,7 +13,7 @@ namespace QStudio
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow:ModernWindow
+    public partial class MainWindow
     {
         #region CustomEvents
 
@@ -235,8 +234,7 @@ namespace QStudio
                 }
                 if (plugin is ISetProjectAndSolution)
                 {
-                    AddHandler(BeforeCompilerEvent, new RoutedEventHandler((plugin as ISetProjectAndSolution).SetProjectListener));
-                    AddHandler(AfterCompilerEvent, new RoutedEventHandler((plugin as ISetProjectAndSolution).SetSolutionListener));
+                    AddHandler(SetProjectEvent, new RoutedEventHandler((plugin as ISetProjectAndSolution).SetProjectListener));
                 }
                 plugin.Initialize(objects);
             }

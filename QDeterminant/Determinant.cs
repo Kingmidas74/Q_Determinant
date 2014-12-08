@@ -4,6 +4,7 @@ using Core.Atoms;
 using Core.Enums;
 using Core.Interfaces;
 using Core.Serializers.SerializationModels.SolutionModels;
+using QDeterminant.InternalClasses;
 
 namespace QDeterminant
 {
@@ -20,6 +21,7 @@ namespace QDeterminant
         private List<QTerm> _qDeterminantModern;
         private Graph _flowChart;
         private List<Function> _functions;
+        private List<ActionList> _actionLists; 
 
         public Graph FlowChart
         {
@@ -34,6 +36,7 @@ namespace QDeterminant
         public Determinant()
         {
             _qDeterminantStandart = new List<QTerm>();
+            _actionLists = new List<ActionList>();
             _variables = new Dictionary<string, string>();
             Status = StatusTypes.Success;
         }

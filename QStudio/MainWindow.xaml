@@ -59,25 +59,19 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="PROJECT" x:Name="ProjectItem" IsEnabled="False">
+            <MenuItem Header="PROJECT" x:Name="ProjectItem" Visibility="Collapsed">
                 <MenuItem Header="Add/Remove Reference..." Click="ReferenceManagerClick"/>
                 <Separator/>
                 <MenuItem Header="FlowChart">
-                    <MenuItem Header="Export..." x:Name="EFCMenuItem"/>
-                    <MenuItem Header="Show As">
-                        <MenuItem Header="Image" x:Name="SAIFCMenuItem"/>
-                    </MenuItem>
+                    <MenuItem Header="Export..."/>
                 </MenuItem>
                 <MenuItem Header="ImplementationPlan" IsEnabled="False">
-                    <MenuItem Header="Export..." x:Name="EIPMenuItem"/>
-                    <MenuItem Header="Show As">
-                        <MenuItem Header="Image" x:Name="SAIIPMenuItem"/>
-                    </MenuItem>
+                    <MenuItem Header="Export..."/>
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="Properties"/>
             </MenuItem>
-            <MenuItem Header="DEBUG">
+            <MenuItem Header="DEBUG" x:Name="DebugItem" Visibility="Collapsed">
                 <MenuItem Header="Start compile" Command="NotACommand" InputGestureText="Shift+F5">
                     <MenuItem.Icon>
                         <Path Stretch="Fill" Fill="{StaticResource SuccessBrush}" Data="{StaticResource RightArrow}"/>
@@ -88,7 +82,7 @@
             <MenuItem Header="PLUGINS" x:Name="PluginsMenuItem"/>
             <MenuItem Header="HELP">
                 <MenuItem Header="View Help"/>
-                <MenuItem Header="About Q-Determinant" Click="AboutClick" />
+                <MenuItem Header="About QStudio" Click="AboutClick" />
                 <MenuItem Header="Check Updates"/>
             </MenuItem>
         </Menu>

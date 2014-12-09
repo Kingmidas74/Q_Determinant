@@ -265,7 +265,11 @@ namespace QStudio
 
         private void SetProjectHandler(object sender, RoutedEventArgs e)
         {
-            ProjectItem.IsEnabled = !(String.IsNullOrEmpty(e.OriginalSource.ToString()) || e.OriginalSource.ToString().Equals("NULL"));
+            ProjectItem.Visibility = !(String.IsNullOrEmpty(e.OriginalSource.ToString()) || e.OriginalSource.ToString().Equals("NULL")) ? Visibility.Visible : Visibility.Collapsed;
+            DebugItem.Visibility =
+                !(String.IsNullOrEmpty(e.OriginalSource.ToString()) || e.OriginalSource.ToString().Equals("NULL"))
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
             RaiseEvent(new RoutedEventArgs(SetProjectEvent));
         }
 

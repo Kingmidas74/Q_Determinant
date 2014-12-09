@@ -179,7 +179,7 @@ namespace QStudio
                 p.BeginOutputReadLine();
                 p.WaitForExit();
                 // WriteLog(_compilerResultString.ToString());
-                RaiseEvent(new RoutedEventArgs(AfterCompilerEvent));
+                RaiseEvent(new RoutedEventArgs(AfterCompilerEvent)); /**/
             }
         }
 

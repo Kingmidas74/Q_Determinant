@@ -167,7 +167,7 @@ namespace QStudio
                 var startupstring = new StringBuilder(" ");
                 startupstring.Append(currentSolutionPath).Append(" ").Append(4);
 
-                p.StartInfo.FileName = "Compiler.exe";
+                p.StartInfo.FileName = @"Compiler.exe";
                 p.StartInfo.Arguments = startupstring.ToString();
                 //p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 p.StartInfo.UseShellExecute = false;

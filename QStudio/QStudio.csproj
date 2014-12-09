@@ -106,22 +106,24 @@
     <ProjectReference Include="..\BasicComponentsPack\BasicComponentsPack.csproj">
       <Project>{f2d2c25f-1792-434b-8cb9-37061e33a0e4}</Project>
       <Name>BasicComponentsPack</Name>
-      <Private>True</Private>
+      <Private>False</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
     <ProjectReference Include="..\DefaultControlsPack\DefaultControlsPack.csproj">
       <Project>{8976b701-f121-41e8-903f-fc32fddedf26}</Project>
       <Name>DefaultControlsPack</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PluginController\PluginController.csproj">
       <Project>{87f06a7a-c02e-4b61-aeda-9622fe84f362}</Project>
       <Name>PluginController</Name>
-      <Private>True</Private>
+      <Private>False</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
     <ProjectReference Include="..\VisualCore\VisualCore.csproj">
       <Project>{a018b627-f53b-42f2-823f-4f6b899f1954}</Project>
       <Name>VisualCore</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

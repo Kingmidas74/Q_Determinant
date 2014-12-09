@@ -102,6 +102,8 @@ namespace Compiler
 
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.AppendPrivatePath(@"vendors");
+            AppDomain.CurrentDomain.AppendPrivatePath(@"core");
             Console.WriteLine("COMPILER!");
             var status = new StringBuilder("");
             try

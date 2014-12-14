@@ -4,7 +4,7 @@ namespace BasicComponentsPack.InternalClasses
 {
     public class SolutionTreeItem
     {
-        public string IconPath { get; set; }
+        public object Icon { get; set; }
         public string Title { get; set; }
         public string FilePath { get; set; }
         public List<SolutionTreeItem> Items { get; set; }

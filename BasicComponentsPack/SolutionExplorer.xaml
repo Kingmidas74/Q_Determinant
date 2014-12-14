@@ -8,6 +8,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/DefaultControlsPack;component/Themes/Resources/Container.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Path x:Key="SI" Stretch="Fill" Fill="{StaticResource ActiveBrush}" Data="{StaticResource RightArrow}" Width="16" Height="16" VerticalAlignment="Center"/>
+            <Image x:Key="SolutionIcon" Width="16" Height="16" Source="Assets/SolutionExplorerIcons/icon.png"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -17,17 +19,30 @@
                 <Setter Property="FontSize" Value="14"/>
                 <EventSetter Event="MouseLeftButtonDown" Handler="ChooseTreeElement"/>
             </Style>
+            
             <HierarchicalDataTemplate x:Key="Level4" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}">
-                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
+                <StackPanel Orientation="Horizontal">
+                    <ContentPresenter Margin="2,0,2,0" Content="{Binding Path=Icon}"/>
+                    <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
+                </StackPanel>
             </HierarchicalDataTemplate>
             <HierarchicalDataTemplate x:Key="Level3" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" ItemTemplate="{StaticResource Level4}">
-                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
+                <StackPanel Orientation="Horizontal">
+                    <ContentPresenter Margin="2,0,2,0" Content="{Binding Path=Icon}"/>
+                    <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
+                </StackPanel>
             </HierarchicalDataTemplate>
             <HierarchicalDataTemplate x:Key="Level2" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" ItemTemplate="{StaticResource Level3}">
-                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
+                <StackPanel Orientation="Horizontal">
+                    <ContentPresenter Margin="2,0,2,0" Content="{Binding Path=Icon}"/>
+                    <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
+                </StackPanel>
             </HierarchicalDataTemplate>
             <HierarchicalDataTemplate x:Key="Level1" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}" ItemTemplate="{StaticResource Level2}">
-                <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
+                <StackPanel Orientation="Horizontal">
+                    <ContentPresenter Margin="2,0,2,0" Content="{Binding Path=Icon}"/>
+                    <TextBlock Text="{Binding Path=Title}" Tag="{Binding Path=FilePath}" Style="{StaticResource {x:Type TextBlock}}" IsEnabled="{Binding Path=Enabled}"/>
+                </StackPanel>
             </HierarchicalDataTemplate>
         </Grid.Resources>
         <defaultControlsPack:SearchTreeView x:Name="SearchTreeView" ItemTemplate="{StaticResource Level1}"/>

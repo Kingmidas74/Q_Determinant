@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BaseConverter.cs" />
-    <Compile Include="Converters\IconPathToVisibilityConverter.cs" />
     <Compile Include="EnclosedTabControl.cs" />
     <Compile Include="EnclosedTabItem.cs" />
     <Compile Include="Enums\VerticalContentPosition.cs" />

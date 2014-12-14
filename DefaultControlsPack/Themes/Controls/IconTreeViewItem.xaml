@@ -89,7 +89,7 @@
                         </VisualStateManager.VisualStateGroups>
                         <StackPanel x:Name="ItemTitle" Grid.ColumnSpan="4" Background="Transparent" Orientation="Horizontal" >
                             <ToggleButton x:Name="Expander" Background="Transparent" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Margin="5,0,0,0"/>
-                            <ContentPresenter x:Name="PART_Icon" Margin="2,0,2,0" Content="{TemplateBinding Icon}"/>
+                            <ContentPresenter Margin="2,0,2,0" Content="{TemplateBinding Icon}"/>
                             <Border x:Name="Bd" Background="Transparent" BorderThickness="0" Padding="2,0,0,0">
                                 <ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
                             </Border>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using BasicComponentsPack.InternalClasses;
 using Core.Atoms;
 using Core.Serializers;
@@ -14,14 +15,14 @@ using Core.Serializers.SerializationModels.SolutionModels;
 using Microsoft.Win32;
 using Core.Converters;
 using VisualCore.Events;
-using File = System.IO.File;
+using System.Windows.Media.Imaging;
 
 namespace BasicComponentsPack
 {
     /// <summary>
     /// Interaction logic for SolutionExplorer.xaml
     /// </summary>
-    public partial class SolutionExplorer : UserControl,ICompile
+    public partial class SolutionExplorer : ICompile
     {
         #region SelectingFile
         public static readonly RoutedEvent SelectingFileEvent = EventManager.RegisterRoutedEvent("SelectingFile",
@@ -71,6 +72,37 @@ namespace BasicComponentsPack
             }
         }
 
+        private readonly Dictionary<string, Func<string, string, SolutionTreeItem>> _elementRevealers;
+
+        private SolutionTreeItem PerformRevealer(string filePath, string title)
+        {
+            return !_elementRevealers.ContainsKey(System.IO.Path.GetExtension(filePath)) ? CreateDefaultTreeItem(filePath, title) : _elementRevealers[System.IO.Path.GetExtension(filePath)](filePath, title);
+        }
+
+        private SolutionTreeItem CreateDefaultTreeItem(string filePath, string title)
+        {
+            return new SolutionTreeItem { FilePath = filePath, Title = title };
+        }
+
+        public void DefineRevealer(string extention, Func<string,string, SolutionTreeItem> revealer)
+        {
+            try
+            {
+                if (_elementRevealers.ContainsKey(extention))
+                {
+                    _elementRevealers[extention] = revealer;
+                }
+                else
+                {
+                    _elementRevealers.Add(extention, revealer);
+                }
+            }
+            catch (Exception e)
+            {
+               // RaiseEvent(new RoutedEventArgs(ErrorExceptionEvent, e.Message));
+            }
+        }
+
         private void RefreshSolution()
         {
             SearchTreeView.ItemsSource = null;
@@ -79,36 +111,24 @@ namespace BasicComponentsPack
                 Solution solution;
                 var serializer = SerializersFactory.GetSerializer();
                 serializer.DeserializeSolution(CurrentSolutionPath, out solution);
-                var result = new SolutionTreeItem {FilePath = CurrentSolutionPath, Title = solution.Title};
-                foreach (var currentProjectView in solution.Projects.Select(project => new SolutionTreeItem
-                {
-                    FilePath = Path.Combine(Path.GetDirectoryName(result.FilePath), project.Path)
-                }))
+                var result = PerformRevealer(CurrentSolutionPath, solution.Title);
+                foreach (var currentProjectView in solution.Projects.Select(project => PerformRevealer(Path.Combine(Path.GetDirectoryName(result.FilePath), project.Path), null)))
                 {
                     Core.Serializers.SerializationModels.ProjectModels.Project currentProjectModel;
                     serializer.DeserializeProject(currentProjectView.FilePath, out currentProjectModel);
                     currentProjectView.Title = currentProjectModel.Title;
-                    if (currentProjectModel.Properties.Type ==
-                        Core.Serializers.SerializationModels.ProjectTypes.Algorithm)
+                    if (currentProjectModel.Properties.Type == Core.Serializers.SerializationModels.ProjectTypes.Algorithm)
                     {
                         CurrentProjectPath = currentProjectView.FilePath;
                     }
-                    var referenceCollection = new SolutionTreeItem {Title = "References", FilePath = currentProjectView.FilePath};
-                    foreach (var currentReferenceView in currentProjectModel.References.Select(reference => new SolutionTreeItem
-                    {
-                        FilePath = reference.ProjectPath,
-                        Title = reference.ProjectTitle,
-                        Enabled = false,
-                    }))
+                    var referenceCollection =
+                        PerformRevealer(currentProjectView.FilePath, "References");
+                    foreach (var currentReferenceView in currentProjectModel.References.Select(reference => PerformRevealer(reference.ProjectPath, reference.ProjectTitle)))
                     {
                         referenceCollection.Items.Add(currentReferenceView);
                     }
                     currentProjectView.Items.Add(referenceCollection);
-                    foreach (var currentFileView in currentProjectModel.Files.Select(file => new SolutionTreeItem
-                    {
-                        FilePath = Path.Combine(Path.GetDirectoryName(currentProjectView.FilePath), file.Path),
-                        Title = Path.GetFileName(file.Path)
-                    }))
+                    foreach (var currentFileView in currentProjectModel.Files.Select(file => PerformRevealer(Path.Combine(Path.GetDirectoryName(currentProjectView.FilePath), file.Path), Path.GetFileName(file.Path))))
                     {
                         currentProjectView.Items.Add(currentFileView);
                     }
@@ -122,6 +142,32 @@ namespace BasicComponentsPack
         public SolutionExplorer()
         {
             InitializeComponent();
+            _elementRevealers = new Dictionary<string, Func<string, string, SolutionTreeItem>>()
+            {
+                {".qpr", CreateProjectTreeItem},
+                {".fc", CreateFlowChartTreeItem}
+            };
+        }
+
+        private SolutionTreeItem CreateProjectTreeItem(string filePath, string title)
+        {
+            var result = new SolutionTreeItem { FilePath = filePath, Title = title };
+            var path = new System.Windows.Shapes.Path();
+            path.Stretch = Stretch.Fill;
+            path.Fill = FindResource("ActiveBrush") as SolidColorBrush;
+            path.Width = 16;
+            path.Height = 16;
+            path.VerticalAlignment = VerticalAlignment.Center;
+            path.Data = FindResource("RightArrow") as Geometry;
+            result.Icon = path;
+            return result;
+        }
+
+        private SolutionTreeItem CreateFlowChartTreeItem(string filePath, string title)
+        {
+            var result = new SolutionTreeItem { FilePath = filePath, Title = title };
+            //result.Icon = FindResource("SolutionIcon") as Image;
+            return result;
         }
 
         public void CloseSolutionListener(object sender, RoutedEventArgs e)
@@ -228,7 +274,7 @@ namespace BasicComponentsPack
             SerializersFactory.GetSerializer().DeserializeSolution(CurrentSolutionPath, out solution);
             solution.Projects.Add(new Core.Serializers.SerializationModels.SolutionModels.Project { Path = string.Format("{0}\\{0}.qpr", folder), Title = newProject.Title, Type = newProject.Properties.Type });
             Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder));
-            File.WriteAllText(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder,
+            System.IO.File.WriteAllText(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder,
                     "FlowChart.fc"), Converter.GraphToData(new Graph(), ConverterFormats.JSON));
             var serializer = SerializersFactory.GetSerializer();
             serializer.SerializeSolution(CurrentSolutionPath, solution);
@@ -254,7 +300,7 @@ namespace BasicComponentsPack
                 currentProject.References = referenceDialog.ReferenceCollection;
                 SerializersFactory.GetSerializer().SerializeProject(CurrentProjectPath, currentProject);
                 RefreshSolution();
-            };
+            }
         }
 
         public void BeforeCompilerListener(object sender, RoutedEventArgs e)

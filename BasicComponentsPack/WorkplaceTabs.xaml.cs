@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using DefaultControlsPack;
 using VisualCore;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using VisualCore.Events;
 
 namespace BasicComponentsPack
 {
-    public partial class WorkplaceTabs : UserControl,ICompile
+    public partial class WorkplaceTabs : ICompile
     {
         private readonly Dictionary<string, Func<FileInfo, EnclosedTabItem>> _fileRevealers;
 
@@ -31,16 +30,11 @@ namespace BasicComponentsPack
         {
             InitializeComponent();
             AddHandler(EnclosedTabControl.CloseTabEvent, new RoutedEventHandler(CloseTab));
-            _fileRevealers = new Dictionary<string, Func<FileInfo, EnclosedTabItem>>
-                        {
-                            { ".fc", this.AddFlowChart },
-                            { ".ip", this.AddImplementationPlan },
-                            { ".qd", this.AddQDeterminant },
-                        };
+            _fileRevealers = new Dictionary<string, Func<FileInfo, EnclosedTabItem>>();
             _openedFiles = new List<string>();
         }
 
-        private EnclosedTabItem AddQDeterminant(FileInfo file)
+        private EnclosedTabItem OpenDocument(FileInfo file)
         {
             var tabItem = new EnclosedTabItem
             {
@@ -52,31 +46,7 @@ namespace BasicComponentsPack
             tabItem.Content = textEditor;
             return tabItem;
         }
-
-        private EnclosedTabItem AddFlowChart(FileInfo file)
-        {
-            var tabItem = new EnclosedTabItem
-            {
-                Header = file.Name,
-                Tag = file.FullName
-            };
-            var textEditor = new TextEditor();
-            textEditor.SetContent(file);
-            tabItem.Content = textEditor;
-            return tabItem;
-        }
-        private EnclosedTabItem AddImplementationPlan(FileInfo file)
-        {
-            var tabItem = new EnclosedTabItem
-            {
-                Header = file.Name,
-                Tag = file.FullName
-            };
-            var textEditor = new TextEditor();
-            textEditor.SetContent(file);
-            tabItem.Content = textEditor;
-            return tabItem;
-        }
+       
 
         private void CloseTab(object sender, RoutedEventArgs e)
         {
@@ -95,9 +65,7 @@ namespace BasicComponentsPack
 
         private EnclosedTabItem PerformRevealer(FileInfo file)
         {
-            if (!_fileRevealers.ContainsKey(file.Extension))
-                throw new ArgumentException(string.Format("Invalid Format File"));
-            return _fileRevealers[file.Extension](file);
+            return !_fileRevealers.ContainsKey(file.Extension) ? OpenDocument(file) : _fileRevealers[file.Extension](file);
         }
 
         public void DefineRevealer(string extention, Func<FileInfo, EnclosedTabItem> revealer)

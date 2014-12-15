@@ -9,34 +9,28 @@
 	<xsl:template match="*/text()[not(normalize-space())]" />
 
 	<xsl:template match="/">#include "mpi.h";
-		<xsl:for-each select="//Vertices/Block[Level>0][not(preceding::Content = Content)]">private void <xsl:value-of select="Content"/>()
-		{
-			return <xsl:value-of select="Content"/>;
-		}
-		</xsl:for-each>
-		void main(int argc, char *argv[]){ 
-		{		
-			MPI_Init(&amp;argc,&amp;argv);
+<xsl:for-each select="//Vertices/Block[Level>0][not(preceding::Content = Content)]">private void <xsl:value-of select="Content"/>(<xsl:variable name="CurrentId" select="Id"/><xsl:for-each select="//Edges/Link[To=$CurrentId]">var In_<xsl:value-of select="position()"/><xsl:if test="position()!=last()">,</xsl:if></xsl:for-each>)
+{
+	return <xsl:value-of select="Content"/>;
+}
+</xsl:for-each>
+void main(int argc, char *argv[]){ 
+{		
+    MPI_Init(&amp;argc,&amp;argv);
 
-			int rank;
-			MPI_Comm_rank(MPI_COMM_WORLD, &amp;rank);
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &amp;rank);
 
-			int size;
-			MPI_Comm_size(MPI_COMM_WORLD, &amp;size);
-
-		<xsl:for-each select="//Vertices/Block[Level=0][number(Content)!=Content]">var <xsl:value-of select="Content"/>;
-		</xsl:for-each>
-		<xsl:for-each select="//Vertices/Block[Level=0][number(Content)=Content]">
-		const
-		<xsl:if test="contains(Content,'.')"> double </xsl:if>
-		<xsl:if test="not(contains(Content,'.'))">
-			<xsl:if test="(Content='true') or (Content='false')"> bool </xsl:if>
-			<xsl:if test="(Content!='true') and (Content!='false')"> int </xsl:if>
-		</xsl:if> 
-		 const_<xsl:value-of select="position()"/>=<xsl:value-of select="Content"/>;
-		</xsl:for-each>
-			MPI_Finalize();
-			return 0;
-		}
-	</xsl:template>
+    int size;
+    MPI_Comm_size(MPI_COMM_WORLD, &amp;size);
+      
+    <xsl:for-each select="//Vertices/Block[Level=0][number(Content)!=Content]">var <xsl:value-of select="Content"/>;
+    </xsl:for-each>
+    
+    <xsl:for-each select="//Vertices/Block[Level=0][number(Content)=Content]">const<xsl:if test="contains(Content,'.')"> double </xsl:if><xsl:if test="not(contains(Content,'.'))"><xsl:if test="(Content='true') or (Content='false')"> bool </xsl:if><xsl:if test="(Content!='true') and (Content!='false')"> int </xsl:if></xsl:if> const_<xsl:value-of select="position()"/>=<xsl:value-of select="Content"/>;
+    </xsl:for-each>
+    MPI_Finalize();
+    return 0;
+}
+</xsl:template>
 </xsl:stylesheet>

@@ -49,6 +49,10 @@
     <Compile Include="CreateProject.xaml.cs">
       <DependentUpon>CreateProject.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DebugConsole.xaml.cs">
+      <DependentUpon>DebugConsole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InternalClasses\ConsoleContent.cs" />
     <Compile Include="InternalClasses\ReferenceGridViewItem.cs" />
     <Compile Include="InternalClasses\Dialogs\AbstractDialog.cs" />
     <Compile Include="InternalClasses\Dialogs\DialogsFactory.cs" />
@@ -98,6 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="DebugConsole.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ReferenceManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -131,14 +139,6 @@
       <Name>VisualCore</Name>
       <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\SolutionExplorerIcons\p.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\SolutionExplorerIcons\project.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -19,7 +19,7 @@
         <KeyBinding Modifiers="Shift" Key="F5" Command="NotACommand"/>
     </defaultControlsPack:ModernWindow.InputBindings>
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <StatusBar DockPanel.Dock="Bottom" Height="24" x:Name="StatusBar" Background="{StaticResource ActiveBrush}">
+        <StatusBar DockPanel.Dock="Bottom" x:Name="StatusBar" Background="{StaticResource ActiveBrush}">
             <TextBlock Margin="3,0,0,0" Text="{Binding StatusContent, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource BaseFont}"/>
             <StatusBarItem HorizontalAlignment="Right">
                 <ResizeGrip Opacity="0.75" />
@@ -130,7 +130,11 @@
                 </Grid.RowDefinitions>
                 <basicComponentsPack:WorkplaceTabs x:Name="WorkplaceTabs" Grid.Row="0"/>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
-                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top" x:Name="CenterBottomSegment" Grid.Row="2"/>
+                <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top" x:Name="CenterBottomSegment" Grid.Row="2">
+                    <defaultControlsPack:EnclosedTabItem Header="Output" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <basicComponentsPack:DebugConsole x:Name="DebugConsole" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    </defaultControlsPack:EnclosedTabItem>
+                </defaultControlsPack:EnclosedTabControl>
             </Grid>
             <Grid Grid.Column="4">
                 <Grid.RowDefinitions>

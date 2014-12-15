@@ -63,11 +63,6 @@ namespace ImplementationPlan
                 globalGraph.Edges.AddRange(graph.Edges);
             }
             globalGraph = Optimization.OptimizateGraph(globalGraph, countCPU);
-            foreach (var vertex in globalGraph.Vertices)
-            {
-                Debug.WriteLine(vertex.Content, "VERTEX_CONTENT");
-                Debug.WriteLine(vertex.Level, "LEVEL");
-            }
             CountTacts = globalGraph.GetMaxLevel();
             CountCPU = globalGraph.GetMaxOperationsInLevel();
         }

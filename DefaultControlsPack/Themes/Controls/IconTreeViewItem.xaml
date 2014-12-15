@@ -19,7 +19,7 @@
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Collapsed">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Expanded">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
@@ -31,7 +31,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Path x:Name="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1,1,1,1" Data="{StaticResource RightArrow}" Fill="{StaticResource BorderBrush}" Stroke="{StaticResource BaseFontBrush}" StrokeThickness="0.5"/>
-                        <Path x:Name="Expanded" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1,1,1,1" Data="{StaticResource DownArrow}" Fill="{StaticResource BorderBrush}" Stroke="{StaticResource BaseFontBrush}" StrokeThickness="0.5" Visibility="Hidden"/>
+                        <Path x:Name="Expanded" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1,1,1,1" Data="{StaticResource DownArrow}" Fill="{StaticResource BorderBrush}" Stroke="{StaticResource BaseFontBrush}" StrokeThickness="0.5" Visibility="Collapsed"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

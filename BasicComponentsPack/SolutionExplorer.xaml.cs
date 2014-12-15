@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using BasicComponentsPack.InternalClasses;
 using Core.Atoms;
 using Core.Serializers;
@@ -14,8 +13,8 @@ using Core.Serializers.SerializationModels.ProjectModels;
 using Core.Serializers.SerializationModels.SolutionModels;
 using Microsoft.Win32;
 using Core.Converters;
+using VisualCore;
 using VisualCore.Events;
-using System.Windows.Media.Imaging;
 
 namespace BasicComponentsPack
 {
@@ -43,6 +42,17 @@ namespace BasicComponentsPack
         {
             add { AddHandler(SetProjectEvent, value); }
             remove { RemoveHandler(SetProjectEvent, value); }
+        }
+        #endregion
+
+        #region ErrorException
+        public static readonly RoutedEvent ErrorExceptionEvent = EventManager.RegisterRoutedEvent("ErrorException",
+            RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(SolutionExplorer));
+
+        public event RoutedEventHandler ErrorException
+        {
+            add { AddHandler(ErrorExceptionEvent, value); }
+            remove { RemoveHandler(ErrorExceptionEvent, value); }
         }
         #endregion
 
@@ -79,10 +89,7 @@ namespace BasicComponentsPack
             return !_elementRevealers.ContainsKey(System.IO.Path.GetExtension(filePath)) ? CreateDefaultTreeItem(filePath, title) : _elementRevealers[System.IO.Path.GetExtension(filePath)](filePath, title);
         }
 
-        private SolutionTreeItem CreateDefaultTreeItem(string filePath, string title)
-        {
-            return new SolutionTreeItem { FilePath = filePath, Title = title };
-        }
+        
 
         public void DefineRevealer(string extention, Func<string,string, SolutionTreeItem> revealer)
         {
@@ -99,7 +106,7 @@ namespace BasicComponentsPack
             }
             catch (Exception e)
             {
-               // RaiseEvent(new RoutedEventArgs(ErrorExceptionEvent, e.Message));
+               RaiseEvent(new RoutedEventArgs(ErrorExceptionEvent, e.Message));
             }
         }
 
@@ -108,66 +115,114 @@ namespace BasicComponentsPack
             SearchTreeView.ItemsSource = null;
             if (!String.IsNullOrEmpty(CurrentSolutionPath))
             {
-                Solution solution;
-                var serializer = SerializersFactory.GetSerializer();
-                serializer.DeserializeSolution(CurrentSolutionPath, out solution);
-                var result = PerformRevealer(CurrentSolutionPath, solution.Title);
-                foreach (var currentProjectView in solution.Projects.Select(project => PerformRevealer(Path.Combine(Path.GetDirectoryName(result.FilePath), project.Path), null)))
+                try
                 {
-                    Core.Serializers.SerializationModels.ProjectModels.Project currentProjectModel;
-                    serializer.DeserializeProject(currentProjectView.FilePath, out currentProjectModel);
-                    currentProjectView.Title = currentProjectModel.Title;
-                    if (currentProjectModel.Properties.Type == Core.Serializers.SerializationModels.ProjectTypes.Algorithm)
+                    Solution solution;
+                    var serializer = SerializersFactory.GetSerializer();
+                    serializer.DeserializeSolution(CurrentSolutionPath, out solution);
+                    var result = PerformRevealer(CurrentSolutionPath, solution.Title);
+                    foreach (
+                        var currentProjectView in
+                            solution.Projects.Select(
+                                project =>
+                                    PerformRevealer(Path.Combine(Path.GetDirectoryName(result.FilePath), project.Path),
+                                        null)))
                     {
-                        CurrentProjectPath = currentProjectView.FilePath;
+                        Core.Serializers.SerializationModels.ProjectModels.Project currentProjectModel;
+                        serializer.DeserializeProject(currentProjectView.FilePath, out currentProjectModel);
+                        currentProjectView.Title = currentProjectModel.Title;
+                        if (currentProjectModel.Properties.Type ==
+                            Core.Serializers.SerializationModels.ProjectTypes.Algorithm)
+                        {
+                            CurrentProjectPath = currentProjectView.FilePath;
+                        }
+                        var referenceCollection =
+                            PerformRevealer(currentProjectView.FilePath, "References");
+                        foreach (
+                            var currentReferenceView in
+                                currentProjectModel.References.Select(
+                                    reference => PerformRevealer(reference.ProjectPath, reference.ProjectTitle)))
+                        {
+                            referenceCollection.Items.Add(currentReferenceView);
+                        }
+                        currentProjectView.Items.Add(referenceCollection);
+                        foreach (
+                            var currentFileView in
+                                currentProjectModel.Files.Select(
+                                    file =>
+                                        PerformRevealer(
+                                            Path.Combine(Path.GetDirectoryName(currentProjectView.FilePath), file.Path),
+                                            Path.GetFileName(file.Path))))
+                        {
+                            currentProjectView.Items.Add(currentFileView);
+                        }
+                        result.Items.Add(currentProjectView);
                     }
-                    var referenceCollection =
-                        PerformRevealer(currentProjectView.FilePath, "References");
-                    foreach (var currentReferenceView in currentProjectModel.References.Select(reference => PerformRevealer(reference.ProjectPath, reference.ProjectTitle)))
-                    {
-                        referenceCollection.Items.Add(currentReferenceView);
-                    }
-                    currentProjectView.Items.Add(referenceCollection);
-                    foreach (var currentFileView in currentProjectModel.Files.Select(file => PerformRevealer(Path.Combine(Path.GetDirectoryName(currentProjectView.FilePath), file.Path), Path.GetFileName(file.Path))))
-                    {
-                        currentProjectView.Items.Add(currentFileView);
-                    }
-                    result.Items.Add(currentProjectView);
+                    var solutions = new List<SolutionTreeItem> {result};
+                    SearchTreeView.ItemsSource = solutions;
                 }
-                var solutions = new List<SolutionTreeItem> {result};
-                SearchTreeView.ItemsSource = solutions;
+                catch (Exception e)
+                {
+                    RaiseEvent(new RoutedEventArgs(ErrorExceptionEvent, e.Message));
+                }
             }
         }
 
         public SolutionExplorer()
         {
             InitializeComponent();
-            _elementRevealers = new Dictionary<string, Func<string, string, SolutionTreeItem>>()
+            _elementRevealers = new Dictionary<string, Func<string, string, SolutionTreeItem>>
             {
                 {".qpr", CreateProjectTreeItem},
-                {".fc", CreateFlowChartTreeItem}
+                {".fc", CreateFlowChartTreeItem},
+                {".ip", CreateImplementationPlanTreeItem},
+                {".qsln", CreateSolutionTreeItem},
+            };
+        }
+
+        private SolutionTreeItem CreateDefaultTreeItem(string filePath, string title)
+        {
+            return new SolutionTreeItem { FilePath = filePath, Title = title };
+        }
+
+        private SolutionTreeItem CreateSolutionTreeItem(string filePath, string title)
+        {
+            return new SolutionTreeItem
+            {
+                FilePath = filePath,
+                Title = title,
+                Icon = Helpers.XamlClone(FindResource("SolutionIcon") as System.Windows.Shapes.Path)
+            };
+        }
+
+        private SolutionTreeItem CreateImplementationPlanTreeItem(string filePath, string title)
+        {
+            return new SolutionTreeItem
+            {
+                FilePath = filePath,
+                Title = title,
+                Icon = Helpers.XamlClone(FindResource("ImplementationPlanIcon") as System.Windows.Shapes.Path)
             };
         }
 
         private SolutionTreeItem CreateProjectTreeItem(string filePath, string title)
         {
-            var result = new SolutionTreeItem { FilePath = filePath, Title = title };
-            var path = new System.Windows.Shapes.Path();
-            path.Stretch = Stretch.Fill;
-            path.Fill = FindResource("ActiveBrush") as SolidColorBrush;
-            path.Width = 16;
-            path.Height = 16;
-            path.VerticalAlignment = VerticalAlignment.Center;
-            path.Data = FindResource("RightArrow") as Geometry;
-            result.Icon = path;
-            return result;
+            return new SolutionTreeItem
+            {
+                FilePath = filePath,
+                Title = title,
+                Icon = Helpers.XamlClone(FindResource("ProjectIcon") as System.Windows.Shapes.Path)
+            };
         }
 
         private SolutionTreeItem CreateFlowChartTreeItem(string filePath, string title)
         {
-            var result = new SolutionTreeItem { FilePath = filePath, Title = title };
-            //result.Icon = FindResource("SolutionIcon") as Image;
-            return result;
+            return new SolutionTreeItem
+            {
+                FilePath = filePath,
+                Title = title,
+                Icon = Helpers.XamlClone(FindResource("FlowChartIcon") as System.Windows.Shapes.Path)
+            };
         }
 
         public void CloseSolutionListener(object sender, RoutedEventArgs e)
@@ -248,9 +303,11 @@ namespace BasicComponentsPack
         private void CreateProject(string folder, string title, int projectType)
         {
             var projectTitile = title;
-            var newProject = new Core.Serializers.SerializationModels.ProjectModels.Project();
-            newProject.Title = projectTitile;
-            newProject.Properties.Type = projectType==0 ? ProjectTypes.Function : ProjectTypes.Algorithm;
+            var newProject = new Core.Serializers.SerializationModels.ProjectModels.Project
+            {
+                Title = projectTitile,
+                Properties = {Type = projectType == 0 ? ProjectTypes.Function : ProjectTypes.Algorithm}
+            };
             newProject.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File { Path = "FlowChart.fc" });
             var references = new List<Reference>();
             var globalReferenceDirectory = new DirectoryInfo("BasicFunctions");
@@ -270,7 +327,7 @@ namespace BasicComponentsPack
                 }
             }
             newProject.References = references;
-            var solution = new Core.Serializers.SerializationModels.SolutionModels.Solution();
+            Solution solution;
             SerializersFactory.GetSerializer().DeserializeSolution(CurrentSolutionPath, out solution);
             solution.Projects.Add(new Core.Serializers.SerializationModels.SolutionModels.Project { Path = string.Format("{0}\\{0}.qpr", folder), Title = newProject.Title, Type = newProject.Properties.Type });
             Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder));
@@ -290,9 +347,11 @@ namespace BasicComponentsPack
 
         public void ReferenceManagerListener(object sender, RoutedEventArgs e)
         {
-            var referenceDialog = new ReferenceManager();
-            referenceDialog.CurrentSolutionPath = CurrentSolutionPath;
-            referenceDialog.CurrentProjectPath = CurrentProjectPath;
+            var referenceDialog = new ReferenceManager
+            {
+                CurrentSolutionPath = CurrentSolutionPath,
+                CurrentProjectPath = CurrentProjectPath
+            };
             if (referenceDialog.ShowDialog() == true)
             {
                 Core.Serializers.SerializationModels.ProjectModels.Project currentProject;
@@ -306,5 +365,6 @@ namespace BasicComponentsPack
         public void BeforeCompilerListener(object sender, RoutedEventArgs e)
         {
         }
+
     }
 }

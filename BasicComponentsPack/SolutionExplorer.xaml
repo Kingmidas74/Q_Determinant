@@ -8,8 +8,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/DefaultControlsPack;component/Themes/Resources/Container.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Path x:Key="SI" Stretch="Fill" Fill="{StaticResource ActiveBrush}" Data="{StaticResource RightArrow}" Width="16" Height="16" VerticalAlignment="Center"/>
-            <Image x:Key="SolutionIcon" Width="16" Height="16" Source="Assets/SolutionExplorerIcons/icon.png"/>
+            <Path x:Key="FlowChartIcon" Stretch="Fill" Fill="{StaticResource BaseFontBrush}" Data="{StaticResource RightArrow}" Width="16" Height="16" VerticalAlignment="Center"/>
+            <Path x:Key="ImplementationPlanIcon" Stretch="Fill" Fill="{StaticResource SuccessBrush}" Data="{StaticResource RightArrow}" Width="16" Height="16" VerticalAlignment="Center"/>
+            <Path x:Key="ProjectIcon" Stretch="Fill" Fill="{StaticResource ActiveBrush}" Data="{StaticResource RightArrow}" Width="16" Height="16" VerticalAlignment="Center"/>
+            <Path x:Key="SolutionIcon" Stretch="Fill" Fill="{StaticResource ErrorBrush}" Data="{StaticResource RightArrow}" Width="16" Height="16" VerticalAlignment="Center"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -19,6 +21,8 @@
                 <Setter Property="FontSize" Value="14"/>
                 <EventSetter Event="MouseLeftButtonDown" Handler="ChooseTreeElement"/>
             </Style>
+            
+            
             
             <HierarchicalDataTemplate x:Key="Level4" DataType="{x:Type internalClasses:SolutionTreeItem}" ItemsSource = "{Binding Path=Items}">
                 <StackPanel Orientation="Horizontal">

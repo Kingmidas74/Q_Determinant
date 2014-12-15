@@ -36,10 +36,13 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ICompile.cs" />
     <Compile Include="Events\ISetProjectAndSolution.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="ITabContent.cs" />
     <Compile Include="ISaveable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

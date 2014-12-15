@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using BasicComponentsPack;
+using BasicComponentsPack.InternalClasses;
 using PluginController;
+using VisualCore;
 using VisualCore.Events;
 
 namespace CodeGeneration
@@ -62,7 +64,18 @@ namespace CodeGeneration
             _generateButton.SE = _containers[2] as SolutionExplorer;
             toolBar.Items.Add(_generateButton);
             (_containers[3] as WorkplaceTabs).DefineRevealer(".gc", AddCodeEditor);
+            (_containers[2] as SolutionExplorer).DefineRevealer(".gc", CreateCodeGenerationItem);
             //MessageBox.Show((containers[2] as SolutionExplorer).CurrentSolutionPath);
+        }
+
+        private BasicComponentsPack.InternalClasses.SolutionTreeItem CreateCodeGenerationItem(string filePath, string title)
+        {
+            return new SolutionTreeItem
+            {
+                FilePath = filePath,
+                Title = title,
+                Icon = Helpers.XamlClone((new GenerationButton()).FindName("CGIcon") as System.Windows.Shapes.Path)
+            };
         }
 
         private DefaultControlsPack.EnclosedTabItem AddCodeEditor(System.IO.FileInfo file)

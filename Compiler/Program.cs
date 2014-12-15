@@ -17,6 +17,7 @@ namespace Compiler
     {
         private static Adapter<IDeterminant, IPlan> _adapter;
         private static string _solutionPath;
+        private static ulong _maxCPU;
 
         private static Dictionary<string, FunctionPriorities> _functionPrioritieses = new Dictionary
             <string, FunctionPriorities>
@@ -66,6 +67,9 @@ namespace Compiler
             _adapter.CalculateDeterminant();
             _adapter.SetVariables(currentProject.SignificantVariables);
             _adapter.FindPlan();
+            Console.WriteLine("OPT");
+            _adapter.OptimizePlan(_maxCPU);
+            Console.WriteLine("OPT");
             var result = _adapter.GetPlan();
             var data = Converter.GraphToData(result, ConverterFormats.JSON);
             System.IO.File.WriteAllText(Path.Combine(Path.GetDirectoryName(projectPath), "ImplementationPlan.ip"),
@@ -108,7 +112,10 @@ namespace Compiler
             var status = new StringBuilder("");
             try
             {
-                _solutionPath = args[0];
+                /*_solutionPath = args[0];
+                _maxCPU = ulong.Parse(args[1]);*/
+                _solutionPath = @"D:\tempforQ\02122014\SV.qsln";
+                _maxCPU = 2;
                 Core.Serializers.SerializationModels.SolutionModels.Solution solution;
                 SerializersFactory.GetSerializer().DeserializeSolution(_solutionPath, out solution);
                 foreach (var project in solution.Projects.Where(x=>x.Type==Core.Serializers.SerializationModels.ProjectTypes.Algorithm))
@@ -122,6 +129,7 @@ namespace Compiler
                 status.Append(e);
             }
             Console.WriteLine(status.ToString());
+            Console.ReadLine();
         }
     }
 }

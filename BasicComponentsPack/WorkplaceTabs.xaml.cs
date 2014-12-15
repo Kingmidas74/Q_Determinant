@@ -17,7 +17,7 @@ namespace BasicComponentsPack
 
         #region ErrorException
         public static readonly RoutedEvent ErrorExceptionEvent = EventManager.RegisterRoutedEvent("ErrorException",
-            RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(WorkplaceTabs));
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(WorkplaceTabs));
 
         public event RoutedEventHandler ErrorException
         {

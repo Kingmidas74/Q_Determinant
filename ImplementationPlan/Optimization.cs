@@ -142,10 +142,14 @@ namespace ImplementationPlan
 
         internal static Graph OptimizateGraph(Graph graph, ulong maxVertexOnLevel)
         {
+            Debug.WriteLine("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
             if (maxVertexOnLevel > graph.GetMaxLevel())
             {
+                
+                Debug.WriteLine("EQ");
                 return graph;
             }
+            Debug.WriteLine("NEQ");
             var oldVertices = graph.Vertices.FindAll(x=>x.Level>0);
             var newVertices = new List<Block>();
             ulong currentLevel = 1;

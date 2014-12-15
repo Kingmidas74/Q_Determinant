@@ -4,9 +4,11 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/DefaultControlsPack;component/Themes/Resources/Container.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DefaultControlsPack;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Canvas x:Name="ViewerContent" />
+    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Canvas x:Name="ViewerContent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    </ScrollViewer>
 </UserControl>

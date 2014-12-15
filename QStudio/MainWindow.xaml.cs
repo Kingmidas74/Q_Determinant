@@ -159,28 +159,7 @@ namespace QStudio
 
         private void CompilerClick(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(SolutionExplorer.CurrentSolutionPath))
-            {
-                RaiseEvent(new RoutedEventArgs(BeforeCompilerEvent));
-                var currentSolutionPath = SolutionExplorer.CurrentSolutionPath;
-                var p = new Process();
-                var startupstring = new StringBuilder(" ");
-                startupstring.Append(currentSolutionPath).Append(" ").Append(4);
-
-                p.StartInfo.FileName = @"Compiler.exe";
-                p.StartInfo.Arguments = startupstring.ToString();
-                //p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.StandardOutputEncoding = Encoding.GetEncoding(866);
-                p.StartInfo.CreateNoWindow = true;
-                //p.OutputDataReceived += WriteToLog;
-                p.Start();
-                p.BeginOutputReadLine();
-                p.WaitForExit();
-                // WriteLog(_compilerResultString.ToString());
-                RaiseEvent(new RoutedEventArgs(AfterCompilerEvent)); /**/
-            }
+            CompileSolution(SolutionExplorer.CurrentSolutionPath, 4);
         }
 
         private void OpenSolutionClick(object sender, RoutedEventArgs e)
@@ -191,6 +170,11 @@ namespace QStudio
         private void NewSolutionClick(object sender, RoutedEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(NewSolutionEvent));
+        }
+
+        private void OpenSolutionByPathListener(object sender, RoutedEventArgs e)
+        {
+            SolutionExplorer.CurrentSolutionPath = e.OriginalSource.ToString();
         }
 
         private void NewProjectClick(object sender, RoutedEventArgs e)
@@ -249,6 +233,10 @@ namespace QStudio
             AddHandler(BasicComponentsPack.SolutionExplorer.SelectingFileEvent, new RoutedEventHandler(SelectedFile));
             AddHandler(BasicComponentsPack.SolutionExplorer.SetProjectEvent, new RoutedEventHandler(SetProjectHandler));
             AddHandler(BasicComponentsPack.WorkplaceTabs.ErrorExceptionEvent, new RoutedEventHandler(ErrorHandler));
+            AddHandler(BasicComponentsPack.DebugConsole.ErrorExceptionEvent, new RoutedEventHandler(ErrorHandler));
+            AddHandler(BasicComponentsPack.DebugConsole.OpenSolutionEvent, new RoutedEventHandler(OpenSolutionByPathListener));
+            AddHandler(BasicComponentsPack.DebugConsole.CompileSolutionEvent, new RoutedEventHandler(CompileSolutionListener));
+            AddHandler(BasicComponentsPack.SolutionExplorer.ErrorExceptionEvent, new RoutedEventHandler(ErrorHandler));
             AddHandler(SelectingFileEvent, new RoutedEventHandler(WorkplaceTabs.SelectedFileListener));
             AddHandler(SaveAllEvent, new RoutedEventHandler(WorkplaceTabs.SaveAllListener));
             AddHandler(CloseSolutionEvent, new RoutedEventHandler(WorkplaceTabs.CloseSolutionListener));
@@ -260,7 +248,38 @@ namespace QStudio
             AddHandler(BeforeCompilerEvent, new RoutedEventHandler(WorkplaceTabs.BeforeCompilerListener));
             AddHandler(AfterCompilerEvent, new RoutedEventHandler(WorkplaceTabs.AfterCompilerListener));
             AddHandler(NewProjectEvent, new RoutedEventHandler(SolutionExplorer.NewProjectListener));
-            AddHandler(ErrorEvent, new RoutedEventHandler(ErrorMessage));
+            AddHandler(ErrorEvent, new RoutedEventHandler(DebugConsole.ErrorListener));
+        }
+
+        private void CompileSolutionListener(object sender, RoutedEventArgs e)
+        {
+            CompileSolution(SolutionExplorer.CurrentSolutionPath, ulong.Parse(e.OriginalSource.ToString()));
+        }
+
+        private void CompileSolution(string path = null, ulong maxCPU = 0)
+        {
+            if (!String.IsNullOrEmpty(path))
+            {
+                RaiseEvent(new RoutedEventArgs(BeforeCompilerEvent));
+                var p = new Process();
+                var startupstring = new StringBuilder(" ");
+                startupstring.Append(path).Append(" ").Append(maxCPU);
+
+                p.StartInfo.FileName = @"Compiler.exe";
+                MessageBox.Show(startupstring.ToString());
+                p.StartInfo.Arguments = startupstring.ToString();
+                //p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.RedirectStandardOutput = true;
+                p.StartInfo.StandardOutputEncoding = Encoding.GetEncoding(866);
+                //p.StartInfo.CreateNoWindow = true;
+                //p.OutputDataReceived += WriteToLog;
+                p.Start();
+                p.BeginOutputReadLine();
+                p.WaitForExit();
+                // WriteLog(_compilerResultString.ToString());
+                RaiseEvent(new RoutedEventArgs(AfterCompilerEvent)); /**/
+            }
         }
 
         private void SetProjectHandler(object sender, RoutedEventArgs e)

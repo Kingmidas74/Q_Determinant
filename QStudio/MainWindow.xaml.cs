@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using BasicComponentsPack;
 using PluginController;
 using System.Diagnostics;
@@ -266,19 +268,23 @@ namespace QStudio
                 startupstring.Append(path).Append(" ").Append(maxCPU);
 
                 p.StartInfo.FileName = @"Compiler.exe";
-                MessageBox.Show(startupstring.ToString());
                 p.StartInfo.Arguments = startupstring.ToString();
-                //p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.RedirectStandardOutput = true;
                 p.StartInfo.StandardOutputEncoding = Encoding.GetEncoding(866);
-                //p.StartInfo.CreateNoWindow = true;
-                //p.OutputDataReceived += WriteToLog;
+                p.StartInfo.CreateNoWindow = true;
+                p.OutputDataReceived +=
+                    (sender, e) =>
+                        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, (ThreadStart) (() =>
+                            RaiseEvent(new RoutedEventArgs(ErrorEvent, e.Data))));
                 p.Start();
                 p.BeginOutputReadLine();
                 p.WaitForExit();
-                // WriteLog(_compilerResultString.ToString());
-                RaiseEvent(new RoutedEventArgs(AfterCompilerEvent)); /**/
+                RaiseEvent(new RoutedEventArgs(AfterCompilerEvent));
+            }
+            else
+            {
+                RaiseEvent(new RoutedEventArgs(ErrorEvent, String.Format("No availible {0}", path)));
             }
         }
 

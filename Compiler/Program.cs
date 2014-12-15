@@ -112,10 +112,10 @@ namespace Compiler
             var status = new StringBuilder("");
             try
             {
-                /*_solutionPath = args[0];
-                _maxCPU = ulong.Parse(args[1]);*/
-                _solutionPath = @"D:\tempforQ\02122014\SV.qsln";
-                _maxCPU = 2;
+                _solutionPath = args[0];
+                _maxCPU = ulong.Parse(args[1]);
+                /*_solutionPath = @"D:\tempforQ\02122014\SV.qsln";
+                _maxCPU = 2;*/
                 Core.Serializers.SerializationModels.SolutionModels.Solution solution;
                 SerializersFactory.GetSerializer().DeserializeSolution(_solutionPath, out solution);
                 foreach (var project in solution.Projects.Where(x=>x.Type==Core.Serializers.SerializationModels.ProjectTypes.Algorithm))
@@ -129,7 +129,7 @@ namespace Compiler
                 status.Append(e);
             }
             Console.WriteLine(status.ToString());
-            Console.ReadLine();
+           // Console.ReadLine();
         }
     }
 }

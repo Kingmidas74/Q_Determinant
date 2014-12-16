@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
-using System.Windows.Documents;
-using CodeGeneration.InternalClasses;
 using Core.Atoms;
 using Core.Converters;
 using Core.Serializers;

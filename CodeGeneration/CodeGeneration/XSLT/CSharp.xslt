@@ -9,7 +9,7 @@
 	<xsl:template match="*/text()[not(normalize-space())]" />
 
 	<xsl:template match="/">#include "mpi.h";
-<xsl:for-each select="//Vertices/CGBlock[Level>0][not(preceding::Content = Content)]">private void Func_<xsl:value-of select="position()"/>(<xsl:variable name="CurrentId" select="Id"/><xsl:for-each select="//Edges/Link[To=$CurrentId]">var In_<xsl:value-of select="position()"/><xsl:if test="position()!=last()">,</xsl:if></xsl:for-each>)
+<xsl:for-each select="//Vertices/CGBlock[Level>0][not(preceding::Content = Content)]"> void <xsl:value-of select="Alias"/>(<xsl:variable name="CurrentId" select="Id"/><xsl:for-each select="//Edges/Link[To=$CurrentId]">var In_<xsl:value-of select="position()"/><xsl:if test="position()!=last()">,</xsl:if></xsl:for-each>)
 {
 	return In_1<xsl:value-of select="Content"/>In_2;
 }

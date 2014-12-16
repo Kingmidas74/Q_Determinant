@@ -44,33 +44,21 @@ namespace CodeGeneration
         {
             var outputPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(currentPlan),
                 System.IO.Path.GetFileNameWithoutExtension(currentPlan) + ".gc");
-            Debug.WriteLine(currentPlan);
             var tempGraph = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(currentPlan), ConverterFormats.JSON);
-            Debug.WriteLine(tempGraph);
-            var newVertices = new List<CGBlock>();
-            foreach (var vertex in tempGraph.Vertices)
+            var _functionAliases = new Dictionary<string, string>
             {
-                var _v = new CGBlock()
-                {
-                    Alias = "123",
-                    Content = vertex.Content,
-                    Id = vertex.Id,
-                    Level = vertex.Level,
-                    Type = vertex.Type
-                };
-                newVertices.Add(new CGBlock()
-                {
-                    Alias = "123",
-                    Content = vertex.Content,
-                    Id = vertex.Id,
-                    Level = vertex.Level,
-                    Type = vertex.Type
-                });
-            }
-            var _tempGraph = new CGGraph(newVertices, tempGraph.Edges);
+                {"||","OR_ALIAS"},{"&&","AND_ALIAS"},{"!","NEGATIVE_ALIAS"},
+                {">","MORE_ALIAS"},{"<","LESS_ALIAS"},{">=","GTE_ALIAS"},{"<=","LTE_ALIAS"},
+                {"==","EQUAL_ALIAS"},{"!=","NOTEQUAL_ALIAS"},
+                {"+","ADD_ALIAS"},{"-","SUB_ALIAS"},
+                {"*","MUL_ALIAS"},{"/","DIV_ALIAS"},
+            };
             var xmlDocument =
                 Converter.GraphToData(
-                    _tempGraph,
+                    new CGGraph(tempGraph.Vertices.Select(vertex => new CGBlock()
+                    {
+                        Alias = _functionAliases.ContainsKey(vertex.Content) ? _functionAliases[vertex.Content] : vertex.Content, Content = vertex.Content, Id = vertex.Id, Level = vertex.Level, Type = vertex.Type
+                    }).ToList(), tempGraph.Edges),
                     ConverterFormats.XML);
             using (var sr = new StringReader(xmlDocument))
             {

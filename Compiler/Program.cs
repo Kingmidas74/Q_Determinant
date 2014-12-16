@@ -57,13 +57,16 @@ namespace Compiler
             projectPath = Path.Combine(Path.GetDirectoryName(_solutionPath), projectPath);
             Console.WriteLine("Compile project: {0}", projectPath);
             var configs = XDocument.Load(@"config.xml");
+            Console.WriteLine("CCreate" + projectPath);
             Core.Serializers.SerializationModels.ProjectModels.Project currentProject;
             SerializersFactory.GetSerializer().DeserializeProject(projectPath, out currentProject);
+            Console.WriteLine("CCreate" + projectPath);
             CreateAdapter(configs, currentProject);
             var flowchartFilePath = Path.Combine(Path.GetDirectoryName(projectPath),
                 currentProject.Files.First(x => Path.GetExtension(x.Path).Equals(".fc")).Path);
             _adapter.FlowChart = Converter.DataToGraph(System.IO.File.ReadAllText(flowchartFilePath),
                 ConverterFormats.JSON);
+            Console.WriteLine("Adapter created");
             _adapter.CalculateDeterminant();
             _adapter.SetVariables(currentProject.SignificantVariables);
             _adapter.FindPlan();
@@ -88,18 +91,21 @@ namespace Compiler
 
         private static void CreateAdapter(XContainer configXml, Core.Serializers.SerializationModels.ProjectModels.Project project)
         {
+            Console.WriteLine("PATH TO Q"+configXml.Element("Settings").Element("QDeterminant").Attribute("Path").Value);
             var qDeterminantFile = Assembly.LoadFile(configXml.Element("Settings").Element("QDeterminant").Attribute("Path").Value);
             IDeterminant qDeterminant = null;
             foreach (var type in qDeterminantFile.GetTypes().Where(type => type.GetInterfaces().Any(currentInterface => currentInterface.ToString().Equals("Core.Interfaces.IDeterminant"))))
             {
                 qDeterminant = (IDeterminant)Activator.CreateInstance(type);
             }
+            Console.WriteLine("QCreate");
             var implementationPlanFile = Assembly.LoadFile(configXml.Element("Settings").Element("ImplementationPlan").Attribute("Path").Value);
             IPlan implementationPlan = null;
             foreach (var type in implementationPlanFile.GetTypes().Where(type => type.GetInterfaces().Any(currentInterface => currentInterface.ToString().Equals("Core.Interfaces.IPlan"))))
             {
                 implementationPlan = (IPlan)Activator.CreateInstance(type);
             }
+            Console.WriteLine("IPCreate");
             var functions = GetFunctions(project);
             _adapter = new Adapter<IDeterminant, IPlan>(qDeterminant, implementationPlan, functions);
         }

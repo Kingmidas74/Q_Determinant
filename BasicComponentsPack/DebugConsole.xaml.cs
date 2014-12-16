@@ -96,10 +96,10 @@ namespace BasicComponentsPack
             RaiseEvent(new RoutedEventArgs(CompileSolutionEvent, command));
         }
 
-        private void OpenSolutionCommand(string PathToSolution = null)
+        private void OpenSolutionCommand(string pathToSolution = null)
         {
-            PathToSolution = PathToSolution.Split(' ')[1];
-            RaiseEvent(new RoutedEventArgs(OpenSolutionEvent, PathToSolution));
+            pathToSolution = pathToSolution.Split(' ')[1];
+            RaiseEvent(new RoutedEventArgs(OpenSolutionEvent, pathToSolution));
         }
         public DebugConsole()
         {

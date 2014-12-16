@@ -69,7 +69,7 @@ namespace BasicComponentsPack
         }
 
         private string _currentProjectPath = String.Empty;
-
+        
         public string CurrentProjectPath
         {
             get { return _currentProjectPath; }
@@ -191,6 +191,7 @@ namespace BasicComponentsPack
             {
                 FilePath = filePath,
                 Title = title,
+                Enabled = false,
                 Icon = Helpers.XamlClone(FindResource("SolutionIcon") as System.Windows.Shapes.Path)
             };
         }
@@ -211,6 +212,7 @@ namespace BasicComponentsPack
             {
                 FilePath = filePath,
                 Title = title,
+                Enabled = false,
                 Icon = Helpers.XamlClone(FindResource("ProjectIcon") as System.Windows.Shapes.Path)
             };
         }

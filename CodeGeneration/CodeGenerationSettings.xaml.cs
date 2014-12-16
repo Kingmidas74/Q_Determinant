@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using CodeGeneration.InternalClasses;
+using Core.Atoms;
 using Core.Converters;
 using Core.Serializers;
 using Core.Serializers.SerializationModels;
@@ -44,11 +45,11 @@ namespace CodeGeneration
                 project.Path);
             var result = new EnclosedTabItem {Header = project.Title};
             var variables = new List<string>();
-            foreach (var variable in Converter.DataToGraph(System.IO.File.ReadAllText(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(pathToProject),"ImplementationPlan.ip")),ConverterFormats.JSON).Vertices.Where(x=>x.Level==0))
+            foreach (var variable in Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(pathToProject),"ImplementationPlan.ip")),ConverterFormats.JSON).Vertices.Where(x=>x.Level==0))
             {
                 decimal d;
-                long l;
-                if (!(Decimal.TryParse(variable.Content, out d ) || long.TryParse(variable.Content, out l)))
+                double l;
+                if (!(Decimal.TryParse(variable.Content, out d) || Double.TryParse(variable.Content, out l)))
                 {
                     variables.Add(variable.Content);
                 }

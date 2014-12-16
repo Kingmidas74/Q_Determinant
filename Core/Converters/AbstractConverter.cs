@@ -4,8 +4,8 @@ namespace Core.Converters
 {
     internal abstract class AbstractConverter
     {
-        internal abstract Graph DataToGraph(string data);
+        internal abstract T DataToGraph<T>(string data);
 
-        internal abstract string GraphToData(Graph graph);
+        internal abstract string GraphToData<T>(T graph);
     }
 }

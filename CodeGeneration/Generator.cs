@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Documents;
 using System.Xml;
 using System.Xml.Xsl;
+using CodeGeneration.InternalClasses;
+using Core.Atoms;
 using Core.Converters;
 using Core.Serializers;
 using Core.Serializers.SerializationModels;
@@ -39,9 +44,33 @@ namespace CodeGeneration
         {
             var outputPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(currentPlan),
                 System.IO.Path.GetFileNameWithoutExtension(currentPlan) + ".gc");
+            Debug.WriteLine(currentPlan);
+            var tempGraph = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(currentPlan), ConverterFormats.JSON);
+            Debug.WriteLine(tempGraph);
+            var newVertices = new List<CGBlock>();
+            foreach (var vertex in tempGraph.Vertices)
+            {
+                var _v = new CGBlock()
+                {
+                    Alias = "123",
+                    Content = vertex.Content,
+                    Id = vertex.Id,
+                    Level = vertex.Level,
+                    Type = vertex.Type
+                };
+                newVertices.Add(new CGBlock()
+                {
+                    Alias = "123",
+                    Content = vertex.Content,
+                    Id = vertex.Id,
+                    Level = vertex.Level,
+                    Type = vertex.Type
+                });
+            }
+            var _tempGraph = new CGGraph(newVertices, tempGraph.Edges);
             var xmlDocument =
                 Converter.GraphToData(
-                    Converter.DataToGraph(System.IO.File.ReadAllText(currentPlan), ConverterFormats.JSON),
+                    _tempGraph,
                     ConverterFormats.XML);
             using (var sr = new StringReader(xmlDocument))
             {

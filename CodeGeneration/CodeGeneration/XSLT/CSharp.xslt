@@ -9,7 +9,7 @@
 	<xsl:template match="*/text()[not(normalize-space())]" />
 
 	<xsl:template match="/">#include "mpi.h";
-<xsl:for-each select="//Vertices/Block[Level>0][not(preceding::Content = Content)]">private void Func_<xsl:value-of select="position()"/>(<xsl:variable name="CurrentId" select="Id"/><xsl:for-each select="//Edges/Link[To=$CurrentId]">var In_<xsl:value-of select="position()"/><xsl:if test="position()!=last()">,</xsl:if></xsl:for-each>)
+<xsl:for-each select="//Vertices/CGBlock[Level>0][not(preceding::Content = Content)]">private void Func_<xsl:value-of select="position()"/>(<xsl:variable name="CurrentId" select="Id"/><xsl:for-each select="//Edges/Link[To=$CurrentId]">var In_<xsl:value-of select="position()"/><xsl:if test="position()!=last()">,</xsl:if></xsl:for-each>)
 {
 	return In_1<xsl:value-of select="Content"/>In_2;
 }
@@ -25,10 +25,10 @@ int main(int argc, char *argv[]){
     int size;
     MPI_Comm_size(MPI_COMM_WORLD, &amp;size);
       
-    <xsl:for-each select="//Vertices/Block[Level=0][number(Content)!=Content]">var <xsl:value-of select="Content"/>;
+    <xsl:for-each select="//Vertices/CGBlock[Level=0][number(Content)!=Content]">var <xsl:value-of select="Content"/>;
     </xsl:for-each>
     
-    <xsl:for-each select="//Vertices/Block[Level=0][number(Content)=Content]">const<xsl:if test="contains(Content,'.')"> double </xsl:if><xsl:if test="not(contains(Content,'.'))"><xsl:if test="(Content='true') or (Content='false')"> bool </xsl:if><xsl:if test="(Content!='true') and (Content!='false')"> int </xsl:if></xsl:if> const_<xsl:value-of select="position()"/>=<xsl:value-of select="Content"/>;
+    <xsl:for-each select="//Vertices/CGBlock[Level=0][number(Content)=Content]">const<xsl:if test="contains(Content,'.')"> double </xsl:if><xsl:if test="not(contains(Content,'.'))"><xsl:if test="(Content='true') or (Content='false')"> bool </xsl:if><xsl:if test="(Content!='true') and (Content!='false')"> int </xsl:if></xsl:if> const_<xsl:value-of select="position()"/>=<xsl:value-of select="Content"/>;
     </xsl:for-each>
     MPI_Finalize();
     return result;

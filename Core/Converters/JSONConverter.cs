@@ -6,12 +6,12 @@ namespace Core.Converters
     internal class JSONConverter:AbstractConverter
     {
 
-        internal override Graph DataToGraph(string data)
+        internal override T DataToGraph<T>(string data)
         {
-            return JsonConvert.DeserializeObject<Graph>(data);
+            return JsonConvert.DeserializeObject<T>(data);
         }
 
-        internal override string GraphToData(Graph graph)
+        internal override string GraphToData<T>(T graph)
         {
             return JsonConvert.SerializeObject(graph);
         }

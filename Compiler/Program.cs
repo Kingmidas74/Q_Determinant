@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using Core.Adapter;
+using Core.Atoms;
 using Core.Converters;
 using Core.Interfaces;
 using Core.Serializers;
@@ -39,7 +40,7 @@ namespace Compiler
                     Core.Serializers.SerializationModels.ProjectModels.Project functionProject;
                     SerializersFactory.GetSerializer().DeserializeProject(reference.ProjectPath, out functionProject);
                     CompileProject(reference.ProjectPath);
-                    var implementationFunction = (from file in functionProject.Files where Path.GetExtension(file.Path).Equals(".ip") select Converter.DataToGraph(System.IO.File.ReadAllText(Path.Combine(Path.GetDirectoryName(reference.ProjectPath), file.Path)), ConverterFormats.JSON)).FirstOrDefault();
+                    var implementationFunction = (from file in functionProject.Files where Path.GetExtension(file.Path).Equals(".ip") select Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(Path.Combine(Path.GetDirectoryName(reference.ProjectPath), file.Path)), ConverterFormats.JSON)).FirstOrDefault();
                     functions.Add(new Function { 
                         Signature = functionProject.Title, 
                         Parameters = (ulong) implementationFunction.Vertices.LongCount(x => x.Level == 0),
@@ -64,7 +65,7 @@ namespace Compiler
             CreateAdapter(configs, currentProject);
             var flowchartFilePath = Path.Combine(Path.GetDirectoryName(projectPath),
                 currentProject.Files.First(x => Path.GetExtension(x.Path).Equals(".fc")).Path);
-            _adapter.FlowChart = Converter.DataToGraph(System.IO.File.ReadAllText(flowchartFilePath),
+            _adapter.FlowChart = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(flowchartFilePath),
                 ConverterFormats.JSON);
             Console.WriteLine("Adapter created");
             _adapter.CalculateDeterminant();

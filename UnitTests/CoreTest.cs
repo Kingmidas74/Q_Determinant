@@ -24,7 +24,7 @@ namespace UnitTests
             plan.FindPlan();
             var serializeraph = plan.GetPlan();
             var data = Converter.GraphToData(serializeraph, ConverterFormats.JSON);
-            var deserializeGraph = Converter.DataToGraph(data, ConverterFormats.JSON);
+            var deserializeGraph = Converter.DataToGraph<Graph>(data, ConverterFormats.JSON);
             Assert.AreEqual(serializeraph.Edges.Count, deserializeGraph.Edges.Count);
             Assert.AreEqual(serializeraph.Vertices.Count, deserializeGraph.Vertices.Count);
         }

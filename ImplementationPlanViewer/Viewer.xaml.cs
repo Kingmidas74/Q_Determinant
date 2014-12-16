@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Core.Atoms;
 using Core.Converters;
 
 namespace ImplementationPlanViewer
@@ -26,7 +27,7 @@ namespace ImplementationPlanViewer
         {
             _originalFileName = file.FullName;
             ViewerContent.Children.Clear();
-            var graph = Converter.DataToGraph(File.ReadAllText(file.FullName), ConverterFormats.JSON);
+            var graph = Converter.DataToGraph<Graph>(File.ReadAllText(file.FullName), ConverterFormats.JSON);
             const ulong startX = 30;
             const ulong startY = 30;
             var countBlocksInLevel = new Dictionary<ulong, ulong>();

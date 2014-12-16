@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\VariableTypes.cs" />
+    <Compile Include="InternalClasses\CGBlock.cs" />
+    <Compile Include="InternalClasses\CGGraph.cs" />
     <Compile Include="InternalClasses\VariableTypesGridViewItem.cs" />
     <Compile Include="SettingsProjectTabItem.xaml.cs">
       <DependentUpon>SettingsProjectTabItem.xaml</DependentUpon>

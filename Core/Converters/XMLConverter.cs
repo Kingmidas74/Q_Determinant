@@ -7,15 +7,15 @@ namespace Core.Converters
 {
     internal class XMLConverter : AbstractConverter
     {
-        internal override Graph DataToGraph(string data)
+        internal override T DataToGraph<T>(string data)
         {
-            return null;
+            return default(T);
         }
 
-        internal override string GraphToData(Graph graph)
+        internal override string GraphToData<T>(T graph)
         {
             var textWriter = new StringWriter();
-            (new XmlSerializer(typeof(Graph))).Serialize(textWriter, graph);
+            (new XmlSerializer(typeof(T))).Serialize(textWriter, graph);
             return textWriter.ToString();
         }
     }

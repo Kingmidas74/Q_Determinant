@@ -64,6 +64,15 @@ namespace CodeGeneration
 
         private void OKClick(object sender, RoutedEventArgs e)
         {
+            Core.Serializers.SerializationModels.SolutionModels.Solution solution;
+            SerializersFactory.GetSerializer().DeserializeSolution(currentSolutionPath, out solution);
+            foreach (var project in solution.Projects.Where(x => x.Type == ProjectTypes.Algorithm))
+            {
+                MessageBox.Show(Generator.ConvertWithTemplate(@"CodeGeneration\LanguagesTransformers\Cpp.xslt",null,
+                    System.IO.Path.Combine(System.IO.Path.GetDirectoryName(currentSolutionPath),
+                        project.Path)));
+            }
+            
             DialogResult = true;
         }
     }

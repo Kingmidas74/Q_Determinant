@@ -130,8 +130,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CodeGeneration\LanguagesTransformers\CSharp.xslt" />
-    <Resource Include="CodeGeneration\LanguagesTransformers\Java.xslt" />
+    <Content Include="CodeGeneration\LanguagesTransformers\CSharp.xslt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGeneration\LanguagesTransformers\Java.xslt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="CodeGeneration\MetaLanguage.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

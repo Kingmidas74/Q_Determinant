@@ -32,7 +32,7 @@ namespace CodeGeneration
             settingsWindow.SetSolutionPath(SE.CurrentSolutionPath);
             if (settingsWindow.ShowDialog() == true)
             {
-                Generator.GenerateByProject(SE.CurrentProjectPath);
+                //Generator.GenerateByProject(SE.CurrentProjectPath);
                 SE.CurrentSolutionPath = SE.CurrentSolutionPath;
             }
         }

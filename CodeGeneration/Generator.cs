@@ -4,8 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Windows;
 using System.Windows.Documents;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Xsl;
 using CodeGeneration.InternalClasses;
 using Core.Atoms;
@@ -45,7 +48,7 @@ namespace CodeGeneration
             var outputPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(currentPlan),
                 System.IO.Path.GetFileNameWithoutExtension(currentPlan) + ".gc");
             var tempGraph = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(currentPlan), ConverterFormats.JSON);
-            var _functionAliases = new Dictionary<string, string>
+            var functionAliases = new Dictionary<string, string>
             {
                 {"||","OR_ALIAS"},{"&&","AND_ALIAS"},{"!","NEGATIVE_ALIAS"},
                 {">","MORE_ALIAS"},{"<","LESS_ALIAS"},{">=","GTE_ALIAS"},{"<=","LTE_ALIAS"},
@@ -57,7 +60,7 @@ namespace CodeGeneration
                 Converter.GraphToData(
                     new CGGraph(tempGraph.Vertices.Select(vertex => new CGBlock()
                     {
-                        Alias = _functionAliases.ContainsKey(vertex.Content) ? _functionAliases[vertex.Content] : vertex.Content, Content = vertex.Content, Id = vertex.Id, Level = vertex.Level, Type = vertex.Type
+                        Alias = functionAliases.ContainsKey(vertex.Content) ? functionAliases[vertex.Content] : vertex.Content, Content = vertex.Content, Id = vertex.Id, Level = vertex.Level, Type = vertex.Type
                     }).ToList(), tempGraph.Edges),
                     ConverterFormats.XML);
             using (var sr = new StringReader(xmlDocument))
@@ -74,6 +77,27 @@ namespace CodeGeneration
                 }
             }
             return outputPath;
+        }
+
+        internal static string ConvertWithTemplate(string pathToXsl, Dictionary<string, string> variableTypes, string currentProjectPath)
+        {
+            var result = new StringBuilder("");
+            var contentFile = System.IO.File.ReadAllText(System.IO.Path.GetDirectoryName(currentProjectPath) +
+                                                         @"\ImplementationPlan.gc");
+            using (var sr = new StringReader(contentFile))
+            {
+                using (var xr = XmlReader.Create(sr))
+                {
+                    using (var sw = new StringWriter())
+                    {
+                        var xslt = new XslCompiledTransform();
+                        xslt.Load(XmlReader.Create(new StringReader(System.IO.File.ReadAllText(System.IO.Path.Combine(AssemblyFolder,pathToXsl)))));
+                        xslt.Transform(xr, null, sw);
+                        result.Append(sw);
+                    }
+                }
+            }
+            return result.ToString();
         }
     }
 }

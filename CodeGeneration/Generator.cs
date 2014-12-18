@@ -67,7 +67,7 @@ namespace CodeGeneration
                     using (var sw = new StringWriter())
                     {
                         var xslt = new XslCompiledTransform();
-                        xslt.Load(XmlReader.Create(new StringReader(System.IO.File.ReadAllText(System.IO.Path.Combine(AssemblyFolder, @"CodeGeneration\XSLT\CSharp.xslt")))));
+                        xslt.Load(XmlReader.Create(new StringReader(System.IO.File.ReadAllText(System.IO.Path.Combine(AssemblyFolder, @"CodeGeneration\MetaLanguage.xslt")))));
                         xslt.Transform(xr, null, sw);
                         System.IO.File.WriteAllText(outputPath, sw.ToString());
                     }

@@ -11,19 +11,13 @@
           <xsl:if test="number(Content)!=Content">
             <Variable>
               <xsl:attribute name="name">variable_<xsl:value-of select="Id" /></xsl:attribute>
-              <xsl:attribute name="type"><xsl:value-of select="Content" /></xsl:attribute>
+              <xsl:attribute name="type"><xsl:value-of select="CGType" /></xsl:attribute>
             </Variable>
           </xsl:if>
           <xsl:if test="number(Content)=Content">
             <Constant>
               <xsl:attribute name="name">variable_<xsl:value-of select="Id" /></xsl:attribute>
-              <xsl:attribute name="type">
-                <xsl:if test="contains(Content,'.')"> double </xsl:if>
-                <xsl:if test="not(contains(Content,'.'))">
-                  <xsl:if test="(Content='true') or (Content='false')"> bool </xsl:if>
-                  <xsl:if test="(Content!='true') and (Content!='false')"> int </xsl:if>
-                </xsl:if>
-              </xsl:attribute>
+              <xsl:attribute name="type"><xsl:value-of select="CGType" /></xsl:attribute>
             </Constant>
           </xsl:if>
         </xsl:for-each>

@@ -68,7 +68,7 @@ namespace CodeGeneration
                 _cgvm.LanguageCollection[_cgvm.CurrentLanguageIndex] + " " +
                 _cgvm.PlansCollection[_cgvm.CurrentPlanIndex]
                 );
-            MessageBox.Show(Generator.ConvertWithTemplate(_cgvm.LanguageCollection[_cgvm.CurrentLanguageIndex], null, _cgvm.PlansCollection[_cgvm.CurrentPlanIndex]));
+            MessageBox.Show(Generator.ConvertWithTemplate(_cgvm.LanguageCollection[_cgvm.CurrentLanguageIndex], _cgvm.Variables, _cgvm.PlansCollection[_cgvm.CurrentPlanIndex]));
         }
     }
 }

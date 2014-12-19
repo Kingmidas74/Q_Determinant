@@ -9,6 +9,7 @@ using Core.Atoms;
 using Core.Converters;
 using Core.Serializers;
 using Core.Serializers.SerializationModels;
+using Core.Serializers.SerializationModels.ProjectModels;
 using DefaultControlsPack;
 
 namespace CodeGeneration
@@ -62,13 +63,25 @@ namespace CodeGeneration
 
         private void OKClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(
-                _cgvm.Variables.Count+" "+
-                _cgvm.OutputName + " " +
-                _cgvm.LanguageCollection[_cgvm.CurrentLanguageIndex] + " " +
-                _cgvm.PlansCollection[_cgvm.CurrentPlanIndex]
-                );
-            MessageBox.Show(Generator.ConvertWithTemplate(_cgvm.LanguageCollection[_cgvm.CurrentLanguageIndex], _cgvm.Variables, _cgvm.PlansCollection[_cgvm.CurrentPlanIndex]));
+            var projectPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(currentSolutionPath),
+                _cgvm.ProjectsCollection[_cgvm.CurrentProjectIndex].Path);
+            if (
+                !Directory.Exists(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(projectPath), "GenerationCode")))
+            {
+                Directory.CreateDirectory(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(projectPath),
+                    "GenerationCode"));
+            }
+            var outputPath = @"GenerationCode\" + _cgvm.OutputName + ".gc";
+            var resultGeneration = Generator.ConvertWithTemplate(_cgvm.LanguageCollection[_cgvm.CurrentLanguageIndex],
+                _cgvm.Variables, _cgvm.PlansCollection[_cgvm.CurrentPlanIndex]);
+            System.IO.File.WriteAllText(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(projectPath), outputPath), resultGeneration);
+            Project project;
+            Core.Serializers.SerializersFactory.GetSerializer().DeserializeProject(projectPath, out project);
+            if (project.Files.Count(x => x.Path.Equals(outputPath)) == 0)
+            {
+                project.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File {Path=outputPath});
+            }
+            Core.Serializers.SerializersFactory.GetSerializer().SerializeProject(projectPath, project);
         }
     }
 }

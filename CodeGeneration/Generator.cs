@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Windows;
 using System.Xml;
 using System.Xml.Xsl;
 using CodeGeneration.Enums;
@@ -33,7 +32,6 @@ namespace CodeGeneration
                 {"+","ADD_ALIAS"},{"-","SUB_ALIAS"},
                 {"*","MUL_ALIAS"},{"/","DIV_ALIAS"},
             };
-            MessageBox.Show(variableTypes.Count.ToString());
             var list = tempGraph.Vertices.Select(vertex => new CGBlock
             {
                 Alias = functionAliases.ContainsKey(vertex.Content) ? functionAliases[vertex.Content] : vertex.Content, Content = vertex.Content, Id = vertex.Id, Level = vertex.Level, CGType = variableTypes.FirstOrDefault(x => x.Title.Equals(vertex.Content)) != null ? variableTypes.FirstOrDefault(x => x.Title.Equals(vertex.Content)).Type : VariableTypes.String

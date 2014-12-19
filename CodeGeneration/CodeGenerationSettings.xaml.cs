@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
+using CodeGeneration.InternalClasses;
 using Core.Atoms;
 using Core.Converters;
 using Core.Serializers;
@@ -15,65 +18,57 @@ namespace CodeGeneration
     /// </summary>
     public partial class CodeGenerationSettings : ModernWindow
     {
+        
+        readonly CGViewModel _cgvm = new CGViewModel();
+        private string currentSolutionPath { get; set; }
+
         public CodeGenerationSettings()
         {
             InitializeComponent();
+            DataContext = _cgvm;
         }
-
-        private string currentSolutionPath { get; set; }
-
         public void SetSolutionPath(string currentPathToSolution)
         {
             currentSolutionPath = currentPathToSolution;
             Core.Serializers.SerializationModels.SolutionModels.Solution solution;
             SerializersFactory.GetSerializer().DeserializeSolution(currentSolutionPath, out solution);
-            var tabItems = new List<EnclosedTabItem>();
+            _cgvm.CurrentSolutionPath = currentSolutionPath;
             foreach (var project in solution.Projects.Where(x => x.Type == ProjectTypes.Algorithm))
             {
-                tabItems.Add(CreateTabitemByProject(project));
+                _cgvm.ProjectsCollection.Add(project);
             }
-            ProjectTabControl.ItemsSource = null;
-            ProjectTabControl.ItemsSource = tabItems;
-        }
-
-        private EnclosedTabItem CreateTabitemByProject(Core.Serializers.SerializationModels.SolutionModels.Project project)
-        {
-            var pathToProject = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(currentSolutionPath),
-                project.Path);
-            var result = new EnclosedTabItem {Header = project.Title};
-            var variables = new List<string>();
-            foreach (var variable in Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(pathToProject),"ImplementationPlan.ip")),ConverterFormats.JSON).Vertices.Where(x=>x.Level==0))
+            if (_cgvm.ProjectsCollection.Count > 0)
             {
-                decimal d;
-                double l;
-                if (!(Decimal.TryParse(variable.Content, out d) || Double.TryParse(variable.Content, out l)))
-                {
-                    variables.Add(variable.Content);
-                }
+                _cgvm.CurrentProjectIndex = 0;
             }
-            var content = new SettingsProjectTabItem();
-            content.SetContent(variables);
-            result.Content = content;
-            return result;
+            var languageXSLTFiles =
+                (new DirectoryInfo(System.IO.Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"CodeGeneration\LanguagesTransformers")))
+                    .GetFiles();
+            foreach (var languageXsltFile in languageXSLTFiles)
+            {
+                _cgvm.LanguageCollection.Add(languageXsltFile.FullName);
+            }
+            if (_cgvm.LanguageCollection.Count > 0)
+            {
+                _cgvm.CurrentLanguageIndex = 0;
+            }
         }
 
+        
         private void CancelClick(object sender, RoutedEventArgs e)
         {
-            DialogResult = false;
+            Close();
         }
 
         private void OKClick(object sender, RoutedEventArgs e)
         {
-            Core.Serializers.SerializationModels.SolutionModels.Solution solution;
-            SerializersFactory.GetSerializer().DeserializeSolution(currentSolutionPath, out solution);
-            foreach (var project in solution.Projects.Where(x => x.Type == ProjectTypes.Algorithm))
-            {
-                MessageBox.Show(Generator.ConvertWithTemplate(@"CodeGeneration\LanguagesTransformers\Cpp.xslt",null,
-                    System.IO.Path.Combine(System.IO.Path.GetDirectoryName(currentSolutionPath),
-                        project.Path)));
-            }
-            
-            DialogResult = true;
+            MessageBox.Show(
+                _cgvm.Variables.Count+" "+
+                _cgvm.OutputName + " " +
+                _cgvm.LanguageCollection[_cgvm.CurrentLanguageIndex] + " " +
+                _cgvm.PlansCollection[_cgvm.CurrentPlanIndex]
+                );
+            MessageBox.Show(Generator.ConvertWithTemplate(_cgvm.LanguageCollection[_cgvm.CurrentLanguageIndex], null, _cgvm.PlansCollection[_cgvm.CurrentPlanIndex]));
         }
     }
 }

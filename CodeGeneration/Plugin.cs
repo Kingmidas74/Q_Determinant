@@ -10,7 +10,7 @@ using VisualCore.Events;
 
 namespace CodeGeneration
 {
-    public class Plugin:IPlugin,ICompile,ISetProjectAndSolution
+    public class Plugin:IPlugin,ISetProjectAndSolution
     {
         private GenerationButton _generateButton;
         public string Title
@@ -65,7 +65,6 @@ namespace CodeGeneration
             toolBar.Items.Add(_generateButton);
             (_containers[3] as WorkplaceTabs).DefineRevealer(".gc", AddCodeEditor);
             (_containers[2] as SolutionExplorer).DefineRevealer(".gc", CreateCodeGenerationItem);
-            //MessageBox.Show((containers[2] as SolutionExplorer).CurrentSolutionPath);
         }
 
         private BasicComponentsPack.InternalClasses.SolutionTreeItem CreateCodeGenerationItem(string filePath, string title)
@@ -107,15 +106,6 @@ namespace CodeGeneration
             aboutInfo.ShowDialog();
         }
 
-        public void BeforeCompilerListener(object sender, System.Windows.RoutedEventArgs e)
-        {
-        }
-
-        public void AfterCompilerListener(object sender, System.Windows.RoutedEventArgs e)
-        {
-            Generator.GenerateBySolution((_containers[2] as SolutionExplorer).CurrentSolutionPath);
-        }
-
         public void SetProjectListener(object sender, RoutedEventArgs e)
         {
             _generateButton.G_Button.IsEnabled = !String.IsNullOrEmpty(e.OriginalSource.ToString());
@@ -123,7 +113,6 @@ namespace CodeGeneration
 
         public void SetSolutionListener(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(sender.ToString());
         }
     }
 }

@@ -14,7 +14,7 @@
 	return In_1<xsl:value-of select="Content"/>In_2;
 }
 </xsl:for-each>
-int main(int argc, char *argv[]){ 
+int main2(int argc, char *argv[]){ 
 {
     var result=0;
     MPI_Init(&amp;argc,&amp;argv);

@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Windows;
-using System.Windows.Documents;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Xsl;
 using CodeGeneration.InternalClasses;
 using Core.Atoms;
 using Core.Converters;
 using Core.Serializers;
 using Core.Serializers.SerializationModels;
+using File = Core.Serializers.SerializationModels.ProjectModels.File;
 
 namespace CodeGeneration
 {
@@ -25,7 +21,11 @@ namespace CodeGeneration
         {
             Core.Serializers.SerializationModels.ProjectModels.Project project;
             SerializersFactory.GetSerializer().DeserializeProject(currentProjectPath,out project);
-            var pathToFile = project.Files.Where(x => System.IO.Path.GetExtension(x.Path).Equals(".ip") || System.IO.Path.GetExtension(x.Path).Equals(".tip")).Select(plan => GenerateByPlan(plan.Path)).ToList();
+            var pathToFile = new List<string>();
+            foreach (File x in project.Files)
+            {
+                if (System.IO.Path.GetExtension(x.Path).Equals(".ip")) pathToFile.Add(GenerateByPlan(x.Path));
+            }
             foreach (var path in pathToFile)
             {
                 project.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File{Path = path});
@@ -79,21 +79,53 @@ namespace CodeGeneration
             return outputPath;
         }
 
-        internal static string ConvertWithTemplate(string pathToXsl, Dictionary<string, string> variableTypes, string currentProjectPath)
+        internal static string ConvertWithTemplate(string pathToXsl, Dictionary<string, string> variableTypes, File implementationPlan)
         {
             var result = new StringBuilder("");
-            var contentFile = System.IO.File.ReadAllText(System.IO.Path.GetDirectoryName(currentProjectPath) +
-                                                         @"\ImplementationPlan.gc");
-            using (var sr = new StringReader(contentFile))
+            var contentFile = System.IO.File.ReadAllText(implementationPlan.Path);
+            var tempGraph = Converter.DataToGraph<Graph>(contentFile, ConverterFormats.JSON);
+            var functionAliases = new Dictionary<string, string>
+            {
+                {"||","OR_ALIAS"},{"&&","AND_ALIAS"},{"!","NEGATIVE_ALIAS"},
+                {">","MORE_ALIAS"},{"<","LESS_ALIAS"},{">=","GTE_ALIAS"},{"<=","LTE_ALIAS"},
+                {"==","EQUAL_ALIAS"},{"!=","NOTEQUAL_ALIAS"},
+                {"+","ADD_ALIAS"},{"-","SUB_ALIAS"},
+                {"*","MUL_ALIAS"},{"/","DIV_ALIAS"},
+            };
+            var xmlDocument =
+                Converter.GraphToData(
+                    new CGGraph(tempGraph.Vertices.Select(vertex => new CGBlock()
+                    {
+                        Alias = functionAliases.ContainsKey(vertex.Content) ? functionAliases[vertex.Content] : vertex.Content,
+                        Content = vertex.Content,
+                        Id = vertex.Id,
+                        Level = vertex.Level,
+                        Type = vertex.Type
+                    }).ToList(), tempGraph.Edges),
+                    ConverterFormats.XML);
+            using (var sr = new StringReader(xmlDocument))
             {
                 using (var xr = XmlReader.Create(sr))
                 {
                     using (var sw = new StringWriter())
                     {
                         var xslt = new XslCompiledTransform();
-                        xslt.Load(XmlReader.Create(new StringReader(System.IO.File.ReadAllText(System.IO.Path.Combine(AssemblyFolder,pathToXsl)))));
+                        xslt.Load(XmlReader.Create(new StringReader(System.IO.File.ReadAllText(System.IO.Path.Combine(AssemblyFolder, @"CodeGeneration\MetaLanguage.xslt")))));
                         xslt.Transform(xr, null, sw);
                         result.Append(sw);
+                    }
+                }
+            }
+            using (var sr = new StringReader(result.ToString()))
+            {
+                using (var xr = XmlReader.Create(sr))
+                {
+                    using (var sw = new StringWriter())
+                    {
+                        var xslt = new XslCompiledTransform();
+                        xslt.Load(XmlReader.Create(new StringReader(System.IO.File.ReadAllText(pathToXsl))));
+                        xslt.Transform(xr, null, sw);
+                        result.Clear().Append(sw);
                     }
                 }
             }

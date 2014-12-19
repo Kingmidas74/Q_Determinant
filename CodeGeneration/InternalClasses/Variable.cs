@@ -2,7 +2,7 @@
 
 namespace CodeGeneration.InternalClasses
 {
-    public class VariableTypesGridViewItem
+    public class Variable
     {
         public string Title { get; set; }
 

@@ -15,6 +15,7 @@ using Microsoft.Win32;
 using Core.Converters;
 using VisualCore;
 using VisualCore.Events;
+using File = Core.Serializers.SerializationModels.ProjectModels.File;
 
 namespace BasicComponentsPack
 {
@@ -86,10 +87,19 @@ namespace BasicComponentsPack
 
         private SolutionTreeItem PerformRevealer(string filePath, string title)
         {
-            return !_elementRevealers.ContainsKey(System.IO.Path.GetExtension(filePath)) ? CreateDefaultTreeItem(filePath, title) : _elementRevealers[System.IO.Path.GetExtension(filePath)](filePath, title);
+            try
+            {
+                if (!_elementRevealers.ContainsKey(System.IO.Path.GetExtension(filePath)))
+                    throw new Exception("Не известный тип файла " + System.IO.Path.GetExtension(filePath));
+                else return _elementRevealers[System.IO.Path.GetExtension(filePath)](filePath, title);
+            }
+            catch (Exception e)
+            {
+                RaiseEvent(new RoutedEventArgs(ErrorExceptionEvent, e.Message));
+            }
+            return null;
         }
 
-        
 
         public void DefineRevealer(string extention, Func<string,string, SolutionTreeItem> revealer)
         {
@@ -146,13 +156,7 @@ namespace BasicComponentsPack
                             referenceCollection.Items.Add(currentReferenceView);
                         }
                         currentProjectView.Items.Add(referenceCollection);
-                        foreach (
-                            var currentFileView in
-                                currentProjectModel.Files.Select(
-                                    file =>
-                                        PerformRevealer(
-                                            Path.Combine(Path.GetDirectoryName(currentProjectView.FilePath), file.Path),
-                                            Path.GetFileName(file.Path))))
+                        foreach (var currentFileView in currentProjectModel.Files.Select(file => PerformRevealer(Path.Combine(Path.GetDirectoryName(currentProjectView.FilePath), file.Path), Path.GetFileName(file.Path))).Where(currentFileView => currentFileView!=null))
                         {
                             currentProjectView.Items.Add(currentFileView);
                         }

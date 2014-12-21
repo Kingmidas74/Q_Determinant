@@ -68,17 +68,22 @@ namespace CodeGeneration
                     "GenerationCode"));
             }
             var outputPath = @"GenerationCode\" + _cgvm.OutputName + ".gc";
-            var resultGeneration = Generator.ConvertWithTemplate(_cgvm.LanguageCollection[_cgvm.CurrentLanguageIndex],
-                _cgvm.Variables, _cgvm.PlansCollection[_cgvm.CurrentPlanIndex]);
+            
+            var resultGeneration = Generator.ConvertWithTemplate(
+                _cgvm.LanguageCollection[_cgvm.CurrentLanguageIndex],
+                _cgvm.Variables,
+                System.IO.Path.Combine(
+                    System.IO.Path.GetDirectoryName(_cgvm.CurrentSolutionPath),
+                    System.IO.Path.GetDirectoryName(_cgvm.ProjectsCollection[_cgvm.CurrentProjectIndex].Path),
+                    _cgvm.PlansCollection[_cgvm.CurrentPlanIndex].Path)
+                );
+            
             System.IO.File.WriteAllText(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(projectPath), outputPath), resultGeneration);
             Project project;
             Core.Serializers.SerializersFactory.GetSerializer().DeserializeProject(projectPath, out project);
             try
             {
                 project.AddFile(new Core.Serializers.SerializationModels.ProjectModels.File {Path = outputPath});
-            }
-            catch
-            {
             }
             finally
             {

@@ -45,7 +45,7 @@ namespace ImplementationPlan
         {
             ReversePolishNotation.Functions = _functions;
             ReversePolishNotation.RefreshId();
-
+            _implementationPlan.Clear();
             foreach (var qTerm in _qTerms)
             {
                 _implementationPlan.AddRange(new List<Graph> { ParseTerm(qTerm.Logical), ParseTerm(qTerm.Definitive) });

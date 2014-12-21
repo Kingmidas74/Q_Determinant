@@ -40,8 +40,7 @@ namespace CodeGeneration.InternalClasses
                 PlansCollection.Clear();
                 CurrentPlanIndex = -1;
                 var projectPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(CurrentSolutionPath), ProjectsCollection[value].Path);
-                Core.Serializers.SerializationModels.ProjectModels.Project project;
-                SerializersFactory.GetSerializer().DeserializeProject(projectPath, out project);
+                var project = Core.Serializers.SerializationModels.ProjectModels.Project.Deserialize(projectPath);
                 foreach (var file in project.Files.Where(x => System.IO.Path.GetExtension(x.Path).Equals(".ip")))
                 {
                     PlansCollection.Add(file);
@@ -81,7 +80,9 @@ namespace CodeGeneration.InternalClasses
                 if (value > -1)
                 {
                     PathToPlan = PlansCollection[value].Path;
-                    var plan = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(PathToPlan), ConverterFormats.JSON);
+                    var plan = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(
+                        System.IO.Path.Combine(System.IO.Path.GetDirectoryName(CurrentSolutionPath),System.IO.Path.GetDirectoryName(ProjectsCollection[CurrentProjectIndex].Path), PathToPlan)
+                        ), ConverterFormats.JSON);
                     Variables.Clear();
                     foreach (var vertex in plan.Vertices.FindAll(x => x.Level == 0))
                     {

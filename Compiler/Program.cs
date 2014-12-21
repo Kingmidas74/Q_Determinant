@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,9 +9,9 @@ using System.Xml.Linq;
 using Core.Adapter;
 using Core.Atoms;
 using Core.Converters;
+using Core.Enums;
 using Core.Interfaces;
 using Core.Serializers.SerializationModels.SolutionModels;
-using File = Core.Serializers.SerializationModels.ProjectModels.File;
 
 namespace Compiler
 {
@@ -21,10 +20,10 @@ namespace Compiler
         private static XDocument _config;
         private static Adapter<IDeterminant, IPlan> _adapter;
         private static Solution _solution;
-        private static Dictionary<string, Core.Serializers.SerializationModels.ProjectModels.Project> _stackOfProjects = new Dictionary<string, Core.Serializers.SerializationModels.ProjectModels.Project>(); 
+        private static readonly Dictionary<string, Core.Serializers.SerializationModels.ProjectModels.Project> StackOfProjects = new Dictionary<string, Core.Serializers.SerializationModels.ProjectModels.Project>(); 
         
 
-        private static readonly Dictionary<string, FunctionPriorities> _functionPrioritieses = new Dictionary
+        private static readonly Dictionary<string, FunctionPriorities> FunctionPrioritieses = new Dictionary
             <string, FunctionPriorities>
         {
             {"||",FunctionPriorities.First},{"&&",FunctionPriorities.First},{"!",FunctionPriorities.First},
@@ -36,27 +35,17 @@ namespace Compiler
 
         private static List<Function> GetFunctions(Core.Serializers.SerializationModels.ProjectModels.Project project)
         {
-            Debug.WriteLine("GET FUNCTIONS FOR ", project.Title);
             var functions = new List<Function>();
             foreach (var reference in project.References)
             {
-                var functionProject = Core.Serializers.SerializationModels.ProjectModels.Project.Deserialize(reference.ProjectPath);
                 CompileProject(reference.ProjectPath);
-                Graph implementationFunction = null;
-                foreach (File file in functionProject.Files)
-                {
-                    if (file.Path.Equals("ImplementationPlan.ip"))
-                    {
-                        //Debug.WriteLine("GIVE IP FOR ", System.IO.File.ReadAllText(Path.Combine(Path.GetDirectoryName(reference.ProjectPath), file.Path)));
-                        implementationFunction = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(Path.Combine(Path.GetDirectoryName(reference.ProjectPath), file.Path)), ConverterFormats.JSON);
-                        break;
-                    }
-                }
+                var functionProject = Core.Serializers.SerializationModels.ProjectModels.Project.Deserialize(reference.ProjectPath);
+                var implementationFunction = (from file in functionProject.Files where file.Path.Equals("ImplementationPlan.ip") select Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(Path.Combine(Path.GetDirectoryName(reference.ProjectPath), file.Path)), ConverterFormats.JSON)).FirstOrDefault();
                 functions.Add(new Function { 
                     Signature = functionProject.Title, 
                     Parameters = (ulong) implementationFunction.Vertices.LongCount(x => x.Level == 0),
-                    Priority = _functionPrioritieses.ContainsKey(functionProject.Title)
-                        ? _functionPrioritieses[functionProject.Title]
+                    Priority = FunctionPrioritieses.ContainsKey(functionProject.Title)
+                        ? FunctionPrioritieses[functionProject.Title]
                         : FunctionPriorities.Fifth
                 });
             }
@@ -66,14 +55,13 @@ namespace Compiler
 
         private static void CompileProject(string projectPath)
         {
-            Debug.WriteLine("COMPILE PROJECT ",projectPath);
             if (System.IO.Path.IsPathRooted(projectPath) && projectPath.Contains(@"\BasicFunctions\")) return;
-            if(_stackOfProjects.ContainsKey(projectPath)) return;
+            if(StackOfProjects.ContainsKey(projectPath)) return;
             var currentProject =
                 Core.Serializers.SerializationModels.ProjectModels.Project.Deserialize(
                 System.IO.Path.Combine(System.IO.Path.GetDirectoryName(_solution.Path),projectPath)
                 );
-            Debug.WriteLine("NEED COMPILE ", currentProject.Title);
+            Console.WriteLine("Set FlowChart");
             _adapter.FlowChart = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(
                 System.IO.Path.Combine(
                     System.IO.Path.GetDirectoryName(
@@ -82,35 +70,41 @@ namespace Compiler
                     currentProject.Files.FirstOrDefault(x => x.Path.EndsWith(".fc")).Path
                     )),
                     ConverterFormats.JSON);
+            Console.WriteLine("Inject dependency");
             _adapter.FunctionsList=GetFunctions(currentProject);
+            Console.WriteLine("Calculate Determinant");
             _adapter.CalculateDeterminant();
-            _adapter.SetVariables(currentProject.SignificantVariables);
+            if (_adapter.GetVariables().Count > 0)
+            {
+                if (currentProject.SignificantVariables.Count(x => string.IsNullOrEmpty(x.Value)) > 0)
+                {
+                    throw new Exception("NV");    
+                }
+                _adapter.SetVariables(currentProject.SignificantVariables);
+                _adapter.CalculateDeterminant();
+            }
+            Console.WriteLine("Find Plan");
             _adapter.FindPlan();
+            _adapter.OptimizePlan(_solution.Properties.MaxCPU);
             var result = _adapter.GetPlan();
-            Debug.WriteLine(result, "PLAN ");
-            
+            Console.WriteLine("Save Plan");
             var data = Converter.GraphToData(result, ConverterFormats.JSON);
             
             System.IO.File.WriteAllText(Path.Combine(System.IO.Path.GetDirectoryName(
                     System.IO.Path.Combine(System.IO.Path.GetDirectoryName(_solution.Path), projectPath)
                     ), "ImplementationPlan.ip"),
                 data);
-            _stackOfProjects.Add(projectPath,currentProject);
-            try
+            
+            if (currentProject.Files.Count(x => x.Path.Equals("ImplementationPlan.ip")) == 0)
             {
                 currentProject.AddFile(new Core.Serializers.SerializationModels.ProjectModels.File
                 {
                     Path = "ImplementationPlan.ip"
                 });
-            }
-            catch
-            {
-            }
-            finally
-            {
+                Debug.WriteLine("NEED SER", System.IO.Path.Combine(System.IO.Path.GetDirectoryName(_solution.Path), projectPath));
                 currentProject.Serialize(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(_solution.Path), projectPath));
             }
-            Debug.WriteLine("FINISH COMPILE FOR ", projectPath);
+            StackOfProjects.Add(projectPath, currentProject);
         }
 
         private static void CreateAdapter()
@@ -137,14 +131,16 @@ namespace Compiler
             Console.WriteLine("Start compile solution {0}", _solution.Title);
             foreach (var project in _solution.Projects.Where(x => x.Type == Core.Serializers.SerializationModels.ProjectTypes.Algorithm))
             {
+                Console.WriteLine("Start compile project {0}", project.Title);
                 CompileProject(project.Path);
+                Console.WriteLine("Finish compile project {0}", project.Title);
             }
         }
 
         static int Main(string[] args)
         {
-          /*  try
-            {*/
+            try
+            {
                 //Set path to DLL's
                 AppDomain.CurrentDomain.AppendPrivatePath(@"vendors");
                 AppDomain.CurrentDomain.AppendPrivatePath(@"core");
@@ -160,9 +156,8 @@ namespace Compiler
                 //Process
                 CreateAdapter();
                 CompileSolution();
-                 Console.ReadLine();
                 return 0;
-      /*      }
+            }
             catch (ArgumentNullException exception)
             {
                 Console.WriteLine("Solution not found! {0}", exception.Message);
@@ -170,14 +165,12 @@ namespace Compiler
             }
             catch (Exception exception)
             {
-                Console.WriteLine("Some error!");
+                if (exception.Message.Equals("NV"))
+                {
+                    return 2;
+                }
                 return 1;
             }
-            finally
-            {
-                Console.ReadLine();
-            }*/
-
         }
     }
 }

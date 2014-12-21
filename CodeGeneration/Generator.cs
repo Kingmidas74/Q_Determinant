@@ -10,7 +10,6 @@ using CodeGeneration.Enums;
 using CodeGeneration.InternalClasses;
 using Core.Atoms;
 using Core.Converters;
-using File = Core.Serializers.SerializationModels.ProjectModels.File;
 
 namespace CodeGeneration
 {
@@ -19,10 +18,10 @@ namespace CodeGeneration
         private static readonly string AssemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         
 
-        internal static string ConvertWithTemplate(string pathToXsl, ObservableCollection<Variable> variableTypes, File implementationPlan)
+        internal static string ConvertWithTemplate(string pathToXsl, ObservableCollection<Variable> variableTypes, string implementationPlanPath)
         {
             var result = new StringBuilder("");
-            var contentFile = System.IO.File.ReadAllText(implementationPlan.Path);
+            var contentFile = System.IO.File.ReadAllText(implementationPlanPath);
             var tempGraph = Converter.DataToGraph<Graph>(contentFile, ConverterFormats.JSON);
             var functionAliases = new Dictionary<string, string>
             {

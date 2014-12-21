@@ -54,6 +54,7 @@
     <Compile Include="Converters\ConverterFormats.cs" />
     <Compile Include="Converters\JSONConverter.cs" />
     <Compile Include="Converters\XMLConverter.cs" />
+    <Compile Include="Enums\CompilerCode.cs" />
     <Compile Include="Enums\StatusTypes.cs" />
     <Compile Include="Interfaces\IDeterminant.cs" />
     <Compile Include="Interfaces\IFlowChart.cs" />

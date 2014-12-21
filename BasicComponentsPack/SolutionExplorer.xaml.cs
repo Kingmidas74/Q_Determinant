@@ -57,7 +57,7 @@ namespace BasicComponentsPack
         }
         #endregion
 
-        private string _currentSolutionPath = String.Empty;
+        private string _currentSolutionPath = string.Empty;
 
         public string CurrentSolutionPath
         {
@@ -69,7 +69,7 @@ namespace BasicComponentsPack
             }
         }
 
-        private string _currentProjectPath = String.Empty;
+        private string _currentProjectPath = string.Empty;
         
         public string CurrentProjectPath
         {
@@ -77,8 +77,8 @@ namespace BasicComponentsPack
             set
             {
                 _currentProjectPath = value;
-                RaiseEvent(String.IsNullOrEmpty(_currentProjectPath)
-                    ? new RoutedEventArgs(SetProjectEvent, "NULL")
+                RaiseEvent(String.IsNullOrEmpty(value)
+                    ? new RoutedEventArgs(SetProjectEvent, string.Empty)
                     : new RoutedEventArgs(SetProjectEvent, _currentProjectPath));
             }
         }
@@ -127,9 +127,7 @@ namespace BasicComponentsPack
             {
                 try
                 {
-                    Solution solution;
-                    var serializer = SerializersFactory.GetSerializer();
-                    serializer.DeserializeSolution(CurrentSolutionPath, out solution);
+                    var solution = Solution.Deserialize(CurrentSolutionPath);
                     var result = PerformRevealer(CurrentSolutionPath, solution.Title);
                     foreach (
                         var currentProjectView in
@@ -138,8 +136,8 @@ namespace BasicComponentsPack
                                     PerformRevealer(Path.Combine(Path.GetDirectoryName(result.FilePath), project.Path),
                                         null)))
                     {
-                        Core.Serializers.SerializationModels.ProjectModels.Project currentProjectModel;
-                        serializer.DeserializeProject(currentProjectView.FilePath, out currentProjectModel);
+                        var currentProjectModel = Core.Serializers.SerializationModels.ProjectModels.Project.Deserialize(
+                                currentProjectView.FilePath);
                         currentProjectView.Title = currentProjectModel.Title;
                         if (currentProjectModel.Properties.Type ==
                             Core.Serializers.SerializationModels.ProjectTypes.Algorithm)
@@ -288,9 +286,9 @@ namespace BasicComponentsPack
                 var solutionFile = new FileInfo(saveDialog.FileName);
                 newSolution.Title = Path.GetFileNameWithoutExtension(solutionFile.Name);
                 newSolution.Properties.MaxCPU = 1;
-                SerializersFactory.GetSerializer().SerializeSolution(saveDialog.FileName, newSolution);
                 CurrentSolutionPath = saveDialog.FileName;
-                CreateProject(Path.GetFileNameWithoutExtension(saveDialog.FileName), Path.GetFileNameWithoutExtension(saveDialog.FileName),1);
+                CreateProject(Path.GetFileNameWithoutExtension(saveDialog.FileName), Path.GetFileNameWithoutExtension(saveDialog.FileName),1, newSolution);
+                newSolution.Serialize(saveDialog.FileName);
                 CurrentSolutionPath = saveDialog.FileName;
             }
         }
@@ -306,44 +304,41 @@ namespace BasicComponentsPack
             }
         }
 
-        private void CreateProject(string folder, string title, int projectType)
+        private void CreateProject(string folder, string title, int projectType, Solution currentSolution=null)
         {
-            var projectTitile = title;
             var newProject = new Core.Serializers.SerializationModels.ProjectModels.Project
             {
-                Title = projectTitile,
+                Title = title,
                 Properties = {Type = projectType == 0 ? ProjectTypes.Function : ProjectTypes.Algorithm}
             };
-            newProject.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File { Path = "FlowChart.fc" });
-            var references = new List<Reference>();
+            newProject.AddFile(new Core.Serializers.SerializationModels.ProjectModels.File { Path = "FlowChart.fc" });
+
             var globalReferenceDirectory = new DirectoryInfo("BasicFunctions");
             foreach (var referenceDirectory in globalReferenceDirectory.GetDirectories())
             {
                 foreach (var file in referenceDirectory.GetFiles().Where(file => file.Extension.Equals(".qpr")))
                 {
-                    Core.Serializers.SerializationModels.ProjectModels.Project referenceProject;
-                    SerializersFactory.GetSerializer().DeserializeProject(file.FullName,out referenceProject);
-                    var reference = new Reference
+                    var referenceProject = Core.Serializers.SerializationModels.ProjectModels.Project.Deserialize(file.FullName);
+                    newProject.AddReference(new Reference
                     {
                         ProjectPath = file.FullName,
                         ProjectTitle = referenceProject.Title
-                    };
-                    references.Add(reference);
+                    });
                     break;
                 }
             }
-            newProject.References = references;
-            Solution solution;
-            SerializersFactory.GetSerializer().DeserializeSolution(CurrentSolutionPath, out solution);
-            solution.Projects.Add(new Core.Serializers.SerializationModels.SolutionModels.Project { Path = string.Format("{0}\\{0}.qpr", folder), Title = newProject.Title, Type = newProject.Properties.Type });
+            
+            var solution = currentSolution ?? Solution.Deserialize(CurrentSolutionPath);
+            
+            solution.AddProject(new Core.Serializers.SerializationModels.SolutionModels.Project { Path = string.Format("{0}\\{0}.qpr", folder), Title = newProject.Title, Type = newProject.Properties.Type });
+            MessageBox.Show("ASD:" + Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder));
             Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder));
             System.IO.File.WriteAllText(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder,
                     "FlowChart.fc"), Converter.GraphToData(new Graph(), ConverterFormats.JSON));
-            var serializer = SerializersFactory.GetSerializer();
-            serializer.SerializeSolution(CurrentSolutionPath, solution);
-            serializer.SerializeProject(
-                Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder,
-                    folder + ".qpr"), newProject);
+
+            solution.Serialize(CurrentSolutionPath);
+            newProject.Serialize(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder,
+                    folder + ".qpr"));
         }
 
         public void AfterCompilerListener(object sender, RoutedEventArgs e)

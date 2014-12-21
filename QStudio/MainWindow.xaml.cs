@@ -142,11 +142,6 @@ namespace QStudio
         {
             InitializeComponent();
         }
-        
-        private void ErrorMessage(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(e.OriginalSource.ToString());
-        }
 
         private void ErrorHandler(object sender, RoutedEventArgs e)
         {
@@ -289,12 +284,9 @@ namespace QStudio
 
         private void SetProjectHandler(object sender, RoutedEventArgs e)
         {
-            ProjectItem.Visibility = !(String.IsNullOrEmpty(e.OriginalSource.ToString()) || e.OriginalSource.ToString().Equals("NULL")) ? Visibility.Visible : Visibility.Collapsed;
-            DebugItem.Visibility =
-                !(String.IsNullOrEmpty(e.OriginalSource.ToString()) || e.OriginalSource.ToString().Equals("NULL"))
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-            RaiseEvent(new RoutedEventArgs(SetProjectEvent));
+            ProjectItem.Visibility = !String.IsNullOrEmpty(e.OriginalSource.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+            DebugItem.Visibility = !String.IsNullOrEmpty(e.OriginalSource.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+            RaiseEvent(new RoutedEventArgs(SetProjectEvent, e.OriginalSource.ToString()));
         }
 
         private void ShowDebugSettings(object sender, RoutedEventArgs e)

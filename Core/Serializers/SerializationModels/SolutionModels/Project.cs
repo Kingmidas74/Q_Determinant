@@ -8,5 +8,7 @@ namespace Core.Serializers.SerializationModels.SolutionModels
         public string Path { get; set; }
         public string Title { get; set; }
         public ProjectTypes Type { get; set; }
+
+        [NonSerialized] public string FullPath;
     }
 }

@@ -13,7 +13,7 @@ namespace Core.Adapter
 
         private P ImplementationPlanModule { get; set; }
 
-        private List<Function> FunctionsList
+        public List<Function> FunctionsList
         {
             set
             {
@@ -67,6 +67,15 @@ namespace Core.Adapter
             _qDerterminant=new List<QTerm>();
             _implementationPlan = new Graph();
         }
+
+        public Adapter(D qDeterminant, P implementationPlan)
+        {
+            QDeterminantModule = qDeterminant;
+            ImplementationPlanModule = implementationPlan;
+            _qDerterminant = new List<QTerm>();
+            _implementationPlan = new Graph();
+        }
+
 
         
         

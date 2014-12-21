@@ -52,12 +52,14 @@
     <Compile Include="DebugConsole.xaml.cs">
       <DependentUpon>DebugConsole.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InternalClasses\ConsoleContent.cs" />
+    <Compile Include="InternalClasses\DebugConsoleVM.cs" />
     <Compile Include="InternalClasses\ReferenceGridViewItem.cs" />
     <Compile Include="InternalClasses\Dialogs\AbstractDialog.cs" />
     <Compile Include="InternalClasses\Dialogs\DialogsFactory.cs" />
     <Compile Include="InternalClasses\Dialogs\DialogTypes.cs" />
+    <Compile Include="InternalClasses\ReferenceManagerVM.cs" />
     <Compile Include="InternalClasses\SolutionTreeItem.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

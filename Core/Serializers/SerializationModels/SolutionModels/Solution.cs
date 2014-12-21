@@ -41,5 +41,18 @@ namespace Core.Serializers.SerializationModels.SolutionModels
                 throw new Exception("This function already exist!");
             }
         }
+
+        public static Solution Deserialize(string pathToSolution)
+        {
+            Solution result;
+            SerializersFactory.GetSerializer().DeserializeSolution(pathToSolution, out result);
+            return result;
+
+        }
+
+        public void Serialize(string pathToSolution)
+        {
+            SerializersFactory.GetSerializer().SerializeSolution(pathToSolution, this);
+        }
     }
 }

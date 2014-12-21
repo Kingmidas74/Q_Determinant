@@ -55,5 +55,18 @@ namespace Core.Serializers.SerializationModels.ProjectModels
                 throw new Exception("This variable already exist!");
             }
         }
+
+        public static Project Deserialize(string pathToProject)
+        {
+            Project result;
+            SerializersFactory.GetSerializer().DeserializeProject(pathToProject, out result);
+            return result;
+
+        }
+
+        public void Serialize(string pathToProject)
+        {
+            SerializersFactory.GetSerializer().SerializeProject(pathToProject, this);
+        }
     }
 }

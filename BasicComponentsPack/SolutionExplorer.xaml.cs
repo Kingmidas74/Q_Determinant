@@ -360,10 +360,6 @@ namespace BasicComponentsPack
             };
             if (referenceDialog.ShowDialog() == true)
             {
-                Core.Serializers.SerializationModels.ProjectModels.Project currentProject;
-                SerializersFactory.GetSerializer().DeserializeProject(CurrentProjectPath, out currentProject);
-                currentProject.References = referenceDialog.ReferenceCollection;
-                SerializersFactory.GetSerializer().SerializeProject(CurrentProjectPath, currentProject);
                 RefreshSolution();
             }
         }

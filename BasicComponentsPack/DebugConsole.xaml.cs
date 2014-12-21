@@ -44,7 +44,7 @@ namespace BasicComponentsPack
         }
         #endregion
 
-        readonly ConsoleContent _dc = new ConsoleContent();
+        readonly DebugConsoleVM _dc = new DebugConsoleVM();
 
         private readonly Dictionary<string, Action<string>> _commandExecuter;
         private void PerformExecuter(string command)

@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace BasicComponentsPack.InternalClasses
 {
-    public class ConsoleContent : INotifyPropertyChanged
+    public class DebugConsoleVM : INotifyPropertyChanged
     {
         string _consoleInput = string.Empty;
         ObservableCollection<string> _consoleOutput = new ObservableCollection<string>();

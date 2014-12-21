@@ -13,7 +13,7 @@ namespace QStudio
     /// </summary>
     public partial class DebugSettings : ModernWindow
     {
-        private XDocument Settings;
+        private readonly XDocument _settings;
         private const string Path = @"config.xml";
         public DebugSettings()
         {
@@ -22,15 +22,16 @@ namespace QStudio
             {
                 if (File.Exists(Path))
                 {
-                    Settings = XDocument.Load(Path);
+                    _settings = XDocument.Load(Path);
                 }
                 else
                 {
-                    Settings=new XDocument();
-                    Settings.Add(new XElement("Settings"));
+                    _settings=new XDocument();
+                    _settings.Add(new XElement("Settings"));
                 }
             }
-            catch{}
+            catch
+            {}
         }
 
         private void LoadDeterminantLibraries(object sender, RoutedEventArgs e)
@@ -49,7 +50,7 @@ namespace QStudio
             XElement currentLib = null;
             try
             {
-                currentLib = Settings.Element("Settings").Element("QDeterminant");
+                currentLib = _settings.Element("Settings").Element("QDeterminant");
             }
             catch
             {
@@ -84,7 +85,7 @@ namespace QStudio
             XElement currentLib = null;
             try
             {
-                currentLib = Settings.Element("Settings").Element("ImplementationPlan");
+                currentLib = _settings.Element("Settings").Element("ImplementationPlan");
             }
             catch
             {
@@ -112,27 +113,27 @@ namespace QStudio
         {
             try
             {
-                Settings.Element("Settings").Element("ImplementationPlan").Attribute("Path").Value = (ImplementationPlanLibraries.SelectedItem as ComboBoxItem).Tag.ToString();
+                _settings.Element("Settings").Element("ImplementationPlan").Attribute("Path").Value = (ImplementationPlanLibraries.SelectedItem as ComboBoxItem).Tag.ToString();
             }
             catch (Exception exception)
             {
                 var element = new XElement("ImplementationPlan");
                 var attribute = new XAttribute("Path", (ImplementationPlanLibraries.SelectedItem as ComboBoxItem).Tag.ToString());
                 element.Add(attribute);
-                Settings.Element("Settings").Add(element);
+                _settings.Element("Settings").Add(element);
             }
             try
             {
-                Settings.Element("Settings").Element("QDeterminant").Attribute("Path").Value = (QDeterminantLibraries.SelectedItem as ComboBoxItem).Tag.ToString();
+                _settings.Element("Settings").Element("QDeterminant").Attribute("Path").Value = (QDeterminantLibraries.SelectedItem as ComboBoxItem).Tag.ToString();
             }
             catch (Exception exception)
             {
                 var element = new XElement("QDeterminant");
                 var attribute = new XAttribute("Path", (QDeterminantLibraries.SelectedItem as ComboBoxItem).Tag.ToString());
                 element.Add(attribute);
-                Settings.Element("Settings").Add(element);
+                _settings.Element("Settings").Add(element);
             }
-            Settings.Save(Path);
+            _settings.Save(Path);
             this.Close();
         }
     }

@@ -19,5 +19,41 @@ namespace Core.Serializers.SerializationModels.ProjectModels
             Properties = new Properties();
             SignificantVariables = new Dictionary<string, string>();
         }
+
+        public void AddFile(Core.Serializers.SerializationModels.ProjectModels.File file)
+        {
+            if (!Files.Exists(x => x.Path.Equals(file.Path)))
+            {
+                Files.Add(file);
+            }
+            else
+            {
+                throw new Exception("This file already exist!");
+            }
+        }
+
+        public void AddReference(Core.Serializers.SerializationModels.ProjectModels.Reference reference)
+        {
+            if (!References.Exists(x => x.ProjectPath.Equals(reference.ProjectPath)))
+            {
+                References.Add(reference);
+            }
+            else
+            {
+                throw new Exception("This reference already exist!");
+            }
+        }
+
+        public void AddSignificantVariable(string name, string value)
+        {
+            if (!SignificantVariables.ContainsKey(name))
+            {
+                SignificantVariables.Add(name,value);
+            }
+            else
+            {
+                throw new Exception("This variable already exist!");
+            }
+        }
     }
 }

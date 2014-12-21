@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using CodeGeneration.InternalClasses;
-using Core.Atoms;
-using Core.Converters;
 using Core.Serializers;
 using Core.Serializers.SerializationModels;
 using Core.Serializers.SerializationModels.ProjectModels;
@@ -21,7 +17,7 @@ namespace CodeGeneration
     {
         
         readonly CGViewModel _cgvm = new CGViewModel();
-        private string currentSolutionPath { get; set; }
+        private string CurrentSolutionPath { get; set; }
 
         public CodeGenerationSettings()
         {
@@ -30,10 +26,10 @@ namespace CodeGeneration
         }
         public void SetSolutionPath(string currentPathToSolution)
         {
-            currentSolutionPath = currentPathToSolution;
+            CurrentSolutionPath = currentPathToSolution;
             Core.Serializers.SerializationModels.SolutionModels.Solution solution;
-            SerializersFactory.GetSerializer().DeserializeSolution(currentSolutionPath, out solution);
-            _cgvm.CurrentSolutionPath = currentSolutionPath;
+            SerializersFactory.GetSerializer().DeserializeSolution(CurrentSolutionPath, out solution);
+            _cgvm.CurrentSolutionPath = CurrentSolutionPath;
             foreach (var project in solution.Projects.Where(x => x.Type == ProjectTypes.Algorithm))
             {
                 _cgvm.ProjectsCollection.Add(project);
@@ -63,7 +59,7 @@ namespace CodeGeneration
 
         private void OKClick(object sender, RoutedEventArgs e)
         {
-            var projectPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(currentSolutionPath),
+            var projectPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(CurrentSolutionPath),
                 _cgvm.ProjectsCollection[_cgvm.CurrentProjectIndex].Path);
             if (
                 !Directory.Exists(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(projectPath), "GenerationCode")))
@@ -77,11 +73,17 @@ namespace CodeGeneration
             System.IO.File.WriteAllText(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(projectPath), outputPath), resultGeneration);
             Project project;
             Core.Serializers.SerializersFactory.GetSerializer().DeserializeProject(projectPath, out project);
-            if (project.Files.Count(x => x.Path.Equals(outputPath)) == 0)
+            try
             {
-                project.Files.Add(new Core.Serializers.SerializationModels.ProjectModels.File {Path=outputPath});
+                project.AddFile(new Core.Serializers.SerializationModels.ProjectModels.File {Path = outputPath});
             }
-            Core.Serializers.SerializersFactory.GetSerializer().SerializeProject(projectPath, project);
+            catch
+            {
+            }
+            finally
+            {
+                Core.Serializers.SerializersFactory.GetSerializer().SerializeProject(projectPath, project);
+            }
         }
     }
 }

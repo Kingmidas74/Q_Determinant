@@ -80,13 +80,10 @@ namespace ImplementationPlan
 
         private static Graph RemoveAllUnusedVertices(Graph graph)
         {
-            var resultVertices = graph.Vertices.FindAll(x=>x.Id>0);
-            foreach (var vertex in graph.Vertices)
+            var resultVertices = graph.Vertices.FindAll(x=>x.Id>=0);
+            foreach (var vertex in graph.Vertices.Where(vertex => graph.Edges.LongCount(x => x.From == vertex.Id) == 0 && vertex.Level<graph.GetMaxLevel()))
             {
-                if (graph.Edges.LongCount(x => x.From == vertex.Id) == 0 && vertex.Level<graph.GetMaxLevel())
-                {
-                    resultVertices.RemoveAll(x => x.Id == vertex.Id);
-                }
+                resultVertices.RemoveAll(x => x.Id == vertex.Id);
             }
             graph.Vertices = resultVertices;
             return graph;
@@ -109,8 +106,6 @@ namespace ImplementationPlan
                     var currentFunction = functions[i];
                     var currentPreviousIds = graph.Edges.Where(x => x.To == currentFunction.Id).Select(link => link.From).ToList();
                     var currentSignature = new FunctionSignature {PreviousIds = currentPreviousIds, Signature = currentFunction.Content};
-                    Debug.WriteLine(currentFunction.Content,"CHECK FUNCTION:");
-
                     if (checkedFunctions.Count(x => x.Signature.Equals(currentFunction.Content) && x.PreviousIds.SequenceEqual(currentPreviousIds)) == 0)
                     {
                         for (var j = i + 1; j < functions.Count; j++)
@@ -142,14 +137,10 @@ namespace ImplementationPlan
 
         internal static Graph OptimizateGraph(Graph graph, ulong maxVertexOnLevel)
         {
-            Debug.WriteLine("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
             if (maxVertexOnLevel > graph.GetMaxLevel())
             {
-                
-                Debug.WriteLine("EQ");
                 return graph;
             }
-            Debug.WriteLine("NEQ");
             var oldVertices = graph.Vertices.FindAll(x=>x.Level>0);
             var newVertices = new List<Block>();
             ulong currentLevel = 1;

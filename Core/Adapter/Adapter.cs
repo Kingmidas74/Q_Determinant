@@ -59,15 +59,6 @@ namespace Core.Adapter
         #endregion
 
 
-        public Adapter(D qDeterminant, P implementationPlan, List<Function> functions)
-        {
-            QDeterminantModule = qDeterminant;
-            ImplementationPlanModule = implementationPlan;
-            FunctionsList = functions;
-            _qDerterminant=new List<QTerm>();
-            _implementationPlan = new Graph();
-        }
-
         public Adapter(D qDeterminant, P implementationPlan)
         {
             QDeterminantModule = qDeterminant;
@@ -76,9 +67,6 @@ namespace Core.Adapter
             _implementationPlan = new Graph();
         }
 
-
-        
-        
         public List<string> GetVariables()
         {
             return QDeterminantModule.GetVariables();

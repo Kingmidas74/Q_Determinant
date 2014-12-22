@@ -101,10 +101,12 @@ namespace ImplementationPlan
                 var content = stack.Pop().Signature;
                 AddBlockToRPN(content, ref result, ref _currentId);
             }
+            Debug.WriteLine(string.Empty);
             foreach (var block in result)
             {
                 Debug.Write(block.Content);
             }
+            Debug.WriteLine(string.Empty);
             return result;
         }
 

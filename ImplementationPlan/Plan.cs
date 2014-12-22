@@ -44,7 +44,7 @@ namespace ImplementationPlan
         public void FindPlan()
         {
             ReversePolishNotation.Functions = _functions;
-            ReversePolishNotation.RefreshId();
+            //ReversePolishNotation.RefreshId();
             _implementationPlan.Clear();
             foreach (var qTerm in _qTerms)
             {
@@ -63,6 +63,8 @@ namespace ImplementationPlan
                 globalGraph.Edges.AddRange(graph.Edges);
             }
             globalGraph = Optimization.OptimizateGraph(globalGraph, countCPU);
+            _implementationPlan.Clear();
+            _implementationPlan.Add(globalGraph);
             CountTacts = globalGraph.GetMaxLevel();
             CountCPU = globalGraph.GetMaxOperationsInLevel();
         }
@@ -86,7 +88,6 @@ namespace ImplementationPlan
                 foreach (var partialGrapth in _implementationPlan)
                 {
                     var localMaxLevel = partialGrapth.GetMaxLevel();
-                    Debug.WriteLine(localMaxLevel,"TACTS");
                     if (localMaxLevel > result)
                     {
                         result = localMaxLevel;
@@ -103,17 +104,7 @@ namespace ImplementationPlan
 
         private ulong GetMaxOperationsInLevel()
         {
-            ulong result = 0;
-            foreach (var graph in _implementationPlan)
-            {
-                Debug.WriteLine(graph.GetMaxOperationsInLevel(),"CPU: ");
-                /*if (graph.GetMaxOperationsInLevel() > result)
-                {
-                    result = graph.GetMaxOperationsInLevel();
-                }*/
-                result += graph.GetMaxOperationsInLevel();
-            }
-            return result;
+            return _implementationPlan.Aggregate<Graph, ulong>(0, (current, graph) => current + graph.GetMaxOperationsInLevel());
         }
 
         private Graph ParseTerm(string term)
@@ -126,14 +117,5 @@ namespace ImplementationPlan
             graph = Optimization.RemoveDuplicateFunctions(graph);
             return graph;
         }
-
-        private void MessageHandler(string message, StatusTypes type=StatusTypes.Success)
-        {
-            Status = type;
-            StatusMessage = message;
-        }
-        
-
-        
     }
 }

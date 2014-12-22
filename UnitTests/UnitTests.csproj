@@ -63,6 +63,10 @@
       <Project>{f6850f58-8b38-4391-a5b0-1e04e927a807}</Project>
       <Name>ImplementationPlan</Name>
     </ProjectReference>
+    <ProjectReference Include="..\QDeterminant\QDeterminant.csproj">
+      <Project>{EE45CB6E-00EB-4DC9-B26B-6EBA07777C8E}</Project>
+      <Name>QDeterminant</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

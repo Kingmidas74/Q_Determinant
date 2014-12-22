@@ -85,7 +85,8 @@ namespace Compiler
             }
             Console.WriteLine("Find Plan");
             _adapter.FindPlan();
-            _adapter.OptimizePlan(_solution.Properties.MaxCPU);
+            //_adapter.OptimizePlan(_solution.Properties.MaxCPU);
+            //_adapter.OptimizePlan(1);
             var result = _adapter.GetPlan();
             Console.WriteLine("Save Plan");
             var data = Converter.GraphToData(result, ConverterFormats.JSON);

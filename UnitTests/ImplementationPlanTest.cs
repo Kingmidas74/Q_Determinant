@@ -18,7 +18,10 @@ namespace UnitTests
             plan.Functions = new List<Function>
             {
                 new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
-                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"}
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "-"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "/"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = ">="}
             };
             plan.FindPlan();
             Assert.AreEqual((ulong)2, plan.CountCPU);
@@ -33,7 +36,10 @@ namespace UnitTests
             plan.Functions = new List<Function>
             {
                 new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
-                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"}
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "-"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "/"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = ">="}
             };
             plan.FindPlan();
             plan.OptimizePlan(1);
@@ -49,7 +55,10 @@ namespace UnitTests
             plan.Functions = new List<Function>
             {
                 new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
-                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"}
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "-"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "/"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = ">="}
             };
             plan.FindPlan();
             Assert.AreEqual((ulong)2, plan.CountCPU);
@@ -64,7 +73,10 @@ namespace UnitTests
             plan.Functions = new List<Function>
             {
                 new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
-                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"}
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "-"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "/"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = ">="}
             };
             plan.FindPlan();
             plan.OptimizePlan(1);
@@ -85,7 +97,10 @@ namespace UnitTests
             plan.Functions = new List<Function>
             {
                 new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
-                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"}
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "-"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "/"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = ">="}
             };
             plan.FindPlan();
             Assert.AreEqual((ulong)4, plan.CountCPU);
@@ -105,11 +120,15 @@ namespace UnitTests
             plan.Functions = new List<Function>
             {
                 new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
-                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"}
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "-"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "/"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = ">="}
             };
-            plan.OptimizePlan(2);
-            Assert.AreEqual((ulong)2, plan.CountCPU);
-            Assert.AreEqual((ulong)6, plan.CountTacts);
+            plan.FindPlan();
+            plan.OptimizePlan(1);
+            Assert.AreEqual((ulong)1, plan.CountCPU);
+            Assert.AreEqual((ulong)12, plan.CountTacts);
         }
 
         [TestMethod]
@@ -120,8 +139,12 @@ namespace UnitTests
             plan.Functions = new List<Function>
             {
                 new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
-                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"}
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "-"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "/"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = ">="}
             };
+            plan.FindPlan();
             plan.OptimizePlan(1);
             Assert.AreEqual((ulong)1, plan.CountCPU);
             Assert.AreEqual((ulong)12, plan.CountTacts);

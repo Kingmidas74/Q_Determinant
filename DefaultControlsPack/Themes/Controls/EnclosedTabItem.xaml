@@ -9,7 +9,8 @@
     <ControlTemplate x:Key="BottomPosition" TargetType="{x:Type local:EnclosedTabItem}">
         <Grid x:Name="Root">
             <DockPanel x:Name="Border" Background="Transparent">
-                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header"
+
+                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ContentSource="Header"
                               Margin="6,2,6,2" RecognizesAccessKey="True" DockPanel.Dock="Left" />
                 
             </DockPanel>
@@ -30,7 +31,7 @@
     <ControlTemplate x:Key="TopPosition" TargetType="{x:Type local:EnclosedTabItem}">
         <Grid x:Name="Root">
             <DockPanel x:Name="Border" Background="Transparent">
-                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header"
+                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ContentSource="Header"
                               Margin="6,2,6,2" RecognizesAccessKey="True" DockPanel.Dock="Left" />
                 <Button x:Name="CloseTabButton" Style="{StaticResource {x:Type Button}}" Width="20" Height="20" DockPanel.Dock="Right" Visibility="Hidden">
                     <Grid MaxHeight="9" MaxWidth="9">

@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using BasicComponentsPack.InternalClasses;
 using Core.Atoms;
-using Core.Serializers;
 using Core.Serializers.SerializationModels;
 using Core.Serializers.SerializationModels.ProjectModels;
 using Core.Serializers.SerializationModels.SolutionModels;
@@ -15,7 +14,6 @@ using Microsoft.Win32;
 using Core.Converters;
 using VisualCore;
 using VisualCore.Events;
-using File = Core.Serializers.SerializationModels.ProjectModels.File;
 
 namespace BasicComponentsPack
 {
@@ -331,7 +329,7 @@ namespace BasicComponentsPack
             var solution = currentSolution ?? Solution.Deserialize(CurrentSolutionPath);
             
             solution.AddProject(new Core.Serializers.SerializationModels.SolutionModels.Project { Path = string.Format("{0}\\{0}.qpr", folder), Title = newProject.Title, Type = newProject.Properties.Type });
-            MessageBox.Show("ASD:" + Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder));
+            
             Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder));
             System.IO.File.WriteAllText(Path.Combine(Path.GetDirectoryName(CurrentSolutionPath), folder,
                     "FlowChart.fc"), Converter.GraphToData(new Graph(), ConverterFormats.JSON));

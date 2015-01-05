@@ -53,6 +53,13 @@ namespace QDeterminant
         public void CalculateDeterminant()
         {
             _qDeterminantStandart.Add(new QTerm {Definitive = "(5+3+8)/(3*5-7)+3*5", Logical = "5+5+5+5>=8*(5+5+7+1)"});
+            _variables.Add("N", "");
+            var s = _variables["N"];
+            for (int i = 0; i < 1000; i++)
+            {
+                int lol = 0;
+                lol = lol + i;
+            }
             TransformDeterminant();
         }
 

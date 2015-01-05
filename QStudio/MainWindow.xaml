@@ -128,8 +128,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="1*" MaxHeight="500"/>
                 </Grid.RowDefinitions>
-                <basicComponentsPack:WorkplaceTabs x:Name="WorkplaceTabs" Grid.Row="0"/>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+                <basicComponentsPack:WorkplaceTabs x:Name="WorkplaceTabs" Grid.Row="0" Grid.Column="0"/>
                 <defaultControlsPack:EnclosedTabControl VerticalContentPosition="Top" x:Name="CenterBottomSegment" Grid.Row="2">
                     <defaultControlsPack:EnclosedTabItem Header="Output" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <basicComponentsPack:DebugConsole x:Name="DebugConsole" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

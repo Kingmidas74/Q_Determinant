@@ -2,15 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack"
-             Width="{Binding    
-                     Path=ActualWidth,    
-                     RelativeSource={RelativeSource    
-                    Mode=FindAncestor,    
-                    AncestorType={x:Type defaultControlsPack:EnclosedTabControl}}}" Height="{Binding    
-                     Path=ActualHeight,    
-                     RelativeSource={RelativeSource    
-                    Mode=FindAncestor,    
-                    AncestorType={x:Type defaultControlsPack:EnclosedTabControl}}}">
+             Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type defaultControlsPack:EnclosedTabControl}}}" 
+             Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type defaultControlsPack:EnclosedTabControl}}}"
+             >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,7 +12,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Canvas x:Name="ViewerContent" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        </ScrollViewer>
+    <ScrollViewer>
+        <Grid>
+                <Canvas x:Name="ViewerContent"/>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

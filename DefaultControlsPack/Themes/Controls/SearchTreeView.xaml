@@ -10,16 +10,12 @@
 
     <Style TargetType="{x:Type local:SearchTreeView}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:SearchTreeView}">
-                    <Border Name="Border" BorderThickness="0">
                         <ScrollViewer Focusable="False" CanContentScroll="False">
                             <ItemsPresenter />
                         </ScrollViewer>
-                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

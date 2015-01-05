@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using BasicComponentsPack;
 using CodeGeneration.InternalClasses;
 using Core.Serializers;
 using Core.Serializers.SerializationModels;
@@ -19,14 +20,17 @@ namespace CodeGeneration
         readonly CGViewModel _cgvm = new CGViewModel();
         private string CurrentSolutionPath { get; set; }
 
+        private SolutionExplorer _solutionExplorer;
+
         public CodeGenerationSettings()
         {
             InitializeComponent();
             DataContext = _cgvm;
         }
-        public void SetSolutionPath(string currentPathToSolution)
+        public void SetSolutionPath(SolutionExplorer currentSe)
         {
-            CurrentSolutionPath = currentPathToSolution;
+            _solutionExplorer = currentSe;
+            CurrentSolutionPath = currentSe.CurrentSolutionPath;
             Core.Serializers.SerializationModels.SolutionModels.Solution solution;
             SerializersFactory.GetSerializer().DeserializeSolution(CurrentSolutionPath, out solution);
             _cgvm.CurrentSolutionPath = CurrentSolutionPath;
@@ -88,6 +92,7 @@ namespace CodeGeneration
             finally
             {
                 Core.Serializers.SerializersFactory.GetSerializer().SerializeProject(projectPath, project);
+                _solutionExplorer.CurrentSolutionPath = CurrentSolutionPath;
             }
         }
     }

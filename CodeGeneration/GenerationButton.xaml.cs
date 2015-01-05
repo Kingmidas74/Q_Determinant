@@ -29,7 +29,7 @@ namespace CodeGeneration
         private void GC_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var settingsWindow = new CodeGenerationSettings();
-            settingsWindow.SetSolutionPath(SE.CurrentSolutionPath);
+            settingsWindow.SetSolutionPath(SE);
             settingsWindow.Show();
         }
     }

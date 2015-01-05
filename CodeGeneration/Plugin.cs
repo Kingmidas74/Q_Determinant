@@ -98,6 +98,20 @@ namespace CodeGeneration
             };
             aboutItem.Click += ShowAboutInfo;
             item.Items.Add(aboutItem);
+
+            var runItem = new MenuItem
+            {
+                Header = "Run " + Title
+            };
+            runItem.Click += ShowGenerationWindow;
+            item.Items.Add(runItem);
+        }
+
+        private void ShowGenerationWindow(object sender, RoutedEventArgs e)
+        {
+            var settingsWindow = new CodeGenerationSettings();
+            settingsWindow.SetSolutionPath((_containers[2] as SolutionExplorer));
+            settingsWindow.Show();
         }
 
         private void ShowAboutInfo(object sender, RoutedEventArgs e)

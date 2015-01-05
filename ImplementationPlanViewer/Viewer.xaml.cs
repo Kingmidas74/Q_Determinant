@@ -58,7 +58,7 @@ namespace ImplementationPlanViewer
                     grid = CreateGrid(currentY, x1, block.Id, block.Level);
                 }
                 countBlocksInLevel[block.Level]++;
-                grid.SetContent(block.Content);
+                grid.SetContent(block.Content); /*+1*/
                 grids.Add(grid);
             }
             foreach (var g in grids)

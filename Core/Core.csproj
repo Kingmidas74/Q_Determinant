@@ -56,6 +56,7 @@
     <Compile Include="Converters\XMLConverter.cs" />
     <Compile Include="Enums\CompilerCode.cs" />
     <Compile Include="Enums\StatusTypes.cs" />
+    <Compile Include="Exceptions\QException.cs" />
     <Compile Include="Interfaces\IDeterminant.cs" />
     <Compile Include="Interfaces\IFlowChart.cs" />
     <Compile Include="Interfaces\IModule.cs" />

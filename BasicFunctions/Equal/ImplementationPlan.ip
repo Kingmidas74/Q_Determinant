@@ -1,0 +1,1 @@
+{"Vertices":[{"Id":1,"Content":"a","Type":0,"Level":0},{"Id":2,"Content":"b","Type":0,"Level":0},{"Id":3,"Content":"==","Type":0,"Level":1}],"Edges":[{"From":1,"To":3,"Type":0},{"From":2,"To":3,"Type":0}]}

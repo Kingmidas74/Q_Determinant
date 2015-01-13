@@ -18,7 +18,9 @@ namespace QDeterminant
         public Dictionary<string, ulong> Vars;
         private Dictionary<ulong, string> VBlocksOpers;
         private Dictionary<ulong, string> FirstVars;
-        private Dictionary<ulong, string> SecondVars; 
+        private Dictionary<ulong, string> SecondVars;
+
+        private Dictionary<ulong, ulong> CommitTest; // must be deleted 
 
         public StatusTypes Status { get; private set; }
 

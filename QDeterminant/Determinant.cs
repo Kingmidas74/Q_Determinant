@@ -65,6 +65,7 @@ namespace QDeterminant
         {
             var Op = new List<Expressions>();
             ViewedBlocks = new List<ulong>();
+            Vs = new List<string>();
             Vars = new Dictionary<string, ulong>();
             VBlocksOpers = new Dictionary<ulong, string>();
             FirstVars = new Dictionary<ulong, string>();
@@ -78,6 +79,8 @@ namespace QDeterminant
             
             if (fLink != null)
             {
+                Debug.WriteLine(fLink, "FLINK");
+                Debug.WriteLine(fLink.To, "FLINK TO");
                 addvars(_flowChart.Vertices, _flowChart.Edges, fLink, fLink, Op);
                 //QQ(blocks, links, FLink, k, Op);
             }
@@ -88,6 +91,7 @@ namespace QDeterminant
         {
             var Ops = new List<Expressions>(Opx);
             //clonelist(Opx, ref Ops);
+            
 
             var k = new QTerm();
             Link t;
@@ -122,7 +126,7 @@ namespace QDeterminant
                 addvars(Blocks, Links, t, FLink, Ops);
             }
 
-
+            Debug.WriteLine(FLink.To, "FLINK TO TO QQ");
             if (y.Type == BlockTypes.End)
                 QQ(Blocks, Links, FLink, k, Ops);
         }
@@ -141,8 +145,12 @@ namespace QDeterminant
             var y = Blocks.FirstOrDefault(e => e.Id == l.To);
             bool iscycled = false;
 
+            Debug.WriteLine(y, "IGRIK");
+
             if (y != null)
             {
+                Debug.WriteLine(y.Type, "TYPE OF Y");
+
                 if (y.Type == BlockTypes.Process)
                 {
                     Debug.WriteLine(y.Content);
@@ -298,6 +306,7 @@ namespace QDeterminant
                             break;
                         }
                     }
+                    Debug.WriteLine(inpvar.ToString(), "VARIABLE");
                     if (k != 0)
                     {
                         for (int j = k; j < y.Content.Length; j++)
@@ -307,9 +316,11 @@ namespace QDeterminant
                         if (IsDigit(inptmp.ToString()))
                             Vars.Add(inpvar.ToString(), Convert.ToUInt64(inptmp.ToString()));
                     }
-
+                    Debug.WriteLine(Vs, "VS");
                     Vs.Add(y.Content);
-                    t = Links.FirstOrDefault(e => e.From == y.Id);
+                    Debug.WriteLine(y.Id, "YID");
+                    t = _flowChart.Edges.FirstOrDefault(e => e.From == y.Id);
+                    Debug.WriteLine(t, "LINK T");
                     QQ(Blocks, Links, t, x, Opx);
                 }
 
@@ -324,6 +335,10 @@ namespace QDeterminant
                 {
                     _qDeterminantModern.Add(x);
                 }
+            }
+            else
+            {
+                Debug.WriteLine("FUCK");
             }
 
         }

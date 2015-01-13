@@ -29,7 +29,7 @@ namespace QDeterminant
         private Dictionary<string,string> _variables;
 
         private List<QTerm> _qDeterminantStandart;
-        private List<QTerm> _qDeterminantModern;
+        private List<QTerm> _qDeterminantModern = new List<QTerm>();
         private Graph _flowChart;
         private List<Function> _functions;
         private List<ActionList> _actionLists; 
@@ -84,6 +84,7 @@ namespace QDeterminant
                 addvars(_flowChart.Vertices, _flowChart.Edges, fLink, fLink, Op);
                 //QQ(blocks, links, FLink, k, Op);
             }
+            TransformDeterminant();
 
         }
 
@@ -1029,7 +1030,7 @@ namespace QDeterminant
         private void TransformDeterminant()
         {
             
-            /*_qDeterminantModern = new List<QTerm>
+            _qDeterminantModern = new List<QTerm>
             {
                 new QTerm
                 {
@@ -1049,7 +1050,7 @@ namespace QDeterminant
                     Logical = ">=(+(+(9,a),+(5,5)),*(8,+(+(5,5),+(7,1))))",
                     Index = 1
                 }*/
-          //  };
+            };
         }
     }
 }

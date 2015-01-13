@@ -1034,9 +1034,13 @@ namespace QDeterminant
             {
                 new QTerm
                 {
-                    Definitive = "+(/(+(+(5,1),8),-(*(1,5),7)),*(1,5))",
-                    Logical = ">=(+(+(9,a),+(5,5)),*(8,+(+(5,5),+(7,1))))",
-                    Index = 0
+                    Logical="==(A33,0)",
+                    Definitive = "/(B3,A33)"
+                },
+                new QTerm
+                {
+                    Logical = "==(A11,0)",
+                    Definitive = "/(-(-(B1,*(A12,/(-(B2,*(A23,/(B3,A33))),A22))),*(A13,/(B3,A33))),A11)"
                 }/*,
                 new QTerm
                 {

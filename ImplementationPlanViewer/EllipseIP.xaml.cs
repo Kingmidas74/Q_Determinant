@@ -1,13 +1,17 @@
-﻿namespace ImplementationPlanViewer
+﻿using ImplementationPlanViewer.InternalClasses;
+
+namespace ImplementationPlanViewer
 {
     /// <summary>
     /// Interaction logic for EllipseIP.xaml
     /// </summary>
     public partial class EllipseIP
     {
+        private readonly VisualBlockVM _vbvm = new VisualBlockVM();
         public EllipseIP()
         {
             InitializeComponent();
+            DataContext = _vbvm;
         }
 
         public void SetContent(string content)

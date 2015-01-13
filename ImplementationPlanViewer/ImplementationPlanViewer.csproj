@@ -54,6 +54,9 @@
     <Compile Include="EllipseIP.xaml.cs">
       <DependentUpon>EllipseIP.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InternalClasses\LocalConverters\CountCPUToWidthConverter.cs" />
+    <Compile Include="InternalClasses\ViewerVM.cs" />
+    <Compile Include="InternalClasses\VisualBlockVM.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Viewer.xaml.cs">
       <DependentUpon>Viewer.xaml</DependentUpon>

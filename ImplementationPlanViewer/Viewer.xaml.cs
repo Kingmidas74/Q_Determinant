@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Core.Atoms;
 using Core.Converters;
+using ImplementationPlanViewer.InternalClasses;
 
 namespace ImplementationPlanViewer
 {
@@ -16,16 +17,18 @@ namespace ImplementationPlanViewer
     public partial class Viewer : VisualCore.ISaveable,VisualCore.ITabContent
     {
         private string _originalFileName;
+        readonly ViewerVM _vvm = new ViewerVM();
         public Viewer()
         {
             InitializeComponent();
+            DataContext = _vvm;
         }
 
 
 
         public void SetContent(FileInfo file)
         {
-            _originalFileName = file.FullName;
+          /*  _originalFileName = file.FullName;
             ViewerContent.Children.Clear();
             var graph = Converter.DataToGraph<Graph>(File.ReadAllText(file.FullName), ConverterFormats.JSON);
             const ulong startX = 30;
@@ -59,14 +62,14 @@ namespace ImplementationPlanViewer
                 }
                 countBlocksInLevel[block.Level]++;
                 grid.SetContent(block.Content); /*+1*/
-                grids.Add(grid);
+              /*  grids.Add(grid);
             }
             foreach (var g in grids)
             {
                 ViewerContent.Children.Add(g);
             }
             ViewerContent.Width = 2 * startX + (2 * startX * countBlocksInLevel[0] + 20);
-            ViewerContent.Height = (graph.GetMaxLevel() * startY + 4 * startY + 40 * graph.GetMaxLevel());
+            ViewerContent.Height = (graph.GetMaxLevel() * startY + 4 * startY + 40 * graph.GetMaxLevel());*/
         }
 
         private Polyline CreateAPolyline(double x1, double y1, double x2, double y2)

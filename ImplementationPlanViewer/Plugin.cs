@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using BasicComponentsPack;
 using DefaultControlsPack;
+using ImplementationPlanViewer.InternalClasses;
 using PluginController;
 using PluginController.Enums;
 using VisualCore.Events;
@@ -85,7 +86,7 @@ namespace ImplementationPlanViewer
                 Tag = file.FullName
             };
             var viewver = new Viewer();
-            viewver.SetContent(file);
+            (viewver.DataContext as ViewerVM).SetContent(file);
             tabItem.Content = viewver;
             return tabItem;
         }

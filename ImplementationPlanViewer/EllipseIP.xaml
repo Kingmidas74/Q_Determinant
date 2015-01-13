@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="40" d:DesignWidth="40">
+             d:DesignHeight="40" d:DesignWidth="40" Canvas.Top="{Binding Path=Top, Mode=TwoWay}" Canvas.Left="{Binding Path=Left, Mode=TwoWay}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,7 +14,7 @@
     </UserControl.Resources>
     <Grid x:Name="Element" Background="{DynamicResource SlaveBackgroundBrush}" Width="40" Height="40">
         <Ellipse Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="{DynamicResource SlaveBackgroundBrush}" Stroke="{DynamicResource BaseFontBrush}"/>
-        <TextBlock x:Name="Content" FontSize="14" Style="{DynamicResource BaseFont}" Text="x" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"/>
+        <TextBlock x:Name="Content" FontSize="14" Style="{DynamicResource BaseFont}" Text="{Binding Path=Content, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"/>
         <TextBlock x:Name="Level" FontSize="12" Style="{DynamicResource BaseFont}"  HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Left"/>
         <TextBlock x:Name="Number" FontSize="12" Style="{DynamicResource BaseFont}" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left"/>
     </Grid>

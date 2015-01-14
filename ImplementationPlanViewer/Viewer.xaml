@@ -1,11 +1,13 @@
-﻿<UserControl x:Class="ImplementationPlanViewer.Viewer"
+﻿<UserControl x:Name="UserControl" x:Class="ImplementationPlanViewer.Viewer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack"
              xmlns:converters="clr-namespace:ImplementationPlanViewer.InternalClasses.LocalConverters"
+             Background="Indigo"
              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type defaultControlsPack:EnclosedTabControl}}}" 
              Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type defaultControlsPack:EnclosedTabControl}}}"
              >
+    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,13 +15,16 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <ScrollViewer>
-    <ItemsControl ItemsSource="{Binding Path=Blocks, Mode=TwoWay}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <Canvas Background="{StaticResource ErrorBrush}" Width="{Binding Path=MaxLevelToVertex, Mode=OneWay, Converter={converters:CountCPUToWidthConverter}}"/>
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-    </ItemsControl>
-    </ScrollViewer>
+        <ScrollViewer Background="Green" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,0,0,20" >
+        <ItemsControl ItemsSource="{Binding Path=Blocks, Mode=TwoWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas x:Name="Canvas" 
+                            Width="{Binding Path=MaxLevelToVertex, Mode=OneWay, Converter={converters:CountCPUToWidthConverter}}" 
+                            Height="{Binding Path=Level, Mode=OneWay, Converter={converters:LevelToHeihtConverter}}" 
+                            Background="HotPink" IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        </ScrollViewer>
 </UserControl>

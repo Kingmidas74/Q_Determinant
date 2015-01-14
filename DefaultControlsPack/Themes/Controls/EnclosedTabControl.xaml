@@ -13,7 +13,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TabPanel x:Name="HeaderPanel" Grid.Row="0" Panel.ZIndex="1" Margin="0,0,4,-1" IsItemsHost="True" KeyboardNavigation.TabIndex="1" Background="Transparent" />
+            <TabPanel x:Name="HeaderPanel" Grid.Row="0" Panel.ZIndex="1" Margin="0" IsItemsHost="True" KeyboardNavigation.TabIndex="1" Background="Transparent" />
             <Border x:Name="Border" Grid.Row="1" BorderThickness="0,1,0,0" Background="{StaticResource SlaveBackgroundBrush}" BorderBrush="{StaticResource ActiveBrush}"
                                 KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
                 

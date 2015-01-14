@@ -55,6 +55,7 @@
       <DependentUpon>EllipseIP.xaml</DependentUpon>
     </Compile>
     <Compile Include="InternalClasses\LocalConverters\CountCPUToWidthConverter.cs" />
+    <Compile Include="InternalClasses\LocalConverters\LevelToHeihtConverter.cs" />
     <Compile Include="InternalClasses\ViewerVM.cs" />
     <Compile Include="InternalClasses\VisualBlockVM.cs" />
     <Compile Include="Plugin.cs" />

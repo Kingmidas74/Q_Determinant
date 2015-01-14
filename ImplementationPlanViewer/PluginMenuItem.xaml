@@ -1,0 +1,14 @@
+﻿<MenuItem x:Class="ImplementationPlanViewer.PluginMenuItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             >
+    <MenuItem.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DefaultControlsPack;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </MenuItem.Resources>
+    <MenuItem Header="ExtractToProject" Click="ExtractToProject"/>
+    <MenuItem Header="About" Click="ShowAbout" />
+</MenuItem>

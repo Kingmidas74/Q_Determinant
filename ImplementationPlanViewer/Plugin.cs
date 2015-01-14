@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using BasicComponentsPack;
 using DefaultControlsPack;
+using ImplementationPlanViewer.InternalClasses;
 using PluginController;
 using PluginController.Enums;
 using VisualCore.Events;
@@ -50,11 +52,12 @@ namespace ImplementationPlanViewer
         }
 
         public List<string> InitializeObjects {
-            get { return new List<string> {"WorkplaceTabs"}; }
+            get { return new List<string> { "WorkplaceTabs", "SolutionExplorer" }; }
         }
 
         public void Initialize(List<object> containers)
         {
+            Methods.SE = (containers[3] as SolutionExplorer);
             CreateMenu(containers[0] as MenuItem);
             var workPlaceTabs = containers[2] as WorkplaceTabs;
             workPlaceTabs.DefineRevealer(".ip", AddIPView);
@@ -62,19 +65,13 @@ namespace ImplementationPlanViewer
 
         private void CreateMenu(ItemsControl item)
         {
-            var aboutItem = new MenuItem
+            var pMI = new PluginMenuItem();
+            var items = pMI.Items.Cast<MenuItem>().ToList();
+            pMI.Items.Clear();
+            foreach (MenuItem mi in items)
             {
-                Header = "About " + Title
-            };
-            aboutItem.Click += ShowAboutInfo;
-            item.Items.Add(aboutItem);
-        }
-
-        private void ShowAboutInfo(object sender, RoutedEventArgs e)
-        {
-            var aboutInfo = new AboutWindow();
-            aboutInfo.Text = Description;
-            aboutInfo.ShowDialog();
+                item.Items.Add(mi);
+            }
         }
 
         private EnclosedTabItem AddIPView(FileInfo file)
@@ -87,6 +84,7 @@ namespace ImplementationPlanViewer
             var viewver = new Viewer();
             viewver.SetContent(file);
             tabItem.Content = viewver;
+            Methods.CurrentViewer = viewver;
             return tabItem;
         }
 

@@ -38,7 +38,7 @@ namespace ImplementationPlanViewer
 
         private void ClickToEllipse(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            _vbvm.IsSelected = !_vbvm.IsSelected;
+            _vbvm.ChangeSelected();
         }
     }
 }

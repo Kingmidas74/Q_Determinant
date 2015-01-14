@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:defaultControlsPack="clr-namespace:DefaultControlsPack;assembly=DefaultControlsPack"
              xmlns:converters="clr-namespace:ImplementationPlanViewer.InternalClasses.LocalConverters"
-             Background="Indigo"
+             xmlns:implementationPlanViewer="clr-namespace:ImplementationPlanViewer"
              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type defaultControlsPack:EnclosedTabControl}}}" 
              Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type defaultControlsPack:EnclosedTabControl}}}"
              >
@@ -15,14 +15,14 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-        <ScrollViewer Background="Green" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,0,0,20" >
-        <ItemsControl ItemsSource="{Binding Path=Blocks, Mode=TwoWay}">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,0,0,20" >
+        <ItemsControl ItemsSource="{Binding Path=AllElements, Mode=TwoWay}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas x:Name="Canvas" 
                             Width="{Binding Path=MaxLevelToVertex, Mode=OneWay, Converter={converters:CountCPUToWidthConverter}}" 
                             Height="{Binding Path=Level, Mode=OneWay, Converter={converters:LevelToHeihtConverter}}" 
-                            Background="HotPink" IsItemsHost="True"/>
+                            IsItemsHost="True"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Data;
 using BasicComponentsPack.Annotations;
 using Core.Atoms;
 using Core.Converters;
@@ -27,9 +24,15 @@ namespace ImplementationPlanViewer.InternalClasses
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private ObservableCollection<Link> _links = new ObservableCollection<Link>();
+        public ViewerVM()
+        {
+            AllElements.Add(new CollectionContainer {Collection = Blocks});
+            AllElements.Add(new CollectionContainer { Collection = Links });
+        }
 
-        public ObservableCollection<Link> Links
+        private ObservableCollection<LineIP> _links = new ObservableCollection<LineIP>();
+
+        public ObservableCollection<LineIP> Links
         {
             get { return _links; }
             set { 
@@ -49,6 +52,17 @@ namespace ImplementationPlanViewer.InternalClasses
                 Level = GetLevel();
                 MaxLevelToVertex = GetMaxVertexToLevel();
                 OnPropertyChanged();
+            }
+        }
+
+        private CompositeCollection _allElements = new CompositeCollection();
+
+        public CompositeCollection AllElements
+        {
+            get { return _allElements; }
+            set { 
+                _allElements = value; 
+                OnPropertyChanged(); 
             }
         }
 
@@ -110,27 +124,33 @@ namespace ImplementationPlanViewer.InternalClasses
                 context.Top = currentY;
                 context.Left = currentX;
                 context.Content = vertex.Content;
-               /* if (vertex.Level > 0)
+                if (vertex.Level > 0)
                 {
                     var localBlock = vertex;
-                    var currentLinks = graph.Edges.Where(x => x.To == localBlock.Id);
-                    var currentGrids = currentLinks.Select(l => grids.FirstOrDefault(x => ulong.Parse(x.Tag.ToString()) == l.From)).ToList();
-                    //double y1 = 0;
-                    double x1 = currentGrids.Sum(g => Canvas.GetLeft(g));
-                    x1 /= currentGrids.Count;
-                    //y1 += currentGrids[0].Height;
-                    foreach (var line in currentGrids.Select(g => CreateAPolyline(Canvas.GetLeft(g) + g.GetWidth() / 2, Canvas.GetTop(g) + g.GetHeight(),
-                        x1 + g.GetWidth() / 2, currentY)))
+                    var prevIds = graph.Edges.Where(x => x.To == localBlock.Id).Select(currentLink => currentLink.From).ToList();
+                    var previousBlocks = Blocks.Where(x => prevIds.Contains((x.DataContext as VisualBlockVM).Block.Id)).ToList();
+                    var x1 = previousBlocks.Aggregate<EllipseIP, double>(0, (current, previousBlock) => current + (previousBlock.DataContext as VisualBlockVM).Left)/previousBlocks.Count;
+                    context.Left = x1;
+
+                    foreach (var previousBlock in previousBlocks)
                     {
-                        ViewerContent.Children.Add(line);
+                        var _line = new LineIP();
+                        var _lineContext = _line.DataContext as VisualLinkVM;
+                        _lineContext.X1 = (previousBlock.DataContext as VisualBlockVM).Left + previousBlock.GetWidth()/2;
+                        _lineContext.Y1 = (previousBlock.DataContext as VisualBlockVM).Top + previousBlock.GetHeight();
+                        _lineContext.X2 = x1 + previousBlock.GetWidth() / 2;
+                        _lineContext.Y2 = currentY;
+                        Links.Add(_line);
                     }
-                    grid = CreateGrid(currentY, x1, block.Id, block.Level);
-                }*/
+                }
                 countBlocksInLevel[vertex.Level]++;
                 Blocks.Add(_ellipse);
                 Level = GetLevel();
                 MaxLevelToVertex = GetMaxVertexToLevel();
             }
+            AllElements.Clear();
+            AllElements.Add(new CollectionContainer { Collection = Blocks });
+            AllElements.Add(new CollectionContainer { Collection = Links });
         }
     }
 }

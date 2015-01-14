@@ -1,4 +1,5 @@
-﻿using ImplementationPlanViewer.InternalClasses;
+﻿using System.Windows;
+using ImplementationPlanViewer.InternalClasses;
 
 namespace ImplementationPlanViewer
 {
@@ -8,25 +9,22 @@ namespace ImplementationPlanViewer
     public partial class EllipseIP
     {
         private readonly VisualBlockVM _vbvm = new VisualBlockVM();
+
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyProperty.Register("IsSelected", typeof(bool), typeof(EllipseIP),
+                new FrameworkPropertyMetadata());
+
+
+        public bool IsSelected
+        {
+            get { return (bool)GetValue(IsSelectedProperty); }
+            set { SetValue(IsSelectedProperty, value); }
+        }
         public EllipseIP()
         {
             InitializeComponent();
             DataContext = _vbvm;
-        }
-
-        public void SetContent(string content)
-        {
-            Content.Text = content;
-        }
-
-        public void SetLevel(ulong level)
-        {
-            Level.Text = level.ToString();
-        }
-
-        public void SetNumber(int number)
-        {
-            Number.Text = number.ToString();
+            IsSelected = false;
         }
 
         public double GetWidth()
@@ -36,6 +34,11 @@ namespace ImplementationPlanViewer
         public double GetHeight()
         {
             return Element.Height;
+        }
+
+        private void ClickToEllipse(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            _vbvm.IsSelected = !_vbvm.IsSelected;
         }
     }
 }

@@ -47,6 +47,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LineIP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Viewer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -54,10 +58,16 @@
     <Compile Include="EllipseIP.xaml.cs">
       <DependentUpon>EllipseIP.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InternalClasses\Extensions.cs" />
+    <Compile Include="InternalClasses\LocalConverters\BlockSelectedToColorConverter.cs" />
     <Compile Include="InternalClasses\LocalConverters\CountCPUToWidthConverter.cs" />
     <Compile Include="InternalClasses\LocalConverters\LevelToHeihtConverter.cs" />
     <Compile Include="InternalClasses\ViewerVM.cs" />
     <Compile Include="InternalClasses\VisualBlockVM.cs" />
+    <Compile Include="InternalClasses\VisualLinkVM.cs" />
+    <Compile Include="LineIP.xaml.cs">
+      <DependentUpon>LineIP.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plugin.cs" />
     <Compile Include="Viewer.xaml.cs">
       <DependentUpon>Viewer.xaml</DependentUpon>

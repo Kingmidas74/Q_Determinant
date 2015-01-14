@@ -1,12 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using BasicComponentsPack.Annotations;
 using Core.Atoms;
 
 namespace ImplementationPlanViewer.InternalClasses
 {
-    internal class VisualBlockVM:INotifyPropertyChanged
+    internal class VisualLinkVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -17,31 +16,7 @@ namespace ImplementationPlanViewer.InternalClasses
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Block Block;
-
-        private bool _isSelected=false;
-
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                _isSelected = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string _content;
-
-        public string Content
-        {
-            get { return _content; }
-            set
-            {
-                _content = value;
-                OnPropertyChanged();
-            }
-        }
+        public Link Link;
 
         private double _top;
 
@@ -67,26 +42,50 @@ namespace ImplementationPlanViewer.InternalClasses
             }
         }
 
-        private ObservableCollection<Link> _inLinks;
+        private double _y2;
 
-        public ObservableCollection<Link> InLinks
+        public double Y2
         {
-            get { return _inLinks; }
+            get { return _y2; }
             set
             {
-                _inLinks = value;
+                _y2 = value;
                 OnPropertyChanged();
             }
         }
 
-        private ObservableCollection<Link> _outLinks;
+        private double _x1;
 
-        public ObservableCollection<Link> OutLinks
+        public double X1
         {
-            get { return _outLinks; }
+            get { return _x1; }
             set
             {
-                _outLinks = value;
+                _x1 = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double _x2;
+
+        public double X2
+        {
+            get { return _x2; }
+            set
+            {
+                _x2 = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double _y1;
+
+        public double Y1
+        {
+            get { return _y1; }
+            set
+            {
+                _y1 = value;
                 OnPropertyChanged();
             }
         }

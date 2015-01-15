@@ -1034,12 +1034,12 @@ namespace QDeterminant
             {
                 new QTerm
                 {
-                    Logical="==(A33,0)",
+                    Logical="+(A33,0)",
                     Definitive = "/(B3,A33)"
                 },
                 new QTerm
                 {
-                    Logical = "==(A11,0)",
+                    Logical = "+(A11,0)",
                     Definitive = "/(-(-(B1,*(A12,/(-(B2,*(A23,/(B3,A33))),A22))),*(A13,/(B3,A33))),A11)"
                 }/*,
                 new QTerm

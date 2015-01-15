@@ -55,6 +55,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PluginToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Viewer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,6 +79,9 @@
     <Compile Include="Plugin.cs" />
     <Compile Include="PluginMenuItem.xaml.cs">
       <DependentUpon>PluginMenuItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PluginToolbar.xaml.cs">
+      <DependentUpon>PluginToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viewer.xaml.cs">
       <DependentUpon>Viewer.xaml</DependentUpon>

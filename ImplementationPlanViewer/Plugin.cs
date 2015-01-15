@@ -59,6 +59,7 @@ namespace ImplementationPlanViewer
         {
             Methods.SE = (containers[3] as SolutionExplorer);
             CreateMenu(containers[0] as MenuItem);
+          //  ((containers[1] as ToolBar).Parent as ToolBarTray).ToolBars.Add(new PluginToolbar().PluginToolBar);
             var workPlaceTabs = containers[2] as WorkplaceTabs;
             workPlaceTabs.DefineRevealer(".ip", AddIPView);
         }

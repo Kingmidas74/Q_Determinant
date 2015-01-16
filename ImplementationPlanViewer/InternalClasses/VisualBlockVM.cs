@@ -68,6 +68,18 @@ namespace ImplementationPlanViewer.InternalClasses
             }
         }
 
+        private ulong _level;
+
+        public ulong Level
+        {
+            get { return Block.Level; }
+            set
+            {
+                Block.Level = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ObservableCollection<Link> _inLinks;
 
         public ObservableCollection<Link> InLinks

@@ -13,7 +13,7 @@
     <Grid x:Name="Element" Width="30" Height="30">
         <Ellipse x:Name="Ellipse" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="{Binding Path=IsSelected, Mode=OneWay, Converter={localConverters:BlockSelectedToColorConverter}}" Stroke="{DynamicResource BaseFontBrush}"/>
         <TextBlock x:Name="Content" FontSize="14" Style="{DynamicResource BaseFont}" Text="{Binding Path=Content, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"/>
-        <TextBlock x:Name="Level" FontSize="12" Style="{DynamicResource BaseFont}"  HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Left"/>
+        <TextBlock x:Name="Level" FontSize="12" Style="{DynamicResource BaseFont}"  HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Left" Text="{Binding Path=Level}" Margin="-6,-6,0,0"/>
         <TextBlock x:Name="Number" FontSize="12" Style="{DynamicResource BaseFont}" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left"/>
     </Grid>
 </UserControl>

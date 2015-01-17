@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Core.Atoms;
+using Core.Converters;
 using Core.Interfaces;
 using Core.Serializers.SerializationModels.SolutionModels;
 using ImplementationPlan;
+using ImplementationPlan.InternalClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
@@ -10,6 +13,78 @@ namespace UnitTests
     [TestClass]
     public class ImplementationPlanTest
     {
+        [TestMethod]
+        public void DefineFirstLexem()
+        {
+
+            var LA = new LexemAnalyze(new List<Function>
+            {
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "-"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "/"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "="},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "!="}
+            });
+            var GB = new GraphBuilder(new List<Function>
+            {
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "-"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "/"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "="},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "!="}
+            });
+
+            var _qDeterminantModern = new List<QTerm>
+            {
+                /*new QTerm
+                {
+                    Logical="",
+                    Definitive = "-(-(/(d,a),*(/(c,a),/(-(*(-(*(m,a),*(d,i)),-(*(f,a),*(b,e))),*(-(*(h,a),*(d,e)),-(*(k,a),*(b,i)))),-(*(-(*(l,a),*(c,e)),-(*(f,a),*(b,e))),*(-(*(j,a),*(c,i)),-(*(k,a),*(b,i))))))),*(/(b,a),-(/(-(*(h,a),*(d,e)),-(*(f,a),*(b,e))),*(/(-(*(j,a),*(c,e)),-(*(f,a),*(b,e))),/(-(*(-(*(m,a),*(d,i)),-(*(f,a),*(b,e))),*(-(*(h,a),*(d,e)),-(*(k,a),*(b,i)))),-(*(-(*(l,a),*(c,e)),-(*(f,a),*(b,e))),*(-(*(j,a),*(c,i)),-(*(k,a),*(b,i)))))))))"
+                },
+                new QTerm
+                {
+                    Logical = "",
+                    Definitive = "-(/(-(*(h,a),*(d,e)),-(*(f,a),*(b,e))),*(/(-(*(j,a),*(c,e)),-(*(f,a),*(b,e))),/(-(*(-(*(m,a),*(d,i)),-(*(f,a),*(b,e))),*(-(*(h,a),*(d,e)),-(*(k,a),*(b,i)))),-(*(-(*(l,a),*(c,e)),-(*(f,a),*(b,e))),*(-(*(j,a),*(c,i)),-(*(k,a),*(b,i)))))))"
+                },*/
+                new QTerm
+                {
+                    Definitive = "",
+                    Logical = "/(-(*(a,b),*(c,d)),-(*(e,f),*(j,h)))",
+                }/*,
+                new QTerm
+                {
+                    Definitive = "+(/(+(+(5,N),8),-(*(N,5),7)),*(N,5))",
+                    Logical = ">=(+(+(9,a),+(5,5)),*(8,+(+(5,5),+(7,1))))",
+                    Index = 1
+                }*/
+            };
+            ulong startId = 0;
+            var _implementationPlan = new List<Graph>();
+            foreach (var qTerm in _qDeterminantModern)
+            {
+                if (!qTerm.Logical.Equals(string.Empty))
+                {
+                    var graph = GB.BuildGraph(LA.AnalyzeTerm(qTerm.Logical), startId);
+                    startId = graph.GetMaxId() + 1;
+                    _implementationPlan.Add(graph);
+                }
+                
+                if (!qTerm.Definitive.Equals(string.Empty))
+                {
+                    var graph = GB.BuildGraph(LA.AnalyzeTerm(qTerm.Definitive), startId);
+                    startId = graph.GetMaxId() + 1;
+                    _implementationPlan.Add(graph);
+                }
+            }
+            
+            Debug.WriteLine(Converter.GraphToData(_implementationPlan, ConverterFormats.JSON));
+            
+            Assert.AreEqual(">=", _implementationPlan[0].GetMaxId());
+            
+        }
+
         [TestMethod]
         public void OneLogicalQTermWithoutOptimization()
         {

@@ -27,6 +27,19 @@ namespace Core.Atoms
             return null;
         }
 
+        public ulong GetMaxId()
+        {
+            ulong result = 0;
+            foreach (var vertex in Vertices)
+            {
+                if (vertex.Id > result)
+                {
+                    result = vertex.Id;
+                }
+            }
+            return result;
+        }
+
         public ulong GetMaxLevel()
         {
             ulong result = 0;

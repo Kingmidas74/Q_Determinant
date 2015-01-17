@@ -6,6 +6,7 @@ using Core.Atoms;
 using Core.Enums;
 using Core.Interfaces;
 using Core.Serializers.SerializationModels.SolutionModels;
+using ImplementationPlan.InternalClasses;
 
 namespace ImplementationPlan
 {
@@ -20,19 +21,21 @@ namespace ImplementationPlan
         public string StatusMessage { get; private set; }
 
         private List<Graph> _implementationPlan;
-        private AvoidDuplicationTypes AvoidDuplicationType { get; set; }
+        
 
         private IEnumerable<QTerm> _qTerms;
 
         public IEnumerable<QTerm> QTerms
         {
             set { _qTerms = value; }
+            get { return _qTerms; }
         }
         private List<Function> _functions;
 
         public List<Function> Functions
         {
             set { _functions = value; }
+            get { return _functions; }
         } 
 
         public Plan()
@@ -43,12 +46,23 @@ namespace ImplementationPlan
 
         public void FindPlan()
         {
-            ReversePolishNotation.Functions = _functions;
-            //ReversePolishNotation.RefreshId();
-            _implementationPlan.Clear();
-            foreach (var qTerm in _qTerms)
+            var LexemAnalyze = new LexemAnalyze(Functions);
+            var GraphBuilder = new GraphBuilder(Functions);
+            ulong startId = 1;
+            foreach (var qTerm in QTerms)
             {
-                _implementationPlan.AddRange(new List<Graph> { ParseTerm(qTerm.Logical), ParseTerm(qTerm.Definitive) });
+                if (!qTerm.Logical.Equals(string.Empty))
+                {
+                    var graph = GraphBuilder.BuildGraph(LexemAnalyze.AnalyzeTerm(qTerm.Logical), startId);
+                    startId = graph.GetMaxId()+1;
+                    _implementationPlan.Add(graph);
+                }
+                if (!qTerm.Definitive.Equals(string.Empty))
+                {
+                    var graph = GraphBuilder.BuildGraph(LexemAnalyze.AnalyzeTerm(qTerm.Definitive), startId);
+                    startId = graph.GetMaxId() + 1;
+                    _implementationPlan.Add(graph);
+                }
             }
             CountTacts = GetMaxLevel();
             CountCPU = GetMaxOperationsInLevel();
@@ -56,17 +70,17 @@ namespace ImplementationPlan
 
         public void OptimizePlan(ulong countCPU)
         {
-            var globalGraph = new Graph();
+            /*var globalGraph = new Graph();
             foreach (var graph in _implementationPlan)
             {
                 globalGraph.Vertices.AddRange(graph.Vertices);
                 globalGraph.Edges.AddRange(graph.Edges);
             }
-            globalGraph = Optimization.OptimizateGraph(globalGraph, countCPU);
+            //globalGraph = Optimization.OptimizateGraph(globalGraph, countCPU);
             _implementationPlan.Clear();
             _implementationPlan.Add(globalGraph);
             CountTacts = globalGraph.GetMaxLevel();
-            CountCPU = globalGraph.GetMaxOperationsInLevel();
+            CountCPU = globalGraph.GetMaxOperationsInLevel();*/
         }
 
         public Graph GetPlan()
@@ -107,15 +121,5 @@ namespace ImplementationPlan
             return _implementationPlan.Aggregate<Graph, ulong>(0, (current, graph) => current + graph.GetMaxOperationsInLevel());
         }
 
-        private Graph ParseTerm(string term)
-        {
-            if(String.IsNullOrEmpty(term)) return new Graph();
-            var vertices = ReversePolishNotation.Translate(term);
-            var edges = Optimization.SetLinks(ref vertices);
-            var graph = Optimization.SetLevels(new Graph(vertices, edges));
-            graph = Optimization.RemoveDuplicateParameters(graph);
-            graph = Optimization.RemoveDuplicateFunctions(graph);
-            return graph;
-        }
     }
 }

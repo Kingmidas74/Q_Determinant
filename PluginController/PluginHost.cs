@@ -94,7 +94,7 @@ namespace PluginController
                         {
                             if (currentInterface.ToString().Equals(_interface))
                             {
-                                _libraries.Add(Path.GetFileNameWithoutExtension(file),file);
+                                _libraries.Add(Path.GetFileNameWithoutExtension(file),"libs\\"+Path.GetFileNameWithoutExtension(file)+".dll");
                                 break;
                             }
                         }

@@ -76,6 +76,7 @@ namespace Compiler
             _adapter.CalculateDeterminant();
             if (_adapter.GetVariables().Count > 0)
             {
+                Console.WriteLine("VAR EXIST");
                 if (currentProject.SignificantVariables.Count(x => string.IsNullOrEmpty(x.Value)) > 0)
                 {
                     throw new Exception("NV");    
@@ -85,8 +86,10 @@ namespace Compiler
             }
             Console.WriteLine("Find Plan");
             _adapter.FindPlan();
+            
             //_adapter.OptimizePlan(_solution.Properties.MaxCPU);
             //_adapter.OptimizePlan(1);
+            Console.WriteLine("Get Plan");
             var result = _adapter.GetPlan();
             Console.WriteLine("Save Plan");
             var data = Converter.GraphToData(result, ConverterFormats.JSON);
@@ -110,14 +113,14 @@ namespace Compiler
 
         private static void CreateAdapter()
         {
-            var qDeterminantFile = Assembly.LoadFile(_config.Element("Settings").Element("QDeterminant").Attribute("Path").Value);
+            var qDeterminantFile = Assembly.LoadFile(System.IO.Path.Combine(Environment.CurrentDirectory,_config.Element("Settings").Element("QDeterminant").Attribute("Path").Value));
             IDeterminant qDeterminant = null;
             foreach (var type in qDeterminantFile.GetTypes().Where(type => type.GetInterfaces().Any(currentInterface => currentInterface.ToString().Equals("Core.Interfaces.IDeterminant"))))
             {
                 qDeterminant = (IDeterminant)Activator.CreateInstance(type);
             }
             if (qDeterminant == null) throw new FileLoadException("QDeterminant don't load");
-            var implementationPlanFile = Assembly.LoadFile(_config.Element("Settings").Element("ImplementationPlan").Attribute("Path").Value);
+            var implementationPlanFile = Assembly.LoadFile(System.IO.Path.Combine(Environment.CurrentDirectory,_config.Element("Settings").Element("ImplementationPlan").Attribute("Path").Value));
             IPlan implementationPlan = null;
             foreach (var type in implementationPlanFile.GetTypes().Where(type => type.GetInterfaces().Any(currentInterface => currentInterface.ToString().Equals("Core.Interfaces.IPlan"))))
             {
@@ -170,6 +173,7 @@ namespace Compiler
                 {
                     return 2;
                 }
+                Console.WriteLine(exception.Message);
                 return 1;
             }
         }

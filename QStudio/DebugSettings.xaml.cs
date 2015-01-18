@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
@@ -43,6 +44,7 @@ namespace QStudio
             foreach (var lib in libs)
             {
                 var item = new ComboBoxItem();
+                MessageBox.Show(lib.Value);
                 item.Tag = lib.Value;
                 item.Content = lib.Key;
                 parent.Items.Add(item);

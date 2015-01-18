@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq.Expressions;
+using Core.Adapter;
 using Core.Atoms;
 using Core.Converters;
 using Core.Interfaces;
@@ -7,12 +9,38 @@ using Core.Serializers.SerializationModels.SolutionModels;
 using ImplementationPlan;
 using ImplementationPlan.InternalClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QDeterminant;
 
 namespace UnitTests
 {
     [TestClass]
     public class ImplementationPlanTest
     {
+
+        [TestMethod]
+        public void AdapterTest()
+        {
+            var Q = new Determinant();
+            var P = new Plan();
+            var _adapter = new Adapter<IDeterminant, IPlan>(Q, P);
+            _adapter.FunctionsList = new List<Function>
+            {
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "*"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "+"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "-"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Fourth, Signature = "/"},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "="},
+                new Function {Parameters = 2, Priority = FunctionPriorities.Third, Signature = "!="}
+            };
+            _adapter.FlowChart=new Graph();
+            _adapter.CalculateDeterminant();
+            _adapter.FindPlan();
+            var a = _adapter.GetPlan();
+            Assert.AreEqual("a",a.GetMaxLevel());
+
+
+
+        }
         [TestMethod]
         public void DefineFirstLexem()
         {
@@ -50,8 +78,8 @@ namespace UnitTests
                 },*/
                 new QTerm
                 {
-                    Definitive = "",
-                    Logical = "/(-(*(a,b),*(c,d)),-(*(e,f),*(j,h)))",
+                    Logical="!=(a,0)",
+                    Definitive = "-(-(/(d,a),*(/(c,a),/(-(*(-(*(m,a),*(d,i)),-(*(f,a),*(b,e))),*(-(*(h,a),*(d,e)),-(*(k,a),*(b,i)))),-(*(-(*(l,a),*(c,e)),-(*(f,a),*(b,e))),*(-(*(j,a),*(c,i)),-(*(k,a),*(b,i))))))),*(/(b,a),-(/(-(*(h,a),*(d,e)),-(*(f,a),*(b,e))),*(/(-(*(j,a),*(c,e)),-(*(f,a),*(b,e))),/(-(*(-(*(m,a),*(d,i)),-(*(f,a),*(b,e))),*(-(*(h,a),*(d,e)),-(*(k,a),*(b,i)))),-(*(-(*(l,a),*(c,e)),-(*(f,a),*(b,e))),*(-(*(j,a),*(c,i)),-(*(k,a),*(b,i)))))))))"
                 }/*,
                 new QTerm
                 {

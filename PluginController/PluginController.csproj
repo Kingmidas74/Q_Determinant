@@ -32,7 +32,6 @@
   <ItemGroup>
     <Compile Include="Enums\PluginTypes.cs" />
     <Compile Include="Enums\Positions.cs" />
-    <Compile Include="FileIntfo.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="IPluginHost.cs" />
     <Compile Include="PluginHost.cs" />

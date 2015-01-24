@@ -37,8 +37,8 @@ namespace ImplementationPlan.InternalClasses
             SetLinks();
             SetLevels();
             _graph = new Graph(_blocks, _links);
-            /*RemoveDuplicateParameters();
-            RemoveDuplicateFunctions();*/
+            RemoveDuplicateParameters();
+            RemoveDuplicateFunctions();
             return _graph;
         }
 

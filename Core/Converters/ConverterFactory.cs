@@ -10,6 +10,8 @@
                     return new JSONConverter();
                 case ConverterFormats.XML:
                     return new XMLConverter();
+                case ConverterFormats.MessagePack:
+                    return new MessagePackConverter();
                 default:
                     return null;
             }

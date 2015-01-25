@@ -3,6 +3,7 @@
     public enum ConverterFormats
     {
         JSON,
-        XML
+        XML,
+        MessagePack
     }
 }

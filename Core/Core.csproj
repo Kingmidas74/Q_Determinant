@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MsgPack">
+      <HintPath>..\QStudio\bin\Debug\vendors\MsgPack.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\QStudio\bin\Debug\vendors\Newtonsoft.Json.dll</HintPath>
@@ -53,6 +57,7 @@
     <Compile Include="Converters\ConverterFactory.cs" />
     <Compile Include="Converters\ConverterFormats.cs" />
     <Compile Include="Converters\JSONConverter.cs" />
+    <Compile Include="Converters\MessagePackConverter.cs" />
     <Compile Include="Converters\XMLConverter.cs" />
     <Compile Include="Enums\CompilerCode.cs" />
     <Compile Include="Enums\StatusTypes.cs" />

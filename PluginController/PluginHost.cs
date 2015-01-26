@@ -50,7 +50,7 @@ namespace PluginController
 
         public PluginHost(string directory, string type)
         {
-            _folderPath = new DirectoryInfo(directory).FullName;
+            _folderPath =Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), new DirectoryInfo(directory).FullName);
             _interface = type;
             LoadPlugins();
         }

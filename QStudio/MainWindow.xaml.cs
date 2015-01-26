@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -138,9 +140,13 @@ namespace QStudio
         
         #endregion
 
-        public MainWindow()
+        public MainWindow(string SolutionPath=null)
         {
             InitializeComponent();
+            if (!String.IsNullOrEmpty(SolutionPath))
+            {
+                SolutionExplorer.CurrentSolutionPath = SolutionPath;
+            }
         }
 
         private void ErrorHandler(object sender, RoutedEventArgs e)

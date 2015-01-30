@@ -52,11 +52,14 @@ namespace ImplementationPlanViewer
         }
 
         public List<string> InitializeObjects {
-            get { return new List<string> { "WorkplaceTabs", "SolutionExplorer" }; }
+            get { return new List<string> { "WorkplaceTabs", "SolutionExplorer", "RightBottomSegment" }; }
         }
+
+        private List<object> _containers; 
 
         public void Initialize(List<object> containers)
         {
+            _containers = containers;
             Methods.SE = (containers[3] as SolutionExplorer);
             CreateMenu(containers[0] as MenuItem);
           //  ((containers[1] as ToolBar).Parent as ToolBarTray).ToolBars.Add(new PluginToolbar().PluginToolBar);
@@ -86,6 +89,21 @@ namespace ImplementationPlanViewer
             viewver.SetContent(file);
             tabItem.Content = viewver;
             Methods.CurrentViewer = viewver;
+            var propertyTab = CreatePropertyGrid(file);
+            (_containers[4] as EnclosedTabControl).Items.Add(propertyTab);
+            return tabItem;
+        }
+
+        private EnclosedTabItem CreatePropertyGrid(FileInfo file)
+        {
+            var tabItem = new EnclosedTabItem
+            {
+                Header = file.Name +" property",
+                Tag = System.IO.Path.GetFileNameWithoutExtension((_containers[3] as SolutionExplorer).CurrentProjectPath)+file.Name
+            };
+            var propertyGrid = new PropertyGrid();
+            propertyGrid.SetFilePath(file);
+            tabItem.Content = propertyGrid;
             return tabItem;
         }
 

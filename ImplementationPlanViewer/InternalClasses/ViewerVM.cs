@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
@@ -14,6 +15,8 @@ namespace ImplementationPlanViewer.InternalClasses
     {
 
         public Viewer CurrentViewer;
+
+        private FileInfo _file;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -103,6 +106,7 @@ namespace ImplementationPlanViewer.InternalClasses
 
         internal void SetContent(System.IO.FileInfo file)
         {
+            _file = file;
             Blocks.Clear();
             Links.Clear();
             const ulong startX = 30;
@@ -152,5 +156,11 @@ namespace ImplementationPlanViewer.InternalClasses
             AllElements.Add(new CollectionContainer { Collection = Blocks });
             AllElements.Add(new CollectionContainer { Collection = Links });
         }
+
+        internal void Reload()
+        {
+            SetContent(_file);
+        }
+
     }
 }

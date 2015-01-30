@@ -56,6 +56,11 @@ namespace DefaultControlsPack
             RaiseEvent(new RoutedEventArgs(CloseTabEvent, args.Source));
             Items.Remove(args.Source as EnclosedTabItem);
         }
+
+        public void CloseTargetTab(EnclosedTabItem item)
+        {
+            Items.Remove(item);
+        }
         
     }
 }

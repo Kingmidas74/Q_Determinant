@@ -11,6 +11,7 @@ using Core.Atoms;
 using Core.Converters;
 using Core.Serializers.SerializationModels;
 using Core.Serializers.SerializationModels.ProjectModels;
+using DefaultControlsPack;
 
 namespace ImplementationPlanViewer.InternalClasses
 {
@@ -18,6 +19,10 @@ namespace ImplementationPlanViewer.InternalClasses
     {
         public static Viewer CurrentViewer { get; set; }
         public static SolutionExplorer SE { get; set; }
+
+        public static EnclosedTabItem PropertyGridInstance { get; set; }
+
+
         public static void CreateProject()
         {
             if (CurrentViewer == null) return;

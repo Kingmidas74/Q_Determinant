@@ -120,10 +120,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Resources\Colors.xaml">
+    <Resource Include="Themes\Resources\Colors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </Resource>
     <Page Include="Themes\Resources\Container.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

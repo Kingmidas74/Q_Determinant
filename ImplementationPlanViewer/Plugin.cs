@@ -89,22 +89,30 @@ namespace ImplementationPlanViewer
             viewver.SetContent(file);
             tabItem.Content = viewver;
             Methods.CurrentViewer = viewver;
-            var propertyTab = CreatePropertyGrid(file);
-            (_containers[4] as EnclosedTabControl).Items.Add(propertyTab);
+            EnclosedTabItem propertyTab;
+            if (Methods.PropertyGridInstance == null)
+            {
+                propertyTab = CreatePropertyGrid(file);
+                (_containers[4] as EnclosedTabControl).Items.Add(propertyTab);
+            }
+            else
+            {
+                (Methods.PropertyGridInstance.Content as PropertyGrid).SetFilePath(file);
+            }
             return tabItem;
         }
 
         private EnclosedTabItem CreatePropertyGrid(FileInfo file)
         {
-            var tabItem = new EnclosedTabItem
-            {
-                Header = file.Name +" property",
-                Tag = System.IO.Path.GetFileNameWithoutExtension((_containers[3] as SolutionExplorer).CurrentProjectPath)+file.Name
-            };
+            Methods.PropertyGridInstance = new EnclosedTabItem();
+            Methods.PropertyGridInstance.Header = file.Name + " property";
+            Methods.PropertyGridInstance.Tag =
+                System.IO.Path.GetFileNameWithoutExtension((_containers[3] as SolutionExplorer).CurrentProjectPath) +
+                file.Name;
             var propertyGrid = new PropertyGrid();
             propertyGrid.SetFilePath(file);
-            tabItem.Content = propertyGrid;
-            return tabItem;
+            Methods.PropertyGridInstance.Content = propertyGrid;
+            return Methods.PropertyGridInstance;
         }
 
         public void BeforeCompilerListener(object sender, RoutedEventArgs e)

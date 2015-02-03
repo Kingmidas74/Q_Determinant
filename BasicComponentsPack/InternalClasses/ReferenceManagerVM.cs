@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using BasicComponentsPack.Annotations;
 using Core.Serializers.SerializationModels;
 using Core.Serializers.SerializationModels.ProjectModels;
+using Microsoft.Win32;
 
 namespace BasicComponentsPack.InternalClasses
 {
@@ -75,7 +76,7 @@ namespace BasicComponentsPack.InternalClasses
                 });
             }
 
-            var globalReferenceDirectory = new DirectoryInfo("BasicFunctions");
+            var globalReferenceDirectory = new DirectoryInfo(System.IO.Path.Combine(System.IO.Path.GetDirectoryName((Registry.ClassesRoot.OpenSubKey(@"QStudio\Shell\Open\Command")).GetValue("").ToString().Split(' ')[0]), "BasicFunctions"));
             foreach (var referenceDirectory in globalReferenceDirectory.GetDirectories())
             {
                 foreach (var file in referenceDirectory.GetFiles().Where(file => file.Extension.Equals(".qpr")))

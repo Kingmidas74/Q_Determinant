@@ -205,8 +205,9 @@ namespace QStudio
 
         private void LoadPlugins(object sender, RoutedEventArgs e)
         {
-            var pluginController = new PluginHost("plugins", "PluginController.IPlugin");
-            var plugins = pluginController.Plugins;
+            var plugins =
+                PluginHost.GetPlugins(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+                    @"QStudio", "plugins"));
             foreach(var plugin in plugins)
             {
                 var pluginMenuItem = new MenuItem {Header = plugin.Title};

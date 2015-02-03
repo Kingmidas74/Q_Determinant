@@ -8,6 +8,7 @@ namespace QStudio {
         {
             AppDomain.CurrentDomain.AppendPrivatePath(@"core");
             AppDomain.CurrentDomain.AppendPrivatePath(@"vendors");
+            
         }
 
         private void OnStartup(object sender, StartupEventArgs e)

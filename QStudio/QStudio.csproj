@@ -112,6 +112,11 @@
       <Private>False</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{0f025b2a-3987-43a0-bdd5-328511bccc1a}</Project>
+      <Name>Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\DefaultControlsPack\DefaultControlsPack.csproj">
       <Project>{8976b701-f121-41e8-903f-fc32fddedf26}</Project>
       <Name>DefaultControlsPack</Name>
@@ -135,6 +140,18 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)bin\Debug\plugins" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\Qstudio\plugins" /s/h/e/k/f/c
+
+xcopy "$(ProjectDir)bin\Debug\libs" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\Qstudio\libs" /s/h/e/k/f/c
+
+copy "$(ProjectDir)bin\Debug\config.xml" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\Qstudio\config.xml"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>IF NOT EXIST $(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\Qstudio\plugins mkdir "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\Qstudio\plugins"
+
+IF NOT EXIST $(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\Qstudio\libs mkdir "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\Qstudio\libs"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

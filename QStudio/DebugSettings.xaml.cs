@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
+using Core.Interfaces;
 using DefaultControlsPack;
 using PluginController;
 
@@ -15,15 +16,17 @@ namespace QStudio
     public partial class DebugSettings : ModernWindow
     {
         private readonly XDocument _settings;
-        private const string Path = @"config.xml";
+
+        private readonly string _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+            @"QStudio", "config.xml");
         public DebugSettings()
         {
             InitializeComponent();
             try
             {
-                if (File.Exists(Path))
+                if (File.Exists(_path))
                 {
-                    _settings = XDocument.Load(Path);
+                    _settings = XDocument.Load(_path);
                 }
                 else
                 {
@@ -37,16 +40,16 @@ namespace QStudio
 
         private void LoadDeterminantLibraries(object sender, RoutedEventArgs e)
         {
-            var pluginController = new PluginHost("libs", "Core.Interfaces.IDeterminant");
-            var libs = pluginController.Libraries;
+            var libs =
+                PluginHost.AvailableDLLs(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+                    @"QStudio","libs"), typeof (IDeterminant));
             var parent = (sender as ComboBox);
             parent.Items.Clear();
             foreach (var lib in libs)
             {
                 var item = new ComboBoxItem();
-                MessageBox.Show(lib.Value);
-                item.Tag = lib.Value;
-                item.Content = lib.Key;
+                item.Tag = lib.Name;
+                item.Content = lib.Name;
                 parent.Items.Add(item);
             }
             XElement currentLib = null;
@@ -73,15 +76,16 @@ namespace QStudio
 
         private void LoadImplementationPlanLibraries(object sender, RoutedEventArgs e)
         {
-            var pluginController = new PluginHost("libs", "Core.Interfaces.IPlan");
-            var libs = pluginController.Libraries;
+            var libs =
+                  PluginHost.AvailableDLLs(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+                      @"QStudio", "libs"), typeof(IPlan));
             var parent = (sender as ComboBox);
             parent.Items.Clear();
             foreach (var lib in libs)
             {
                 var item = new ComboBoxItem();
-                item.Tag = lib.Value;
-                item.Content = lib.Key;
+                item.Tag = lib.Name;
+                item.Content = lib.Name;
                 parent.Items.Add(item);
             }
             XElement currentLib = null;
@@ -135,7 +139,7 @@ namespace QStudio
                 element.Add(attribute);
                 _settings.Element("Settings").Add(element);
             }
-            _settings.Save(Path);
+            _settings.Save(_path);
             this.Close();
         }
     }

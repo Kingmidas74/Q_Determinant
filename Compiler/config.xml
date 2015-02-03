@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Settings>
-  <QDeterminant Path="libs\QDeterminant.dll" />
-  <ImplementationPlan Path="libs\ImplementationPlan.dll" />
+  <QDeterminant Path="QDeterminant.dll" />
+  <ImplementationPlan Path="ImplementationPlan.dll" />
 </Settings>

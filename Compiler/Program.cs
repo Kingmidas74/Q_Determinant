@@ -113,14 +113,16 @@ namespace Compiler
 
         private static void CreateAdapter()
         {
-            var qDeterminantFile = Assembly.LoadFile(System.IO.Path.Combine(Environment.CurrentDirectory,_config.Element("Settings").Element("QDeterminant").Attribute("Path").Value));
+            var qDeterminantFile = Assembly.LoadFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+            @"QStudio","libs", _config.Element("Settings").Element("QDeterminant").Attribute("Path").Value));
             IDeterminant qDeterminant = null;
             foreach (var type in qDeterminantFile.GetTypes().Where(type => type.GetInterfaces().Any(currentInterface => currentInterface.ToString().Equals("Core.Interfaces.IDeterminant"))))
             {
                 qDeterminant = (IDeterminant)Activator.CreateInstance(type);
             }
             if (qDeterminant == null) throw new FileLoadException("QDeterminant don't load");
-            var implementationPlanFile = Assembly.LoadFile(System.IO.Path.Combine(Environment.CurrentDirectory,_config.Element("Settings").Element("ImplementationPlan").Attribute("Path").Value));
+            var implementationPlanFile = Assembly.LoadFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+            @"QStudio", "libs", _config.Element("Settings").Element("ImplementationPlan").Attribute("Path").Value));
             IPlan implementationPlan = null;
             foreach (var type in implementationPlanFile.GetTypes().Where(type => type.GetInterfaces().Any(currentInterface => currentInterface.ToString().Equals("Core.Interfaces.IPlan"))))
             {
@@ -155,7 +157,8 @@ namespace Compiler
                 _solution = Solution.Deserialize(args[0]);
                 _solution.Path = args[0];
                 if (args.Length == 2) _solution.Properties.MaxCPU = ulong.Parse(args[1]);
-                _config = XDocument.Load(@"config.xml");
+                _config = XDocument.Load(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+            @"QStudio", "config.xml"));
 
                 //Process
                 CreateAdapter();

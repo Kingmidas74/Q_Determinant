@@ -1,6 +1,4 @@
-﻿using Core.Atoms;
-
-namespace Core.Converters
+﻿namespace Core.Converters
 {
     public class Converter
     {

@@ -1,5 +1,4 @@
-﻿using Core.Atoms;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Core.Converters
 {

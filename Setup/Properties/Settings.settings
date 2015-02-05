@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Setup.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ProgramName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">QStudio</Value>
+    </Setting>
+    <Setting Name="CompilerName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Compiler</Value>
+    </Setting>
+    <Setting Name="UnInstallerName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">UnInstaller</Value>
+    </Setting>
+    <Setting Name="CompanyName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">MPA Projects</Value>
+    </Setting>
+    <Setting Name="QStudioEXE" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">QStudio.exe</Value>
+    </Setting>
+    <Setting Name="CompilerEXE" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Compiler.exe</Value>
+    </Setting>
+    <Setting Name="UnInstallerEXE" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">UnInstaller.exe</Value>
+    </Setting>
+    <Setting Name="UpdateServiceName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">MidasUpdateService</Value>
+    </Setting>
+    <Setting Name="Site" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://qdet.kingmidas.ru</Value>
+    </Setting>
+    <Setting Name="ProgramIcon" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">icon.ico</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

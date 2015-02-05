@@ -4,7 +4,6 @@ using System.Linq;
 using CodeGeneration.Enums;
 using Core.Atoms;
 using Core.Converters;
-using Core.Serializers;
 using Core.Serializers.SerializationModels.SolutionModels;
 
 namespace CodeGeneration.InternalClasses

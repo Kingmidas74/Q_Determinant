@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using Core.Atoms;
+﻿using System.IO;
 using System.Xml.Serialization;
 
 namespace Core.Converters

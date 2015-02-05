@@ -9,7 +9,6 @@ using System.Xml.Linq;
 using Core.Adapter;
 using Core.Atoms;
 using Core.Converters;
-using Core.Enums;
 using Core.Interfaces;
 using Core.Serializers.SerializationModels.SolutionModels;
 

@@ -90,6 +90,7 @@
     <Compile Include="InstallWindow.xaml.cs">
       <DependentUpon>InstallWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InternalClasses\Associate.cs" />
     <Compile Include="InternalClasses\BaseViewModel.cs" />
     <Compile Include="InternalClasses\CustomKeyValuePair.cs" />
     <Compile Include="InternalClasses\Helpers.cs" />
@@ -151,6 +152,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Resources\BasePart.zip" />
+    <None Include="Resources\UserPart.zip" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -31,5 +31,14 @@ namespace UnInstaller.Properties {
                 return ((string)(this["Site"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("QStudio")]
+        public string ProgramName {
+            get {
+                return ((string)(this["ProgramName"]));
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -75,8 +76,14 @@ namespace BasicComponentsPack.InternalClasses
                     Title = reference.ProjectTitle
                 });
             }
+            var dir = System.IO.Path.GetDirectoryName(
+                Registry.ClassesRoot.OpenSubKey(@"QStudio.Solution.Launcher\Shell\Open\Command")
+                    .GetValue("")
+                    .ToString()
+                    .Split(new[] { "\"%" }, StringSplitOptions.None)[0]
+                    );
 
-            var globalReferenceDirectory = new DirectoryInfo(System.IO.Path.Combine(System.IO.Path.GetDirectoryName((Registry.ClassesRoot.OpenSubKey(@"QStudio\Shell\Open\Command")).GetValue("").ToString().Split(' ')[0]), "BasicFunctions"));
+            var globalReferenceDirectory = new DirectoryInfo(System.IO.Path.Combine(dir, "BasicFunctions"));
             foreach (var referenceDirectory in globalReferenceDirectory.GetDirectories())
             {
                 foreach (var file in referenceDirectory.GetFiles().Where(file => file.Extension.Equals(".qpr")))

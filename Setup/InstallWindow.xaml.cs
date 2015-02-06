@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media.Animation;
 using IWshRuntimeLibrary;
@@ -33,7 +35,7 @@ namespace Setup
             SetupService();
             SetupProgram();
             Associate();
-            CreatePart();
+            CreateFolder();
             CreateIcon();
             Application.Current.Dispatcher.Invoke(ShowButton);
 
@@ -76,7 +78,7 @@ namespace Setup
             }
         }
 
-        private void CreatePart()
+        private void CreateFolder()
         {
             if (ProjectInstall.CreateFolder)
             {
@@ -104,7 +106,7 @@ namespace Setup
                     LogBox.Text = "Создание значка на рабочем столе";
                 });
 
-                string shortcutLocation = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "QStudio.lnk");
+                string shortcutLocation = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Settings.Default.ProgramName+".lnk");
                 WshShell shell = new WshShell();
                 IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
                 Application.Current.Dispatcher.Invoke(delegate
@@ -123,7 +125,29 @@ namespace Setup
             }
         }
 
+        private void UnzipResource(byte[] currentArchive, string targetPath)
+        {
+            var tempPath = System.IO.Path.GetTempPath();
+            var tempFile = System.IO.Path.Combine(tempPath, "QTemp.zip");
+            var tempFolder = System.IO.Path.Combine(tempPath, "QTemp");
+            if (System.IO.Directory.Exists(tempFolder))
+            {
+                System.IO.Directory.Delete(tempFolder, true);
+            }
+            System.IO.Directory.CreateDirectory(tempFolder);
+            var transformerToZip = new System.IO.FileStream(tempFile, System.IO.FileMode.Create);
+            transformerToZip.Write(currentArchive, 0, currentArchive.Length);
+            transformerToZip.Close();
+            System.IO.Compression.ZipFile.ExtractToDirectory(tempFile, tempFolder);
+            System.IO.File.Delete(tempFile);
+            foreach (var dirPath in System.IO.Directory.GetDirectories(tempFolder, "*", System.IO.SearchOption.AllDirectories))
+                System.IO.Directory.CreateDirectory(dirPath.Replace(tempFolder, targetPath));
 
+            foreach (var newPath in System.IO.Directory.GetFiles(tempFolder, "*.*", System.IO.SearchOption.AllDirectories))
+                System.IO.File.Copy(newPath, newPath.Replace(tempFolder, targetPath), true);
+
+            System.IO.Directory.Delete(tempFolder, true);
+        }
 
         private void SetupProgram()
         {
@@ -133,37 +157,8 @@ namespace Setup
                 LogBox.Text = "Установка QStudio";
             });
 
-            var PF = Properties.Resources.PF;
-            var tempPath = System.IO.Path.GetTempPath();
-            var tempFile = System.IO.Path.Combine(tempPath, "part1.zip");
-
-            var fs = new FileStream(tempFile, FileMode.Create);
-            fs.Write(PF, 0, PF.Length);
-            fs.Close();
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                PartialBar.Value = 25;
-            });
-
-            ZipFile.ExtractToDirectory(tempFile, ProjectInstall.GetShortPathToStartupDirectory());
-            File.Delete(tempFile);
-            System.Threading.Thread.Sleep(500);
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                PartialBar.Value = 50;
-            });
-            var MD = Properties.Resources.MD;
-            fs = new FileStream(tempFile, FileMode.Create);
-            fs.Write(MD, 0, MD.Length);
-            fs.Close();
-            System.Threading.Thread.Sleep(500);
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                PartialBar.Value = 70;
-            });
-            ZipFile.ExtractToDirectory(tempFile, ProjectInstall.GetPathToDocuments());
-            File.Delete(tempFile);
-            System.Threading.Thread.Sleep(500);
+            UnzipResource(Properties.Resources.BasePart, ProjectInstall.GetShortPathToStartupDirectory());
+            UnzipResource(Properties.Resources.UserPart, ProjectInstall.GetPathToDocuments());
             Application.Current.Dispatcher.Invoke(delegate
             {
                 PartialBar.Value = 95;
@@ -181,20 +176,31 @@ namespace Setup
                 PartialBar.Value = 0;
                 LogBox.Text = "Ассоциация файлов";
             });
-            /*if (AssociateFile.IsAssociated)
+            var descriptionToExtensions = new Dictionary<string, string>()
             {
-                AssociateFile.Remove();
-            }
-            AssociateFile.Associate();*/
-            /*for (var i = 0; i <= 100; i += 20)
+                {".fc", Settings.Default.ProgramName + ".FlowChart.Reader"},
+                {".qd", Settings.Default.ProgramName + ".QDeterminant.Reader"},
+                {".ip", Settings.Default.ProgramName + ".ImplemenatationPlan.Reader"},
+                {".qpr", Settings.Default.ProgramName + ".Project.Launcher"},
+                {".qsln", Settings.Default.ProgramName + ".Solution.Launcher"},
+            };
+            foreach (var extension in ProjectInstall.AssociateFiles.Where(x => x.Value))
             {
-                System.Threading.Thread.Sleep(500);
-                Application.Current.Dispatcher.Invoke(delegate
+                if (InternalClasses.Associate.IsAssociated(extension.Key))
                 {
-                    PartialBar.Value = i;
-                });
-            }*/
-
+                    InternalClasses.Associate.RemoveAssociate(extension.Key, descriptionToExtensions[extension.Key]);
+                }
+                InternalClasses.Associate.SetAssociate(extension.Key, ProjectInstall.GetPathToQStudio(), descriptionToExtensions[extension.Key], descriptionToExtensions[extension.Key],ProjectInstall.GetPathToIcon());
+            }
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                PartialBar.Value = 50;
+            });
+            InternalClasses.Associate.AddToUnInstallPanel(ProjectInstall.GetPathToUnInstaller(),Settings.Default.ProgramName, ProjectInstall.GetPathToIcon(),Settings.Default.CompanyName,ProjectInstall.GetShortPathToStartupDirectory());
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                PartialBar.Value = 75;
+            });
             Application.Current.Dispatcher.Invoke(delegate
             {
                 TotalBar.Value += _step;

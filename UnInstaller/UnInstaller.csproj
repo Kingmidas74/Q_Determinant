@@ -79,6 +79,7 @@
     <Compile Include="FinishWindow.xaml.cs">
       <DependentUpon>FinishWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InternalClasses\Associate.cs" />
     <Compile Include="InternalClasses\Helpers.cs" />
     <Compile Include="UnInstallWindow.xaml.cs">
       <DependentUpon>UnInstallWindow.xaml</DependentUpon>

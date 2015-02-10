@@ -36,8 +36,7 @@
   <ItemGroup>
     <Compile Include="Determinant.cs" />
     <Compile Include="Expressions.cs" />
-    <Compile Include="InternalClasses\ActionList.cs" />
-    <Compile Include="InternalClasses\LinearPart.cs" />
+    <Compile Include="FlowChartType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

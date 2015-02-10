@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Atoms;
 using Core.Enums;
@@ -49,13 +50,13 @@ namespace ImplementationPlan
             ulong startId = 1;
             foreach (var qTerm in QTerms)
             {
-                if (!qTerm.Logical.Equals(string.Empty))
+                if (!String.IsNullOrEmpty(qTerm.Logical))
                 {
                     var graph = GraphBuilder.BuildGraph(LexemAnalyze.AnalyzeTerm(qTerm.Logical), startId);
                     startId = graph.GetMaxId()+1;
                     _implementationPlan.Add(graph);
                 }
-                if (!qTerm.Definitive.Equals(string.Empty))
+                if (!String.IsNullOrEmpty(qTerm.Definitive))
                 {
                     var graph = GraphBuilder.BuildGraph(LexemAnalyze.AnalyzeTerm(qTerm.Definitive), startId);
                     startId = graph.GetMaxId() + 1;

@@ -1,4 +1,5 @@
-﻿using Core.Atoms;
+﻿using System;
+using Core.Atoms;
 using Core.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Core.Converters;
@@ -12,15 +13,13 @@ namespace UnitTests
         [TestMethod]
         public void QdeterminantTest()
         {
+            AppDomain.CurrentDomain.AppendPrivatePath(@"vendors");
+            AppDomain.CurrentDomain.AppendPrivatePath(@"core");
             IDeterminant determinant = new Determinant();
             determinant.FlowChart = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(@"C:\test\test1.json"), ConverterFormats.JSON);
             determinant.CalculateDeterminant();
             Assert.AreEqual("", determinant.GetOptimizationDeterminant()[0].Definitive);
-            Assert.AreEqual("", determinant.GetOptimizationDeterminant()[0].Logical);
-            Assert.AreEqual("", determinant.GetOptimizationDeterminant()[1].Definitive);
-            Assert.AreEqual("", determinant.GetOptimizationDeterminant()[1].Logical);
-            Assert.AreEqual("", determinant.GetOptimizationDeterminant()[2].Definitive);
-            Assert.AreEqual("", determinant.GetOptimizationDeterminant()[2].Logical);
+
         }
     }
 }

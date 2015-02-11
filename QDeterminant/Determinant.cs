@@ -66,15 +66,27 @@ namespace QDeterminant
         private void ThesumofthenumberAction()
         {
             var temp = new StringBuilder("");
-            var prefixtemp = new StringBuilder("");
-            var qTerm = new QTerm {Logical = temp.Append("<(1/").Append(numberofrepeat).Append(")").ToString()};
+            var qTerm = new QTerm {Logical = temp.Append("<(/(1,").Append(numberofrepeat).Append("),e)").ToString()};
             temp.Clear();
-            temp.Append("+(");
-            for (var i = 2; i < numberofrepeat; i+=2)
+            temp.Append("+(-(0,1),");
+            for (var i = 2; i < numberofrepeat+2; i++)
             {
-                temp.Append("(+(").Append(Math.Pow(-1, i - 1)).Append(",1/").Append((i - 1)).Append(")").Append(",(").Append(Math.Pow(-1, i)).Append(",(1/").Append(i).Append(")),");
+                if (i % 2 == 0)
+                {
+                    temp.Append("+");
+                }
+                else
+                {
+                    temp.Append("-");
+                }
+                temp.Append("(").Append("/(1,").Append((i)).Append("),");
             }
-            temp.Append(")");
+            temp.Length = temp.Length - 1;
+            temp.Remove(temp.Length - 8, 2);
+            for (int i = 0; i < numberofrepeat; i++)
+            {
+                temp.Append(")");
+            }
             qTerm.Definitive = temp.ToString();
             temp.Clear();
             Debug.WriteLine(qTerm.Definitive);
@@ -116,7 +128,7 @@ namespace QDeterminant
                     numberofrepeat = Convert.ToInt32(number.ToString());
                     return FlowChartType.Scalarproductofvectors;
                 }
-                if (ex.Content[1] == 'm')
+                if (ex.Content[0] == 'm')
                 {
                     for (int i = 2; i < ex.Content.Length; i++)
                     {

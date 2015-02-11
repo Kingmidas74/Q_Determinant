@@ -18,7 +18,7 @@ namespace UnitTests
             IDeterminant determinant = new Determinant();
             determinant.FlowChart = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(@"C:\test\test1.json"), ConverterFormats.JSON);
             determinant.CalculateDeterminant();
-            Assert.AreEqual("", determinant.GetOptimizationDeterminant()[0].Definitive);
+            Assert.AreEqual("", determinant.GetOptimizationDeterminant()[0].Logical);
 
         }
     }

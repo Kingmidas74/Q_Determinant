@@ -17,7 +17,6 @@ namespace Compiler
     class Program
     {
         private static XDocument _config;
-        private static Adapter<IDeterminant, IPlan> _adapter;
         private static Solution _solution;
         private static readonly Dictionary<string, Core.Serializers.SerializationModels.ProjectModels.Project> StackOfProjects = new Dictionary<string, Core.Serializers.SerializationModels.ProjectModels.Project>(); 
         
@@ -54,6 +53,7 @@ namespace Compiler
 
         private static void CompileProject(string projectPath)
         {
+            var adapter = CreateAdapter();
             if (System.IO.Path.IsPathRooted(projectPath) && projectPath.Contains(@"\BasicFunctions\")) return;
             if(StackOfProjects.ContainsKey(projectPath)) return;
             var currentProject =
@@ -61,7 +61,7 @@ namespace Compiler
                 System.IO.Path.Combine(System.IO.Path.GetDirectoryName(_solution.Path),projectPath)
                 );
             Console.WriteLine("Set FlowChart");
-            _adapter.FlowChart = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(
+            adapter.FlowChart = Converter.DataToGraph<Graph>(System.IO.File.ReadAllText(
                 System.IO.Path.Combine(
                     System.IO.Path.GetDirectoryName(
                     System.IO.Path.Combine(System.IO.Path.GetDirectoryName(_solution.Path),projectPath)
@@ -70,26 +70,26 @@ namespace Compiler
                     )),
                     ConverterFormats.JSON);
             Console.WriteLine("Inject dependency");
-            _adapter.FunctionsList=GetFunctions(currentProject);
+            adapter.FunctionsList=GetFunctions(currentProject);
             Console.WriteLine("Calculate Determinant");
-            _adapter.CalculateDeterminant();
-            if (_adapter.GetVariables().Count > 0)
+            adapter.CalculateDeterminant();
+            if (adapter.GetVariables().Count > 0)
             {
                 Console.WriteLine("VAR EXIST");
                 if (currentProject.SignificantVariables.Count(x => string.IsNullOrEmpty(x.Value)) > 0)
                 {
                     throw new Exception("NV");    
                 }
-                _adapter.SetVariables(currentProject.SignificantVariables);
-                _adapter.CalculateDeterminant();
+                adapter.SetVariables(currentProject.SignificantVariables);
+                adapter.CalculateDeterminant();
             }
             Console.WriteLine("Find Plan");
-            _adapter.FindPlan();
+            adapter.FindPlan();
             
             //_adapter.OptimizePlan(_solution.Properties.MaxCPU);
             //_adapter.OptimizePlan(1);
             Console.WriteLine("Get Plan");
-            var result = _adapter.GetPlan();
+            var result = adapter.GetPlan();
             Console.WriteLine("Save Plan");
             var data = Converter.GraphToData(result, ConverterFormats.JSON);
             
@@ -110,7 +110,7 @@ namespace Compiler
             StackOfProjects.Add(projectPath, currentProject);
         }
 
-        private static void CreateAdapter()
+        private static Adapter<IDeterminant, IPlan> CreateAdapter()
         {
             var qDeterminantFile = Assembly.LoadFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
             @"QStudio","libs", _config.Element("Settings").Element("QDeterminant").Attribute("Path").Value));
@@ -128,7 +128,7 @@ namespace Compiler
                 implementationPlan = (IPlan)Activator.CreateInstance(type);
             }
             if (implementationPlan == null) throw new FileLoadException("ImplementationPlan don't load");
-            _adapter = new Adapter<IDeterminant, IPlan>(qDeterminant, implementationPlan);
+            return  new Adapter<IDeterminant, IPlan>(qDeterminant, implementationPlan);
         }
 
         static void CompileSolution()
@@ -160,7 +160,6 @@ namespace Compiler
             @"QStudio", "config.xml"));
 
                 //Process
-                CreateAdapter();
                 CompileSolution();
                 return 0;
             }

@@ -15,6 +15,7 @@
             <RowDefinition Height="120"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0" TextAlignment="Left" Foreground="{StaticResource BaseFontBrush}" Text="Установка завершена" FontSize="24" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0" TextAlignment="Center" Foreground="{StaticResource BaseFontBrush}" Text="TRIAL VERSION" FontSize="42" />
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20,0">
             <CheckBox x:Name="VisitSite" Margin="0,20">
                 <CheckBox.Content>

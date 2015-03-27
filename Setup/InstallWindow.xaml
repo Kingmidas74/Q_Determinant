@@ -22,8 +22,10 @@
             <RowDefinition Height="360"/>
             <RowDefinition Height="120"/>
         </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0" TextAlignment="Center" Foreground="{StaticResource BaseFontBrush}" Text="TRIAL VERSION" FontSize="30" />
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0" TextAlignment="Left" Foreground="{StaticResource BaseFontBrush}" Text="Установка" FontSize="24" />
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20,0">
+            
             <TextBlock   TextAlignment="Left" Foreground="{StaticResource BaseFontBrush}" FontSize="14" TextWrapping="Wrap" Text="Общий процесс"/>
             <ProgressBar Height="20" Margin="0,20" x:Name="TotalBar"/>
             <TextBlock   TextAlignment="Left" Foreground="{StaticResource BaseFontBrush}" FontSize="14" TextWrapping="Wrap" Text="asd" x:Name="LogBox"/>

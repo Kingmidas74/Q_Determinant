@@ -29,6 +29,7 @@
             <RowDefinition Height="120"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0" TextAlignment="Left" Foreground="{StaticResource BaseFontBrush}" Text="Начало установки" FontSize="24" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0" TextAlignment="Center" Foreground="{StaticResource BaseFontBrush}" Text="TRIAL VERSION" FontSize="36" />
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20,0">
             <TextBlock   TextAlignment="Left" Foreground="{StaticResource BaseFontBrush}" FontSize="14" TextWrapping="Wrap" >
                 Данная программа установит программную среду QStudio на Ваш компьютер. Пожалуйста, прочитайте условия лицензионного соглашения!

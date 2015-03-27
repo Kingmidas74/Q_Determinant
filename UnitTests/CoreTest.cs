@@ -38,7 +38,7 @@ namespace UnitTests
         {
             AppDomain.CurrentDomain.AppendPrivatePath(@"core");
             AppDomain.CurrentDomain.AppendPrivatePath(@"vendors");
-            var Q = new Determinant();
+            var Q = new QDet();
             var P = new Plan();
             var _adapter = new Adapter<IDeterminant, IPlan>(Q, P);
             _adapter.FunctionsList = new List<Function>

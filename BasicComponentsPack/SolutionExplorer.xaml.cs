@@ -304,6 +304,7 @@ namespace BasicComponentsPack
 
         private void CreateProject(string folder, string title, int projectType, Solution currentSolution=null)
         {
+
             var newProject = new Core.Serializers.SerializationModels.ProjectModels.Project
             {
                 Title = title,
@@ -316,7 +317,7 @@ namespace BasicComponentsPack
                     .ToString()
                     .Split(new[] {"\"%"}, StringSplitOptions.None)[0]
                     );
-            
+
             var globalReferenceDirectory = new DirectoryInfo(System.IO.Path.Combine(dir, "BasicFunctions"));
             foreach (var referenceDirectory in globalReferenceDirectory.GetDirectories())
             {

@@ -19,7 +19,7 @@ namespace UnitTests
         [TestMethod]
         public void AdapterTest()
         {
-            var Q = new Determinant();
+            var Q = new QDet();
             var P = new Plan();
             var _adapter = new Adapter<IDeterminant, IPlan>(Q, P);
             _adapter.FunctionsList = new List<Function>

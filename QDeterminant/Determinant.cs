@@ -369,14 +369,23 @@ namespace QDeterminant
                     qTermFalse.Logical = qTerm.Logical;
                     qTermFalse.Definitive = qTerm.Definitive;
 
+                    bool tmp = false;
+
                     if (!String.IsNullOrEmpty(qTerm.Logical))
                     {
-                        temp.Append("&&").Append(qTerm.Logical);
+                        tmp = true;
+                        temp.Append("&&").Append(Parser.OpenParentheses).Append(qTerm.Logical).Append(Parser.Separator);
                     }
 
-                    temp.Append(Parser.OpenParentheses)
-                        .Append(parsedstring.Lexems[1])
-                        .Append(Parser.OpenParentheses).Append(parsedstring.Lexems[0]).Append(Parser.Separator).Append(parsedstring.Lexems[2]).Append(Parser.CloseParentheses).Append(Parser.CloseParentheses);
+                    temp.Append(parsedstring.Lexems[1])
+                        .Append(Parser.OpenParentheses).Append(parsedstring.Lexems[0]).Append(Parser.Separator).Append(parsedstring.Lexems[2]).Append(Parser.CloseParentheses);
+                    if (tmp)
+                    {
+                        temp.Append(Parser.CloseParentheses);
+                    }
+
+                    tmp = false;
+
                     qTerm.Logical = temp.ToString();
                     temp.Clear();
 
@@ -384,12 +393,19 @@ namespace QDeterminant
 
                     if (!String.IsNullOrEmpty(qTermFalse.Logical))
                     {
-                        temp.Append("&&").Append(qTermFalse.Logical);
+                        tmp = true;
+                        temp.Append("&&").Append(Parser.OpenParentheses).Append(qTermFalse.Logical).Append(Parser.Separator);
                     }
 
-                    temp.Append(Parser.OpenParentheses).Append("!").Append(Parser.OpenParentheses)
+                    temp.Append("!").Append(Parser.OpenParentheses)
                         .Append(parsedstring.Lexems[1])
-                        .Append(Parser.OpenParentheses).Append(parsedstring.Lexems[0]).Append(Parser.Separator).Append(parsedstring.Lexems[2]).Append(Parser.CloseParentheses).Append(Parser.CloseParentheses).Append(Parser.CloseParentheses);
+                        .Append(Parser.OpenParentheses).Append(parsedstring.Lexems[0]).Append(Parser.Separator).Append(parsedstring.Lexems[2]).Append(Parser.CloseParentheses).Append(Parser.CloseParentheses);
+
+                    if (tmp)
+                    {
+                        temp.Append(Parser.CloseParentheses);
+                    }
+
                     qTermFalse.Logical = temp.ToString();
                     temp.Clear();
 

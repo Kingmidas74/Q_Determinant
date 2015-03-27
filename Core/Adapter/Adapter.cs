@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using Core.Atoms;
+using Core.Converters;
 using Core.Enums;
 using Core.Interfaces;
 using Core.Serializers.SerializationModels.SolutionModels;
@@ -85,7 +86,8 @@ namespace Core.Adapter
 
         public void FindPlan()
         {
-            ImplementationPlanModule.QTerms = QDeterminantModule.GetOptimizationDeterminant();
+            Debug.WriteLine(Converter.GraphToData(QDeterminantModule.GetDefaultDereminant(),ConverterFormats.JSON),"INSERT");
+            ImplementationPlanModule.QTerms = QDeterminantModule.GetDefaultDereminant();
             ImplementationPlanModule.FindPlan();
             Status = ImplementationPlanModule.Status;
         }

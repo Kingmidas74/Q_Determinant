@@ -34,9 +34,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConverToPrefix.cs" />
+    <Compile Include="CycleHeadling.cs" />
     <Compile Include="Determinant.cs" />
     <Compile Include="Expressions.cs" />
-    <Compile Include="FlowChartType.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

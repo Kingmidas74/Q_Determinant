@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Core.Atoms;
 using Core.Enums;
@@ -45,6 +46,7 @@ namespace ImplementationPlan
 
         public void FindPlan()
         {
+            Debug.WriteLine(QTerms.ToList()[0].Definitive, "DEFENT");
             var LexemAnalyze = new LexemAnalyze(Functions);
             var GraphBuilder = new GraphBuilder(Functions);
             ulong startId = 1;

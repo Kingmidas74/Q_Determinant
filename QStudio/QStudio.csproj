@@ -122,6 +122,11 @@
       <Name>DefaultControlsPack</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\NetworkAdapter\NetworkAdapter.csproj">
+      <Project>{115ec350-27c3-40d1-b2ca-3c7c325211db}</Project>
+      <Name>NetworkAdapter</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\PluginController\PluginController.csproj">
       <Project>{87f06a7a-c02e-4b61-aeda-9622fe84f362}</Project>
       <Name>PluginController</Name>

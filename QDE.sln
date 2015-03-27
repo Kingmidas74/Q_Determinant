@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnInstaller", "UnInstaller\UnInstaller.csproj", "{4B39575E-2D33-41AB-A9B1-328254DD1B97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkAdapter", "NetworkAdapter\NetworkAdapter.csproj", "{115EC350-27C3-40D1-B2CA-3C7C325211DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{4B39575E-2D33-41AB-A9B1-328254DD1B97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B39575E-2D33-41AB-A9B1-328254DD1B97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B39575E-2D33-41AB-A9B1-328254DD1B97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{115EC350-27C3-40D1-B2CA-3C7C325211DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{115EC350-27C3-40D1-B2CA-3C7C325211DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{115EC350-27C3-40D1-B2CA-3C7C325211DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{115EC350-27C3-40D1-B2CA-3C7C325211DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,5 +136,6 @@ Global
 		{DD716541-D5C1-4381-BF54-922D02721361} = {A2DF784A-15D2-4C3D-9B79-ACD46A4FBE45}
 		{675487E5-C102-47B5-916D-466DEF685D21} = {F5AA70BA-8926-4513-A7E1-3C33921A0D96}
 		{4B39575E-2D33-41AB-A9B1-328254DD1B97} = {F5AA70BA-8926-4513-A7E1-3C33921A0D96}
+		{115EC350-27C3-40D1-B2CA-3C7C325211DB} = {29849ED3-3DB8-4DA7-BEDE-4A7E4B96EF4D}
 	EndGlobalSection
 EndGlobal

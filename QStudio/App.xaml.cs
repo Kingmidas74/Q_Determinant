@@ -13,10 +13,19 @@ namespace QStudio {
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            if (e.Args.Length>0 && !String.IsNullOrEmpty(e.Args[0]))
-                (new MainWindow(e.Args[0])).Show();
+            string message = string.Empty;
+            if (NetworkAdapter.AcesssToken.GetAccess("1", "1", out message))
+            {
+                if (e.Args.Length > 0 && !String.IsNullOrEmpty(e.Args[0]))
+                    (new MainWindow(e.Args[0])).Show();
+                else
+                    (new MainWindow()).Show();
+            }
             else
-                (new MainWindow()).Show();
+            {
+                MessageBox.Show("Не удалось подключиться к серверу лицензирования и/или проверить наличие обновлений!");
+                App.Current.Shutdown();
+            }
         }
     }
 }

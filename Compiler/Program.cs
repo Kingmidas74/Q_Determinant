@@ -175,6 +175,7 @@ namespace Compiler
                     return 2;
                 }
                 Console.WriteLine(exception.Message);
+                Console.ReadLine();
                 return 1;
             }
         }

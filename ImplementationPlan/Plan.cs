@@ -46,7 +46,8 @@ namespace ImplementationPlan
 
         public void FindPlan()
         {
-            Debug.WriteLine(QTerms.ToList()[0].Definitive, "DEFENT");
+            Console.WriteLine("ASDASDASD");
+            
             var LexemAnalyze = new LexemAnalyze(Functions);
             var GraphBuilder = new GraphBuilder(Functions);
             ulong startId = 1;

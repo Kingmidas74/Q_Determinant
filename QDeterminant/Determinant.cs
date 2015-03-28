@@ -364,7 +364,6 @@ namespace QDeterminant
                 }
                 else
                 {
-                    Debug.WriteLine("OK!");
                     var qTermFalse = new QTerm();
                     qTermFalse.Logical = qTerm.Logical;
                     qTermFalse.Definitive = qTerm.Definitive;
